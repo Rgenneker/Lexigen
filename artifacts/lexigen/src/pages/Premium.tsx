@@ -174,14 +174,15 @@ function PaymentModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 overflow-y-auto"
       style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }}
     >
+      <div className="flex min-h-full items-start justify-center p-4 py-8">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="relative w-full max-w-md bg-background border border-border rounded-3xl shadow-2xl overflow-hidden"
+        className="relative w-full max-w-md bg-background border border-border rounded-3xl shadow-2xl"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-border">
@@ -345,6 +346,7 @@ function PaymentModal({
           </AnimatePresence>
         </div>
       </motion.div>
+      </div>
     </div>
   );
 }
