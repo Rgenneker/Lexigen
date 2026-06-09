@@ -41,5 +41,5 @@ channel = "stable-25_05"
 [userenv]
 
 [userenv.shared]
-PAYPAL_MODE = "sandbox"
+PAYPAL_MODE = "live"
 PAYPAL_PAYEE_EMAIL = "russgenn@outlook.com"
