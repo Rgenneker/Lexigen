@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Lexigen"
+version = "1.0.0"
+id = "artifacts/lexigen"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22797
+
+[services.development]
+run = "pnpm --filter @workspace/lexigen run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/lexigen", "run", "build" ]
+publicDir = "artifacts/lexigen/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22797"
+BASE_PATH = "/"

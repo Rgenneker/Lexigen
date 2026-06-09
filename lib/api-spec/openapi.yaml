@@ -3,13 +3,28 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Lexigen API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: words
+    description: Daily word operations
+  - name: users
+    description: User profile and archetype
+  - name: streaks
+    description: Streak and badge tracking
+  - name: journal
+    description: Word journal entries
+  - name: games
+    description: Word games
+  - name: invite
+    description: Friend invitations
+  - name: premium
+    description: Premium subscription
+
 paths:
   /healthz:
     get:
@@ -24,6 +39,336 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /words/daily:
+    get:
+      operationId: getDailyWord
+      tags: [words]
+      summary: Get today's daily word
+      description: Returns the personalized daily word for the user
+      parameters:
+        - name: archetype
+          in: query
+          schema:
+            type: string
+        - name: language
+          in: query
+          schema:
+            type: string
+            default: "en"
+      responses:
+        "200":
+          description: Daily word
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DailyWord"
+
+  /words:
+    get:
+      operationId: listWords
+      tags: [words]
+      summary: List all words
+      responses:
+        "200":
+          description: Word list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Word"
+
+  /words/{id}:
+    get:
+      operationId: getWord
+      tags: [words]
+      summary: Get a word by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Word detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Word"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /users/profile:
+    get:
+      operationId: getUserProfile
+      tags: [users]
+      summary: Get user profile
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+    patch:
+      operationId: updateUserProfile
+      tags: [users]
+      summary: Update user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserProfileUpdate"
+      responses:
+        "200":
+          description: Updated profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+
+  /users/archetype:
+    get:
+      operationId: getArchetype
+      tags: [users]
+      summary: Get birth-based archetype
+      parameters:
+        - name: birthDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Archetype profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Archetype"
+
+  /streaks:
+    get:
+      operationId: getStreak
+      tags: [streaks]
+      summary: Get user streak info
+      responses:
+        "200":
+          description: Streak data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StreakInfo"
+
+  /streaks/checkin:
+    post:
+      operationId: checkIn
+      tags: [streaks]
+      summary: Record daily check-in
+      responses:
+        "200":
+          description: Updated streak
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StreakInfo"
+
+  /streaks/badges:
+    get:
+      operationId: listBadges
+      tags: [streaks]
+      summary: List earned badges
+      responses:
+        "200":
+          description: Badge list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Badge"
+
+  /journal:
+    get:
+      operationId: listJournalEntries
+      tags: [journal]
+      summary: List journal entries
+      responses:
+        "200":
+          description: Journal entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/JournalEntry"
+    post:
+      operationId: createJournalEntry
+      tags: [journal]
+      summary: Create a journal entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JournalEntryInput"
+      responses:
+        "201":
+          description: Created entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JournalEntry"
+
+  /journal/{id}:
+    delete:
+      operationId: deleteJournalEntry
+      tags: [journal]
+      summary: Delete a journal entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /games/scores:
+    get:
+      operationId: listGameScores
+      tags: [games]
+      summary: Get top game scores
+      parameters:
+        - name: game
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Game scores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GameScore"
+    post:
+      operationId: submitGameScore
+      tags: [games]
+      summary: Submit a game score
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GameScoreInput"
+      responses:
+        "201":
+          description: Score submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GameScore"
+
+  /games/wordle/word:
+    get:
+      operationId: getWordleWord
+      tags: [games]
+      summary: Get today's Wordle word
+      responses:
+        "200":
+          description: Wordle word data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WordleWord"
+
+  /games/lexigen/word:
+    get:
+      operationId: getLexigenWord
+      tags: [games]
+      summary: Get a Lexigen game word set
+      responses:
+        "200":
+          description: Lexigen game data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LexigenGameData"
+
+  /invite:
+    post:
+      operationId: sendInvite
+      tags: [invite]
+      summary: Send an invite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InviteInput"
+      responses:
+        "200":
+          description: Invite sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InviteResult"
+
+  /premium/status:
+    get:
+      operationId: getPremiumStatus
+      tags: [premium]
+      summary: Get premium subscription status
+      responses:
+        "200":
+          description: Premium status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PremiumStatus"
+
+  /premium/upgrade:
+    post:
+      operationId: upgradeToPremium
+      tags: [premium]
+      summary: Upgrade to premium
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PremiumUpgradeInput"
+      responses:
+        "200":
+          description: Upgrade successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PremiumStatus"
+
+  /stats/summary:
+    get:
+      operationId: getStatsSummary
+      tags: [users]
+      summary: Get user learning stats summary
+      responses:
+        "200":
+          description: Stats summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatsSummary"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +379,341 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    Word:
+      type: object
+      properties:
+        id:
+          type: integer
+        word:
+          type: string
+        definition:
+          type: string
+        exampleSentence:
+          type: string
+        partOfSpeech:
+          type: string
+        difficulty:
+          type: string
+        archetype:
+          type: ["string", "null"]
+        language:
+          type: string
+      required:
+        - id
+        - word
+        - definition
+        - exampleSentence
+        - partOfSpeech
+        - difficulty
+        - language
+
+    DailyWord:
+      type: object
+      properties:
+        word:
+          $ref: "#/components/schemas/Word"
+        date:
+          type: string
+          format: date
+        isCheckedIn:
+          type: boolean
+      required:
+        - word
+        - date
+        - isCheckedIn
+
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        birthDate:
+          type: ["string", "null"]
+          format: date
+        archetype:
+          type: ["string", "null"]
+        language:
+          type: string
+        isPremium:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - username
+        - language
+        - isPremium
+        - createdAt
+
+    UserProfileUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        language:
+          type: string
+
+    Archetype:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        strengths:
+          type: array
+          items:
+            type: string
+        languageStyle:
+          type: string
+        recommendedWords:
+          type: array
+          items:
+            type: string
+        color:
+          type: string
+        emoji:
+          type: string
+      required:
+        - name
+        - description
+        - strengths
+        - languageStyle
+        - recommendedWords
+        - color
+        - emoji
+
+    StreakInfo:
+      type: object
+      properties:
+        currentStreak:
+          type: integer
+        longestStreak:
+          type: integer
+        totalDays:
+          type: integer
+        lastCheckin:
+          type: ["string", "null"]
+          format: date
+        nextMilestone:
+          type: integer
+      required:
+        - currentStreak
+        - longestStreak
+        - totalDays
+        - nextMilestone
+
+    Badge:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+        earnedAt:
+          type: string
+          format: date-time
+        requirement:
+          type: string
+      required:
+        - id
+        - name
+        - description
+        - icon
+        - earnedAt
+        - requirement
+
+    JournalEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+        word:
+          type: string
+        sentence:
+          type: string
+        mood:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - word
+        - sentence
+        - createdAt
+
+    JournalEntryInput:
+      type: object
+      properties:
+        word:
+          type: string
+        sentence:
+          type: string
+        mood:
+          type: string
+      required:
+        - word
+        - sentence
+
+    GameScore:
+      type: object
+      properties:
+        id:
+          type: integer
+        game:
+          type: string
+        username:
+          type: string
+        score:
+          type: integer
+        duration:
+          type: ["integer", "null"]
+        playedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - game
+        - username
+        - score
+        - playedAt
+
+    GameScoreInput:
+      type: object
+      properties:
+        game:
+          type: string
+        score:
+          type: integer
+        duration:
+          type: integer
+      required:
+        - game
+        - score
+
+    WordleWord:
+      type: object
+      properties:
+        wordLength:
+          type: integer
+        maxAttempts:
+          type: integer
+        date:
+          type: string
+          format: date
+      required:
+        - wordLength
+        - maxAttempts
+        - date
+
+    LexigenGameData:
+      type: object
+      properties:
+        letters:
+          type: array
+          items:
+            type: string
+        targetWord:
+          type: string
+        timeLimit:
+          type: integer
+        hint:
+          type: string
+      required:
+        - letters
+        - targetWord
+        - timeLimit
+        - hint
+
+    InviteInput:
+      type: object
+      properties:
+        recipientEmail:
+          type: string
+          format: email
+        message:
+          type: ["string", "null"]
+        challengeGame:
+          type: ["string", "null"]
+      required:
+        - recipientEmail
+
+    InviteResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
+        - message
+
+    PremiumStatus:
+      type: object
+      properties:
+        isPremium:
+          type: boolean
+        plan:
+          type: ["string", "null"]
+        expiresAt:
+          type: ["string", "null"]
+          format: date-time
+        features:
+          type: array
+          items:
+            type: string
+      required:
+        - isPremium
+        - features
+
+    PremiumUpgradeInput:
+      type: object
+      properties:
+        plan:
+          type: string
+        paymentToken:
+          type: string
+      required:
+        - plan
+
+    StatsSummary:
+      type: object
+      properties:
+        wordsLearned:
+          type: integer
+        currentStreak:
+          type: integer
+        badgesEarned:
+          type: integer
+        gamesPlayed:
+          type: integer
+        journalEntries:
+          type: integer
+        topGame:
+          type: ["string", "null"]
+      required:
+        - wordsLearned
+        - currentStreak
+        - badgesEarned
+        - gamesPlayed
+        - journalEntries
