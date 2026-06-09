@@ -2,84 +2,93 @@ import { LegalLayout } from "./LegalLayout";
 
 export default function Privacy() {
   return (
-    <LegalLayout title="Privacy Policy" updated="1 June 2025">
+    <LegalLayout title="Privacy Policy" updated="1 June 2026">
       <p>
-        Lexigen Trading ("Lexigen", "we", "our", or "us") is committed to protecting your personal information. This Privacy Policy explains what data we collect, why we collect it, how we use it, and your rights regarding that data, in accordance with the Protection of Personal Information Act, 4 of 2013 (POPIA) and other applicable data protection laws.
+        Lexigen Trading ("we", "us", "our") operates Lexigen.com. This Privacy Policy explains how we handle information when you use our word generation and word-of-the-day tools. We are committed to protecting your privacy and being transparent about our practices.
       </p>
 
-      <h2>1. Who We Are</h2>
+      <h2>Contents</h2>
+      <ol className="list-decimal pl-5 space-y-1 text-muted-foreground">
+        <li>Information We Collect</li>
+        <li>How We Use Information</li>
+        <li>Google AdSense & Cookies</li>
+        <li>Analytics</li>
+        <li>Data Storage & Security</li>
+        <li>Children's Privacy</li>
+        <li>Your Rights</li>
+        <li>Changes to This Policy</li>
+        <li>Contact Us</li>
+      </ol>
+
+      <h2>1. Information We Collect</h2>
       <p>
-        Lexigen Trading is the responsible party (controller) for personal information collected through the Lexigen platform. We are registered in South Africa. Our data contact is <a href="mailto:privacy@lexigen.app" className="text-primary hover:underline">privacy@lexigen.app</a>.
+        <strong>Word generation data:</strong> None. All word generation inputs and outputs are processed locally in your browser using JavaScript. No words, phrases, or user entries are transmitted to our servers or stored outside your device unless you choose to create an account.
+      </p>
+      <p>
+        <strong>Automatically collected data:</strong> Like most websites, our hosting infrastructure may automatically log standard server access data, including your IP address (truncated), browser type, referring URL, pages visited, and timestamps. This data is used solely for security monitoring and aggregate traffic analysis.
+      </p>
+      <p>
+        <strong>Contact form:</strong> If you use our contact form, it opens your email client with pre-filled content. No data passes through our servers via the form itself.
       </p>
 
-      <h2>2. Information We Collect</h2>
-      <p>We collect the following categories of personal information:</p>
+      <h2>2. How We Use Information</h2>
+      <p>We use automatically collected technical data to:</p>
       <ul>
-        <li><strong>Account data:</strong> Username, email address (where provided), and language preference.</li>
-        <li><strong>Profile data:</strong> Birth date (used solely to calculate your vocabulary archetype).</li>
-        <li><strong>Usage data:</strong> Streak records, badges earned, words learned, game scores, and journal entries you create.</li>
-        <li><strong>Technical data:</strong> IP address, browser type, device type, and referring URLs — collected automatically for security and performance monitoring.</li>
-        <li><strong>Payment data:</strong> If you subscribe to Premium, payment is processed by our third-party payment provider. We do not store your full card details.</li>
+        <li>Monitor the security and performance of the Site</li>
+        <li>Understand aggregate usage patterns to improve our word generation tools</li>
+        <li>Detect and prevent abuse or unauthorised access</li>
       </ul>
+      <p>We do not sell, rent, or share your data with third parties for marketing purposes.</p>
 
-      <h2>3. How We Use Your Information</h2>
-      <ul>
-        <li>To deliver and personalise your daily vocabulary experience.</li>
-        <li>To calculate and display your birth archetype profile.</li>
-        <li>To track your learning progress, streaks, and badges.</li>
-        <li>To process Premium subscription payments.</li>
-        <li>To send service-related communications (e.g., streak reminders, updates).</li>
-        <li>To improve the Service through anonymised analytics.</li>
-        <li>To comply with legal obligations.</li>
-      </ul>
-
-      <h2>4. Legal Basis for Processing</h2>
-      <p>We process your personal information on the following lawful bases:</p>
-      <ul>
-        <li><strong>Contract performance:</strong> To deliver the Service you have signed up for.</li>
-        <li><strong>Legitimate interests:</strong> To improve and secure the Service, and to prevent fraud.</li>
-        <li><strong>Consent:</strong> For optional communications and non-essential cookies.</li>
-        <li><strong>Legal obligation:</strong> To comply with applicable South African and international law.</li>
-      </ul>
-
-      <h2>5. Data Sharing</h2>
+      <h2>3. Google AdSense & Cookies</h2>
       <p>
-        We do not sell your personal information. We may share data with trusted service providers (such as our cloud hosting, payment processor, and analytics provider) who process data on our behalf under confidentiality agreements. We may also disclose data when required by law or to protect the rights and safety of Lexigen and its users.
+        Lexigen.com may use Google AdSense to display advertisements. Google AdSense uses cookies and similar tracking technologies to serve ads based on your prior visits to our Site and other sites on the internet.
+      </p>
+      <p>Cookies used by Google AdSense may include:</p>
+      <ul>
+        <li><strong>__ga, __gads</strong> — Google advertising and analytics cookies</li>
+        <li><strong>IDE</strong> — DoubleClick cookie used by Google for targeting advertisements</li>
+        <li><strong>DSID, FLC</strong> — frequency capping and ad personalisation</li>
+      </ul>
+      <p>You can opt out of personalised advertising at any time via Google Ads Settings, the Digital Advertising Alliance opt-out, or your browser's cookie settings.</p>
+      <p>
+        We also store a single theme key in your browser's localStorage to remember your light/dark mode preference. This data never leaves your device.
       </p>
 
-      <h2>6. Data Retention</h2>
+      <h2>4. Analytics</h2>
       <p>
-        We retain your personal information for as long as your account is active or as needed to provide the Service. You may request deletion of your account and associated data at any time by contacting <a href="mailto:privacy@lexigen.app" className="text-primary hover:underline">privacy@lexigen.app</a>.
+        We may use Google Analytics to understand aggregate usage of the Site. If enabled, Google Analytics collects anonymised data about pages visited, session duration, and device type. IP addresses are anonymised. You can opt out using the Google Analytics opt-out browser add-on.
+      </p>
+
+      <h2>5. Data Storage & Security</h2>
+      <p>
+        We implement reasonable technical measures to protect the Site from unauthorised access. Because word generation data is processed exclusively client-side and no personal word inputs are transmitted to us, the risk of a data breach affecting your generator inputs is zero by design.
+      </p>
+      <p>
+        We cannot guarantee absolute security of data transmitted over the internet. Use the Site at your own risk in accordance with our Terms of Service.
+      </p>
+
+      <h2>6. Children's Privacy</h2>
+      <p>
+        Lexigen.com is not directed at children under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us and we will take steps to delete it.
       </p>
 
       <h2>7. Your Rights</h2>
-      <p>Under POPIA and applicable law, you have the right to:</p>
-      <ul>
-        <li>Access the personal information we hold about you.</li>
-        <li>Correct inaccurate or incomplete information.</li>
-        <li>Request deletion of your data ("right to be forgotten").</li>
-        <li>Object to certain processing activities.</li>
-        <li>Lodge a complaint with the Information Regulator of South Africa.</li>
-      </ul>
-
-      <h2>8. Cookies</h2>
       <p>
-        We use cookies and similar technologies to operate the Service. See our <a href="/cookies" className="text-primary hover:underline">Cookie Policy</a> for full details.
+        Depending on your jurisdiction, you may have rights under applicable data protection law (including POPIA in South Africa and GDPR in the EU), including the right to access, correct, or delete personal data held about you.
+      </p>
+      <p>
+        Because we collect minimal identifiable data, most requests can be addressed simply by clearing your browser's cookies and localStorage. For other requests, contact us at <a href="mailto:hello@lexigen.com">hello@lexigen.com</a>.
       </p>
 
-      <h2>9. Children's Privacy</h2>
+      <h2>8. Changes to This Policy</h2>
       <p>
-        Lexigen is not directed at children under 13. We do not knowingly collect personal information from children under 13. If we become aware that we have collected such data, we will delete it promptly.
+        We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated "Last updated" date. Your continued use of the Site after any changes constitutes acceptance of the revised Policy.
       </p>
 
-      <h2>10. Changes to This Policy</h2>
+      <h2>9. Contact Us</h2>
       <p>
-        We may update this Privacy Policy from time to time. We will notify you of material changes via the Service or by email. Continued use of the Service after updates constitutes acceptance of the revised policy.
-      </p>
-
-      <h2>11. Contact</h2>
-      <p>
-        For privacy-related enquiries, contact our Information Officer at <a href="mailto:privacy@lexigen.app" className="text-primary hover:underline">privacy@lexigen.app</a>.
+        For privacy-related questions or requests, contact us at <a href="mailto:hello@lexigen.com">hello@lexigen.com</a> or visit our <a href="/contact">Contact page</a>.
       </p>
     </LegalLayout>
   );

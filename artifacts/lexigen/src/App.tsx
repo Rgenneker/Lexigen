@@ -15,6 +15,7 @@ import Premium from "@/pages/Premium";
 import FAQ from "@/pages/FAQ";
 import Contact from "@/pages/Contact";
 import Sitemap from "@/pages/Sitemap";
+import HowItWorks from "@/pages/HowItWorks";
 
 import Terms from "@/pages/legal/Terms";
 import Privacy from "@/pages/legal/Privacy";
@@ -39,6 +40,7 @@ function Router() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/about" component={About} />
+          <Route path="/how-it-works" component={HowItWorks} />
           <Route path="/play" component={Play} />
           <Route path="/app" component={AppPage} />
           <Route path="/invite" component={Invite} />

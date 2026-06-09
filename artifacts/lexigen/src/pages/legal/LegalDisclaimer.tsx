@@ -2,62 +2,91 @@ import { LegalLayout } from "./LegalLayout";
 
 export default function LegalDisclaimer() {
   return (
-    <LegalLayout title="Legal Disclaimer" updated="1 June 2025">
+    <LegalLayout title="Legal Disclaimer" updated="June 2026">
+      <h2>1. Important Notice</h2>
       <p>
-        The information and content provided on the Lexigen platform are published by Lexigen Trading, a company registered in South Africa. Please read this disclaimer carefully before using the Service.
+        Welcome to Lexigen.com ("Platform"). By accessing, browsing, registering for, or using this website, mobile application, database, APIs, tools, word generation tools, word lists, vocabulary services, or any related products and services provided by Lexigen.com ("we", "us", or "our"), you acknowledge that you have read, understood, and agree to be bound by this Legal Disclaimer, our Terms of Use, and Privacy Policy.
       </p>
+      <p>If you do not agree with any provision contained herein, you must immediately discontinue use of the Platform.</p>
 
-      <h2>1. Educational Purpose Only</h2>
-      <p>
-        All word definitions, example sentences, archetype profiles, articles, and educational material published on Lexigen are provided for personal educational and entertainment purposes only. While we strive for accuracy and quality in all content, Lexigen does not warrant that any information is complete, accurate, current, or error-free. Content should not be relied upon as a substitute for professional linguistic, educational, or specialist advice.
-      </p>
-
-      <h2>2. Archetype Profiles</h2>
-      <p>
-        The birth-based archetype profiles provided by Lexigen are a creative, personalisation tool designed to enhance your vocabulary learning experience. They are not intended to represent scientifically validated psychological assessments, astrological readings, or clinical personality profiles. Archetype results are for entertainment and learning purposes only.
-      </p>
-
-      <h2>3. No Warranty</h2>
-      <p>
-        The Lexigen Service is provided on an "as is" and "as available" basis. Lexigen Trading makes no warranties — express or implied — regarding the availability, reliability, accuracy, fitness for a particular purpose, or non-infringement of the Service or any content therein.
-      </p>
-      <p>
-        We do not guarantee that the Service will be uninterrupted, free from errors, viruses, or other harmful components. We reserve the right to modify, suspend, or discontinue any part of the Service at any time without notice.
-      </p>
-
-      <h2>4. Third-Party Links and Content</h2>
-      <p>
-        Lexigen may contain links to third-party websites or resources. These links are provided for convenience only. Lexigen Trading does not endorse, control, or accept responsibility for the content, privacy practices, or availability of any third-party sites. Accessing third-party sites is at your own risk.
-      </p>
-
-      <h2>5. Limitation of Liability</h2>
-      <p>
-        To the fullest extent permitted by the laws of the Republic of South Africa, Lexigen Trading, its directors, employees, partners, and agents shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from:
-      </p>
+      <h2>2. Information Purposes Only</h2>
+      <p>The Platform is intended solely for informational, educational, research, and reference purposes. The information available through the Platform, including but not limited to:</p>
       <ul>
-        <li>Your use of, or inability to use, the Service.</li>
-        <li>Any errors or inaccuracies in the content.</li>
-        <li>Unauthorised access to or alteration of your data.</li>
-        <li>Any other matter relating to the Service.</li>
+        <li>Word generation results and vocabulary suggestions</li>
+        <li>Definition and usage examples</li>
+        <li>Writing prompts and phrase ideas</li>
+        <li>Language learning aids and word-of-the-day content</li>
+        <li>Word lists and linguistic reference materials</li>
       </ul>
+      <p>is provided for general informational purposes only and should not be construed as professional writing or editorial advice, legal advice, medical advice, or financial or investment advice. Users should seek independent professional advice before making any important business, legal, creative, or other decisions.</p>
 
-      <h2>6. Intellectual Property Notice</h2>
+      <h2>3. No Recommendation</h2>
+      <p>Nothing on this Platform constitutes an endorsement of a particular word, phrase, or writing style; a recommendation regarding how to use generated content; or a guarantee that generated text is correct, appropriate, or suitable for your needs. Any decisions made based on information obtained from the Platform are made solely at the user's own risk.</p>
+
+      <h2>4. No Guarantee of Accuracy</h2>
       <p>
-        All content on Lexigen, including but not limited to the brand name, logo, word content, archetype system, game mechanics, and design, is the intellectual property of Lexigen Trading or its licensors. Unauthorised reproduction, distribution, or commercial exploitation of any Lexigen content is strictly prohibited and may give rise to legal action.
+        While we endeavour to maintain accurate, complete, and current information, we make no representations or warranties regarding the accuracy, completeness, reliability, timeliness, availability, suitability, currency, or quality of any information presented on the Platform. Information may contain errors, omissions, inaccuracies, delays, outdated content, technical faults, or third-party reporting errors. Content may change without notice.
       </p>
+      <p>We are under no obligation to update, correct, revise, or verify any information displayed on the Platform.</p>
+
+      <h2>5. Content and Data Disclaimer</h2>
       <p>
-        "Lexigen" is a registered trademark of Lexigen Trading.
+        Content and word data may be sourced from dictionaries, public word lists, language APIs, third-party providers, and community contributions. Word generation and vocabulary outputs may vary depending on user input and system processing. Content may be approximate, indicative, or temporarily unavailable.
+      </p>
+      <p>Generated text is not guaranteed to be original, error-free, or suitable for publication. Users must independently verify the accuracy and appropriateness of all content before relying on it.</p>
+
+      <h2>6. Generator and Analytics Disclaimer</h2>
+      <p>The Platform provides word generators, vocabulary tools, phrase suggestion tools, writing prompts, and other analytical services. Results generated by such tools:</p>
+      <ul>
+        <li>Are estimates only, based on user-provided information</li>
+        <li>May contain assumptions and are not guaranteed</li>
+        <li>Should not be relied upon as professional advice</li>
+      </ul>
+      <p>Past outputs, assumptions, projections, and generated content do not guarantee future results. We accept no responsibility for decisions made using tool outputs.</p>
+
+      <h2>7. Third-Party Content</h2>
+      <p>The Platform includes third-party content, research, news feeds, hyperlinks, embedded services, external websites, and APIs. We do not control, endorse, verify, or assume responsibility for any third-party content. Users access third-party resources entirely at their own risk.</p>
+
+      <h2>8. No Fiduciary Relationship</h2>
+      <p>
+        Use of the Platform does not create an advisory relationship, fiduciary relationship, brokerage relationship, agency relationship, partnership, or joint venture between the user and the Platform. Lexigen.com is not a registered broker-dealer, investment adviser, financial planner, or any other type of regulated financial entity in any jurisdiction.
       </p>
 
-      <h2>7. Governing Law</h2>
+      <h2>9. User Responsibility</h2>
+      <p>Users acknowledge and agree that they are solely responsible for:</p>
+      <ul>
+        <li>Evaluating information and verifying data accuracy</li>
+        <li>Conducting independent research</li>
+        <li>Consulting qualified professionals</li>
+        <li>Complying with applicable laws and regulations</li>
+        <li>Assessing content suitability for intended use</li>
+        <li>Managing their own risks</li>
+      </ul>
+      <p>The Platform shall not be responsible for any decisions made by users.</p>
+
+      <h2>10. No Warranty</h2>
+      <p>The Platform is provided on an "AS IS" and "AS AVAILABLE" basis. We expressly disclaim all warranties, including but not limited to merchantability, fitness for a particular purpose, accuracy, availability, reliability, non-infringement, and performance.</p>
+
+      <h2>11. Changes to This Disclaimer</h2>
+      <p>We reserve the right to amend, modify, update, or replace this Disclaimer at any time without prior notice. Continued use of the Platform following publication of changes constitutes acceptance of such changes.</p>
+
+      <h2>12. Governing Law</h2>
+      <p>This Disclaimer shall be governed by and interpreted in accordance with the laws of South Africa. Any disputes arising from the use of the Platform shall be subject to the exclusive jurisdiction of the courts of South Africa.</p>
+
+      <h2>13. Contact Information</h2>
       <p>
-        This disclaimer is governed by the laws of the Republic of South Africa. Any disputes arising from or related to this disclaimer shall be subject to the exclusive jurisdiction of South African courts.
+        For questions regarding this Disclaimer, please contact:<br /><br />
+        <strong>Lexigen.com</strong><br />
+        Email: <a href="mailto:hello@lexigen.com">hello@lexigen.com</a><br />
+        Website: <a href="https://www.lexigen.com">www.lexigen.com</a>
       </p>
 
-      <h2>8. Contact</h2>
-      <p>
-        For legal enquiries, contact <a href="mailto:legal@lexigen.app" className="text-primary hover:underline">legal@lexigen.app</a>.
-      </p>
+      <div className="mt-10 p-6 rounded-2xl border border-destructive/30 bg-destructive/5">
+        <h3 className="font-bold text-base mb-2 text-foreground">Risk Warning</h3>
+        <p className="text-sm text-muted-foreground m-0">
+          Use of the Platform for plagiarism, defamation, harassment, or any unlawful or irregular activity is prohibited. Generated content is not a substitute for qualified professional advice, and users should not rely on the Site for illegal, unethical, or prohibited uses.
+        </p>
+      </div>
     </LegalLayout>
   );
 }
