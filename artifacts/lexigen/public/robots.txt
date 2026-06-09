@@ -1,6 +1,18 @@
 User-agent: *
 Allow: /
 
+# Sitemap location
 Sitemap: https://www.lexigen.com/sitemap.xml
 
+# Block internal API routes from indexing
 Disallow: /api/
+
+# Allow AdSense and Google crawlers full access
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
