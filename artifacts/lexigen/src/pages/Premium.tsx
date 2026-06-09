@@ -35,9 +35,9 @@ const premiumFeatures = [
 ];
 
 const plans = [
-  { id: "monthly", label: "Monthly", price: "R49", period: "/month", highlight: false },
-  { id: "annual", label: "Annual", price: "R399", period: "/year", badge: "Save 32%", highlight: true },
-  { id: "lifetime", label: "Lifetime", price: "R999", period: "once", highlight: false },
+  { id: "monthly", label: "Monthly", price: "Free", period: "limited use", highlight: false },
+  { id: "annual", label: "Annually", price: "Free", period: "limited use", highlight: false },
+  { id: "lifetime", label: "Once-off Offer", price: "$8", period: "unlimited use", badge: "Best Value", highlight: true },
 ];
 
 // ── Interactive Premium Session Types ───────────────────
@@ -249,7 +249,7 @@ function ProgressReport() {
 
 // ── Main Component ───────────────────────────────────────────
 export default function Premium() {
-  const [selectedPlan, setSelectedPlan] = useState("annual");
+  const [selectedPlan, setSelectedPlan] = useState("lifetime");
   const [isUpgraded, setIsUpgraded] = useState(false);
   const [activeSession, setActiveSession] = useState<SessionType>(null);
   const { toast } = useToast();
@@ -411,7 +411,8 @@ export default function Premium() {
           <div className="grid md:grid-cols-2 gap-6">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="p-8 rounded-3xl border border-border bg-card">
               <h3 className="text-2xl font-bold mb-1">Free</h3>
-              <p className="text-4xl font-bold mb-6">R0 <span className="text-muted-foreground text-base font-normal">/ forever</span></p>
+              <p className="text-4xl font-bold mb-1">$0 <span className="text-muted-foreground text-base font-normal">/ forever</span></p>
+              <p className="text-sm text-muted-foreground mb-6">Limited use</p>
               <ul className="space-y-3">
                 {freeFeatures.map(f => (
                   <li key={f} className="flex items-center gap-3 text-sm">
@@ -423,13 +424,14 @@ export default function Premium() {
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="p-8 rounded-3xl border-2 border-primary bg-gradient-to-br from-primary/5 to-accent/5 relative overflow-hidden shadow-[0_0_50px_rgba(139,92,246,0.15)]">
               <div className="absolute top-4 right-4">
-                <Badge className="bg-primary text-primary-foreground font-bold text-xs">Recommended</Badge>
+                <Badge className="bg-primary text-primary-foreground font-bold text-xs">Best Value</Badge>
               </div>
               <h3 className="text-2xl font-bold mb-1">Premium</h3>
-              <p className="text-4xl font-bold mb-6">
-                <span className="text-primary">{plans.find(p => p.id === selectedPlan)?.price}</span>
-                <span className="text-muted-foreground text-base font-normal ml-1">{plans.find(p => p.id === selectedPlan)?.period}</span>
+              <p className="text-4xl font-bold mb-1">
+                <span className="text-primary">$8</span>
+                <span className="text-muted-foreground text-base font-normal ml-1">once-off</span>
               </p>
+              <p className="text-sm text-primary font-semibold mb-6">Unlimited use — forever</p>
               <ul className="space-y-3">
                 {premiumFeatures.map(f => (
                   <li key={f.label} className="flex items-center gap-3 text-sm">

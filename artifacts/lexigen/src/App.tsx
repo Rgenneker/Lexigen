@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import NotFound from "@/pages/not-found";
 
 import Home from "@/pages/Home";
@@ -35,6 +36,7 @@ const queryClient = new QueryClient({
 function Router() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
+      <ScrollToTop />
       <Navbar />
       <main className="flex-1 flex flex-col">
         <Switch>

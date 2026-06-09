@@ -226,6 +226,64 @@ export default function About() {
         </div>
       </section>
 
+      {/* Platform Features — Gen Z focused */}
+      <section className="py-20 px-4 bg-card">
+        <div className="container mx-auto max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-14"
+          >
+            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">What Lexigen Delivers</p>
+            <h2 className="text-4xl font-bold tracking-tighter max-w-xl">
+              Built to build better language.
+            </h2>
+            <p className="text-muted-foreground text-lg mt-4 max-w-2xl">
+              Every feature on Lexigen is designed with one goal: helping Gen Z learners own the words they use — not just recognise them.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              {
+                tag: "01",
+                title: "Personalised Daily Word",
+                body: "Each day delivers one word — matched to your vocabulary level, your language choice, and your personal learning history. No overwhelm. Just one powerful word, fully contextualised with a definition, pronunciation, and real-world example sentence.",
+              },
+              {
+                tag: "02",
+                title: "Birth-Based Archetype Insights",
+                body: "Your date of birth unlocks a unique vocabulary archetype — a profile that reflects how you process language, what words resonate with you, and how your communication style is wired. It's not astrology. It's personalisation with a purpose.",
+              },
+              {
+                tag: "03",
+                title: "Streak Rewards",
+                body: "Consistency is the whole game. Lexigen tracks your daily check-ins and rewards you with milestone badges at 7, 30, 100, and 365 days. Every streak is a visible record of real growth — and a motivator to keep showing up.",
+              },
+              {
+                tag: "04",
+                title: "Social Challenges for Gen Z Learners",
+                body: "Vocabulary grows fastest in community. Invite friends, challenge peers to word duels, compare streaks, and build your vocabulary circle across timezones and borders. Words have always been social — Lexigen just makes that explicit.",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={item.tag}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="p-8 rounded-2xl border border-border bg-background hover:border-primary/30 transition-all"
+              >
+                <span className="text-xs font-bold font-mono text-primary block mb-4">{item.tag}</span>
+                <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{item.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Promise + CTA */}
       <section className="py-20 px-4 bg-card">
         <div className="container mx-auto max-w-3xl">

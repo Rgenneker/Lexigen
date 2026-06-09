@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { ChevronRight, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 const BASE_URL = "https://www.lexigen.com";
 
@@ -66,8 +66,8 @@ const pages = [
         href: "/premium",
         label: "Premium",
         url: `${BASE_URL}/premium`,
-        description: "Upgrade to Lexigen Premium — R399/year. Unlock unlimited sentence builder sessions, advanced monthly vocabulary reports, and premium word game access.",
-        keywords: ["Lexigen Premium", "vocabulary subscription", "premium word app", "advanced vocabulary", "monthly report vocabulary", "R399 vocabulary plan"],
+        description: "Upgrade to Lexigen Premium — $8 once-off for unlimited access. Unlock unlimited sentence builder sessions, advanced monthly vocabulary reports, and premium word game access.",
+        keywords: ["Lexigen Premium", "vocabulary subscription", "premium word app", "advanced vocabulary", "monthly report vocabulary", "unlimited vocabulary plan"],
         priority: "0.8",
         changefreq: "Monthly",
       },
@@ -159,34 +159,10 @@ export default function Sitemap() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-3 mb-6"
+          className="space-y-3 mb-14"
         >
           <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Navigation Index</p>
           <h1 className="text-5xl font-bold tracking-tighter">Sitemap</h1>
-          <p className="text-muted-foreground text-lg max-w-2xl">
-            Every page on Lexigen with full URLs, descriptions, and keywords — indexed for Google Search and AdSense discovery.
-          </p>
-        </motion.div>
-
-        {/* SEO meta info strip */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.1 }}
-          className="flex flex-wrap gap-3 mb-14 text-xs"
-        >
-          <span className="px-3 py-1.5 rounded-full border border-border bg-card font-mono text-muted-foreground">
-            XML: <a href="/sitemap.xml" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">sitemap.xml</a>
-          </span>
-          <span className="px-3 py-1.5 rounded-full border border-border bg-card font-mono text-muted-foreground">
-            robots.txt: <a href="/robots.txt" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">robots.txt</a>
-          </span>
-          <span className="px-3 py-1.5 rounded-full border border-border bg-card text-muted-foreground">
-            {pages.flatMap(s => s.items).length} pages indexed
-          </span>
-          <span className="px-3 py-1.5 rounded-full border border-border bg-card text-muted-foreground">
-            Last updated: 1 June 2026
-          </span>
         </motion.div>
 
         {/* Pages by section */}
@@ -266,24 +242,10 @@ export default function Sitemap() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-16 p-8 rounded-2xl border border-border bg-card space-y-3"
+          className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-xs text-muted-foreground"
         >
-          <h3 className="font-bold">About this sitemap</h3>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            This sitemap is designed to help Google Search, Google AdSense, and other crawlers discover and index all Lexigen pages. A machine-readable{" "}
-            <a href="/sitemap.xml" className="text-primary hover:underline font-medium" target="_blank" rel="noopener noreferrer">
-              XML sitemap
-            </a>{" "}
-            is available for automated indexing. A{" "}
-            <a href="/robots.txt" className="text-primary hover:underline font-medium" target="_blank" rel="noopener noreferrer">
-              robots.txt
-            </a>{" "}
-            file directs crawlers to the XML sitemap and restricts API routes.
-          </p>
-          <div className="pt-2 border-t border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-xs text-muted-foreground">
-            <span>© {new Date().getFullYear()} Lexigen Trading. All rights reserved. Registered in South Africa.</span>
-            <span>Lexigen™ is a registered trademark of Lexigen Trading.</span>
-          </div>
+          <span>© {new Date().getFullYear()} Lexigen Trading. All rights reserved. Registered in South Africa.</span>
+          <span>Lexigen™ is a registered trademark of Lexigen Trading.</span>
         </motion.div>
       </div>
     </div>
