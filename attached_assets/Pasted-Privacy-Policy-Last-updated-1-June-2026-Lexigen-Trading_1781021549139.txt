@@ -1,0 +1,65 @@
+Privacy Policy
+Last updated: 1 June 2026
+
+Lexigen Trading ("we", "us", "our") operates Lexigen.com. This Privacy Policy explains how we handle information when you use our word generation and word-of-the-day tools. We are committed to protecting your privacy and being transparent about our practices.
+
+1. Information We Collect
+2. How We Use Information
+3. Google AdSense & Cookies
+4. Analytics
+5. Data Storage & Security
+6. Children's Privacy
+7. Your Rights
+8. Changes to This Policy
+9. Contact Us
+1. Information We Collect
+Word generation data: None. All word generation inputs and outputs are processed locally in your browser using JavaScript. No words, phrases, or user entries are transmitted to our servers or stored outside your device unless you choose to create an account.
+
+Automatically collected data: Like most websites, our hosting infrastructure may automatically log standard server access data, including your IP address (truncated), browser type, referring URL, pages visited, and timestamps. This data is used solely for security monitoring and aggregate traffic analysis.
+
+Contact form: If you use our contact form, it opens your email client with pre-filled content. No data passes through our servers via the form itself.
+
+2. How We Use Information
+We use automatically collected technical data to:
+
+Monitor the security and performance of the Site
+Understand aggregate usage patterns to improve our word generation tools
+Detect and prevent abuse or unauthorised access
+We do not sell, rent, or share your data with third parties for marketing purposes.
+
+3. Google AdSense & Cookies
+Lexigen.com may use Google AdSense to display advertisements. Google AdSense uses cookies and similar tracking technologies to serve ads based on your prior visits to our Site and other sites on the internet.
+
+Cookies used by Google AdSense may include:
+
+__ga, __gads — Google advertising and analytics cookies
+IDE — DoubleClick cookie used by Google for targeting advertisements
+DSID, FLC — frequency capping and ad personalisation
+You can opt out of personalised advertising at any time:
+
+Google Ads Settings
+Digital Advertising Alliance opt-out
+Your browser's cookie settings
+We also store a single theme key in your browser's localStorage to remember your light/dark mode preference. This data never leaves your device.
+
+4. Analytics
+We may use Google Analytics to understand aggregate usage of the Site. If enabled, Google Analytics collects anonymised data about pages visited, session duration, and device type. IP addresses are anonymised. You can opt out using the Google Analytics opt-out browser add-on.
+
+5. Data Storage & Security
+We implement reasonable technical measures to protect the Site from unauthorised access. Because word generation data is processed exclusively client-side and no personal word inputs are transmitted to us, the risk of a data breach affecting your generator inputs is zero by design.
+
+We cannot guarantee absolute security of data transmitted over the internet. Use the Site at your own risk in accordance with our Terms of Service.
+
+6. Children's Privacy
+Lexigen.com is not directed at children under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us and we will take steps to delete it.
+
+7. Your Rights
+Depending on your jurisdiction, you may have rights under applicable data protection law (including POPIA in South Africa and GDPR in the EU), including the right to access, correct, or delete personal data held about you.
+
+Because we collect minimal identifiable data, most requests can be addressed simply by clearing your browser's cookies and localStorage. For other requests, contact us at hello@lexigen.com.
+
+8. Changes to This Policy
+We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated "Last updated" date. Your continued use of the Site after any changes constitutes acceptance of the revised Policy.
+
+9. Contact Us
+For privacy-related questions or requests, contact us at hello@lexigen.com or visit our Contact page.
