@@ -675,8 +675,84 @@ export default function Premium() {
         </div>
       </section>
 
+      {/* ── Languages Section ── */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
+            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Languages</p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter">
+              One platform.{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">19 languages.</span>
+            </h2>
+            <p className="text-muted-foreground text-lg mt-3 max-w-xl mx-auto">
+              Switch your learning language anytime from the globe icon in the navigation. Your word, your archetype, your language.
+            </p>
+            <div className="mt-3 inline-flex items-center gap-2 bg-destructive/10 text-destructive border border-destructive/20 text-xs font-bold px-4 py-1.5 rounded-full">
+              <Lock className="h-3 w-3" /> Free plan: English only
+            </div>
+          </motion.div>
+
+          {/* Language pills */}
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
+            className="flex flex-wrap justify-center gap-2.5 mb-4">
+            {[
+              { name: "English", sa: false },
+              { name: "Spanish", sa: false },
+              { name: "Portuguese", sa: false },
+              { name: "French", sa: false },
+              { name: "German", sa: false },
+              { name: "Dutch", sa: false },
+              { name: "Italian", sa: false },
+              { name: "Arabic", sa: false },
+              { name: "Afrikaans", sa: true },
+              { name: "Zulu", sa: true },
+              { name: "Xhosa", sa: true },
+              { name: "Farsi", sa: false },
+              { name: "Russian", sa: false },
+              { name: "Bahasa Malay", sa: false },
+              { name: "Vietnamese", sa: false },
+              { name: "Tagalog", sa: false },
+              { name: "Japanese", sa: false },
+              { name: "Cantonese", sa: false },
+              { name: "Chinese (Mandarin)", sa: false },
+            ].map((lang, i) => (
+              <motion.span key={lang.name}
+                initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }} transition={{ delay: i * 0.03 }}
+                className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all ${
+                  lang.sa
+                    ? "bg-primary/15 border-primary/40 text-primary"
+                    : "bg-card border-border text-foreground hover:border-primary/30"
+                }`}>
+                {lang.name}
+              </motion.span>
+            ))}
+          </motion.div>
+          <p className="text-center text-xs text-muted-foreground mb-10">South African languages highlighted</p>
+
+          {/* Inline premium CTA */}
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="p-8 rounded-3xl border-2 border-primary/30 bg-gradient-to-r from-primary/8 to-accent/8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Globe className="h-5 w-5 text-primary" />
+                <span className="font-bold text-lg">Unlock all 19 languages</span>
+              </div>
+              <p className="text-muted-foreground text-sm max-w-sm">
+                Free users are limited to English only. Premium unlocks every language — switch anytime, learn without limits.
+              </p>
+            </div>
+            <Button size="lg" onClick={() => setShowModal(true)}
+              className="rounded-full bg-primary hover:bg-primary/90 font-bold px-8 h-12 flex-shrink-0 shadow-[0_0_24px_rgba(139,92,246,0.4)]"
+              data-testid="button-upgrade-languages">
+              Get Premium — $8
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ── Comparison table ── */}
-      <section id="compare" className="py-20 px-4">
+      <section id="compare" className="py-20 px-4 bg-card/50">
         <div className="container mx-auto max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
             <h2 className="text-4xl font-bold tracking-tighter">Free vs Premium</h2>
