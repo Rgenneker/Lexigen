@@ -12,6 +12,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguageStore } from "@/store/useLanguageStore";
+import { COUNTRIES } from "@/data/countries";
 import {
   Check, Zap, Lock, TrendingUp, Gamepad2, FileText,
   Crown, Brain, ChevronRight, RefreshCw, BarChart3,
@@ -49,6 +50,7 @@ const LANGUAGE_CODES: Record<string, string> = {
   "Chinese (Mandarin)": "zh",
 };
 
+
 // ── Payment Modal ────────────────────────────────────────
 type ModalStep = "form" | "paypal" | "success" | "error";
 
@@ -62,20 +64,23 @@ function PaymentModal({
   const [step, setStep] = useState<ModalStep>("form");
   const [initials, setInitials] = useState("");
   const [surname, setSurname] = useState("");
+  const [countryCode, setCountryCode] = useState("ZA");
+  const [phone, setPhone] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [sdkReady, setSdkReady] = useState(false);
   const [sdkLoading, setSdkLoading] = useState(false);
   const paypalContainerRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  const canProceed = initials.trim().length > 0 && surname.trim().length > 0;
+  const selectedCountry = COUNTRIES.find(c => c.code === countryCode) ?? COUNTRIES.find(c => c.code === "ZA")!;
+  const canProceed = initials.trim().length > 0 && surname.trim().length > 0 && phone.trim().length > 0;
 
-  // Load PayPal config then inject SDK
-  const loadPayPalSdk = useCallback(async () => {
+  // Load PayPal config then inject SDK with buyer country hint
+  const loadPayPalSdk = useCallback(async (buyerCountry: string) => {
     setSdkLoading(true);
     try {
       const res = await fetch("/api/premium/paypal-config");
-      const { clientId } = (await res.json()) as { clientId: string; mode: string };
+      const { clientId, mode } = (await res.json()) as { clientId: string; mode: string };
 
       if (!clientId) throw new Error("PayPal client ID not configured");
 
@@ -86,7 +91,9 @@ function PaymentModal({
 
       const script = document.createElement("script");
       script.id = "paypal-sdk";
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=USD&components=buttons`;
+      // buyer-country hint only works in sandbox mode
+      const buyerParam = mode === "sandbox" ? `&buyer-country=${buyerCountry}` : "";
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=USD&components=buttons${buyerParam}`;
       script.async = true;
       script.onload = () => { setSdkReady(true); setSdkLoading(false); };
       script.onerror = () => {
@@ -163,7 +170,7 @@ function PaymentModal({
   const handleContinue = async () => {
     if (!canProceed) return;
     setStep("paypal");
-    if (!sdkReady) await loadPayPalSdk();
+    if (!sdkReady) await loadPayPalSdk(countryCode);
   };
 
   const handleSuccess = () => {
@@ -206,14 +213,15 @@ function PaymentModal({
         <div className="px-6 py-6 space-y-5">
           <AnimatePresence mode="wait">
 
-            {/* ── Step 1: Name form ── */}
+            {/* ── Step 1: Name + country form ── */}
             {step === "form" && (
-              <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-5">
+              <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
                 <div>
                   <h2 className="text-xl font-bold mb-1">Your details</h2>
                   <p className="text-sm text-muted-foreground">We'll include this on your payment confirmation.</p>
                 </div>
                 <div className="space-y-3">
+                  {/* Initials */}
                   <div className="space-y-1.5">
                     <Label htmlFor="initials" className="text-sm font-semibold">Initials</Label>
                     <Input
@@ -225,6 +233,7 @@ function PaymentModal({
                       data-testid="payment-initials"
                     />
                   </div>
+                  {/* Surname */}
                   <div className="space-y-1.5">
                     <Label htmlFor="surname" className="text-sm font-semibold">Surname</Label>
                     <Input
@@ -233,11 +242,51 @@ function PaymentModal({
                       onChange={(e) => setSurname(e.target.value)}
                       placeholder="e.g. Smith"
                       className="rounded-xl h-11"
-                      onKeyDown={(e) => e.key === "Enter" && canProceed && handleContinue()}
                       data-testid="payment-surname"
                     />
                   </div>
+                  {/* Country */}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="country" className="text-sm font-semibold">Country</Label>
+                    <select
+                      id="country"
+                      value={countryCode}
+                      onChange={(e) => { setCountryCode(e.target.value); setSdkReady(false); }}
+                      className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 cursor-pointer"
+                      data-testid="payment-country"
+                    >
+                      {COUNTRIES.map(c => (
+                        <option key={c.code} value={c.code}>
+                          {c.flag} {c.name} ({c.dial})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {/* Phone with dial prefix */}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="phone" className="text-sm font-semibold">Mobile number</Label>
+                    <div className="flex gap-2">
+                      <div className="flex items-center gap-1.5 h-11 px-3 rounded-xl border border-input bg-muted/50 text-sm font-medium flex-shrink-0 min-w-[72px] justify-center">
+                        <span>{selectedCountry.flag}</span>
+                        <span className="text-muted-foreground">{selectedCountry.dial}</span>
+                      </div>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value.replace(/[^0-9 \-]/g, ""))}
+                        placeholder="e.g. 82 123 4567"
+                        className="rounded-xl h-11 flex-1"
+                        onKeyDown={(e) => e.key === "Enter" && canProceed && handleContinue()}
+                        data-testid="payment-phone"
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground pl-1">
+                      This sets the correct country prefix in the PayPal payment form.
+                    </p>
+                  </div>
                 </div>
+                {/* Amount */}
                 <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <CreditCard className="h-5 w-5 text-primary" />
