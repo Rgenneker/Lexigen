@@ -136,6 +136,12 @@ export function RegistrationGate() {
               {" "}and{" "}
               <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">Privacy Policy</Link>.
             </p>
+
+            <div className="flex justify-center pt-1">
+              <Link href="/" className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5 underline underline-offset-2">
+                ← Back to Home
+              </Link>
+            </div>
           </form>
         </div>
 
