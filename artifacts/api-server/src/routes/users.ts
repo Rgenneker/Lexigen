@@ -2,11 +2,18 @@ import { Router } from "express";
 import { db } from "@workspace/db";
 import { usersTable, streaksTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
+import bcrypt from "bcryptjs";
 
 const router = Router();
 
 const DEFAULT_USER_ID = 1;
 
+// ─── Password validation ───────────────────────────────────────
+function isValidPassword(pw: string): boolean {
+  return pw.length >= 8 && /^[a-zA-Z0-9]+$/.test(pw);
+}
+
+// ─── Archetypes ────────────────────────────────────────────────
 const ARCHETYPES: Record<string, {
   name: string;
   description: string;
@@ -154,6 +161,104 @@ async function ensureDefaultUser() {
   return existing;
 }
 
+// ─── Register free ─────────────────────────────────────────────
+router.post("/register/free", async (req, res) => {
+  const { firstName, lastName, email, password, phone } = req.body as {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    phone?: string;
+  };
+
+  if (!firstName?.trim() || !lastName?.trim()) {
+    return res.status(400).json({ error: "First and last name are required." });
+  }
+  if (!email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ error: "A valid email address is required." });
+  }
+  if (!password || !isValidPassword(password)) {
+    return res.status(400).json({ error: "Password must be at least 8 alphanumeric characters." });
+  }
+  if (!phone?.trim()) {
+    return res.status(400).json({ error: "Cell phone number is required." });
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+
+  // Check email uniqueness
+  const [existing] = await db.select({ id: usersTable.id })
+    .from(usersTable)
+    .where(eq(usersTable.email, normalizedEmail));
+  if (existing) {
+    return res.status(409).json({ error: "An account with this email already exists. Please sign in." });
+  }
+
+  const passwordHash = await bcrypt.hash(password, 10);
+  const displayName = `${firstName.trim()} ${lastName.trim()}`;
+
+  const [newUser] = await db.insert(usersTable).values({
+    username: displayName,
+    email: normalizedEmail,
+    passwordHash,
+    phone: phone.trim(),
+    language: "en",
+    isPremium: false,
+  }).returning();
+
+  // Create streak record for this user
+  await db.insert(streaksTable).values({
+    userId: newUser.id,
+    currentStreak: 0,
+    longestStreak: 0,
+    totalDays: 0,
+    lastCheckin: new Date().toISOString().slice(0, 10),
+  }).onConflictDoNothing();
+
+  req.log.info({ userId: newUser.id, email: normalizedEmail }, "free registration");
+
+  return res.status(201).json({
+    id: newUser.id,
+    name: displayName,
+    email: normalizedEmail,
+    phone: phone.trim(),
+    plan: "free",
+  });
+});
+
+// ─── Login ─────────────────────────────────────────────────────
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body as { email?: string; password?: string };
+
+  if (!email?.trim() || !password) {
+    return res.status(400).json({ error: "Email and password are required." });
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+  const [user] = await db.select().from(usersTable).where(eq(usersTable.email, normalizedEmail));
+
+  if (!user || !user.passwordHash) {
+    return res.status(401).json({ error: "No account found with this email address." });
+  }
+
+  const match = await bcrypt.compare(password, user.passwordHash);
+  if (!match) {
+    return res.status(401).json({ error: "Incorrect password. Please try again." });
+  }
+
+  req.log.info({ userId: user.id }, "login");
+
+  return res.json({
+    id: user.id,
+    name: user.username,
+    email: user.email,
+    phone: user.phone ?? undefined,
+    plan: user.isPremium ? "premium" : "free",
+    registeredAt: user.createdAt.toISOString(),
+  });
+});
+
+// ─── Profile routes ────────────────────────────────────────────
 router.get("/users/profile", async (req, res) => {
   await ensureDefaultUser();
   const [user] = await db.select().from(usersTable).where(eq(usersTable.id, DEFAULT_USER_ID));
@@ -199,22 +304,6 @@ router.get("/users/archetype", async (req, res) => {
   const archetypeName = getArchetypeFromBirthDate(birthDate);
   const archetype = ARCHETYPES[archetypeName] ?? ARCHETYPES["The Explorer"];
   return res.json(archetype);
-});
-
-router.post("/register/free", async (req, res) => {
-  const { initials, surname, countryCode, phone } = req.body as {
-    initials?: string; surname?: string; countryCode?: string; phone?: string;
-  };
-  if (!initials?.trim() || !surname?.trim()) {
-    return res.status(400).json({ error: "initials and surname are required" });
-  }
-  await ensureDefaultUser();
-  const displayName = `${initials.trim()} ${surname.trim()}`;
-  await db.update(usersTable)
-    .set({ username: displayName })
-    .where(eq(usersTable.id, DEFAULT_USER_ID));
-  req.log.info({ displayName, countryCode, phone: phone ? "provided" : "not provided" }, "free registration");
-  return res.json({ success: true, plan: "free", displayName });
 });
 
 router.get("/stats/summary", async (req, res) => {

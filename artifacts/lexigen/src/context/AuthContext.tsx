@@ -1,8 +1,10 @@
 import { createContext, useContext, useState } from "react";
 
 export interface AuthUser {
+  id?: number;
   name: string;
   email: string;
+  phone?: string;
   plan: "free" | "premium";
   registeredAt: string;
 }
@@ -10,7 +12,8 @@ export interface AuthUser {
 interface AuthContextType {
   user: AuthUser | null;
   isRegistered: boolean;
-  registerFree: (firstName: string, lastName: string, email: string) => Promise<void>;
+  registerFree: (firstName: string, lastName: string, email: string, password: string, phone: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   setPremium: () => void;
   logout: () => void;
 }
@@ -29,24 +32,56 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   });
 
-  const registerFree = async (firstName: string, lastName: string, email: string) => {
-    try {
-      await fetch("/api/register/free", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ initials: firstName.trim(), surname: lastName.trim() }),
-      });
-    } catch {
-      // Non-critical — continue even if API call fails
+  const registerFree = async (firstName: string, lastName: string, email: string, password: string, phone: string) => {
+    const res = await fetch("/api/register/free", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: email.trim().toLowerCase(),
+        password,
+        phone,
+      }),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({})) as { error?: string };
+      throw new Error(body.error ?? "Registration failed");
     }
+    const data = await res.json() as { id: number; name: string; email: string; phone: string; plan: string };
     const newUser: AuthUser = {
-      name: `${firstName.trim()} ${lastName.trim()}`,
-      email: email.trim().toLowerCase(),
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
       plan: "free",
       registeredAt: new Date().toISOString(),
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newUser));
     setUser(newUser);
+  };
+
+  const login = async (email: string, password: string) => {
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({})) as { error?: string };
+      throw new Error(body.error ?? "Login failed");
+    }
+    const data = await res.json() as { id: number; name: string; email: string; phone?: string; plan: string; registeredAt: string };
+    const loggedIn: AuthUser = {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      plan: data.plan as "free" | "premium",
+      registeredAt: data.registeredAt,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(loggedIn));
+    setUser(loggedIn);
   };
 
   const setPremium = () => {
@@ -62,7 +97,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isRegistered: !!user, registerFree, setPremium, logout }}>
+    <AuthContext.Provider value={{ user, isRegistered: !!user, registerFree, login, setPremium, logout }}>
       {children}
     </AuthContext.Provider>
   );
