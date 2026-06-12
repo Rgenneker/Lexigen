@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://www.lexigen.com/sitemap.xml
+Sitemap: https://www.lexigenz.com/sitemap.xml
 
 # Block internal API routes from indexing
 Disallow: /api/
