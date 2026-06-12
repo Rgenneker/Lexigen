@@ -745,7 +745,7 @@ export default function Play() {
                   >
                     {game.status === "coming" && (
                       <div className="absolute inset-0 rounded-2xl bg-background/50 backdrop-blur-sm flex items-center justify-center z-10">
-                        <Badge variant="secondary" className="font-bold">Coming Soon</Badge>
+                        <Badge className="font-bold bg-primary text-white border-primary/40 shadow-sm">🔒 Unlock with Premium</Badge>
                       </div>
                     )}
                     <div className="space-y-3">
