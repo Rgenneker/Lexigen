@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   useGetPremiumStatus,
   getGetPremiumStatusQueryKey,
@@ -12,7 +11,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguageStore } from "@/store/useLanguageStore";
-import { COUNTRIES } from "@/data/countries";
+import { useAuth } from "@/context/AuthContext";
 import {
   Check, Zap, Lock, TrendingUp, Gamepad2, FileText,
   Crown, Brain, ChevronRight, RefreshCw, BarChart3,
@@ -52,48 +51,38 @@ const LANGUAGE_CODES: Record<string, string> = {
 
 
 // ── Payment Modal ────────────────────────────────────────
-type ModalStep = "form" | "paypal" | "success" | "error";
+type ModalStep = "confirm" | "paypal" | "success" | "error";
 
 function PaymentModal({
   onClose,
   onSuccess,
+  userEmail,
+  userName,
 }: {
   onClose: () => void;
   onSuccess: () => void;
+  userEmail: string;
+  userName: string;
 }) {
-  const [step, setStep] = useState<ModalStep>("form");
-  const [initials, setInitials] = useState("");
-  const [surname, setSurname] = useState("");
-  const [countryCode, setCountryCode] = useState("ZA");
-  const [phone, setPhone] = useState("");
+  const [step, setStep] = useState<ModalStep>("confirm");
   const [errorMsg, setErrorMsg] = useState("");
   const [sdkReady, setSdkReady] = useState(false);
   const [sdkLoading, setSdkLoading] = useState(false);
   const paypalContainerRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  const selectedCountry = COUNTRIES.find(c => c.code === countryCode) ?? COUNTRIES.find(c => c.code === "ZA")!;
-  const canProceed = initials.trim().length > 0 && surname.trim().length > 0 && phone.trim().length > 0;
-
-  // Load PayPal config then inject SDK with buyer country hint
-  const loadPayPalSdk = useCallback(async (buyerCountry: string) => {
+  const loadPayPalSdk = useCallback(async () => {
     setSdkLoading(true);
     try {
       const res = await fetch("/api/premium/paypal-config");
-      const { clientId, mode } = (await res.json()) as { clientId: string; mode: string };
-
+      const { clientId } = (await res.json()) as { clientId: string; mode: string };
       if (!clientId) throw new Error("PayPal client ID not configured");
-
-      // Remove any previous SDK script
       const existing = document.getElementById("paypal-sdk");
       if (existing) existing.remove();
       delete window.paypal;
-
       const script = document.createElement("script");
       script.id = "paypal-sdk";
-      // buyer-country hint only works in sandbox mode
-      const buyerParam = mode === "sandbox" ? `&buyer-country=${buyerCountry}` : "";
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=USD&components=buttons${buyerParam}`;
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=USD&components=buttons`;
       script.async = true;
       script.onload = () => { setSdkReady(true); setSdkLoading(false); };
       script.onerror = () => {
@@ -102,29 +91,19 @@ function PaymentModal({
         setStep("error");
       };
       document.head.appendChild(script);
-    } catch (err) {
+    } catch {
       setSdkLoading(false);
       setErrorMsg("Could not reach PayPal. Please try again.");
       setStep("error");
     }
   }, []);
 
-  // Render PayPal buttons once SDK is ready
   useEffect(() => {
     if (!sdkReady || step !== "paypal" || !paypalContainerRef.current || !window.paypal) return;
-
-    // Clear container before rendering
     paypalContainerRef.current.innerHTML = "";
-
     window.paypal
       .Buttons({
-        style: {
-          layout: "vertical",
-          color: "gold",
-          shape: "pill",
-          label: "pay",
-          height: 48,
-        },
+        style: { layout: "vertical", color: "gold", shape: "pill", label: "pay", height: 48 },
         createOrder: async () => {
           const res = await fetch("/api/premium/create-order", { method: "POST" });
           if (!res.ok) throw new Error("Failed to create order");
@@ -135,11 +114,7 @@ function PaymentModal({
           const res = await fetch("/api/premium/capture-order", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              orderID: data.orderID,
-              firstName: initials.trim(),
-              lastName: surname.trim(),
-            }),
+            body: JSON.stringify({ orderID: data.orderID, userEmail }),
           });
           const result = (await res.json()) as { success?: boolean; error?: string };
           if (result.success) {
@@ -149,28 +124,22 @@ function PaymentModal({
             setStep("error");
           }
         },
-        onError: (err) => {
-          console.error("PayPal error:", err);
+        onError: () => {
           setErrorMsg("Something went wrong with PayPal. Please try again.");
           setStep("error");
         },
-        onCancel: () => {
-          // Return to form so user can retry
-          setStep("form");
-        },
+        onCancel: () => setStep("confirm"),
       })
       .render(paypalContainerRef.current)
-      .catch((err) => {
-        console.error("PayPal render error:", err);
+      .catch(() => {
         setErrorMsg("PayPal buttons failed to render.");
         setStep("error");
       });
-  }, [sdkReady, step, initials, surname]);
+  }, [sdkReady, step, userEmail]);
 
   const handleContinue = async () => {
-    if (!canProceed) return;
     setStep("paypal");
-    if (!sdkReady) await loadPayPalSdk(countryCode);
+    if (!sdkReady) await loadPayPalSdk();
   };
 
   const handleSuccess = () => {
@@ -213,80 +182,24 @@ function PaymentModal({
         <div className="px-6 py-6 space-y-5">
           <AnimatePresence mode="wait">
 
-            {/* ── Step 1: Name + country form ── */}
-            {step === "form" && (
-              <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
+            {/* ── Step 1: Confirm ── */}
+            {step === "confirm" && (
+              <motion.div key="confirm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-5">
                 <div>
-                  <h2 className="text-xl font-bold mb-1">Your details</h2>
-                  <p className="text-sm text-muted-foreground">We'll include this on your payment confirmation.</p>
+                  <h2 className="text-xl font-bold mb-1">Ready to upgrade?</h2>
+                  <p className="text-sm text-muted-foreground">
+                    Upgrading account for <span className="font-semibold text-foreground">{userName}</span>
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{userEmail}</p>
                 </div>
-                <div className="space-y-3">
-                  {/* Initials */}
-                  <div className="space-y-1.5">
-                    <Label htmlFor="initials" className="text-sm font-semibold">Initials</Label>
-                    <Input
-                      id="initials"
-                      value={initials}
-                      onChange={(e) => setInitials(e.target.value)}
-                      placeholder="e.g. R.G."
-                      className="rounded-xl h-11"
-                      data-testid="payment-initials"
-                    />
-                  </div>
-                  {/* Surname */}
-                  <div className="space-y-1.5">
-                    <Label htmlFor="surname" className="text-sm font-semibold">Surname</Label>
-                    <Input
-                      id="surname"
-                      value={surname}
-                      onChange={(e) => setSurname(e.target.value)}
-                      placeholder="e.g. Smith"
-                      className="rounded-xl h-11"
-                      data-testid="payment-surname"
-                    />
-                  </div>
-                  {/* Country */}
-                  <div className="space-y-1.5">
-                    <Label htmlFor="country" className="text-sm font-semibold">Country</Label>
-                    <select
-                      id="country"
-                      value={countryCode}
-                      onChange={(e) => { setCountryCode(e.target.value); setSdkReady(false); }}
-                      className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 cursor-pointer"
-                      data-testid="payment-country"
-                    >
-                      {COUNTRIES.map(c => (
-                        <option key={c.code} value={c.code}>
-                          {c.flag} {c.name} ({c.dial})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {/* Phone with dial prefix */}
-                  <div className="space-y-1.5">
-                    <Label htmlFor="phone" className="text-sm font-semibold">Mobile number</Label>
-                    <div className="flex gap-2">
-                      <div className="flex items-center gap-1.5 h-11 px-3 rounded-xl border border-input bg-muted/50 text-sm font-medium flex-shrink-0 min-w-[72px] justify-center">
-                        <span>{selectedCountry.flag}</span>
-                        <span className="text-muted-foreground">{selectedCountry.dial}</span>
-                      </div>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value.replace(/[^0-9 \-]/g, ""))}
-                        placeholder="e.g. 82 123 4567"
-                        className="rounded-xl h-11 flex-1"
-                        onKeyDown={(e) => e.key === "Enter" && canProceed && handleContinue()}
-                        data-testid="payment-phone"
-                      />
+                <div className="space-y-2">
+                  {["All 6 word games — unlimited", "Unlimited word journal + PDF export", "All 19 languages", "Full archetype deep-dive", "Monthly reports & badges"].map(f => (
+                    <div key={f} className="flex items-center gap-2 text-sm">
+                      <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
+                      <span>{f}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground pl-1">
-                      This sets the correct country prefix in the PayPal payment form.
-                    </p>
-                  </div>
+                  ))}
                 </div>
-                {/* Amount */}
                 <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <CreditCard className="h-5 w-5 text-primary" />
@@ -298,13 +211,13 @@ function PaymentModal({
                   size="lg"
                   className="w-full h-12 rounded-2xl bg-primary hover:bg-primary/90 font-bold"
                   onClick={handleContinue}
-                  disabled={!canProceed || sdkLoading}
+                  disabled={sdkLoading}
                   data-testid="payment-continue"
                 >
                   {sdkLoading ? (
-                    <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Loading payment…</>
+                    <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Loading PayPal…</>
                   ) : (
-                    <>Continue to Payment <ChevronRight className="h-4 w-4 ml-1" /></>
+                    <>Pay with PayPal <ChevronRight className="h-4 w-4 ml-1" /></>
                   )}
                 </Button>
                 <p className="text-center text-xs text-muted-foreground">
@@ -319,11 +232,8 @@ function PaymentModal({
                 <div>
                   <h2 className="text-xl font-bold mb-1">Complete payment</h2>
                   <p className="text-sm text-muted-foreground">
-                    Paying as <span className="font-semibold text-foreground">{initials.trim()} {surname.trim()}</span> · $8.00 USD
+                    Pay with your PayPal account or a credit/debit card · $8.00 USD
                   </p>
-                </div>
-                <div className="p-4 rounded-2xl border border-border bg-muted/30 text-sm text-muted-foreground">
-                  Pay with your <strong>PayPal account</strong> or enter your <strong>credit/debit card</strong> in the PayPal window.
                 </div>
                 <div ref={paypalContainerRef} className="min-h-[56px]">
                   {!sdkReady && (
@@ -333,10 +243,10 @@ function PaymentModal({
                   )}
                 </div>
                 <button
-                  onClick={() => setStep("form")}
+                  onClick={() => setStep("confirm")}
                   className="text-xs text-muted-foreground hover:text-foreground underline w-full text-center"
                 >
-                  ← Back to details
+                  ← Back
                 </button>
               </motion.div>
             )}
@@ -350,7 +260,7 @@ function PaymentModal({
                 <div>
                   <h2 className="text-2xl font-bold mb-1">Payment confirmed!</h2>
                   <p className="text-muted-foreground text-sm">
-                    Welcome to premium, <span className="font-semibold text-foreground">{initials.trim()} {surname.trim()}</span>. Every feature is now unlocked — forever.
+                    Welcome to premium, <span className="font-semibold text-foreground">{userName}</span>. Every feature is now unlocked — forever.
                   </p>
                 </div>
                 <div className="space-y-2 text-left">
@@ -385,7 +295,7 @@ function PaymentModal({
                 <Button
                   variant="outline"
                   className="w-full h-12 rounded-2xl font-bold"
-                  onClick={() => { setStep("form"); setErrorMsg(""); }}
+                  onClick={() => { setStep("confirm"); setErrorMsg(""); }}
                 >
                   Try Again
                 </Button>
@@ -619,12 +529,13 @@ const testimonials = [
 
 // ── Main Export ──────────────────────────────────────────
 export default function Premium() {
-  const [selectedPlan, setSelectedPlan] = useState("lifetime");
   const [showModal, setShowModal] = useState(false);
   const [isPremiumLocal, setIsPremiumLocal] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState("lifetime");
   const queryClient = useQueryClient();
   const { language } = useLanguageStore();
+  const { user, setPremium } = useAuth();
   const langCode = LANGUAGE_CODES[language] || "en";
 
   const { data: premiumStatus } = useGetPremiumStatus();
@@ -634,11 +545,12 @@ export default function Premium() {
   );
 
   const handleUpgradeSuccess = () => {
+    setPremium();
     setIsPremiumLocal(true);
     queryClient.invalidateQueries({ queryKey: getGetPremiumStatusQueryKey() });
   };
 
-  const isPremium = premiumStatus?.isPremium || isPremiumLocal;
+  const isPremium = user?.plan === "premium" || premiumStatus?.isPremium || isPremiumLocal;
   if (isPremium) return <PremiumDashboard dailyWord={dailyWord?.word?.word ?? "Resilience"} />;
 
   const visibleComparison = showAll ? comparison : comparison.slice(0, 6);
@@ -652,6 +564,8 @@ export default function Premium() {
           <PaymentModal
             onClose={() => setShowModal(false)}
             onSuccess={handleUpgradeSuccess}
+            userEmail={user?.email ?? ""}
+            userName={user?.name ?? ""}
           />
         )}
       </AnimatePresence>

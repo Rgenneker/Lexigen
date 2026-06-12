@@ -2,11 +2,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { Eye, EyeOff, ChevronDown, Lock } from "lucide-react";
+import { Eye, EyeOff, ChevronDown, Lock, ArrowLeft, Copy, Check } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { COUNTRY_CODES } from "@/data/countryCodes";
 
 type Tab = "register" | "login";
+type LoginView = "form" | "forgot" | "forgot-result";
 
 function validatePassword(pw: string): string | null {
   if (pw.length < 8) return "Password must be at least 8 characters.";
@@ -91,6 +92,7 @@ function PhoneInput({
 export function RegistrationGate({ initialTab = "register" }: { initialTab?: Tab }) {
   const { registerFree, login } = useAuth();
   const [tab, setTab] = useState<Tab>(initialTab);
+  const [loginView, setLoginView] = useState<LoginView>("form");
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -101,6 +103,10 @@ export function RegistrationGate({ initialTab = "register" }: { initialTab?: Tab
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [tempPassword, setTempPassword] = useState("");
+  const [copied, setCopied] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -136,6 +142,45 @@ export function RegistrationGate({ initialTab = "register" }: { initialTab?: Tab
     }
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    if (!forgotEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(forgotEmail)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: forgotEmail.trim().toLowerCase() }),
+      });
+      const data = await res.json() as { found?: boolean; tempPassword?: string; error?: string };
+      if (!res.ok) throw new Error(data.error ?? "Something went wrong.");
+      setTempPassword(data.found && data.tempPassword ? data.tempPassword : "");
+      setLoginView("forgot-result");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCopyTemp = () => {
+    navigator.clipboard.writeText(tempPassword).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const resetLoginView = () => {
+    setLoginView("form");
+    setForgotEmail("");
+    setTempPassword("");
+    setError("");
+    setCopied(false);
+  };
+
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-y-auto"
@@ -153,10 +198,22 @@ export function RegistrationGate({ initialTab = "register" }: { initialTab?: Tab
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/5 to-transparent pointer-events-none" />
             <p className="text-primary font-black text-sm tracking-[0.25em] uppercase mb-2">LEXIGENZ</p>
             <h1 className="text-2xl font-black leading-tight">
-              {tab === "register" ? "Create your free account" : "Welcome back"}
+              {tab === "register"
+                ? "Create your free account"
+                : loginView === "forgot"
+                ? "Reset your password"
+                : loginView === "forgot-result"
+                ? "Temporary password"
+                : "Welcome back"}
             </h1>
             <p className="text-muted-foreground text-sm mt-1.5">
-              {tab === "register" ? "English included · 6 word games · Upgrade anytime" : "Sign in to continue your streak"}
+              {tab === "register"
+                ? "English included · 6 word games · Upgrade anytime"
+                : loginView === "forgot"
+                ? "We'll generate a temporary password for your account"
+                : loginView === "forgot-result"
+                ? "Use this to sign in, then update your password"
+                : "Sign in to continue your streak"}
             </p>
           </div>
 
@@ -167,7 +224,7 @@ export function RegistrationGate({ initialTab = "register" }: { initialTab?: Tab
                 <button
                   key={t}
                   type="button"
-                  onClick={() => { setTab(t); setError(""); }}
+                  onClick={() => { setTab(t); setError(""); resetLoginView(); }}
                   className={`flex-1 h-9 rounded-lg text-sm font-bold transition-all ${tab === t ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
                 >
                   {t === "register" ? "Register" : "Sign In"}
@@ -286,6 +343,101 @@ export function RegistrationGate({ initialTab = "register" }: { initialTab?: Tab
                   </Link>
                 </div>
               </motion.form>
+            ) : loginView === "forgot" ? (
+              <motion.form
+                key="forgot"
+                initial={{ opacity: 0, x: 12 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -12 }}
+                transition={{ duration: 0.18 }}
+                onSubmit={handleForgotPassword}
+                className="px-8 pb-8 pt-5 space-y-4"
+              >
+                <button
+                  type="button"
+                  onClick={resetLoginView}
+                  className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors mb-1"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" /> Back to Sign In
+                </button>
+
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Your Email Address</label>
+                  <input
+                    type="email"
+                    value={forgotEmail}
+                    onChange={e => setForgotEmail(e.target.value)}
+                    placeholder="alex@example.com"
+                    autoComplete="email"
+                    className="w-full h-11 rounded-xl border border-input bg-muted/30 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
+                  />
+                </div>
+
+                {error && (
+                  <p className="text-xs text-destructive font-medium bg-destructive/10 px-3 py-2 rounded-lg">{error}</p>
+                )}
+
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full h-12 rounded-2xl bg-primary text-primary-foreground font-bold text-base shadow-lg shadow-primary/30"
+                >
+                  {loading ? "Generating…" : "Get Temporary Password →"}
+                </Button>
+
+                <p className="text-center text-xs text-muted-foreground">
+                  A temporary password will be shown on screen. Use it to sign in, then contact us to set a permanent one.
+                </p>
+              </motion.form>
+            ) : loginView === "forgot-result" ? (
+              <motion.div
+                key="forgot-result"
+                initial={{ opacity: 0, x: 12 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -12 }}
+                transition={{ duration: 0.18 }}
+                className="px-8 pb-8 pt-5 space-y-4"
+              >
+                {tempPassword ? (
+                  <>
+                    <p className="text-sm text-muted-foreground">
+                      A temporary password has been set for <span className="font-semibold text-foreground">{forgotEmail}</span>. Copy it and use it to sign in.
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 font-mono text-lg font-bold tracking-widest bg-muted/50 border border-border rounded-xl px-4 py-3 text-center select-all">
+                        {tempPassword}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleCopyTemp}
+                        className="w-11 h-11 rounded-xl border border-border bg-muted/30 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-all flex-shrink-0"
+                        title="Copy"
+                      >
+                        {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                      </button>
+                    </div>
+                    <p className="text-[11px] text-amber-600 bg-amber-500/10 border border-amber-400/30 rounded-lg px-3 py-2">
+                      ⚠️ This password replaces your old one immediately. Sign in now to secure your account.
+                    </p>
+                  </>
+                ) : (
+                  <div className="py-4 text-center space-y-2">
+                    <p className="text-sm font-semibold">No account found</p>
+                    <p className="text-xs text-muted-foreground">
+                      We couldn't find an account for <span className="font-medium">{forgotEmail}</span>. Check the email or create a free account.
+                    </p>
+                  </div>
+                )}
+
+                <Button
+                  type="button"
+                  onClick={resetLoginView}
+                  variant="outline"
+                  className="w-full h-11 rounded-2xl font-bold"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" /> Back to Sign In
+                </Button>
+              </motion.div>
             ) : (
               <motion.form
                 key="login"
@@ -309,9 +461,18 @@ export function RegistrationGate({ initialTab = "register" }: { initialTab?: Tab
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-                    <Lock className="w-3 h-3" /> Password
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                      <Lock className="w-3 h-3" /> Password
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => { setLoginView("forgot"); setForgotEmail(loginEmail); setError(""); }}
+                      className="text-[11px] text-primary hover:underline font-semibold"
+                    >
+                      Forgot password?
+                    </button>
+                  </div>
                   <PasswordInput value={loginPassword} onChange={setLoginPassword} autoComplete="current-password" />
                 </div>
 

@@ -64,7 +64,9 @@ function Router() {
           <Route path="/invite">
             {() => <ProtectedRoute><Invite /></ProtectedRoute>}
           </Route>
-          <Route path="/premium" component={Premium} />
+          <Route path="/premium">
+            {() => <ProtectedRoute><Premium /></ProtectedRoute>}
+          </Route>
           <Route path="/articles" component={Articles} />
           <Route path="/articles/:id" component={ArticleDetail} />
           <Route path="/faq" component={FAQ} />

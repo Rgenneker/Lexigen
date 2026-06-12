@@ -258,6 +258,37 @@ router.post("/login", async (req, res) => {
   });
 });
 
+// ─── Forgot password ───────────────────────────────────────────
+router.post("/forgot-password", async (req, res) => {
+  const { email } = req.body as { email?: string };
+
+  if (!email?.trim()) {
+    return res.status(400).json({ error: "Email address is required." });
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+  const [user] = await db.select({ id: usersTable.id })
+    .from(usersTable)
+    .where(eq(usersTable.email, normalizedEmail));
+
+  if (!user) {
+    return res.json({ found: false });
+  }
+
+  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let tempPassword = "";
+  for (let i = 0; i < 8; i++) {
+    tempPassword += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+
+  const hash = await bcrypt.hash(tempPassword, 10);
+  await db.update(usersTable).set({ passwordHash: hash }).where(eq(usersTable.id, user.id));
+
+  req.log.info({ userId: user.id }, "temporary password generated");
+
+  return res.json({ found: true, tempPassword });
+});
+
 // ─── Profile routes ────────────────────────────────────────────
 router.get("/users/profile", async (req, res) => {
   await ensureDefaultUser();

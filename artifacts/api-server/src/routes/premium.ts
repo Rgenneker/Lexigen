@@ -115,13 +115,15 @@ router.post("/premium/create-order", async (req, res) => {
 
 // ── Capture PayPal order ─────────────────────────────────
 router.post("/premium/capture-order", async (req, res) => {
-  const { orderID, firstName, lastName } = req.body as {
+  const { orderID, userEmail, firstName, lastName } = req.body as {
     orderID?: string;
+    userEmail?: string;
     firstName?: string;
     lastName?: string;
   };
 
   if (!orderID) return res.status(400).json({ error: "orderID is required" });
+  if (!userEmail?.trim()) return res.status(400).json({ error: "userEmail is required" });
 
   try {
     const token = await getPayPalToken();
@@ -153,7 +155,8 @@ router.post("/premium/capture-order", async (req, res) => {
       return res.status(400).json({ error: "Payment not completed", status: capture.status });
     }
 
-    // Mark user as premium (lifetime — no expiry)
+    // Mark user as premium by email (lifetime — no expiry)
+    const normalizedEmail = userEmail!.trim().toLowerCase();
     await db
       .update(usersTable)
       .set({
@@ -161,10 +164,10 @@ router.post("/premium/capture-order", async (req, res) => {
         premiumPlan: "lifetime",
         premiumExpiresAt: null,
       })
-      .where(eq(usersTable.id, DEFAULT_USER_ID));
+      .where(eq(usersTable.email, normalizedEmail));
 
     req.log.info(
-      { orderID, captureStatus: capture.status, firstName, lastName },
+      { orderID, userEmail: normalizedEmail, captureStatus: capture.status, firstName, lastName },
       "Premium upgrade successful"
     );
 
