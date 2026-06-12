@@ -1062,6 +1062,63 @@ function SpellingBeeAdvancedGame({ onScore }: { onScore: (score: number) => void
   );
 }
 
+// ─── FLOATING BEE PROMO ──────────────────────────────────────
+function FloatingBee({ side, onClick }: { side: "left" | "right"; onClick: () => void }) {
+  return (
+    <div
+      className={`hidden xl:flex fixed top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-2 cursor-pointer select-none ${
+        side === "left" ? "left-4" : "right-4"
+      }`}
+      onClick={onClick}
+      title="Try Spelling Bee Advanced"
+    >
+      {/* Speech bubble */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1, duration: 0.4 }}
+        className={`relative bg-background border-2 border-primary/40 rounded-2xl px-3 py-2 shadow-lg max-w-[110px] text-center ${
+          side === "right" ? "rounded-br-none" : "rounded-bl-none"
+        }`}
+      >
+        <p className="text-[10px] font-black text-primary leading-tight">
+          Try Advanced Spelling Bee! 🏆
+        </p>
+        <p className="text-[9px] text-muted-foreground leading-tight mt-0.5">Premium · 25s</p>
+        {/* Bubble tail */}
+        <div className={`absolute bottom-0 ${side === "right" ? "-right-2" : "-left-2"} w-3 h-3 bg-background border-r-2 border-b-2 border-primary/40 ${side === "right" ? "rotate-45" : "-rotate-45"}`} />
+      </motion.div>
+
+      {/* Bee body */}
+      <motion.div
+        animate={{ y: [0, -14, 0, -8, 0], rotate: side === "left" ? [-4, 4, -4, 2, -4] : [4, -4, 4, -2, 4] }}
+        transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+        className="flex flex-col items-center"
+      >
+        {/* Wings */}
+        <div className="relative flex items-center justify-center mb-1">
+          <motion.div
+            animate={{ scaleX: [1, 0.6, 1, 0.7, 1], opacity: [0.9, 0.5, 0.9, 0.6, 0.9] }}
+            transition={{ duration: 0.18, repeat: Infinity, ease: "linear" }}
+            className="absolute flex gap-0.5 -top-3"
+          >
+            <div className="w-7 h-4 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-sm" style={{ transform: "rotate(-15deg) skewX(-8deg)" }} />
+            <div className="w-7 h-4 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-sm" style={{ transform: "rotate(15deg) skewX(8deg)" }} />
+          </motion.div>
+          {/* Bee body text */}
+          <span className="text-5xl drop-shadow-lg" style={{ filter: "drop-shadow(0 2px 8px rgba(234,179,8,0.4))" }}>🐝</span>
+        </div>
+        {/* Sparkle trail */}
+        <motion.div
+          animate={{ opacity: [0, 1, 0], y: [0, 6, 12] }}
+          transition={{ duration: 1, repeat: Infinity, ease: "easeOut", delay: 0.3 }}
+          className="text-xs"
+        >✨</motion.div>
+      </motion.div>
+    </div>
+  );
+}
+
 // ─── MAIN PAGE ───────────────────────────────────────────────
 const GAMES = [
   { id: "wordle", name: "Wordle", tag: "Lexigenz Edition", desc: "Guess the 5-letter word in 6 attempts. Green = correct spot. Yellow = wrong spot.", status: "live" },
@@ -1096,6 +1153,10 @@ export default function Play() {
 
   return (
     <div className="min-h-screen">
+      {/* Flying bee promos — only on xl screens */}
+      <FloatingBee side="left" onClick={() => { setActiveGame("spelling-bee-advanced"); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
+      <FloatingBee side="right" onClick={() => { setActiveGame("spelling-bee-advanced"); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
+
       <section className="pt-20 pb-12 px-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-primary/15 via-background to-background -z-10" />
         <div className="container mx-auto max-w-6xl">
