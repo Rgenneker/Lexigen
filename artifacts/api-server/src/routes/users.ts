@@ -201,6 +201,22 @@ router.get("/users/archetype", async (req, res) => {
   return res.json(archetype);
 });
 
+router.post("/register/free", async (req, res) => {
+  const { initials, surname, countryCode, phone } = req.body as {
+    initials?: string; surname?: string; countryCode?: string; phone?: string;
+  };
+  if (!initials?.trim() || !surname?.trim()) {
+    return res.status(400).json({ error: "initials and surname are required" });
+  }
+  await ensureDefaultUser();
+  const displayName = `${initials.trim()} ${surname.trim()}`;
+  await db.update(usersTable)
+    .set({ username: displayName })
+    .where(eq(usersTable.id, DEFAULT_USER_ID));
+  req.log.info({ displayName, countryCode, phone: phone ? "provided" : "not provided" }, "free registration");
+  return res.json({ success: true, plan: "free", displayName });
+});
+
 router.get("/stats/summary", async (req, res) => {
   const [streak] = await db.select().from(streaksTable).where(eq(streaksTable.userId, DEFAULT_USER_ID));
   return res.json({

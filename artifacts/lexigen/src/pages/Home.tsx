@@ -1,8 +1,12 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import { FreemiumModal } from "@/components/FreemiumModal";
 
 export default function Home() {
+  const [showFreemium, setShowFreemium] = useState(false);
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -36,14 +40,37 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="pt-8"
+            className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
+            {/* Free registration CTA */}
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => setShowFreemium(true)}
+              className="h-14 px-8 text-lg font-bold rounded-full border-2 border-green-500 text-green-600 hover:bg-green-500/10 hover:scale-105 transition-all"
+            >
+              🎁 Register Free
+            </Button>
+
+            {/* App entry CTA */}
             <Link href="/app">
-              <Button size="lg" className="h-14 px-8 text-lg font-bold rounded-full bg-primary hover:bg-primary/90 hover:scale-105 transition-all shadow-[0_0_40px_rgba(139,92,246,0.5)]">
+              <Button
+                size="lg"
+                className="h-14 px-8 text-lg font-bold rounded-full bg-primary hover:bg-primary/90 hover:scale-105 transition-all shadow-[0_0_40px_rgba(139,92,246,0.5)]"
+              >
                 Get Started
               </Button>
             </Link>
           </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+            className="text-xs text-muted-foreground"
+          >
+            Free forever · No credit card · Upgrade to Premium for $8 anytime
+          </motion.p>
         </div>
 
         {/* Mini Demo */}
@@ -54,7 +81,6 @@ export default function Home() {
           className="mt-20 w-full max-w-3xl mx-auto px-4"
         >
           <div className="aspect-[16/9] rounded-2xl border border-border/50 bg-card shadow-2xl overflow-hidden relative flex items-center justify-center">
-            {/* Animated Demo Placeholder */}
             <div className="text-center space-y-4">
               <motion.div 
                 animate={{ scale: [1, 1.1, 1] }} 
@@ -92,6 +118,15 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Freemium modal */}
+      <AnimatePresence>
+        {showFreemium && (
+          <FreemiumModal
+            onClose={() => setShowFreemium(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
