@@ -23,6 +23,7 @@ import Sitemap from "@/pages/Sitemap";
 import HowItWorks from "@/pages/HowItWorks";
 
 import Articles from "@/pages/Articles";
+import ArticleDetail from "@/pages/ArticleDetail";
 import Terms from "@/pages/legal/Terms";
 import Privacy from "@/pages/legal/Privacy";
 import TermsOfUse from "@/pages/legal/TermsOfUse";
@@ -65,6 +66,7 @@ function Router() {
           </Route>
           <Route path="/premium" component={Premium} />
           <Route path="/articles" component={Articles} />
+          <Route path="/articles/:id" component={ArticleDetail} />
           <Route path="/faq" component={FAQ} />
           <Route path="/contact" component={Contact} />
           <Route path="/sitemap" component={Sitemap} />
