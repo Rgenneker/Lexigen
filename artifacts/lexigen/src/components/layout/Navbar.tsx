@@ -86,6 +86,7 @@ export function Navbar() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
+    { href: "/articles", label: "Articles" },
     { href: "/play", label: "Play", protected: true },
     { href: "/app", label: "App", protected: true },
     { href: "/invite", label: "Invite", protected: true },

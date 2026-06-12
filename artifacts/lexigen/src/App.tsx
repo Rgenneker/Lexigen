@@ -22,6 +22,7 @@ import Contact from "@/pages/Contact";
 import Sitemap from "@/pages/Sitemap";
 import HowItWorks from "@/pages/HowItWorks";
 
+import Articles from "@/pages/Articles";
 import Terms from "@/pages/legal/Terms";
 import Privacy from "@/pages/legal/Privacy";
 import TermsOfUse from "@/pages/legal/TermsOfUse";
@@ -63,6 +64,7 @@ function Router() {
             {() => <ProtectedRoute><Invite /></ProtectedRoute>}
           </Route>
           <Route path="/premium" component={Premium} />
+          <Route path="/articles" component={Articles} />
           <Route path="/faq" component={FAQ} />
           <Route path="/contact" component={Contact} />
           <Route path="/sitemap" component={Sitemap} />
