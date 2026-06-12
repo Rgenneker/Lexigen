@@ -5,12 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { useGetWordleWord, useGetLexigenWord, useListGameScores, useSubmitGameScore, getListGameScoresQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
-import { Trophy, Timer, Gamepad2, RotateCcw, Volume2, Award, Star, Crown, Lock } from "lucide-react";
+import { Trophy, Timer, Gamepad2, RotateCcw, Volume2, Award, Star, Crown, Lock, BookOpen } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Link } from "wouter";
-
-// ─── WORDLE GAME ────────────────────────────────────────────
-const WORD_BANK = ["FLAME", "BRAVE", "CRISP", "DRIFT", "FLAIR", "NOBLE", "SWIFT", "PLUCK", "VIVID", "AGILE", "BLISS", "CHARM", "ELATE", "QUEST", "THYME"];
+import { WORDLE_WORDS, SPELLING_BEE_WORDS, SPELLING_BEE_ADVANCED_WORDS } from "@/data/wordBank";
 
 function getLetterColor(letter: string, position: number, answer: string, guess: string): "correct" | "present" | "absent" {
   if (answer[position] === letter) return "correct";
@@ -19,7 +17,8 @@ function getLetterColor(letter: string, position: number, answer: string, guess:
 }
 
 function WordleGame({ onScore }: { onScore: (score: number) => void }) {
-  const [answer] = useState(() => WORD_BANK[Math.floor(Math.random() * WORD_BANK.length)]);
+  const [wordEntry] = useState(() => WORDLE_WORDS[Math.floor(Math.random() * WORDLE_WORDS.length)]);
+  const answer = wordEntry.word;
   const [guesses, setGuesses] = useState<string[]>([]);
   const [current, setCurrent] = useState("");
   const [gameState, setGameState] = useState<"playing" | "won" | "lost">("playing");
@@ -94,8 +93,17 @@ function WordleGame({ onScore }: { onScore: (score: number) => void }) {
       </div>
       <AnimatePresence>
         {gameState !== "playing" && (
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className={`text-center font-bold py-3 rounded-xl ${gameState === "won" ? "bg-green-500/10 text-green-500 border border-green-500/30" : "bg-destructive/10 text-destructive border border-destructive/30"}`}>
-            {gameState === "won" ? `Brilliant! The word was ${answer}` : `The word was ${answer}`}
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-2">
+            <div className={`text-center font-bold py-3 rounded-xl ${gameState === "won" ? "bg-green-500/10 text-green-500 border border-green-500/30" : "bg-destructive/10 text-destructive border border-destructive/30"}`}>
+              {gameState === "won" ? `Brilliant! The word was ${answer}` : `The word was ${answer}`}
+            </div>
+            <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 space-y-2">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-primary uppercase tracking-wide">
+                <BookOpen className="w-3.5 h-3.5" /> {answer}
+              </div>
+              <p className="text-sm text-foreground font-medium">{wordEntry.meaning}</p>
+              <p className="text-xs text-muted-foreground italic">"{wordEntry.usage}"</p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -211,107 +219,6 @@ function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
 }
 
 // ─── SPELLING BEE GAME ─────────────────────────────────────────
-const SPELLING_BEE_WORDS: { word: string; hint: string }[] = [
-  { word: "ELOQUENT", hint: "fluent and persuasive in speaking" },
-  { word: "AMBIGUOUS", hint: "open to more than one interpretation" },
-  { word: "PERSEVERE", hint: "continue despite difficulty or delay" },
-  { word: "ABUNDANCE", hint: "a very large quantity of something" },
-  { word: "ILLUMINATE", hint: "light up or make something clear" },
-  { word: "PHENOMENON", hint: "a remarkable or exceptional event" },
-  { word: "TENACIOUS", hint: "not giving up; holding firm" },
-  { word: "RESILIENT", hint: "able to recover quickly from setbacks" },
-  { word: "MAGNANIMOUS", hint: "generous in forgiving others" },
-  { word: "EBULLIENT", hint: "cheerful and full of energy" },
-  { word: "FASTIDIOUS", hint: "very attentive to detail" },
-  { word: "MELANCHOLY", hint: "a deep, persistent sadness" },
-  { word: "LOQUACIOUS", hint: "tending to talk a great deal" },
-  { word: "CAPRICIOUS", hint: "given to sudden changes of mood" },
-  { word: "VIVACIOUS", hint: "attractively lively and animated" },
-  { word: "OSTENTATIOUS", hint: "designed to impress others with wealth" },
-  { word: "SURREPTITIOUS", hint: "done secretly or stealthily" },
-  { word: "CONSCIENTIOUS", hint: "careful and thorough in one's work" },
-  { word: "BENEVOLENT", hint: "well-meaning and kindly" },
-  { word: "EXUBERANT", hint: "filled with lively energy and excitement" },
-  { word: "INQUISITIVE", hint: "curious or eager to learn" },
-  { word: "DILIGENT", hint: "steady and careful in one's work" },
-  { word: "METICULOUS", hint: "showing great care and precision" },
-  { word: "FLAMBOYANT", hint: "attracting attention; very showy" },
-  { word: "EPHEMERAL", hint: "lasting for only a very short time" },
-  { word: "MEDIOCRE", hint: "of only moderate or average quality" },
-  { word: "VOCIFEROUS", hint: "expressing opinions loudly and forcefully" },
-  { word: "EQUANIMITY", hint: "mental calmness under pressure" },
-  { word: "PRECARIOUS", hint: "not secure; dependent on chance" },
-  { word: "AUDACIOUS", hint: "showing willingness to take bold risks" },
-  { word: "GARRULOUS", hint: "excessively talkative; wordy" },
-  { word: "SUPERCILIOUS", hint: "behaving as if superior to others" },
-  { word: "OBSEQUIOUS", hint: "excessively eager to please or obey" },
-  { word: "CIRCUMSPECT", hint: "cautious; thinking carefully before acting" },
-  { word: "NONCHALANT", hint: "appearing casually calm and relaxed" },
-  { word: "LACONIC", hint: "using very few words" },
-  { word: "LUGUBRIOUS", hint: "looking or sounding sad and dismal" },
-  { word: "PEDANTIC", hint: "overly concerned with minor details" },
-  { word: "UBIQUITOUS", hint: "present or appearing everywhere" },
-  { word: "VERACITY", hint: "conforming to facts; truthfulness" },
-  { word: "ZEALOUS", hint: "having great energy or enthusiasm" },
-  { word: "NEFARIOUS", hint: "wicked and criminal in nature" },
-  { word: "ALTRUISTIC", hint: "showing selfless concern for others" },
-  { word: "ENIGMATIC", hint: "difficult to interpret or understand" },
-  { word: "DIFFIDENT", hint: "modest or shy due to lack of confidence" },
-  { word: "EGREGIOUS", hint: "outstandingly bad; shocking" },
-  { word: "FERVENT", hint: "having passionate intensity" },
-  { word: "GREGARIOUS", hint: "fond of the company of others; sociable" },
-  { word: "HACKNEYED", hint: "lacking originality; overused" },
-  { word: "INSIDIOUS", hint: "harmful but subtle and gradual" },
-  { word: "JUBILANT", hint: "feeling or expressing great happiness" },
-  { word: "MALLEABLE", hint: "easily shaped or influenced" },
-  { word: "NEBULOUS", hint: "not clear or precise; vague" },
-  { word: "OPULENT", hint: "richly luxurious and expensive" },
-  { word: "QUERULOUS", hint: "complaining in a petulant way" },
-  { word: "RAPACIOUS", hint: "aggressively greedy or grasping" },
-  { word: "SAGACIOUS", hint: "having wisdom and good judgment" },
-  { word: "TACITURN", hint: "reserved and uncommunicative in speech" },
-  { word: "VORACIOUS", hint: "wanting or devouring great quantities" },
-  { word: "WISTFUL", hint: "having a feeling of vague longing" },
-  { word: "ACRIMONY", hint: "bitterness and ill feeling" },
-  { word: "BELLICOSE", hint: "demonstrating aggression; warlike" },
-  { word: "HALCYON", hint: "denoting a period of happiness and calm" },
-  { word: "IMPETUOUS", hint: "acting quickly without thought or care" },
-  { word: "JOCULAR", hint: "fond of or characterized by joking" },
-  { word: "LACHRYMOSE", hint: "tearful or given to weeping" },
-  { word: "NOMENCLATURE", hint: "the body of terms used in a subject" },
-  { word: "PERNICIOUS", hint: "having a harmful or deadly effect" },
-  { word: "RAUCOUS", hint: "making a loud, rough, unpleasant noise" },
-  { word: "SANGUINE", hint: "optimistic, especially in tough times" },
-  { word: "UMBRAGE", hint: "offense or annoyance" },
-  { word: "VERBOSE", hint: "using more words than are needed" },
-  { word: "WHIMSICAL", hint: "playfully quaint or fanciful" },
-  { word: "PERSPICACIOUS", hint: "having ready insight; shrewd" },
-  { word: "SERENDIPITY", hint: "finding something good by accident" },
-  { word: "SCINTILLATING", hint: "brilliantly clever and fascinating" },
-  { word: "LABYRINTHINE", hint: "like a maze; complicated and confusing" },
-  { word: "RECALCITRANT", hint: "stubbornly uncooperative" },
-  { word: "SYCOPHANT", hint: "a person who flatters to gain favor" },
-  { word: "PROPITIOUS", hint: "giving a good chance of success" },
-  { word: "COGENT", hint: "clear, logical and convincing" },
-  { word: "EFFULGENT", hint: "radiant; shining brilliantly" },
-  { word: "FURTIVE", hint: "attempting to avoid notice; secretive" },
-  { word: "OMINOUS", hint: "suggesting something bad will happen" },
-  { word: "TENEBROUS", hint: "dark; shadowy or obscure" },
-  { word: "IMPECCABLE", hint: "in accordance with the highest standards" },
-  { word: "PROFLIGATE", hint: "recklessly extravagant or wasteful" },
-  { word: "OBDURATE", hint: "stubbornly refusing to change" },
-  { word: "PERSPICACITY", hint: "the quality of having a ready insight" },
-  { word: "INDEFATIGABLE", hint: "persisting tirelessly; never giving up" },
-  { word: "PERFIDIOUS", hint: "deceitful and untrustworthy; treacherous" },
-  { word: "MAGNILOQUENT", hint: "using very high-flown language" },
-  { word: "SOLILOQUY", hint: "an act of speaking one's thoughts aloud" },
-  { word: "TRUCULENT", hint: "eager or quick to argue or fight" },
-  { word: "INCORRIGIBLE", hint: "not able to be corrected or improved" },
-  { word: "MELLIFLUOUS", hint: "sweet or musical; pleasant to hear" },
-  { word: "PONTIFICATE", hint: "express one's opinions pompously" },
-  { word: "OBFUSCATE", hint: "make unclear or confusing" },
-];
-
 const BEE_BADGE_MILESTONES = [
   { streak: 5,  name: "Bee Apprentice", emoji: "🐝", color: "text-amber-600 bg-amber-500/10 border-amber-400/30" },
   { streak: 10, name: "Bee Scholar",    emoji: "📚🐝", color: "text-blue-600 bg-blue-500/10 border-blue-400/30" },
@@ -430,6 +337,7 @@ function SpellingBeeGame({ onScore }: { onScore: (score: number) => void }) {
       const t = setTimeout(nextWord, 2800);
       return () => clearTimeout(t);
     }
+    return undefined;
   }, [phase, showCertificate, newBadge, nextWord]);
 
   // Physical keyboard submit
@@ -495,7 +403,7 @@ function SpellingBeeGame({ onScore }: { onScore: (score: number) => void }) {
           {phase === "ready" ? "🐝 Click the speaker to hear your word" : phase === "active" ? "Spell the word" : ""}
         </p>
         <p className="text-xs text-muted-foreground">
-          {currentWord.word.length} letters · <em>{currentWord.hint}</em>
+          {currentWord.word.length} letters · <em>{currentWord.meaning}</em>
         </p>
       </div>
 
@@ -581,21 +489,21 @@ function SpellingBeeGame({ onScore }: { onScore: (score: number) => void }) {
       {/* Result message */}
       <AnimatePresence>
         {result && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            className={`text-center py-4 px-4 rounded-xl font-bold text-sm ${
-              result === "correct"
-                ? "bg-green-500/10 text-green-600 border border-green-500/30"
-                : result === "timeout"
-                ? "bg-amber-500/10 text-amber-600 border border-amber-400/30"
-                : "bg-destructive/10 text-destructive border border-destructive/30"
-            }`}
-          >
-            {result === "correct" && `✅ Correct! "${currentWord.word}" — next word coming…`}
-            {result === "timeout" && `⏰ Time's up! The word was "${currentWord.word}"`}
-            {result === "wrong" && `❌ It's "${currentWord.word}" — keep going!`}
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="space-y-2">
+            <div className={`text-center py-3 px-4 rounded-xl font-bold text-sm ${result === "correct" ? "bg-green-500/10 text-green-600 border border-green-500/30" : result === "timeout" ? "bg-amber-500/10 text-amber-600 border border-amber-400/30" : "bg-destructive/10 text-destructive border border-destructive/30"}`}>
+              {result === "correct" && `✅ Correct! "${currentWord.word}" — next word coming…`}
+              {result === "timeout" && `⏰ Time's up! The word was "${currentWord.word}"`}
+              {result === "wrong" && `❌ It's "${currentWord.word}" — keep going!`}
+            </div>
+            {(result === "timeout" || result === "wrong") && (
+              <div className="rounded-xl border border-primary/20 bg-primary/5 p-3 space-y-1.5 text-left">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-primary uppercase tracking-wide">
+                  <BookOpen className="w-3.5 h-3.5" /> {currentWord.word}
+                </div>
+                <p className="text-xs text-foreground font-medium">{currentWord.meaning}</p>
+                <p className="text-xs text-muted-foreground italic">"{currentWord.usage}"</p>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -702,81 +610,6 @@ function SpellingBeeGame({ onScore }: { onScore: (score: number) => void }) {
 }
 
 // ─── SPELLING BEE ADVANCED (PREMIUM) ──────────────────────────
-const SPELLING_BEE_ADVANCED_WORDS: { word: string; hint: string }[] = [
-  { word: "ONOMATOPOEIA", hint: "a word that imitates a natural sound" },
-  { word: "CHRYSANTHEMUM", hint: "a popular flowering garden plant" },
-  { word: "SESQUIPEDALIAN", hint: "given to using long, rare words" },
-  { word: "ACQUIESCENCE", hint: "reluctant acceptance without protest" },
-  { word: "MALAPROPISM", hint: "mistaken use of a similar-sounding word" },
-  { word: "CIRCUMLOCUTION", hint: "using many words instead of a few" },
-  { word: "SACRILEGIOUS", hint: "showing disrespect for what is sacred" },
-  { word: "BUREAUCRATIC", hint: "relating to excessively complex administration" },
-  { word: "SYCOPHANTIC", hint: "behaving in an excessively flattering way" },
-  { word: "CACOPHONOUS", hint: "producing a harsh, discordant mixture of sounds" },
-  { word: "SANCTIMONIOUS", hint: "making a show of being morally superior" },
-  { word: "DISINGENUOUS", hint: "not candid or sincere; calculating" },
-  { word: "SERENDIPITOUS", hint: "occurring by pleasant and unexpected chance" },
-  { word: "PUSILLANIMOUS", hint: "showing a lack of courage; timid" },
-  { word: "PARAPHERNALIA", hint: "miscellaneous articles or equipment" },
-  { word: "KALEIDOSCOPIC", hint: "having complex, shifting patterns of color" },
-  { word: "MISCELLANEOUS", hint: "consisting of items of various kinds" },
-  { word: "SOLIPSISTIC", hint: "holding the view that only oneself exists" },
-  { word: "MISANTHROPY", hint: "a dislike or distrust of humankind" },
-  { word: "LOQUACIOUSNESS", hint: "the quality of talking a great deal" },
-  { word: "TERGIVERSATION", hint: "the use of evasion; desertion of a cause" },
-  { word: "VERISIMILITUDE", hint: "the appearance of being true or real" },
-  { word: "LEGERDEMAIN", hint: "skillful use of one's hands; trickery" },
-  { word: "SUSURRATION", hint: "a soft whispering or rustling sound" },
-  { word: "CONCATENATION", hint: "a series of linked things or events" },
-  { word: "DISCOMBOBULATE", hint: "to confuse or disconcert someone" },
-  { word: "EQUIVOCATION", hint: "deliberate ambiguity to mislead" },
-  { word: "PREVARICATION", hint: "the action of speaking evasively" },
-  { word: "EXTEMPORANEOUS", hint: "spoken or done without preparation" },
-  { word: "CREPUSCULAR", hint: "relating to twilight; active at dusk" },
-  { word: "FLABBERGASTED", hint: "overcome with astonishment; gobsmacked" },
-  { word: "QUINTESSENTIAL", hint: "representing the most perfect example" },
-  { word: "TROGLODYTE", hint: "a cave-dweller; a person resistant to change" },
-  { word: "PERSPICUOUSLY", hint: "in a clear and easily understood manner" },
-  { word: "MAGNANIMOUSLY", hint: "in a generous and forgiving manner" },
-  { word: "INCANDESCENCE", hint: "light emitted by a hot glowing body" },
-  { word: "RATIOCINATION", hint: "the process of forming judgments by logic" },
-  { word: "RECRUDESCENCE", hint: "the reappearance of something after a pause" },
-  { word: "GOBBLEDYGOOK", hint: "language that is meaningless or hard to understand" },
-  { word: "RAMBUNCTIOUS", hint: "uncontrollably exuberant; boisterous" },
-  { word: "PEDANTICALLY", hint: "in an excessively concerned-with-detail way" },
-  { word: "PERSPICUITY", hint: "clearness of expression or statement" },
-  { word: "PULCHRITUDINOUS", hint: "having great physical beauty" },
-  { word: "ONEIROMANCY", hint: "prediction of the future through dreams" },
-  { word: "PHARISAICAL", hint: "hypocritically self-righteous; preachy" },
-  { word: "MELLIFLUOUSLY", hint: "in a sweet, musical, flowing manner" },
-  { word: "OSTENTATIOUSLY", hint: "in a showy, pretentious, attention-seeking way" },
-  { word: "SUPERCILIOUSLY", hint: "with arrogant contempt for others" },
-  { word: "NONCHALANTLY", hint: "in a casually calm and relaxed manner" },
-  { word: "PERSPICACIOUSLY", hint: "with a ready insight; shrewdly" },
-  { word: "RIGMAROLE", hint: "a lengthy and complicated procedure" },
-  { word: "BAMBOOZLE", hint: "to cheat or fool someone" },
-  { word: "LOGORRHEA", hint: "excessive, incoherent talkativeness" },
-  { word: "ULULATION", hint: "a long wavering cry of grief or joy" },
-  { word: "SCUTTLEBUTT", hint: "informal talk or rumors; gossip" },
-  { word: "RACONTEUR", hint: "a skilled storyteller" },
-  { word: "BILOQUIST", hint: "a person who can speak two languages" },
-  { word: "SOMNILOQUY", hint: "the habit of talking in one's sleep" },
-  { word: "PRESTIDIGITATOR", hint: "a person who performs magic; a conjurer" },
-  { word: "VELLICHOR", hint: "the strange wistfulness of used bookshops" },
-  { word: "PETRICHOR", hint: "the smell of earth after rain" },
-  { word: "HIRAETH", hint: "a longing for home or the past" },
-  { word: "SONDER", hint: "the realization that others have full lives" },
-  { word: "SCHADENFREUDE", hint: "pleasure from another person's misfortune" },
-  { word: "WELTSCHMERZ", hint: "sadness caused by the state of the world" },
-  { word: "DEFENESTRATION", hint: "the act of throwing someone out of a window" },
-  { word: "PRONUNCIATION", hint: "the way a word is spoken" },
-  { word: "Mediterranean", hint: "relating to the sea between Europe and Africa" },
-  { word: "RECONNAISSANCE", hint: "a military survey of an enemy's territory" },
-  { word: "CONSCIENTIOUSLY", hint: "in a careful, thorough, and hardworking way" },
-  { word: "SIMULTANEOUSLY", hint: "at the same time as something else" },
-  { word: "SERENDIPITOUSLY", hint: "in a manner involving pleasant accident" },
-];
-
 const ADVANCED_BEE_BADGES = [
   { streak: 5,  name: "Lexicographer I",   emoji: "🔬🐝", color: "text-teal-600 bg-teal-500/10 border-teal-400/30" },
   { streak: 10, name: "Lexicographer II",  emoji: "📖🐝", color: "text-indigo-600 bg-indigo-500/10 border-indigo-400/30" },
@@ -879,6 +712,7 @@ function SpellingBeeAdvancedGame({ onScore }: { onScore: (score: number) => void
       const t = setTimeout(nextWord, 2800);
       return () => clearTimeout(t);
     }
+    return undefined;
   }, [phase, showCertificate, newBadge, nextWord]);
 
   useEffect(() => {
@@ -933,7 +767,7 @@ function SpellingBeeAdvancedGame({ onScore }: { onScore: (score: number) => void
         <p className="text-xs font-bold uppercase tracking-widest text-primary">
           {phase === "ready" ? "🐝 Click the speaker to hear your word" : phase === "active" ? "Spell the word" : ""}
         </p>
-        <p className="text-xs text-muted-foreground">{currentWord.word.length} letters · <em>{currentWord.hint}</em></p>
+        <p className="text-xs text-muted-foreground">{currentWord.word.length} letters · <em>{currentWord.meaning}</em></p>
       </div>
 
       {/* Letter slots */}
@@ -995,12 +829,21 @@ function SpellingBeeAdvancedGame({ onScore }: { onScore: (score: number) => void
       {/* Result */}
       <AnimatePresence>
         {result && (
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
-            className={`text-center py-4 px-4 rounded-xl font-bold text-sm ${result === "correct" ? "bg-green-500/10 text-green-600 border border-green-500/30" : result === "timeout" ? "bg-amber-500/10 text-amber-600 border border-amber-400/30" : "bg-destructive/10 text-destructive border border-destructive/30"}`}
-          >
-            {result === "correct" && `✅ Correct! "${currentWord.word}" — next word…`}
-            {result === "timeout" && `⏰ Time's up! The word was "${currentWord.word}"`}
-            {result === "wrong" && `❌ It's "${currentWord.word}" — keep going!`}
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="space-y-2">
+            <div className={`text-center py-3 px-4 rounded-xl font-bold text-sm ${result === "correct" ? "bg-green-500/10 text-green-600 border border-green-500/30" : result === "timeout" ? "bg-amber-500/10 text-amber-600 border border-amber-400/30" : "bg-destructive/10 text-destructive border border-destructive/30"}`}>
+              {result === "correct" && `✅ Correct! "${currentWord.word}" — next word…`}
+              {result === "timeout" && `⏰ Time's up! The word was "${currentWord.word}"`}
+              {result === "wrong" && `❌ It's "${currentWord.word}" — keep going!`}
+            </div>
+            {(result === "timeout" || result === "wrong") && (
+              <div className="rounded-xl border border-primary/20 bg-primary/5 p-3 space-y-1.5 text-left">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-primary uppercase tracking-wide">
+                  <BookOpen className="w-3.5 h-3.5" /> {currentWord.word}
+                </div>
+                <p className="text-xs text-foreground font-medium">{currentWord.meaning}</p>
+                <p className="text-xs text-muted-foreground italic">"{currentWord.usage}"</p>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

@@ -61,7 +61,7 @@ export default function AppPage() {
   const handleSaveEntry = () => {
     if (!sentence.trim() || !dailyWord?.word?.word) return;
     createEntry.mutate(
-      { data: { word: dailyWord.word.word, sentence, mood: selectedMood || null } },
+      { data: { word: dailyWord.word.word, sentence, mood: selectedMood || undefined } },
       {
         onSuccess: () => {
           setSentence("");
