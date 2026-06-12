@@ -7,6 +7,7 @@ import journalRouter from "./journal";
 import gamesRouter from "./games";
 import inviteRouter from "./invite";
 import premiumRouter from "./premium";
+import languageUnlockRouter from "./language-unlock";
 
 const router: IRouter = Router();
 
@@ -18,5 +19,6 @@ router.use(journalRouter);
 router.use(gamesRouter);
 router.use(inviteRouter);
 router.use(premiumRouter);
+router.use(languageUnlockRouter);
 
 export default router;
