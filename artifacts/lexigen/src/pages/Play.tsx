@@ -5,7 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { useGetWordleWord, useGetLexigenWord, useListGameScores, useSubmitGameScore, getListGameScoresQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
-import { Trophy, Timer, Gamepad2, RotateCcw, Volume2, Award, Star } from "lucide-react";
+import { Trophy, Timer, Gamepad2, RotateCcw, Volume2, Award, Star, Crown, Lock } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { Link } from "wouter";
 
 // ─── WORDLE GAME ────────────────────────────────────────────
 const WORD_BANK = ["FLAME", "BRAVE", "CRISP", "DRIFT", "FLAIR", "NOBLE", "SWIFT", "PLUCK", "VIVID", "AGILE", "BLISS", "CHARM", "ELATE", "QUEST", "THYME"];
@@ -673,6 +675,389 @@ function SpellingBeeGame({ onScore }: { onScore: (score: number) => void }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Premium promo teaser */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+        className="mt-2 p-4 rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5 flex items-center justify-between gap-3"
+      >
+        <div className="space-y-0.5">
+          <p className="text-xs font-black text-primary flex items-center gap-1.5">
+            <Crown className="h-3.5 w-3.5" /> Spelling Bee Advanced
+          </p>
+          <p className="text-[11px] text-muted-foreground leading-snug">
+            Rarer words · 25s pressure · Lexicographer badges · Premium only
+          </p>
+        </div>
+        <Link href="/premium">
+          <Button size="sm" className="rounded-full font-bold text-xs shrink-0 bg-primary">
+            Upgrade
+          </Button>
+        </Link>
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── SPELLING BEE ADVANCED (PREMIUM) ──────────────────────────
+const SPELLING_BEE_ADVANCED_WORDS: { word: string; hint: string }[] = [
+  { word: "ONOMATOPOEIA", hint: "a word that imitates a natural sound" },
+  { word: "CHRYSANTHEMUM", hint: "a popular flowering garden plant" },
+  { word: "SESQUIPEDALIAN", hint: "given to using long, rare words" },
+  { word: "ACQUIESCENCE", hint: "reluctant acceptance without protest" },
+  { word: "MALAPROPISM", hint: "mistaken use of a similar-sounding word" },
+  { word: "CIRCUMLOCUTION", hint: "using many words instead of a few" },
+  { word: "SACRILEGIOUS", hint: "showing disrespect for what is sacred" },
+  { word: "BUREAUCRATIC", hint: "relating to excessively complex administration" },
+  { word: "SYCOPHANTIC", hint: "behaving in an excessively flattering way" },
+  { word: "CACOPHONOUS", hint: "producing a harsh, discordant mixture of sounds" },
+  { word: "SANCTIMONIOUS", hint: "making a show of being morally superior" },
+  { word: "DISINGENUOUS", hint: "not candid or sincere; calculating" },
+  { word: "SERENDIPITOUS", hint: "occurring by pleasant and unexpected chance" },
+  { word: "PUSILLANIMOUS", hint: "showing a lack of courage; timid" },
+  { word: "PARAPHERNALIA", hint: "miscellaneous articles or equipment" },
+  { word: "KALEIDOSCOPIC", hint: "having complex, shifting patterns of color" },
+  { word: "MISCELLANEOUS", hint: "consisting of items of various kinds" },
+  { word: "SOLIPSISTIC", hint: "holding the view that only oneself exists" },
+  { word: "MISANTHROPY", hint: "a dislike or distrust of humankind" },
+  { word: "LOQUACIOUSNESS", hint: "the quality of talking a great deal" },
+  { word: "TERGIVERSATION", hint: "the use of evasion; desertion of a cause" },
+  { word: "VERISIMILITUDE", hint: "the appearance of being true or real" },
+  { word: "LEGERDEMAIN", hint: "skillful use of one's hands; trickery" },
+  { word: "SUSURRATION", hint: "a soft whispering or rustling sound" },
+  { word: "CONCATENATION", hint: "a series of linked things or events" },
+  { word: "DISCOMBOBULATE", hint: "to confuse or disconcert someone" },
+  { word: "EQUIVOCATION", hint: "deliberate ambiguity to mislead" },
+  { word: "PREVARICATION", hint: "the action of speaking evasively" },
+  { word: "EXTEMPORANEOUS", hint: "spoken or done without preparation" },
+  { word: "CREPUSCULAR", hint: "relating to twilight; active at dusk" },
+  { word: "FLABBERGASTED", hint: "overcome with astonishment; gobsmacked" },
+  { word: "QUINTESSENTIAL", hint: "representing the most perfect example" },
+  { word: "TROGLODYTE", hint: "a cave-dweller; a person resistant to change" },
+  { word: "PERSPICUOUSLY", hint: "in a clear and easily understood manner" },
+  { word: "MAGNANIMOUSLY", hint: "in a generous and forgiving manner" },
+  { word: "INCANDESCENCE", hint: "light emitted by a hot glowing body" },
+  { word: "RATIOCINATION", hint: "the process of forming judgments by logic" },
+  { word: "RECRUDESCENCE", hint: "the reappearance of something after a pause" },
+  { word: "GOBBLEDYGOOK", hint: "language that is meaningless or hard to understand" },
+  { word: "RAMBUNCTIOUS", hint: "uncontrollably exuberant; boisterous" },
+  { word: "PEDANTICALLY", hint: "in an excessively concerned-with-detail way" },
+  { word: "PERSPICUITY", hint: "clearness of expression or statement" },
+  { word: "PULCHRITUDINOUS", hint: "having great physical beauty" },
+  { word: "ONEIROMANCY", hint: "prediction of the future through dreams" },
+  { word: "PHARISAICAL", hint: "hypocritically self-righteous; preachy" },
+  { word: "MELLIFLUOUSLY", hint: "in a sweet, musical, flowing manner" },
+  { word: "OSTENTATIOUSLY", hint: "in a showy, pretentious, attention-seeking way" },
+  { word: "SUPERCILIOUSLY", hint: "with arrogant contempt for others" },
+  { word: "NONCHALANTLY", hint: "in a casually calm and relaxed manner" },
+  { word: "PERSPICACIOUSLY", hint: "with a ready insight; shrewdly" },
+  { word: "RIGMAROLE", hint: "a lengthy and complicated procedure" },
+  { word: "BAMBOOZLE", hint: "to cheat or fool someone" },
+  { word: "LOGORRHEA", hint: "excessive, incoherent talkativeness" },
+  { word: "ULULATION", hint: "a long wavering cry of grief or joy" },
+  { word: "SCUTTLEBUTT", hint: "informal talk or rumors; gossip" },
+  { word: "RACONTEUR", hint: "a skilled storyteller" },
+  { word: "BILOQUIST", hint: "a person who can speak two languages" },
+  { word: "SOMNILOQUY", hint: "the habit of talking in one's sleep" },
+  { word: "PRESTIDIGITATOR", hint: "a person who performs magic; a conjurer" },
+  { word: "VELLICHOR", hint: "the strange wistfulness of used bookshops" },
+  { word: "PETRICHOR", hint: "the smell of earth after rain" },
+  { word: "HIRAETH", hint: "a longing for home or the past" },
+  { word: "SONDER", hint: "the realization that others have full lives" },
+  { word: "SCHADENFREUDE", hint: "pleasure from another person's misfortune" },
+  { word: "WELTSCHMERZ", hint: "sadness caused by the state of the world" },
+  { word: "DEFENESTRATION", hint: "the act of throwing someone out of a window" },
+  { word: "PRONUNCIATION", hint: "the way a word is spoken" },
+  { word: "Mediterranean", hint: "relating to the sea between Europe and Africa" },
+  { word: "RECONNAISSANCE", hint: "a military survey of an enemy's territory" },
+  { word: "CONSCIENTIOUSLY", hint: "in a careful, thorough, and hardworking way" },
+  { word: "SIMULTANEOUSLY", hint: "at the same time as something else" },
+  { word: "SERENDIPITOUSLY", hint: "in a manner involving pleasant accident" },
+];
+
+const ADVANCED_BEE_BADGES = [
+  { streak: 5,  name: "Lexicographer I",   emoji: "🔬🐝", color: "text-teal-600 bg-teal-500/10 border-teal-400/30" },
+  { streak: 10, name: "Lexicographer II",  emoji: "📖🐝", color: "text-indigo-600 bg-indigo-500/10 border-indigo-400/30" },
+  { streak: 15, name: "Lexicographer III", emoji: "🎓🐝", color: "text-purple-600 bg-purple-500/10 border-purple-400/30" },
+  { streak: 20, name: "Word Architect",    emoji: "🏛️🐝", color: "text-primary bg-primary/10 border-primary/30" },
+  { streak: 25, name: "Grand Lexicon",     emoji: "👑🐝", color: "text-yellow-600 bg-yellow-500/10 border-yellow-400/30" },
+  { streak: 30, name: "Etymologist Rex",   emoji: "⚡🐝", color: "text-rose-600 bg-rose-500/10 border-rose-400/30" },
+];
+
+function SpellingBeeAdvancedGame({ onScore }: { onScore: (score: number) => void }) {
+  const [wordPool] = useState(() => [...SPELLING_BEE_ADVANCED_WORDS].sort(() => Math.random() - 0.5));
+  const [wordIdx, setWordIdx] = useState(0);
+  const [typed, setTyped] = useState("");
+  const [timeLeft, setTimeLeft] = useState(25);
+  const [timerStarted, setTimerStarted] = useState(false);
+  const [phase, setPhase] = useState<"ready" | "active" | "result">("ready");
+  const [result, setResult] = useState<"correct" | "wrong" | "timeout" | null>(null);
+  const [streak, setStreak] = useState(0);
+  const [totalCorrect, setTotalCorrect] = useState(0);
+  const [earnedStreaks, setEarnedStreaks] = useState<number[]>([]);
+  const [newBadge, setNewBadge] = useState<typeof ADVANCED_BEE_BADGES[0] | null>(null);
+  const [showCertificate, setShowCertificate] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const currentWord = wordPool[wordIdx % wordPool.length];
+  const earnedBadges = ADVANCED_BEE_BADGES.filter(m => earnedStreaks.includes(m.streak));
+
+  const stopTimer = useCallback(() => {
+    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+  }, []);
+
+  useEffect(() => {
+    return () => { stopTimer(); window.speechSynthesis?.cancel(); };
+  }, [stopTimer]);
+
+  const startTimer = useCallback(() => {
+    if (timerRef.current) return;
+    setTimerStarted(true);
+    timerRef.current = setInterval(() => {
+      setTimeLeft(t => {
+        if (t <= 1) { stopTimer(); setResult("timeout"); setPhase("result"); setStreak(0); return 0; }
+        return t - 1;
+      });
+    }, 1000);
+  }, [stopTimer]);
+
+  const playWord = useCallback(() => {
+    if (!window.speechSynthesis || isSpeaking || phase === "result") return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(currentWord.word.toLowerCase());
+    utterance.rate = 0.7;
+    utterance.pitch = 1.0;
+    utterance.volume = 1;
+    setIsSpeaking(true);
+    utterance.onend = () => { setIsSpeaking(false); setPhase("active"); startTimer(); setTimeout(() => inputRef.current?.focus(), 50); };
+    utterance.onerror = () => setIsSpeaking(false);
+    window.speechSynthesis.speak(utterance);
+  }, [currentWord.word, isSpeaking, phase, startTimer]);
+
+  const handleSubmit = useCallback(() => {
+    if (phase !== "active" || !timerStarted) return;
+    const answer = typed.trim().toUpperCase();
+    if (!answer) return;
+    stopTimer();
+    const isCorrect = answer === currentWord.word;
+    if (isCorrect) {
+      const newStreak = streak + 1;
+      const newTotal = totalCorrect + 1;
+      setStreak(newStreak);
+      setTotalCorrect(newTotal);
+      setResult("correct");
+      onScore(15 + timeLeft * 2);
+      const milestone = ADVANCED_BEE_BADGES.find(m => m.streak === newStreak && !earnedStreaks.includes(m.streak));
+      if (milestone) { setEarnedStreaks(prev => [...prev, milestone.streak]); setNewBadge(milestone); }
+      if (newTotal === 50) setShowCertificate(true);
+    } else {
+      setStreak(0);
+      setResult("wrong");
+    }
+    setPhase("result");
+  }, [phase, timerStarted, typed, currentWord.word, streak, totalCorrect, timeLeft, stopTimer, onScore, earnedStreaks]);
+
+  const nextWord = useCallback(() => {
+    stopTimer();
+    window.speechSynthesis?.cancel();
+    setWordIdx(i => i + 1);
+    setTyped("");
+    setTimeLeft(25);
+    setTimerStarted(false);
+    setPhase("ready");
+    setResult(null);
+    setNewBadge(null);
+    setIsSpeaking(false);
+  }, [stopTimer]);
+
+  useEffect(() => {
+    if (phase === "result" && !showCertificate && !newBadge) {
+      const t = setTimeout(nextWord, 2800);
+      return () => clearTimeout(t);
+    }
+  }, [phase, showCertificate, newBadge, nextWord]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Enter") handleSubmit(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [handleSubmit]);
+
+  const letterSlots = Array.from({ length: currentWord.word.length }, (_, i) => typed[i]?.toUpperCase() ?? "");
+
+  return (
+    <div className="space-y-5">
+      {/* Header bar */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1.5">
+            <span>🔥</span>
+            <span className="font-bold text-orange-500 text-sm">{streak}</span>
+            <span className="text-xs text-muted-foreground">streak</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span>✅</span>
+            <span className="font-bold text-green-600 text-sm">{totalCorrect}</span>
+            <span className="text-xs text-muted-foreground">/ 50</span>
+          </div>
+        </div>
+        <div className={`flex items-center gap-2 transition-colors ${!timerStarted ? "opacity-40" : timeLeft <= 8 ? "text-destructive" : ""}`}>
+          <Timer className="h-4 w-4" />
+          <span className="font-mono font-bold text-lg">00:{String(timeLeft).padStart(2, "0")}</span>
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div className="space-y-1">
+        <div className="w-full h-1.5 rounded-full bg-muted overflow-hidden">
+          <motion.div className="h-full bg-primary rounded-full" animate={{ width: `${Math.min((totalCorrect / 50) * 100, 100)}%` }} transition={{ duration: 0.4 }} />
+        </div>
+        <p className="text-right text-[10px] text-muted-foreground">{totalCorrect}/50 toward Advanced Certificate</p>
+      </div>
+
+      {/* Badges */}
+      {earnedBadges.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {earnedBadges.map(b => (
+            <span key={b.name} className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full border ${b.color}`}>{b.emoji} {b.name}</span>
+          ))}
+        </div>
+      )}
+
+      {/* Word info */}
+      <div className="text-center space-y-1">
+        <p className="text-xs font-bold uppercase tracking-widest text-primary">
+          {phase === "ready" ? "🐝 Click the speaker to hear your word" : phase === "active" ? "Spell the word" : ""}
+        </p>
+        <p className="text-xs text-muted-foreground">{currentWord.word.length} letters · <em>{currentWord.hint}</em></p>
+      </div>
+
+      {/* Letter slots */}
+      <div className="flex justify-center flex-wrap gap-1.5">
+        {letterSlots.map((letter, i) => (
+          <div key={i} className={`w-9 h-11 rounded-lg border-2 flex items-center justify-center font-bold text-base font-mono transition-all ${
+            result === "correct" ? "border-green-500 bg-green-500/10 text-green-600"
+            : result === "wrong" ? letter ? "border-destructive bg-destructive/10 text-destructive" : "border-border bg-muted/30"
+            : result === "timeout" ? "border-border bg-muted/30"
+            : letter ? "border-primary bg-primary/10 text-primary"
+            : timerStarted ? "border-border bg-card animate-pulse"
+            : "border-border bg-card opacity-50"
+          }`}>
+            {result === "wrong" && !letter ? currentWord.word[i] : letter}
+          </div>
+        ))}
+      </div>
+
+      {/* Speaker button */}
+      <div className="flex flex-col items-center gap-3">
+        <button
+          onClick={playWord}
+          disabled={isSpeaking || phase === "result"}
+          className={`relative w-16 h-16 rounded-full flex items-center justify-center transition-all border-2 ${
+            isSpeaking ? "border-primary bg-primary/20 text-primary animate-pulse scale-110"
+            : phase === "result" ? "border-border bg-muted text-muted-foreground opacity-40 cursor-not-allowed"
+            : timerStarted ? "border-primary/60 bg-primary/5 text-primary hover:bg-primary/20 hover:border-primary hover:scale-110 active:scale-95"
+            : "border-teal-500/60 bg-teal-500/5 text-teal-600 hover:bg-teal-500/20 hover:border-teal-500 hover:scale-110 active:scale-95"
+          }`}
+        >
+          <Volume2 className="h-7 w-7" />
+          {isSpeaking && <span className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-40" />}
+        </button>
+        <p className="text-[11px] text-muted-foreground text-center">
+          {isSpeaking ? "Listening…" : timerStarted ? "Click to hear again · 25s timer" : "Click 🔊 — timer starts when word plays"}
+        </p>
+      </div>
+
+      {/* Input */}
+      <AnimatePresence>
+        {phase === "active" && (
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-3">
+            <input
+              ref={inputRef}
+              type="text"
+              value={typed}
+              onChange={e => setTyped(e.target.value.replace(/[^a-zA-Z]/g, "").slice(0, currentWord.word.length))}
+              placeholder="Type your spelling…"
+              className="w-full h-12 rounded-xl border border-input bg-background px-4 font-mono text-center text-lg tracking-widest uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
+              autoComplete="off" autoCorrect="off" autoCapitalize="none" spellCheck={false}
+            />
+            <Button onClick={handleSubmit} className="w-full h-11 rounded-xl bg-primary font-bold" disabled={!typed.trim()}>
+              Submit Spelling ↵
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Result */}
+      <AnimatePresence>
+        {result && (
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+            className={`text-center py-4 px-4 rounded-xl font-bold text-sm ${result === "correct" ? "bg-green-500/10 text-green-600 border border-green-500/30" : result === "timeout" ? "bg-amber-500/10 text-amber-600 border border-amber-400/30" : "bg-destructive/10 text-destructive border border-destructive/30"}`}
+          >
+            {result === "correct" && `✅ Correct! "${currentWord.word}" — next word…`}
+            {result === "timeout" && `⏰ Time's up! The word was "${currentWord.word}"`}
+            {result === "wrong" && `❌ It's "${currentWord.word}" — keep going!`}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Badge announcement */}
+      <AnimatePresence>
+        {newBadge && (
+          <motion.div initial={{ opacity: 0, y: 20, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0 }}
+            className={`text-center py-5 rounded-2xl border space-y-2 ${newBadge.color}`}
+          >
+            <p className="text-3xl">{newBadge.emoji}</p>
+            <p className="font-black text-base">Advanced Badge: {newBadge.name}!</p>
+            <p className="text-xs opacity-70">{newBadge.streak} advanced words in a row</p>
+            <Button size="sm" variant="outline" className="rounded-full mt-2 text-xs" onClick={() => { setNewBadge(null); nextWord(); }}>Keep spelling →</Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Certificate modal */}
+      <AnimatePresence>
+        {showCertificate && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(6px)" }}
+          >
+            <motion.div initial={{ scale: 0.8, y: 40 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.8, opacity: 0 }}
+              className="bg-background border-2 border-primary rounded-3xl p-8 max-w-sm w-full text-center space-y-5 shadow-2xl"
+            >
+              <div className="text-6xl">🏆</div>
+              <div>
+                <p className="text-xs font-black uppercase tracking-widest text-primary">Lexigenz Trading</p>
+                <h2 className="text-2xl font-black mt-1 leading-tight">Advanced Spelling Bee<br />Certificate</h2>
+              </div>
+              <div className="py-4 border-y border-border/60 space-y-2">
+                <p className="text-sm text-muted-foreground">This certifies mastery of</p>
+                <div className="flex items-center justify-center gap-2">
+                  <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                  <p className="text-4xl font-black text-primary">50</p>
+                  <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                </div>
+                <p className="text-sm text-muted-foreground">advanced vocabulary words in the<br /><strong>Lexigenz Advanced Spelling Bee</strong></p>
+              </div>
+              {earnedBadges.length > 0 && (
+                <div className="flex flex-wrap justify-center gap-1.5">
+                  {earnedBadges.map(b => (
+                    <span key={b.name} className={`text-[10px] font-bold px-2 py-1 rounded-full border ${b.color}`}>{b.emoji} {b.name}</span>
+                  ))}
+                </div>
+              )}
+              <p className="text-[10px] text-muted-foreground">Issued by Lexigenz Trading · Premium Member</p>
+              <Button size="lg" className="w-full rounded-2xl bg-primary font-bold" onClick={() => { setShowCertificate(false); nextWord(); }}>
+                Continue Playing 🐝
+              </Button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -682,6 +1067,7 @@ const GAMES = [
   { id: "wordle", name: "Wordle", tag: "Lexigenz Edition", desc: "Guess the 5-letter word in 6 attempts. Green = correct spot. Yellow = wrong spot.", status: "live" },
   { id: "lexigen-game", name: "Lexigenz Game", tag: "Signature", desc: "Race to unscramble 7 letters into LEXIGENZ before the 15-second timer runs out.", status: "live" },
   { id: "spelling-bee", name: "Spelling Bee", tag: "Lexigenz Edition", desc: "Hear the word, then spell it correctly in 30 seconds. Earn badges every 5 in a row. Reach 100 for a Lexigenz Certificate.", status: "live" },
+  { id: "spelling-bee-advanced", name: "Spelling Bee Advanced", tag: "Premium · Advanced", desc: "Rare, complex vocabulary. 25-second timer. Earn Lexicographer badges. Achieve 50 correct for the Advanced Certificate.", status: "premium" },
   { id: "scrabble", name: "Scrabble", tag: "vs Computer", desc: "Drag and drop tiles to form high-scoring words on the board.", status: "coming" },
   { id: "crossword", name: "Crossword", tag: "vs Computer", desc: "Fill in themed clues. New puzzle every day.", status: "coming" },
   { id: "word-grid", name: "Word Grid", tag: "6x6 Challenge", desc: "Find hidden words in all directions in a 6x6 letter grid.", status: "coming" },
@@ -690,6 +1076,8 @@ const GAMES = [
 export default function Play() {
   const [activeGame, setActiveGame] = useState<string | null>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
+  const isPremium = user?.plan === "premium";
   const queryClient = useQueryClient();
   const submitScore = useSubmitGameScore();
   const { data: scores } = useListGameScores();
@@ -729,6 +1117,8 @@ export default function Play() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {GAMES.map((game, i) => {
                 const topScore = scores?.filter(s => s.game === game.name)[0];
+                const isPremiumGame = game.status === "premium";
+                const isAccessible = game.status === "live" || (isPremiumGame && isPremium);
                 return (
                   <motion.div
                     key={game.id}
@@ -736,25 +1126,48 @@ export default function Play() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.07 }}
                     className={`relative p-6 rounded-2xl border bg-card transition-all group ${
-                      game.status === "live"
+                      isAccessible
                         ? "border-primary/30 hover:border-primary hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] cursor-pointer"
+                        : isPremiumGame
+                        ? "border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 cursor-pointer hover:border-primary/40"
                         : "border-border opacity-70"
                     }`}
-                    onClick={() => game.status === "live" && setActiveGame(game.id)}
+                    onClick={() => isAccessible ? setActiveGame(game.id) : (isPremiumGame ? window.location.href = "/premium" : null)}
                     data-testid={`game-card-${game.id}`}
                   >
+                    {/* Coming soon overlay */}
                     {game.status === "coming" && (
                       <div className="absolute inset-0 rounded-2xl bg-background/50 backdrop-blur-sm flex items-center justify-center z-10">
                         <Badge className="font-bold bg-primary text-white border-primary/40 shadow-sm">🔒 Unlock with Premium</Badge>
                       </div>
                     )}
+                    {/* Premium locked overlay (non-premium user) */}
+                    {isPremiumGame && !isPremium && (
+                      <div className="absolute top-3 right-3 z-10">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full bg-primary text-white border border-primary/40">
+                          <Crown className="h-3 w-3" /> Premium
+                        </span>
+                      </div>
+                    )}
+                    {/* Premium unlocked badge */}
+                    {isPremiumGame && isPremium && (
+                      <div className="absolute top-3 right-3 z-10">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full bg-green-500/10 text-green-600 border border-green-500/30">
+                          ✅ Unlocked
+                        </span>
+                      </div>
+                    )}
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <Badge className={`text-xs font-bold ${game.id === "spelling-bee" ? "bg-amber-500/10 text-amber-600 border-amber-400/30" : "bg-primary/10 text-primary border-primary/20"}`}>
+                        <Badge className={`text-xs font-bold ${
+                          game.id === "spelling-bee" ? "bg-amber-500/10 text-amber-600 border-amber-400/30"
+                          : isPremiumGame ? "bg-primary/15 text-primary border-primary/30"
+                          : "bg-primary/10 text-primary border-primary/20"
+                        }`}>
                           {game.tag}
                         </Badge>
-                        {game.status === "live" && (
-                          game.id === "spelling-bee"
+                        {isAccessible && (
+                          game.id === "spelling-bee" || isPremiumGame
                             ? <span className="text-lg opacity-0 group-hover:opacity-100 transition-opacity">🐝</span>
                             : <Gamepad2 className="h-4 w-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                         )}
@@ -771,6 +1184,18 @@ export default function Play() {
                         <Button size="sm" className={`w-full rounded-full mt-2 font-bold ${game.id === "spelling-bee" ? "bg-amber-500 hover:bg-amber-600 text-white" : "bg-primary hover:bg-primary/90"}`} data-testid={`button-play-${game.id}`}>
                           {game.id === "spelling-bee" ? "🐝 Play Spelling Bee" : "Play Now"}
                         </Button>
+                      )}
+                      {isPremiumGame && isPremium && (
+                        <Button size="sm" className="w-full rounded-full mt-2 font-bold bg-primary" data-testid={`button-play-${game.id}`}>
+                          🐝 Play Advanced
+                        </Button>
+                      )}
+                      {isPremiumGame && !isPremium && (
+                        <Link href="/premium">
+                          <Button size="sm" variant="outline" className="w-full rounded-full mt-2 font-bold border-primary/40 text-primary hover:bg-primary/10">
+                            <Lock className="h-3.5 w-3.5 mr-1.5" /> Unlock with Premium
+                          </Button>
+                        </Link>
                       )}
                     </div>
                   </motion.div>
@@ -793,10 +1218,35 @@ export default function Play() {
                   </Button>
                 </div>
 
-                <div className={`p-6 rounded-2xl border bg-card shadow-[0_0_40px_rgba(139,92,246,0.1)] ${activeGame === "spelling-bee" ? "border-amber-400/30" : "border-primary/30"}`}>
+                <div className={`p-6 rounded-2xl border bg-card shadow-[0_0_40px_rgba(139,92,246,0.1)] ${
+                  activeGame === "spelling-bee" ? "border-amber-400/30"
+                  : activeGame === "spelling-bee-advanced" ? "border-primary/40 bg-gradient-to-br from-primary/5 to-accent/5"
+                  : "border-primary/30"
+                }`}>
                   {activeGame === "wordle" && <WordleGame onScore={(s) => handleScore("Wordle", s)} />}
                   {activeGame === "lexigen-game" && <LexigenGame onScore={(s) => handleScore("Lexigenz Game", s)} />}
                   {activeGame === "spelling-bee" && <SpellingBeeGame onScore={(s) => handleScore("Spelling Bee", s)} />}
+                  {activeGame === "spelling-bee-advanced" && (
+                    isPremium ? (
+                      <SpellingBeeAdvancedGame onScore={(s) => handleScore("Spelling Bee Advanced", s)} />
+                    ) : (
+                      <div className="text-center space-y-6 py-8">
+                        <div className="text-6xl">👑</div>
+                        <div>
+                          <h3 className="text-xl font-black">Spelling Bee Advanced</h3>
+                          <p className="text-sm text-muted-foreground mt-1">Rare vocabulary · 25s timer · Lexicographer badges</p>
+                        </div>
+                        <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+                          This game is exclusive to Premium members. Upgrade once for lifetime access to all premium games.
+                        </p>
+                        <Link href="/premium">
+                          <Button className="rounded-full font-bold bg-primary px-8">
+                            Upgrade to Premium — $8
+                          </Button>
+                        </Link>
+                      </div>
+                    )
+                  )}
                 </div>
 
                 {/* Leaderboard */}
