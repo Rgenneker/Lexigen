@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Accordion,
@@ -7,141 +8,330 @@ import {
 } from "@/components/ui/accordion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 
-const faqs = [
+const CATEGORIES = ["All", "Getting Started", "Archetypes", "Games", "Premium", "Languages", "Privacy & Data", "Technical"];
+
+const faqs: { q: string; a: string; category: string }[] = [
+  // Getting Started
   {
-    q: "What even is Lexigenz?",
-    a: "Lexigenz is a daily vocabulary growth app built for Gen Z and millennials. We combine birth-based personality profiling with daily word experiences, streaks, word games, and journalling so language learning actually sticks — and feels worth showing off."
+    category: "Getting Started",
+    q: "What exactly is Lexigenz?",
+    a: "Lexigenz is a personalised daily vocabulary growth platform built for Gen Z and millennials. It combines birth-based personality profiling with daily curated words, a sentence builder, six word games, streak tracking, and a personal Word Journal — all available in 19 languages. It's not just a dictionary app. It's a complete vocabulary development system built around who you are, not just what you want to learn."
   },
   {
-    q: "How does birth-based personalisation work?",
-    a: "When you enter your birth date, Lexigenz calculates your archetype — a personality profile based on your birth month and day. Your archetype shapes your daily word recommendations, your language style insights, and your overall learning experience. No two archetypes are the same."
+    category: "Getting Started",
+    q: "Who is Lexigenz built for?",
+    a: "Lexigenz is designed for anyone who wants to grow their vocabulary in a way that feels natural and genuinely engaging — not like homework. The core audience is Gen Z and millennials aged 16–40, but the platform works for anyone who values language, loves word games, is learning a new language, or wants to communicate more powerfully in their daily life."
   },
   {
-    q: "Is Lexigenz free?",
-    a: "Yes — Lexigenz has a robust free tier that includes your daily word, birth archetype profile, streak tracking, and a word journal. Premium unlocks unlimited sentence builder use, advanced monthly progress reports, exclusive themes, no ads, and unlimited access to all word games."
+    category: "Getting Started",
+    q: "How do I start using Lexigenz?",
+    a: "Visit the App page to get your first daily word immediately — no sign-up required to start. Enter your birth date to unlock your archetype, choose your language, and you're in. For a registered experience with a saved Word Journal, streaks, and progress tracking, click 'Register Free' on the homepage. It takes under 60 seconds."
   },
   {
-    q: "What languages does Lexigenz support?",
-    a: "Lexigenz supports 19 languages: English, Spanish, Portuguese, French, German, Dutch, Italian, Arabic, Afrikaans, Zulu, Xhosa, Farsi, Russian, Bahasa Malay, Vietnamese, Tagalog, Japanese, Cantonese, and Chinese (Mandarin). Switch your language anytime from the navbar."
+    category: "Getting Started",
+    q: "Is there a mobile app?",
+    a: "Lexigenz is fully optimised for mobile browsers — it's designed to feel like a native app when accessed on your phone. You can add it to your home screen directly from your mobile browser (using 'Add to Home Screen' in Chrome or Safari) for an app-like experience without downloading anything from an app store."
   },
   {
-    q: "What word games are available?",
-    a: "Lexigenz's Play for Words section features six fully branded games: Scrabble vs Computer, Wordle vs Computer, Crossword vs Computer, Spelling Bee (Lexigenz Edition), the Word Grid (find words in a 6×6 grid), and the Lexigenz Game — where you race to unscramble 'LEXIGENZ' from 7 letters before time runs out."
+    category: "Getting Started",
+    q: "What makes Lexigenz different from other vocabulary apps?",
+    a: "Most vocabulary apps give every user the same word lists. Lexigenz personalises your entire vocabulary experience from your birth date — your archetype defines the style, tone, and type of words you receive. Beyond that, the multi-modal learning loop (read → build a sentence → play games → streak → journal) is specifically engineered for retention. You don't just see a word once and move on."
   },
   {
-    q: "How do streaks work?",
-    a: "Check in daily by visiting the App page and engaging with your word. Your streak counter increments every day you come back. Hit milestones at 7, 30, 100, and 365 days to unlock special badges. Miss a day and your streak resets — so make it a habit!"
+    category: "Getting Started",
+    q: "How does the daily word system work?",
+    a: "Every day, Lexigenz surfaces a new word tailored to your archetype and your selected language. The word comes with a full definition, example sentences, etymology (where available), and a prompt to write your own sentence in the Sentence Builder. The word resets at midnight in your local timezone."
   },
   {
-    q: "Can I challenge friends?",
-    a: "Absolutely. Head to the Invite page to send word game challenges to your friends and family. Lexigenz is built to be social — no borders, no timezones stopping you. Challenge someone to a Wordle match or the Lexigenz Game from anywhere in the world."
-  },
-  {
+    category: "Getting Started",
     q: "What is the Sentence Builder?",
-    a: "The Sentence Builder lets you write your own sentence using today's daily word, then saves it to your Word Journal. It's the most powerful way to actually remember words — because you generated the context yourself. Free users can build up to 5 journal entries; Premium unlocks unlimited."
+    a: "The Sentence Builder is a writing prompt attached to each daily word. It asks you to write your own sentence using the word in a context that's meaningful to you. Generating your own sentence is the most powerful vocabulary retention method — because you're creating a personal memory anchor for the word, not just passively reading someone else's example. Every sentence you write saves to your Word Journal."
   },
   {
-    q: "Is my data private?",
-    a: "Yes. Lexigenz collects only what's necessary to power your personalised experience — your birth date (for archetype calculation), your language preference, your streak data, and your journal entries. We never sell your data. Review our full Privacy Policy for details."
+    category: "Getting Started",
+    q: "What is the Word Journal?",
+    a: "Your Word Journal is a chronological archive of every word you've engaged with on Lexigenz — including the sentences you wrote, the date you encountered the word, and the language it was in. It becomes a personal vocabulary history that grows with you. Free users have a limited journal capacity; Premium users get unlimited entries."
+  },
+
+  // Archetypes
+  {
+    category: "Archetypes",
+    q: "What is a vocabulary archetype?",
+    a: "A vocabulary archetype is a personality-driven language profile that determines the style, tone, and type of words Lexigenz sends you. There are 12 archetypes — The Visionary, The Nurturer, The Explorer, The Sage, The Creator, The Guardian, The Rebel, The Diplomat, The Achiever, The Mystic, The Maverick, and The Harmonizer. Each archetype has its own vocabulary strengths, language style, and recommended word set."
   },
   {
-    q: "Where is Lexigenz based?",
-    a: "Lexigenz is owned and trademarked by Lexigenz Trading, based in South Africa. We're proudly African-built, globally minded. The platform operates in 19 languages and serves learners on every continent."
+    category: "Archetypes",
+    q: "How is my archetype calculated?",
+    a: "Your archetype is calculated from your birth month and day. The system maps your birth date to one of the 12 archetypes using a deterministic algorithm — meaning two people born on the same date will always get the same archetype. It's not horoscope-based; it's a personality typing system inspired by numerological and chronological patterns."
   },
   {
-    q: "How do I cancel Premium?",
-    a: "You can manage or cancel your Premium subscription anytime from your account settings. Cancellation takes effect at the end of your billing period — you keep Premium access until then."
+    category: "Archetypes",
+    q: "Can my archetype change?",
+    a: "Your archetype is fixed to your birth date — it won't change unless you update your birth date in your profile. This is intentional: your archetype is meant to be a stable identity within Lexigenz that your vocabulary grows around, not a variable that shifts week to week."
   },
   {
+    category: "Archetypes",
+    q: "What if I don't like my archetype's word style?",
+    a: "Your archetype influences your word recommendations but doesn't lock you into a narrow box. Lexigenz also offers language switching, game-based learning across all word types, and a broad daily word pool. If you genuinely feel a different archetype fits you better, you can update your birth date to explore different archetypes."
+  },
+  {
+    category: "Archetypes",
+    q: "Which archetype has the most advanced vocabulary?",
+    a: "The Sage and The Mystic tend toward the most complex and rare vocabulary — words that are precise, philosophical, and often Latin or Greek in origin. The Rebel and The Maverick lean toward contemporary, edgy, and hybrid vocabulary. The Explorer tends toward eclectic, cross-cultural terms. But all 12 archetypes receive rich, interesting words — the difference is in style and register, not quality."
+  },
+
+  // Games
+  {
+    category: "Games",
+    q: "What word games does Lexigenz include?",
+    a: "Lexigenz's Play for Words section features six fully branded games: Scrabble vs Computer (tile-based word formation), Wordle vs Computer (5-letter daily guessing game), Crossword vs Computer (themed crossword puzzles), Spelling Bee Lexigenz Edition (7-letter honeycomb word hunt), Word Grid (hidden word search in a 6×6 grid), and The Lexigenz Game (unscramble 'LEXIGENZ' from 7 letters before the timer runs out)."
+  },
+  {
+    category: "Games",
+    q: "Do I need Premium to play the games?",
+    a: "Free users get access to the full games suite. Premium users get an ad-free gaming experience and access to expanded game modes. Games are a core part of the free Lexigenz experience — we believe play-based learning should be accessible to everyone."
+  },
+  {
+    category: "Games",
+    q: "Are the games connected to my daily word?",
+    a: "Yes. The Wordle and Crossword games prioritise words from your archetype word pool, which overlaps with your daily word recommendations. This means the games actively reinforce what you've been learning, rather than using completely random word sets."
+  },
+  {
+    category: "Games",
+    q: "What is The Lexigenz Game?",
+    a: "The Lexigenz Game is our signature original game. You're given 7 random letters drawn from the letters in 'LEXIGENZ' and must unscramble them to spell the full word before the countdown timer hits zero. It sounds simple — but under pressure, it's surprisingly addictive. It's also the fastest game to complete, making it perfect for a 60-second vocabulary session."
+  },
+  {
+    category: "Games",
+    q: "Can I challenge friends to the games?",
+    a: "Yes. The Invite page lets you send direct game challenges to friends and family anywhere in the world. Challenges can be sent via link — no app download needed for the recipient. Lexigenz is designed to make vocabulary social, not solitary."
+  },
+  {
+    category: "Games",
+    q: "Does my game performance affect my streak?",
+    a: "Streaks are based on daily check-ins to the App page, not game performance. Playing games doesn't reset or break your streak. However, game scores are tracked separately and contribute to your monthly progress report, so there's still a reason to play well."
+  },
+
+  // Premium
+  {
+    category: "Premium",
+    q: "What does Premium include?",
+    a: "Lexigenz Premium unlocks: all 19 languages (Free is English only), unlimited Sentence Builder use, full Word Journal with no entry cap, monthly detailed progress reports, exclusive Premium visual themes, a completely ad-free experience, and priority support. Premium is a one-time payment of $8 — no subscription, no monthly fees, no expiry date."
+  },
+  {
+    category: "Premium",
+    q: "Is Premium a subscription or a one-time payment?",
+    a: "Premium is a once-off payment of $8. You pay once and have Premium access forever — no recurring charges, no renewal reminders, no cancellation needed. This is a deliberate design choice. We believe that meaningful tools should be affordable and permanent, not a subscription you have to remember to cancel."
+  },
+  {
+    category: "Premium",
+    q: "How do I upgrade to Premium?",
+    a: "Click 'Get Premium' in the navbar or visit the Premium page. Enter your initials, surname, country, and mobile number, then choose to pay via your PayPal account or a credit/debit card through the PayPal secure checkout. Payment is processed by PayPal — Lexigenz never stores your card details."
+  },
+  {
+    category: "Premium",
+    q: "Which payment methods are accepted?",
+    a: "Lexigenz uses PayPal to process all Premium payments. You can pay with your existing PayPal account, or use a credit or debit card directly through PayPal's card entry form — no PayPal account required. All major international card brands are accepted."
+  },
+  {
+    category: "Premium",
+    q: "Is my payment secure?",
+    a: "Yes. All payments are processed by PayPal, one of the world's most trusted payment platforms. Lexigenz never receives or stores your card details. The transaction is encrypted end-to-end by PayPal's infrastructure."
+  },
+  {
+    category: "Premium",
+    q: "What currency is Premium priced in?",
+    a: "Premium is priced in USD ($8.00). PayPal automatically handles currency conversion for international buyers, so you'll see the equivalent amount in your local currency at checkout. No additional conversion fees are charged by Lexigenz."
+  },
+
+  // Languages
+  {
+    category: "Languages",
+    q: "Which 19 languages does Lexigenz support?",
+    a: "Lexigenz supports: English, Afrikaans, Zulu, Xhosa, French, Spanish, Portuguese, German, Dutch, Italian, Arabic, Farsi, Russian, Bahasa Malay, Vietnamese, Tagalog, Japanese, Cantonese, and Chinese (Mandarin). Free users have access to English. Premium users can switch to any of the 19 languages at any time."
+  },
+  {
+    category: "Languages",
+    q: "Why does the free plan only include English?",
+    a: "English serves as the platform's universal baseline, allowing all users to experience the full Lexigenz learning loop without needing to pay. Supporting 19 high-quality language word sets requires ongoing editorial work — offering additional languages as a Premium feature allows us to maintain quality across all of them sustainably."
+  },
+  {
+    category: "Languages",
+    q: "Can I switch languages mid-streak?",
+    a: "Yes. Language switching is instant via the globe icon in the navbar. Your streak counter, Word Journal, and archetype all carry over — only the daily word changes to reflect your new language. There is no penalty for switching languages."
+  },
+  {
+    category: "Languages",
+    q: "Why does Lexigenz include Afrikaans, Zulu, and Xhosa?",
+    a: "Lexigenz was built in South Africa, a country with 11 official languages. Afrikaans, Zulu, and Xhosa are among the most widely spoken South African languages, and their inclusion is both a cultural commitment and a practical one: many of our users are proudly South African and want to grow their vocabulary in their mother tongue. These three languages are highlighted in the Premium language selector as our founding languages."
+  },
+
+  // Privacy & Data
+  {
+    category: "Privacy & Data",
+    q: "What data does Lexigenz collect?",
+    a: "Lexigenz collects only what is necessary to power your personalised experience: your birth date (to calculate your archetype), your selected language, your streak data, and your Word Journal entries. If you register, we also collect your initials, surname, country, and mobile number for account identification purposes."
+  },
+  {
+    category: "Privacy & Data",
+    q: "Does Lexigenz sell my data?",
+    a: "Never. Lexigenz does not sell, trade, or share your personal data with third parties for commercial purposes. Your data is used solely to power your Lexigenz experience. For the complete breakdown, see our Privacy Policy linked in the footer."
+  },
+  {
+    category: "Privacy & Data",
+    q: "Is my Word Journal private?",
+    a: "Yes. Your Word Journal is private to you — it is not shared with other users, visible on the platform, or used for any purpose outside your own review. It is stored against your user profile and accessible only through your account."
+  },
+  {
+    category: "Privacy & Data",
+    q: "Where is Lexigenz based and who operates it?",
+    a: "Lexigenz is owned, trademarked, and operated by Lexigenz Trading, registered in South Africa. We are an African-built, globally deployed platform. Legal enquiries and data requests can be directed to hello@lexigenz.com."
+  },
+
+  // Technical
+  {
+    category: "Technical",
+    q: "Why is my streak not updating?",
+    a: "Streaks update when you visit the App page and engage with your daily word. Make sure you're visiting the App section specifically — navigating other pages of the site does not trigger a streak check-in. If your streak hasn't updated despite a visit, try refreshing the App page. If the issue persists, contact us via the Contact page."
+  },
+  {
+    category: "Technical",
     q: "I found a bug. How do I report it?",
-    a: "We want to hear about it. Reach us via the Contact link in the footer. Our team monitors reports closely and typically responds within 48 hours."
+    a: "We want to hear about it. Use the Contact link in the footer to send us a bug report. Include the page where you encountered the issue, what you were doing at the time, and what device and browser you were using. Our team monitors reports closely and typically responds within 48 business hours."
+  },
+  {
+    category: "Technical",
+    q: "The PayPal payment form isn't loading. What should I do?",
+    a: "First, make sure you haven't blocked third-party scripts in your browser settings — the PayPal JS SDK is loaded from PayPal's servers and requires script access to run. Try disabling any ad-blockers temporarily. If the issue persists on a different browser or network, contact us at hello@lexigenz.com and we'll assist you directly."
+  },
+  {
+    category: "Technical",
+    q: "Can I use Lexigenz offline?",
+    a: "Lexigenz is a web-based platform and currently requires an internet connection to load your daily word, sync your streak, and access the games. We're exploring offline features for a future update. For now, the lightest way to access Lexigenz on mobile is to add the site to your home screen — it loads quickly even on slower connections."
   },
 ];
 
 export default function FAQ() {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [search, setSearch] = useState("");
+
+  const filtered = faqs.filter(f => {
+    const matchCat = activeCategory === "All" || f.category === activeCategory;
+    const matchSearch = search.trim() === "" ||
+      f.q.toLowerCase().includes(search.toLowerCase()) ||
+      f.a.toLowerCase().includes(search.toLowerCase());
+    return matchCat && matchSearch;
+  });
+
   return (
     <div className="min-h-screen">
-      {/* Hero */}
-      <section className="pt-20 pb-16 px-4">
-        <div className="container mx-auto max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center space-y-4 mb-16"
-          >
-            <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-accent bg-accent/10 px-4 py-1.5 rounded-full">
-              Got questions
-            </span>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter">
-              We've got
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                answers.
-              </span>
-            </h1>
-            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-              Everything you need to know about Lexigenz, in plain language.
-            </p>
-          </motion.div>
+      {/* Header */}
+      <section className="pt-24 pb-16 text-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/15 via-background to-background">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="container px-4 mx-auto max-w-3xl"
+        >
+          <span className="text-xs font-bold uppercase tracking-widest text-primary">Help Centre</span>
+          <h1 className="text-5xl md:text-6xl font-black mt-3 mb-4">Frequently asked questions</h1>
+          <p className="text-muted-foreground text-lg mb-8">
+            Everything you need to know about Lexigenz — from how archetypes work to what Premium includes.
+          </p>
+          {/* Search */}
+          <div className="relative max-w-xl mx-auto">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search questions…"
+              className="pl-10 h-12 rounded-2xl border-border"
+            />
+          </div>
+        </motion.div>
+      </section>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <Accordion type="single" collapsible className="space-y-3">
-              {faqs.map((faq, i) => (
-                <AccordionItem
-                  key={i}
-                  value={`faq-${i}`}
-                  className="border border-border rounded-2xl px-6 bg-card data-[state=open]:border-primary/50 data-[state=open]:shadow-[0_0_30px_rgba(139,92,246,0.1)] transition-all"
-                  data-testid={`faq-item-${i}`}
-                >
-                  <AccordionTrigger className="text-left font-semibold text-base py-5 hover:no-underline hover:text-primary transition-colors">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </motion.div>
+      {/* Category filter */}
+      <section className="border-b border-border sticky top-[57px] bg-background/95 backdrop-blur z-10">
+        <div className="container px-4 mx-auto">
+          <div className="flex gap-2 overflow-x-auto py-3 scrollbar-hide">
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${
+                  activeCategory === cat
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="mt-16 text-center p-10 rounded-3xl border border-border bg-card"
-          >
-            <h3 className="text-2xl font-bold mb-2">Still have questions?</h3>
-            <p className="text-muted-foreground mb-6">
-              Our team is ready to help. Reach out and we'll get back to you within 48 hours.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/app">
-                <Button
-                  size="lg"
-                  className="rounded-full bg-primary hover:bg-primary/90 font-bold px-8"
-                  data-testid="button-try-lexigen"
-                >
-                  Try Lexigenz Free
-                </Button>
-              </Link>
-              <a href="mailto:hello@lexigen.app">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="rounded-full font-bold px-8 border-border hover:border-primary/50"
-                  data-testid="button-contact"
-                >
-                  Contact Us
-                </Button>
-              </a>
+      {/* FAQ list */}
+      <section className="py-16">
+        <div className="container px-4 mx-auto max-w-3xl">
+          {filtered.length === 0 ? (
+            <div className="text-center py-24 text-muted-foreground">
+              <p className="text-lg">No results for "{search}"</p>
+              <p className="text-sm mt-2">Try a different search term or browse by category.</p>
             </div>
-          </motion.div>
+          ) : (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <p className="text-xs text-muted-foreground mb-6 font-semibold uppercase tracking-widest">
+                {filtered.length} question{filtered.length !== 1 ? "s" : ""}
+                {activeCategory !== "All" ? ` in ${activeCategory}` : ""}
+              </p>
+              <Accordion type="single" collapsible className="space-y-3">
+                {filtered.map((faq, i) => (
+                  <motion.div
+                    key={faq.q}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.03 }}
+                  >
+                    <AccordionItem value={`faq-${i}`} className="border border-border rounded-2xl px-2 overflow-hidden">
+                      <AccordionTrigger className="text-left font-semibold py-5 hover:no-underline text-sm leading-snug">
+                        <div className="flex items-start gap-3 text-left">
+                          <span className="flex-shrink-0 mt-0.5 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wide whitespace-nowrap">
+                            {faq.category}
+                          </span>
+                          <span>{faq.q}</span>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground text-sm leading-relaxed pb-5 pl-2">
+                        {faq.a}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </motion.div>
+                ))}
+              </Accordion>
+            </motion.div>
+          )}
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
+      <section className="py-16 bg-card border-t border-border">
+        <div className="container px-4 mx-auto max-w-2xl text-center space-y-4">
+          <h2 className="text-2xl font-bold">Still have a question?</h2>
+          <p className="text-muted-foreground text-sm">
+            Can't find what you're looking for? Our team is here to help.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+            <Link href="/contact">
+              <Button className="rounded-full bg-primary">Contact us</Button>
+            </Link>
+            <Link href="/premium">
+              <Button variant="outline" className="rounded-full">View Premium</Button>
+            </Link>
+          </div>
         </div>
       </section>
     </div>
