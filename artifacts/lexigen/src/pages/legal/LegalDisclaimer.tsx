@@ -5,7 +5,7 @@ export default function LegalDisclaimer() {
     <LegalLayout title="Legal Disclaimer" updated="June 2026">
       <h2>1. Important Notice</h2>
       <p>
-        Welcome to Lexigen.com ("Platform"). By accessing, browsing, registering for, or using this website, mobile application, database, APIs, tools, word generation tools, word lists, vocabulary services, or any related products and services provided by Lexigen.com ("we", "us", or "our"), you acknowledge that you have read, understood, and agree to be bound by this Legal Disclaimer, our Terms of Use, and Privacy Policy.
+        Welcome to Lexigenz.com ("Platform"). By accessing, browsing, registering for, or using this website, mobile application, database, APIs, tools, word generation tools, word lists, vocabulary services, or any related products and services provided by Lexigenz.com ("we", "us", or "our"), you acknowledge that you have read, understood, and agree to be bound by this Legal Disclaimer, our Terms of Use, and Privacy Policy.
       </p>
       <p>If you do not agree with any provision contained herein, you must immediately discontinue use of the Platform.</p>
 
@@ -49,7 +49,7 @@ export default function LegalDisclaimer() {
 
       <h2>8. No Fiduciary Relationship</h2>
       <p>
-        Use of the Platform does not create an advisory relationship, fiduciary relationship, brokerage relationship, agency relationship, partnership, or joint venture between the user and the Platform. Lexigen.com is not a registered broker-dealer, investment adviser, financial planner, or any other type of regulated financial entity in any jurisdiction.
+        Use of the Platform does not create an advisory relationship, fiduciary relationship, brokerage relationship, agency relationship, partnership, or joint venture between the user and the Platform. Lexigenz.com is not a registered broker-dealer, investment adviser, financial planner, or any other type of regulated financial entity in any jurisdiction.
       </p>
 
       <h2>9. User Responsibility</h2>
@@ -76,7 +76,7 @@ export default function LegalDisclaimer() {
       <h2>13. Contact Information</h2>
       <p>
         For questions regarding this Disclaimer, please contact:<br /><br />
-        <strong>Lexigen.com</strong><br />
+        <strong>Lexigenz.com</strong><br />
         Email: <a href="mailto:hello@lexigen.com">hello@lexigen.com</a><br />
         Website: <a href="https://www.lexigen.com">www.lexigen.com</a>
       </p>

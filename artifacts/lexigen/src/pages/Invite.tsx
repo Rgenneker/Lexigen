@@ -19,21 +19,21 @@ const articles = [
   {
     tag: "Language Habits",
     title: "The 21-Day Word Habit: Building Fluency Through Daily Micro-Exposure",
-    excerpt: "You don't need hours of study. You need seven minutes a day, every day. We break down the habit-stacking techniques that turn Lexigen's daily word into a permanent shift in how you think and communicate.",
+    excerpt: "You don't need hours of study. You need seven minutes a day, every day. We break down the habit-stacking techniques that turn Lexigenz's daily word into a permanent shift in how you think and communicate.",
     readTime: "7 min read",
     icon: Sparkles,
   },
   {
     tag: "Social Learning",
     title: "Learning With Others: How Competitive Play Accelerates Word Memory",
-    excerpt: "When you challenge a friend to a Wordle match or race through the Lexigen Game together, your brain encodes vocabulary differently — and faster. Discover the science of social vocabulary building.",
+    excerpt: "When you challenge a friend to a Wordle match or race through the Lexigenz Game together, your brain encodes vocabulary differently — and faster. Discover the science of social vocabulary building.",
     readTime: "6 min read",
     icon: Users,
   },
   {
     tag: "Gen Z & Language",
     title: "Code-Switching, Slang, and Standard English: Owning Every Register",
-    excerpt: "Gen Z already communicates fluently across multiple linguistic registers. Formal English, internet slang, community vernacular — Lexigen helps you master formal vocabulary without losing the voice that's already yours.",
+    excerpt: "Gen Z already communicates fluently across multiple linguistic registers. Formal English, internet slang, community vernacular — Lexigenz helps you master formal vocabulary without losing the voice that's already yours.",
     readTime: "8 min read",
     icon: Globe,
   },
@@ -175,7 +175,7 @@ export default function Invite() {
               <>
                 <h2 className="text-3xl font-bold mb-2">Send a challenge</h2>
                 <p className="text-muted-foreground mb-8">
-                  Let your people know you're on Lexigen — and that you're ready for a rematch.
+                  Let your people know you're on Lexigenz — and that you're ready for a rematch.
                 </p>
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="space-y-2">
@@ -197,7 +197,7 @@ export default function Invite() {
                   <div className="space-y-2">
                     <label className="text-sm font-semibold">Challenge game</label>
                     <div className="grid grid-cols-3 gap-2">
-                      {["Wordle", "Lexigen Game", "Word Grid"].map(g => (
+                      {["Wordle", "Lexigenz Game", "Word Grid"].map(g => (
                         <button
                           key={g}
                           type="button"

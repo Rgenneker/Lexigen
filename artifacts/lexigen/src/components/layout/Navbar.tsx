@@ -36,7 +36,7 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <span className="font-bold text-2xl tracking-tighter text-primary">LEXIGEN</span>
+          <span className="font-bold text-2xl tracking-tighter text-primary">LEXIGENZ</span>
         </Link>
 
         {/* Desktop Nav */}
@@ -92,7 +92,7 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent side="right" className="flex flex-col gap-6">
               <div className="flex items-center gap-2 mt-4">
-                <span className="font-bold text-2xl tracking-tighter text-primary">LEXIGEN</span>
+                <span className="font-bold text-2xl tracking-tighter text-primary">LEXIGENZ</span>
               </div>
               <div className="flex flex-col gap-4">
                 {navLinks.map((link) => (

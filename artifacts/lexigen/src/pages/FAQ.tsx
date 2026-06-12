@@ -10,24 +10,24 @@ import { Button } from "@/components/ui/button";
 
 const faqs = [
   {
-    q: "What even is Lexigen?",
-    a: "Lexigen is a daily vocabulary growth app built for Gen Z and millennials. We combine birth-based personality profiling with daily word experiences, streaks, word games, and journalling so language learning actually sticks — and feels worth showing off."
+    q: "What even is Lexigenz?",
+    a: "Lexigenz is a daily vocabulary growth app built for Gen Z and millennials. We combine birth-based personality profiling with daily word experiences, streaks, word games, and journalling so language learning actually sticks — and feels worth showing off."
   },
   {
     q: "How does birth-based personalisation work?",
-    a: "When you enter your birth date, Lexigen calculates your archetype — a personality profile based on your birth month and day. Your archetype shapes your daily word recommendations, your language style insights, and your overall learning experience. No two archetypes are the same."
+    a: "When you enter your birth date, Lexigenz calculates your archetype — a personality profile based on your birth month and day. Your archetype shapes your daily word recommendations, your language style insights, and your overall learning experience. No two archetypes are the same."
   },
   {
-    q: "Is Lexigen free?",
-    a: "Yes — Lexigen has a robust free tier that includes your daily word, birth archetype profile, streak tracking, and a word journal. Premium unlocks unlimited sentence builder use, advanced monthly progress reports, exclusive themes, no ads, and unlimited access to all word games."
+    q: "Is Lexigenz free?",
+    a: "Yes — Lexigenz has a robust free tier that includes your daily word, birth archetype profile, streak tracking, and a word journal. Premium unlocks unlimited sentence builder use, advanced monthly progress reports, exclusive themes, no ads, and unlimited access to all word games."
   },
   {
-    q: "What languages does Lexigen support?",
-    a: "Lexigen supports 19 languages: English, Spanish, Portuguese, French, German, Dutch, Italian, Arabic, Afrikaans, Zulu, Xhosa, Farsi, Russian, Bahasa Malay, Vietnamese, Tagalog, Japanese, Cantonese, and Chinese (Mandarin). Switch your language anytime from the navbar."
+    q: "What languages does Lexigenz support?",
+    a: "Lexigenz supports 19 languages: English, Spanish, Portuguese, French, German, Dutch, Italian, Arabic, Afrikaans, Zulu, Xhosa, Farsi, Russian, Bahasa Malay, Vietnamese, Tagalog, Japanese, Cantonese, and Chinese (Mandarin). Switch your language anytime from the navbar."
   },
   {
     q: "What word games are available?",
-    a: "Lexigen's Play for Words section features six fully branded games: Scrabble vs Computer, Wordle vs Computer, Crossword vs Computer, Spelling Bee (Lexigen Edition), the Word Grid (find words in a 6×6 grid), and the Lexigen Game — where you race to unscramble 'LEXIGEN' from 7 letters before time runs out."
+    a: "Lexigenz's Play for Words section features six fully branded games: Scrabble vs Computer, Wordle vs Computer, Crossword vs Computer, Spelling Bee (Lexigenz Edition), the Word Grid (find words in a 6×6 grid), and the Lexigenz Game — where you race to unscramble 'LEXIGENZ' from 7 letters before time runs out."
   },
   {
     q: "How do streaks work?",
@@ -35,7 +35,7 @@ const faqs = [
   },
   {
     q: "Can I challenge friends?",
-    a: "Absolutely. Head to the Invite page to send word game challenges to your friends and family. Lexigen is built to be social — no borders, no timezones stopping you. Challenge someone to a Wordle match or the Lexigen Game from anywhere in the world."
+    a: "Absolutely. Head to the Invite page to send word game challenges to your friends and family. Lexigenz is built to be social — no borders, no timezones stopping you. Challenge someone to a Wordle match or the Lexigenz Game from anywhere in the world."
   },
   {
     q: "What is the Sentence Builder?",
@@ -43,11 +43,11 @@ const faqs = [
   },
   {
     q: "Is my data private?",
-    a: "Yes. Lexigen collects only what's necessary to power your personalised experience — your birth date (for archetype calculation), your language preference, your streak data, and your journal entries. We never sell your data. Review our full Privacy Policy for details."
+    a: "Yes. Lexigenz collects only what's necessary to power your personalised experience — your birth date (for archetype calculation), your language preference, your streak data, and your journal entries. We never sell your data. Review our full Privacy Policy for details."
   },
   {
-    q: "Where is Lexigen based?",
-    a: "Lexigen is owned and trademarked by Lexigen Trading, based in South Africa. We're proudly African-built, globally minded. The platform operates in 19 languages and serves learners on every continent."
+    q: "Where is Lexigenz based?",
+    a: "Lexigenz is owned and trademarked by Lexigenz Trading, based in South Africa. We're proudly African-built, globally minded. The platform operates in 19 languages and serves learners on every continent."
   },
   {
     q: "How do I cancel Premium?",
@@ -82,7 +82,7 @@ export default function FAQ() {
               </span>
             </h1>
             <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-              Everything you need to know about Lexigen, in plain language.
+              Everything you need to know about Lexigenz, in plain language.
             </p>
           </motion.div>
 
@@ -127,7 +127,7 @@ export default function FAQ() {
                   className="rounded-full bg-primary hover:bg-primary/90 font-bold px-8"
                   data-testid="button-try-lexigen"
                 >
-                  Try Lexigen Free
+                  Try Lexigenz Free
                 </Button>
               </Link>
               <a href="mailto:hello@lexigen.app">

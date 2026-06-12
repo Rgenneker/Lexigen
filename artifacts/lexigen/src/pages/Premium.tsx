@@ -176,7 +176,7 @@ function PaymentModal({
   const handleSuccess = () => {
     onSuccess();
     onClose();
-    toast({ title: "🎉 Welcome to Lexigen Premium!", description: "Every feature is now unlocked forever." });
+    toast({ title: "🎉 Welcome to Lexigenz Premium!", description: "Every feature is now unlocked forever." });
   };
 
   return (
@@ -198,7 +198,7 @@ function PaymentModal({
               <Crown className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <p className="font-bold text-sm">Lexigen Premium</p>
+              <p className="font-bold text-sm">Lexigenz Premium</p>
               <p className="text-xs text-muted-foreground">$8.00 — once-off, forever</p>
             </div>
           </div>
@@ -308,7 +308,7 @@ function PaymentModal({
                   )}
                 </Button>
                 <p className="text-center text-xs text-muted-foreground">
-                  Secured by PayPal · No card details stored by Lexigen
+                  Secured by PayPal · No card details stored by Lexigenz
                 </p>
               </motion.div>
             )}
@@ -613,7 +613,7 @@ const comparison = [
 const testimonials = [
   { name: "Ayanda M.", location: "Johannesburg", text: "Eight dollars. That's it. I've been using it every single day for 3 months. The word journal alone is worth ten times that.", stars: 5 },
   { name: "Priya K.", location: "Cape Town", text: "I went from dreading English essays to actually enjoying them. The archetype report showed me exactly how I learn best.", stars: 5 },
-  { name: "Luca T.", location: "London", text: "The games are actually addictive. Spelling Bee and the Lexigen Game have me coming back every day. Premium was a no-brainer.", stars: 5 },
+  { name: "Luca T.", location: "London", text: "The games are actually addictive. Spelling Bee and the Lexigenz Game have me coming back every day. Premium was a no-brainer.", stars: 5 },
   { name: "Fatima R.", location: "Dubai", text: "Learning in Arabic and switching to English for practise — seamlessly. That alone makes the $8 worth every cent.", stars: 5 },
 ];
 

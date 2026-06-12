@@ -4,7 +4,7 @@ export default function TermsOfUse() {
   return (
     <LegalLayout title="Terms of Use" updated="1 June 2026">
       <p>
-        These Terms of Use ("Terms") constitute a legally binding agreement between Lexigen Trading, including its subsidiaries, affiliates, successors, assigns, officers, employees, agents, and representatives ("Company", "we", "us", or "our"), and any individual, entity, customer, visitor, user, subscriber, merchant, partner, or organization ("User", "you", or "your") accessing or using our website, mobile applications, software, platforms, products, or related services (collectively, the "Services").
+        These Terms of Use ("Terms") constitute a legally binding agreement between Lexigenz Trading, including its subsidiaries, affiliates, successors, assigns, officers, employees, agents, and representatives ("Company", "we", "us", or "our"), and any individual, entity, customer, visitor, user, subscriber, merchant, partner, or organization ("User", "you", or "your") accessing or using our website, mobile applications, software, platforms, products, or related services (collectively, the "Services").
       </p>
       <p>
         Our Services include a word generator and word-of-the-day experience designed to deliver personalized vocabulary, definitions, daily word suggestions, and related word content based on user preferences and date of birth data.
@@ -15,7 +15,7 @@ export default function TermsOfUse() {
 
       <h2>1. Acceptance of Terms</h2>
       <p>
-        By accessing Lexigen.com you confirm that you are at least 13 years of age and agree to these Terms and our <a href="/privacy">Privacy Policy</a>. If you do not agree, please discontinue use of the Site immediately.
+        By accessing Lexigenz.com you confirm that you are at least 13 years of age and agree to these Terms and our <a href="/privacy">Privacy Policy</a>. If you do not agree, please discontinue use of the Site immediately.
       </p>
 
       <h2>2. Eligibility</h2>
@@ -41,7 +41,7 @@ export default function TermsOfUse() {
       </ul>
 
       <h2>7. Intellectual Property Rights</h2>
-      <p>All rights, title, and interest in the Services remain exclusively owned by Lexigen Trading or its licensors. Protected materials include software, databases, source code, designs, logos, trade names, trademarks, trade secrets, documentation, written content, audio and visual materials, algorithms, and business processes. No ownership rights are transferred to users through use of the Services.</p>
+      <p>All rights, title, and interest in the Services remain exclusively owned by Lexigenz Trading or its licensors. Protected materials include software, databases, source code, designs, logos, trade names, trademarks, trade secrets, documentation, written content, audio and visual materials, algorithms, and business processes. No ownership rights are transferred to users through use of the Services.</p>
 
       <h2>8. User-Generated Content</h2>
       <p>Where users submit content, users represent and warrant that they possess all necessary rights, the content does not infringe third-party rights, and the content complies with applicable laws. Users grant the Company a worldwide, royalty-free, perpetual, transferable, sublicensable licence to host, process, display, store, reproduce, distribute, and use User Content as necessary to provide and improve the Services.</p>
@@ -95,7 +95,7 @@ export default function TermsOfUse() {
       <p>
         For legal notices, compliance inquiries, or questions relating to these Terms:<br /><br />
         <strong>Legal Department / Compliance Office</strong><br />
-        Lexigen Trading<br />
+        Lexigenz Trading<br />
         Email: <a href="mailto:hello@lexigen.com">hello@lexigen.com</a><br /><br />
         All legal notices must be submitted in writing and directed to the designated contact details above.
       </p>

@@ -133,7 +133,7 @@ function WordleGame({ onScore }: { onScore: (score: number) => void }) {
   );
 }
 
-// ─── LEXIGEN GAME ────────────────────────────────────────────
+// ─── LEXIGENZ GAME ────────────────────────────────────────────
 function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
   const { data: gameData, isLoading } = useGetLexigenWord();
   const [letters, setLetters] = useState<{ char: string; used: boolean }[]>([]);
@@ -268,7 +268,7 @@ function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
             animate={{ opacity: 1, scale: 1 }}
             className={`text-center py-4 rounded-xl font-bold ${gameState === "won" ? "bg-green-500/10 text-green-500 border border-green-500/30" : "bg-destructive/10 text-destructive border border-destructive/30"}`}
           >
-            {gameState === "won" ? `Nailed it! LEXIGEN spelled in ${120 - timeLeft}s` : `Time's up! The word was ${gameData?.targetWord}`}
+            {gameState === "won" ? `Nailed it! LEXIGENZ spelled in ${120 - timeLeft}s` : `Time's up! The word was ${gameData?.targetWord}`}
           </motion.div>
         )}
       </AnimatePresence>
@@ -278,11 +278,11 @@ function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
 
 // ─── MAIN PAGE ───────────────────────────────────────────────
 const GAMES = [
-  { id: "wordle", name: "Wordle", tag: "Lexigen Edition", desc: "Guess the 5-letter word in 6 attempts. Green = correct spot. Yellow = wrong spot.", status: "live" },
-  { id: "lexigen-game", name: "Lexigen Game", tag: "Signature", desc: "Race to unscramble 7 letters into LEXIGEN before time expires.", status: "live" },
+  { id: "wordle", name: "Wordle", tag: "Lexigenz Edition", desc: "Guess the 5-letter word in 6 attempts. Green = correct spot. Yellow = wrong spot.", status: "live" },
+  { id: "lexigen-game", name: "Lexigenz Game", tag: "Signature", desc: "Race to unscramble 7 letters into LEXIGENZ before time expires.", status: "live" },
   { id: "scrabble", name: "Scrabble", tag: "vs Computer", desc: "Drag and drop tiles to form high-scoring words on the board.", status: "coming" },
   { id: "crossword", name: "Crossword", tag: "vs Computer", desc: "Fill in themed clues. New puzzle every day.", status: "coming" },
-  { id: "spelling-bee", name: "Spelling Bee", tag: "Lexigen Edition", desc: "Find words in the hexagonal grid using the center letter.", status: "coming" },
+  { id: "spelling-bee", name: "Spelling Bee", tag: "Lexigenz Edition", desc: "Find words in the hexagonal grid using the center letter.", status: "coming" },
   { id: "word-grid", name: "Word Grid", tag: "6x6 Challenge", desc: "Find hidden words in all directions in a 6x6 letter grid.", status: "coming" },
 ];
 
@@ -327,7 +327,7 @@ export default function Play() {
               </span>
             </h1>
             <p className="text-muted-foreground text-lg max-w-xl">
-              Six Lexigen-branded word games. Play solo or challenge a friend. Every game sharpens your vocabulary.
+              Six Lexigenz-branded word games. Play solo or challenge a friend. Every game sharpens your vocabulary.
             </p>
           </motion.div>
 
@@ -409,7 +409,7 @@ export default function Play() {
                     <WordleGame onScore={(s) => handleScore("Wordle", s)} />
                   )}
                   {activeGame === "lexigen-game" && (
-                    <LexigenGame onScore={(s) => handleScore("Lexigen Game", s)} />
+                    <LexigenGame onScore={(s) => handleScore("Lexigenz Game", s)} />
                   )}
                 </div>
 

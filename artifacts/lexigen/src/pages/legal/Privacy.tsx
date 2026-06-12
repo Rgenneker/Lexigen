@@ -4,7 +4,7 @@ export default function Privacy() {
   return (
     <LegalLayout title="Privacy Policy" updated="1 June 2026">
       <p>
-        Lexigen Trading ("we", "us", "our") operates Lexigen.com. This Privacy Policy explains how we handle information when you use our word generation and word-of-the-day tools. We are committed to protecting your privacy and being transparent about our practices.
+        Lexigenz Trading ("we", "us", "our") operates Lexigenz.com. This Privacy Policy explains how we handle information when you use our word generation and word-of-the-day tools. We are committed to protecting your privacy and being transparent about our practices.
       </p>
 
       <h2>Contents</h2>
@@ -42,7 +42,7 @@ export default function Privacy() {
 
       <h2>3. Google AdSense & Cookies</h2>
       <p>
-        Lexigen.com may use Google AdSense to display advertisements. Google AdSense uses cookies and similar tracking technologies to serve ads based on your prior visits to our Site and other sites on the internet.
+        Lexigenz.com may use Google AdSense to display advertisements. Google AdSense uses cookies and similar tracking technologies to serve ads based on your prior visits to our Site and other sites on the internet.
       </p>
       <p>Cookies used by Google AdSense may include:</p>
       <ul>
@@ -70,7 +70,7 @@ export default function Privacy() {
 
       <h2>6. Children's Privacy</h2>
       <p>
-        Lexigen.com is not directed at children under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us and we will take steps to delete it.
+        Lexigenz.com is not directed at children under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us and we will take steps to delete it.
       </p>
 
       <h2>7. Your Rights</h2>

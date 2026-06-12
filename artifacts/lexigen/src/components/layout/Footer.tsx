@@ -27,7 +27,7 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2">
-              <span className="font-bold text-2xl tracking-tighter text-primary">LEXIGEN</span>
+              <span className="font-bold text-2xl tracking-tighter text-primary">LEXIGENZ</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
               A personalised daily vocabulary platform for Gen Z and millennials — proudly built in South Africa, spoken worldwide in 19 languages.
@@ -75,10 +75,10 @@ export function Footer() {
 
         <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Lexigen Trading. All rights reserved. Registered in South Africa.
+            © {new Date().getFullYear()} Lexigenz Trading. All rights reserved. Registered in South Africa.
           </p>
           <p className="text-xs text-muted-foreground">
-            Lexigen™ is a registered trademark of Lexigen Trading.
+            Lexigenz™ is a registered trademark of Lexigenz Trading.
           </p>
         </div>
       </div>

@@ -7,7 +7,7 @@ export default function CookiePolicy() {
 
       <h2>1. Introduction</h2>
       <p>
-        This Cookie Policy explains how Lexigen Trading ("Company", "we", "us", or "our") uses cookies, tracking technologies, and similar tools on our website, applications, digital platforms, and related services (collectively referred to as the "Services").
+        This Cookie Policy explains how Lexigenz Trading ("Company", "we", "us", or "our") uses cookies, tracking technologies, and similar tools on our website, applications, digital platforms, and related services (collectively referred to as the "Services").
       </p>
       <p>This Policy is designed to comply with applicable privacy and electronic communications laws, including but not limited to:</p>
       <ul>
@@ -111,7 +111,7 @@ export default function CookiePolicy() {
       <p>For questions, concerns, requests, or complaints regarding this Cookie Policy or our use of cookies and tracking technologies, please contact:</p>
       <p>
         <strong>Information Officer / Data Protection Officer</strong><br />
-        Lexigen Trading<br />
+        Lexigenz Trading<br />
         Email: <a href="mailto:hello@lexigen.com">hello@lexigen.com</a>
       </p>
     </LegalLayout>

@@ -14,7 +14,7 @@ const steps = [
     number: "02",
     icon: BookOpen,
     title: "Receive your daily word",
-    desc: "Every day, Lexigen delivers a curated word matched to your archetype and chosen language. Read the definition, explore the example sentence, and absorb the context.",
+    desc: "Every day, Lexigenz delivers a curated word matched to your archetype and chosen language. Read the definition, explore the example sentence, and absorb the context.",
   },
   {
     number: "03",
@@ -32,13 +32,13 @@ const steps = [
     number: "05",
     icon: Gamepad2,
     title: "Play for words",
-    desc: "Six Lexigen-branded word games — Wordle, the Lexigen Game, Scrabble vs Computer, Crossword, Spelling Bee, and Word Grid. Every game sharpens your vocabulary in a different way.",
+    desc: "Six Lexigenz-branded word games — Wordle, the Lexigenz Game, Scrabble vs Computer, Crossword, Spelling Bee, and Word Grid. Every game sharpens your vocabulary in a different way.",
   },
   {
     number: "06",
     icon: Users,
     title: "Invite & challenge friends",
-    desc: "Share Lexigen with your circle. Challenge friends to word games, compare streaks, and grow your vocabulary together — no borders, no timezones, just words.",
+    desc: "Share Lexigenz with your circle. Challenge friends to word games, compare streaks, and grow your vocabulary together — no borders, no timezones, just words.",
   },
 ];
 
@@ -72,7 +72,7 @@ export default function HowItWorks() {
               </span>
             </h1>
             <p className="text-muted-foreground text-xl max-w-xl">
-              Lexigen is designed for seven minutes a day. Here's exactly how it works — and why it sticks.
+              Lexigenz is designed for seven minutes a day. Here's exactly how it works — and why it sticks.
             </p>
           </motion.div>
         </div>

@@ -4,7 +4,7 @@ export default function Terms() {
   return (
     <LegalLayout title="Terms and Conditions" updated="1 June 2026">
       <p>
-        Please read these Terms and Conditions carefully before using Lexigen.com (the "Site") operated by Lexigen Trading ("we", "us", or "our"). By accessing or using the Site, you agree to be bound by these Terms.
+        Please read these Terms and Conditions carefully before using Lexigenz.com (the "Site") operated by Lexigenz Trading ("we", "us", or "our"). By accessing or using the Site, you agree to be bound by these Terms.
       </p>
 
       <h2>Contents</h2>
@@ -24,12 +24,12 @@ export default function Terms() {
 
       <h2>1. Acceptance of Terms</h2>
       <p>
-        By accessing Lexigen.com you confirm that you are at least 13 years of age and that you agree to these Terms and our Privacy Policy. If you do not agree to these Terms, please discontinue use of the Site immediately.
+        By accessing Lexigenz.com you confirm that you are at least 13 years of age and that you agree to these Terms and our Privacy Policy. If you do not agree to these Terms, please discontinue use of the Site immediately.
       </p>
 
       <h2>2. Use of the Service</h2>
       <p>
-        You may use the word generation tools and content on Lexigen.com for personal, educational, and non-commercial purposes only. You agree not to:
+        You may use the word generation tools and content on Lexigenz.com for personal, educational, and non-commercial purposes only. You agree not to:
       </p>
       <ul>
         <li>Copy, scrape, republish, or redistribute any word generator, tool, or content without written permission</li>
@@ -41,15 +41,15 @@ export default function Terms() {
 
       <h2>3. Intellectual Property</h2>
       <p>
-        All content on Lexigen.com — including but not limited to word generator logic, code, design, text, graphics, and the Lexigen name and logo — is the exclusive intellectual property of Lexigen Trading and is protected by South African and international copyright and trademark law.
+        All content on Lexigenz.com — including but not limited to word generator logic, code, design, text, graphics, and the Lexigenz name and logo — is the exclusive intellectual property of Lexigenz Trading and is protected by South African and international copyright and trademark law.
       </p>
       <p>
-        The Lexigen trademark is registered in South Africa. Unauthorised use of the mark or any confusingly similar mark is prohibited.
+        The Lexigenz trademark is registered in South Africa. Unauthorised use of the mark or any confusingly similar mark is prohibited.
       </p>
 
       <h2>4. No Professional Advice</h2>
       <p>
-        All word generators and content on Lexigen.com are provided for educational and informational purposes only and do not constitute financial, legal, medical, tax, or any other professional advice.
+        All word generators and content on Lexigenz.com are provided for educational and informational purposes only and do not constitute financial, legal, medical, tax, or any other professional advice.
       </p>
       <p>
         Word generation results are based on the inputs provided and the selected language model or algorithm. They do not account for your specific situation, jurisdiction-specific regulations, or real-time market conditions. Always consult a qualified professional before making financial, health, or legal decisions.
@@ -65,7 +65,7 @@ export default function Terms() {
 
       <h2>6. Limitation of Liability</h2>
       <p>
-        To the maximum extent permitted by applicable law, Lexigen Trading and its directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of, or inability to use, the Site or its word generators — even if advised of the possibility of such damages.
+        To the maximum extent permitted by applicable law, Lexigenz Trading and its directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of, or inability to use, the Site or its word generators — even if advised of the possibility of such damages.
       </p>
       <p>
         Our total liability to you for any claim arising from use of the Site shall not exceed ZAR 500 (five hundred South African rand).
@@ -73,7 +73,7 @@ export default function Terms() {
 
       <h2>7. Third-Party Advertising</h2>
       <p>
-        Lexigen.com displays advertisements served by Google AdSense and potentially other third-party networks. These advertisers may use cookies and similar tracking technologies to serve personalised ads based on your browsing behaviour.
+        Lexigenz.com displays advertisements served by Google AdSense and potentially other third-party networks. These advertisers may use cookies and similar tracking technologies to serve personalised ads based on your browsing behaviour.
       </p>
       <p>
         We do not control the content of third-party advertisements and are not responsible for any products, services, or content advertised. For information about how Google uses your data, please review Google's Privacy Policy.

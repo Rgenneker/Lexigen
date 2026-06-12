@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Globe, Heart, Zap, BookOpen, Users, TrendingUp } from "lucide-react";
 
 const milestones = [
-  { year: "2024", label: "Lexigen Trading founded in South Africa" },
+  { year: "2024", label: "Lexigenz Trading founded in South Africa" },
   { year: "2024", label: "Concept: daily vocab meets birth archetype personalisation" },
   { year: "2025", label: "Beta launch — English + 18 additional languages" },
   { year: "2025", label: "6 word games live, global challenge feature launched" },
@@ -20,7 +20,7 @@ const values = [
   {
     icon: Heart,
     title: "Learning should feel personal.",
-    desc: "Generic word lists don't work. Your archetype, your language, your mood — Lexigen shapes itself around you.",
+    desc: "Generic word lists don't work. Your archetype, your language, your mood — Lexigenz shapes itself around you.",
   },
   {
     icon: Zap,
@@ -30,7 +30,7 @@ const values = [
   {
     icon: Globe,
     title: "No borders.",
-    desc: "Rooted in South Africa. Spoken in 19 languages. Lexigen is for every learner, everywhere.",
+    desc: "Rooted in South Africa. Spoken in 19 languages. Lexigenz is for every learner, everywhere.",
   },
   {
     icon: Users,
@@ -76,7 +76,7 @@ export default function About() {
               VOCAB.
             </h1>
             <p className="text-xl md:text-2xl leading-relaxed font-medium max-w-2xl text-muted-foreground">
-              Lexigen is built to make daily vocabulary growth feel personal, playful, and meaningful — for every generation, in every language, across every border.
+              Lexigenz is built to make daily vocabulary growth feel personal, playful, and meaningful — for every generation, in every language, across every border.
             </p>
           </motion.div>
         </div>
@@ -99,10 +99,10 @@ export default function About() {
             </div>
             <div className="space-y-6">
               <p className="text-muted-foreground leading-relaxed">
-                Lexigen was founded in South Africa with a simple belief: that the words you know shape the life you live. Academic vocabulary, professional English, multilingual fluency — these aren't luxuries. They're tools. And tools should be accessible to everyone.
+                Lexigenz was founded in South Africa with a simple belief: that the words you know shape the life you live. Academic vocabulary, professional English, multilingual fluency — these aren't luxuries. They're tools. And tools should be accessible to everyone.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                We built Lexigen for the student who wants to level up before an interview. For the creative who wants richer language in their writing. For the professional who wants to communicate with more precision and confidence. For everyone who has ever reached for a word and found the cupboard bare.
+                We built Lexigenz for the student who wants to level up before an interview. For the creative who wants richer language in their writing. For the professional who wants to communicate with more precision and confidence. For everyone who has ever reached for a word and found the cupboard bare.
               </p>
             </div>
           </motion.div>
@@ -124,10 +124,10 @@ export default function About() {
             </div>
 
             <p className="text-muted-foreground leading-relaxed text-lg">
-              Lexigen Trading is a South African company. We started with the conviction that vocabulary platforms built for the West don't always serve the needs, rhythms, or realities of learners in Africa and the Global South. We wanted something that was African in its origin, but genuinely global in its reach.
+              Lexigenz Trading is a South African company. We started with the conviction that vocabulary platforms built for the West don't always serve the needs, rhythms, or realities of learners in Africa and the Global South. We wanted something that was African in its origin, but genuinely global in its reach.
             </p>
             <p className="text-muted-foreground leading-relaxed text-lg">
-              That's why Lexigen launched with 19 languages from day one — including Afrikaans, Zulu, and Xhosa alongside global languages. That's why our archetype system celebrates personality and individuality over rote memorisation. And that's why we made community a core feature, not an afterthought.
+              That's why Lexigenz launched with 19 languages from day one — including Afrikaans, Zulu, and Xhosa alongside global languages. That's why our archetype system celebrates personality and individuality over rote memorisation. And that's why we made community a core feature, not an afterthought.
             </p>
 
             {/* Timeline */}
@@ -235,12 +235,12 @@ export default function About() {
             viewport={{ once: true }}
             className="mb-14"
           >
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">What Lexigen Delivers</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">What Lexigenz Delivers</p>
             <h2 className="text-4xl font-bold tracking-tighter max-w-xl">
               Built to build better language.
             </h2>
             <p className="text-muted-foreground text-lg mt-4 max-w-2xl">
-              Every feature on Lexigen is designed with one goal: helping Gen Z learners own the words they use — not just recognise them.
+              Every feature on Lexigenz is designed with one goal: helping Gen Z learners own the words they use — not just recognise them.
             </p>
           </motion.div>
 
@@ -259,12 +259,12 @@ export default function About() {
               {
                 tag: "03",
                 title: "Streak Rewards",
-                body: "Consistency is the whole game. Lexigen tracks your daily check-ins and rewards you with milestone badges at 7, 30, 100, and 365 days. Every streak is a visible record of real growth — and a motivator to keep showing up.",
+                body: "Consistency is the whole game. Lexigenz tracks your daily check-ins and rewards you with milestone badges at 7, 30, 100, and 365 days. Every streak is a visible record of real growth — and a motivator to keep showing up.",
               },
               {
                 tag: "04",
                 title: "Social Challenges for Gen Z Learners",
-                body: "Vocabulary grows fastest in community. Invite friends, challenge peers to word duels, compare streaks, and build your vocabulary circle across timezones and borders. Words have always been social — Lexigen just makes that explicit.",
+                body: "Vocabulary grows fastest in community. Invite friends, challenge peers to word duels, compare streaks, and build your vocabulary circle across timezones and borders. Words have always been social — Lexigenz just makes that explicit.",
               },
             ].map((item, i) => (
               <motion.div
