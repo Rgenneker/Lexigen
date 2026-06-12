@@ -9,11 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
-import { Globe, Menu, Lock, CheckCircle2, AlertTriangle, Clock } from "lucide-react";
+import { Globe, Menu, Lock, CheckCircle2, AlertTriangle, Clock, LogOut, Crown } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { AnimatePresence } from "framer-motion";
 import { LanguageUnlockModal } from "@/components/LanguageUnlockModal";
+import { useAuth } from "@/context/AuthContext";
 
 const LANGUAGES = [
   "English", "Spanish", "Portuguese", "French", "German", "Dutch",
@@ -35,6 +36,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [unlocks, setUnlocks] = useState<UnlockStatus[]>([]);
   const [unlockModal, setUnlockModal] = useState<{ language: string; isRenewal: boolean; daysRemaining?: number } | null>(null);
+  const { user, isRegistered, logout } = useAuth();
 
   const fetchUnlocks = useCallback(async () => {
     try {
@@ -79,18 +81,21 @@ export function Navbar() {
     setUnlockModal(null);
   };
 
+  const PROTECTED = ["/play", "/app", "/invite"];
+
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
-    { href: "/play", label: "Play" },
-    { href: "/app", label: "App" },
-    { href: "/invite", label: "Invite" },
+    { href: "/play", label: "Play", protected: true },
+    { href: "/app", label: "App", protected: true },
+    { href: "/invite", label: "Invite", protected: true },
     { href: "/faq", label: "FAQ" },
   ];
 
-  // Check if current language is expiring soon (≤7 days) or expired
   const currentStatus = language !== "English" ? getUnlockStatus(language) : null;
   const showRenewalBadge = currentStatus && (currentStatus.expired || currentStatus.daysRemaining <= 7);
+  const firstName = user?.name.split(" ")[0] ?? "";
+  const isPremium = user?.plan === "premium";
 
   return (
     <>
@@ -106,16 +111,19 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-all hover:text-primary hover:scale-105 ${
+                className={`text-sm font-medium transition-all hover:text-primary hover:scale-105 flex items-center gap-1 ${
                   location === link.href ? "text-primary" : "text-muted-foreground"
                 }`}
               >
                 {link.label}
+                {link.protected && !isRegistered && (
+                  <Lock className="h-2.5 w-2.5 opacity-50" />
+                )}
               </Link>
             ))}
           </div>
 
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
             {/* Renewal alert badge */}
             {showRenewalBadge && (
               <button
@@ -130,12 +138,7 @@ export function Navbar() {
             {/* Language picker */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 relative"
-                  title="Switch language"
-                >
+                <Button variant="ghost" size="icon" className="h-9 w-9 relative" title="Switch language">
                   <Globe className="h-4 w-4" />
                   {showRenewalBadge && (
                     <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-amber-500 rounded-full border-2 border-background" />
@@ -154,7 +157,6 @@ export function Navbar() {
                   const isActive = language === lang;
                   const nearExpiry = status && !status.expired && status.daysRemaining <= 7;
                   const expired = status?.expired;
-
                   return (
                     <DropdownMenuItem
                       key={lang}
@@ -196,14 +198,61 @@ export function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Link href="/premium">
-              <Button
-                variant="default"
-                className="bg-primary text-primary-foreground font-bold tracking-tight"
-              >
-                Get Premium
-              </Button>
-            </Link>
+            {/* User area */}
+            {isRegistered ? (
+              <div className="flex items-center gap-2">
+                {/* Plan badge */}
+                {isPremium ? (
+                  <span className="flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/25">
+                    <Crown className="h-3 w-3" />
+                    Premium
+                  </span>
+                ) : (
+                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-muted text-muted-foreground border border-border">
+                    Free
+                  </span>
+                )}
+
+                {/* User name + logout dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-border hover:border-primary/40 hover:bg-primary/5 transition-all text-sm font-semibold">
+                      <span className="w-6 h-6 rounded-full bg-primary/20 text-primary text-xs font-black flex items-center justify-center">
+                        {firstName[0]?.toUpperCase()}
+                      </span>
+                      {firstName}
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuLabel className="font-normal text-xs text-muted-foreground">
+                      {user?.email}
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {!isPremium && (
+                      <DropdownMenuItem asChild>
+                        <Link href="/premium" className="flex items-center gap-2 cursor-pointer text-primary font-semibold">
+                          <Crown className="h-3.5 w-3.5" />
+                          Upgrade to Premium
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuItem
+                      onClick={logout}
+                      className="flex items-center gap-2 cursor-pointer text-muted-foreground hover:text-destructive"
+                    >
+                      <LogOut className="h-3.5 w-3.5" />
+                      Sign out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              <Link href="/premium">
+                <Button variant="default" className="bg-primary text-primary-foreground font-bold tracking-tight">
+                  Get Premium
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Nav */}
@@ -215,20 +264,49 @@ export function Navbar() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="flex flex-col gap-6">
-                <div className="flex items-center gap-2 mt-4">
+                <div className="flex items-center justify-between mt-4">
                   <span className="font-bold text-2xl tracking-tighter text-primary">LEXIGENZ</span>
+                  {isRegistered && (
+                    <div className="flex items-center gap-2">
+                      {isPremium ? (
+                        <span className="flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/25">
+                          <Crown className="h-3 w-3" />Premium
+                        </span>
+                      ) : (
+                        <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border">
+                          Free
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
+
+                {isRegistered && (
+                  <div className="flex items-center gap-2 -mt-2 pb-2 border-b border-border">
+                    <span className="w-8 h-8 rounded-full bg-primary/20 text-primary text-sm font-black flex items-center justify-center">
+                      {firstName[0]?.toUpperCase()}
+                    </span>
+                    <div>
+                      <p className="text-sm font-bold">{user?.name}</p>
+                      <p className="text-xs text-muted-foreground">{user?.email}</p>
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex flex-col gap-4">
                   {navLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
                       onClick={() => setIsOpen(false)}
-                      className={`text-lg font-medium transition-all hover:text-primary hover:translate-x-1 ${
+                      className={`text-lg font-medium transition-all hover:text-primary hover:translate-x-1 flex items-center gap-2 ${
                         location === link.href ? "text-primary" : "text-muted-foreground"
                       }`}
                     >
                       {link.label}
+                      {link.protected && !isRegistered && (
+                        <Lock className="h-3.5 w-3.5 opacity-50" />
+                      )}
                     </Link>
                   ))}
 
@@ -257,11 +335,32 @@ export function Navbar() {
                     </div>
                   </div>
 
-                  <Link href="/premium" onClick={() => setIsOpen(false)}>
-                    <Button className="w-full mt-2 bg-primary text-primary-foreground font-bold">
-                      Get Premium
-                    </Button>
-                  </Link>
+                  {isRegistered ? (
+                    <div className="space-y-2 pt-2 border-t border-border">
+                      {!isPremium && (
+                        <Link href="/premium" onClick={() => setIsOpen(false)}>
+                          <Button className="w-full bg-primary text-primary-foreground font-bold">
+                            <Crown className="h-4 w-4 mr-2" />
+                            Upgrade to Premium
+                          </Button>
+                        </Link>
+                      )}
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => { logout(); setIsOpen(false); }}
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Sign out
+                      </Button>
+                    </div>
+                  ) : (
+                    <Link href="/premium" onClick={() => setIsOpen(false)}>
+                      <Button className="w-full mt-2 bg-primary text-primary-foreground font-bold">
+                        Get Premium
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>

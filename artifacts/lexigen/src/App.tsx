@@ -5,6 +5,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { AuthProvider } from "@/context/AuthContext";
+import { RegistrationGate } from "@/components/RegistrationGate";
+import { InviteReminderModal } from "@/components/InviteReminderModal";
+import { useAuth } from "@/context/AuthContext";
 import NotFound from "@/pages/not-found";
 
 import Home from "@/pages/Home";
@@ -33,6 +37,12 @@ const queryClient = new QueryClient({
   },
 });
 
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { isRegistered } = useAuth();
+  if (!isRegistered) return <RegistrationGate />;
+  return <>{children}</>;
+}
+
 function Router() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
@@ -43,9 +53,15 @@ function Router() {
           <Route path="/" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/how-it-works" component={HowItWorks} />
-          <Route path="/play" component={Play} />
-          <Route path="/app" component={AppPage} />
-          <Route path="/invite" component={Invite} />
+          <Route path="/play">
+            {() => <ProtectedRoute><Play /></ProtectedRoute>}
+          </Route>
+          <Route path="/app">
+            {() => <ProtectedRoute><AppPage /></ProtectedRoute>}
+          </Route>
+          <Route path="/invite">
+            {() => <ProtectedRoute><Invite /></ProtectedRoute>}
+          </Route>
           <Route path="/premium" component={Premium} />
           <Route path="/faq" component={FAQ} />
           <Route path="/contact" component={Contact} />
@@ -59,6 +75,7 @@ function Router() {
         </Switch>
       </main>
       <Footer />
+      <InviteReminderModal />
     </div>
   );
 }
@@ -67,9 +84,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </WouterRouter>
+        <AuthProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <Router />
+          </WouterRouter>
+        </AuthProvider>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
