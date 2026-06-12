@@ -138,7 +138,7 @@ function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
   const { data: gameData, isLoading } = useGetLexigenWord();
   const [letters, setLetters] = useState<{ char: string; used: boolean }[]>([]);
   const [formed, setFormed] = useState<string[]>([]);
-  const [timeLeft, setTimeLeft] = useState(120);
+  const [timeLeft, setTimeLeft] = useState(15);
   const [gameState, setGameState] = useState<"playing" | "won" | "lost">("playing");
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -188,7 +188,7 @@ function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Timer className="h-4 w-4 text-muted-foreground" />
-          <span className={`font-mono font-bold text-lg ${timeLeft < 30 ? "text-destructive" : ""}`}>
+          <span className={`font-mono font-bold text-lg ${timeLeft < 5 ? "text-destructive" : ""}`}>
             {String(Math.floor(timeLeft / 60)).padStart(2, "0")}:{String(timeLeft % 60).padStart(2, "0")}
           </span>
         </div>
@@ -268,7 +268,7 @@ function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
             animate={{ opacity: 1, scale: 1 }}
             className={`text-center py-4 rounded-xl font-bold ${gameState === "won" ? "bg-green-500/10 text-green-500 border border-green-500/30" : "bg-destructive/10 text-destructive border border-destructive/30"}`}
           >
-            {gameState === "won" ? `Nailed it! LEXIGENZ spelled in ${120 - timeLeft}s` : `Time's up! The word was ${gameData?.targetWord}`}
+            {gameState === "won" ? `Nailed it! LEXIGENZ spelled in ${15 - timeLeft}s` : `Time's up! The word was ${gameData?.targetWord}`}
           </motion.div>
         )}
       </AnimatePresence>
