@@ -14,6 +14,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { AnimatePresence } from "framer-motion";
 import { LanguageUnlockModal } from "@/components/LanguageUnlockModal";
+import { PaymentModal } from "@/components/PaymentModal";
 import { useAuth } from "@/context/AuthContext";
 
 const LANGUAGES = [
@@ -36,7 +37,8 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [unlocks, setUnlocks] = useState<UnlockStatus[]>([]);
   const [unlockModal, setUnlockModal] = useState<{ language: string; isRenewal: boolean; daysRemaining?: number } | null>(null);
-  const { user, isRegistered, logout } = useAuth();
+  const { user, isRegistered, logout, setPremium } = useAuth();
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const fetchUnlocks = useCallback(async () => {
     try {
@@ -209,9 +211,13 @@ export function Navbar() {
                     Premium
                   </span>
                 ) : (
-                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-muted text-muted-foreground border border-border">
+                  <button
+                    onClick={() => setShowPaymentModal(true)}
+                    title="Upgrade to Premium"
+                    className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-muted text-muted-foreground border border-border hover:border-primary/40 hover:text-primary hover:bg-primary/5 transition-all"
+                  >
                     Free
-                  </span>
+                  </button>
                 )}
 
                 {/* User name + logout dropdown */}
@@ -230,11 +236,12 @@ export function Navbar() {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     {!isPremium && (
-                      <DropdownMenuItem asChild>
-                        <Link href="/premium" className="flex items-center gap-2 cursor-pointer text-primary font-semibold">
-                          <Crown className="h-3.5 w-3.5" />
-                          Upgrade to Premium
-                        </Link>
+                      <DropdownMenuItem
+                        onClick={() => setShowPaymentModal(true)}
+                        className="flex items-center gap-2 cursor-pointer text-primary font-semibold"
+                      >
+                        <Crown className="h-3.5 w-3.5" />
+                        Upgrade to Premium
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem
@@ -339,12 +346,13 @@ export function Navbar() {
                   {isRegistered ? (
                     <div className="space-y-2 pt-2 border-t border-border">
                       {!isPremium && (
-                        <Link href="/premium" onClick={() => setIsOpen(false)}>
-                          <Button className="w-full bg-primary text-primary-foreground font-bold">
-                            <Crown className="h-4 w-4 mr-2" />
-                            Upgrade to Premium
-                          </Button>
-                        </Link>
+                        <Button
+                          className="w-full bg-primary text-primary-foreground font-bold"
+                          onClick={() => { setShowPaymentModal(true); setIsOpen(false); }}
+                        >
+                          <Crown className="h-4 w-4 mr-2" />
+                          Upgrade to Premium
+                        </Button>
                       )}
                       <Button
                         variant="outline"
@@ -378,6 +386,18 @@ export function Navbar() {
             daysRemaining={unlockModal.daysRemaining}
             onClose={() => setUnlockModal(null)}
             onSuccess={handleUnlockSuccess}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Premium Payment Modal */}
+      <AnimatePresence>
+        {showPaymentModal && user && (
+          <PaymentModal
+            onClose={() => setShowPaymentModal(false)}
+            onSuccess={() => { setPremium(); setShowPaymentModal(false); }}
+            userEmail={user.email}
+            userName={user.name}
           />
         )}
       </AnimatePresence>

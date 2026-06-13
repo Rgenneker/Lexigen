@@ -12,6 +12,7 @@ import { WORDLE_WORDS, SPELLING_BEE_WORDS, SPELLING_BEE_ADVANCED_WORDS, SPELLING
 import { ScrabbleGame } from "@/components/games/ScrabbleGame";
 import { CrosswordGame } from "@/components/games/CrosswordGame";
 import { WordGridGame } from "@/components/games/WordGridGame";
+import { PaymentModal } from "@/components/PaymentModal";
 
 function getLetterColor(letter: string, position: number, answer: string, guess: string): "correct" | "present" | "absent" {
   if (answer[position] === letter) return "correct";
@@ -646,7 +647,7 @@ function SpellingBeeCore({
 }
 
 // ─── SPELLING BEE WITH LEVEL PICKER ───────────────────────────
-function SpellingBeeWithLevels({ onScore, isPremium }: { onScore: (score: number) => void; isPremium: boolean }) {
+function SpellingBeeWithLevels({ onScore, isPremium, onUpgrade }: { onScore: (score: number) => void; isPremium: boolean; onUpgrade?: () => void }) {
   const [selectedLevel, setSelectedLevel] = useState<typeof SPELLING_BEE_LEVELS[0] | null>(null);
   const [openInfo, setOpenInfo] = useState<string | null>(null);
 
@@ -730,11 +731,9 @@ function SpellingBeeWithLevels({ onScore, isPremium }: { onScore: (score: number
               </div>
               {locked && (
                 <div className="mt-1.5">
-                  <Link href="/premium">
-                    <Button size="sm" className="w-full rounded-xl font-bold bg-primary text-xs h-9">
-                      <Crown className="h-3.5 w-3.5 mr-1.5" /> Unlock with Premium — $8 lifetime
-                    </Button>
-                  </Link>
+                  <Button size="sm" className="w-full rounded-xl font-bold bg-primary text-xs h-9" onClick={onUpgrade}>
+                    <Crown className="h-3.5 w-3.5 mr-1.5" /> Unlock with Premium — $8 lifetime
+                  </Button>
                 </div>
               )}
             </div>
@@ -808,8 +807,9 @@ export default function Play() {
   const [activeGame, setActiveGame] = useState<string | null>(null);
   const [helpGame, setHelpGame] = useState<string | null>(null);
   const { toast } = useToast();
-  const { user, logout } = useAuth();
+  const { user, logout, setPremium } = useAuth();
   const isPremium = user?.plan === "premium";
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const queryClient = useQueryClient();
   const submitScore = useSubmitGameScore();
   const { data: scores } = useListGameScores();
@@ -1027,6 +1027,7 @@ export default function Play() {
                     <SpellingBeeWithLevels
                       onScore={(s) => handleScore("Spelling Bee", s)}
                       isPremium={isPremium}
+                      onUpgrade={() => setShowPaymentModal(true)}
                     />
                   )}
                   {activeGame === "scrabble" && (
@@ -1100,6 +1101,18 @@ export default function Play() {
               </Button>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Premium payment modal */}
+      <AnimatePresence>
+        {showPaymentModal && user && (
+          <PaymentModal
+            onClose={() => setShowPaymentModal(false)}
+            onSuccess={() => { setPremium(); setShowPaymentModal(false); }}
+            userEmail={user.email}
+            userName={user.name}
+          />
         )}
       </AnimatePresence>
     </div>
