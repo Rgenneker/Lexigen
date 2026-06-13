@@ -9,6 +9,9 @@ import { Trophy, Timer, Gamepad2, RotateCcw, Volume2, Star, Crown, Lock, BookOpe
 import { useAuth } from "@/context/AuthContext";
 import { Link } from "wouter";
 import { WORDLE_WORDS, SPELLING_BEE_WORDS, SPELLING_BEE_ADVANCED_WORDS, SPELLING_BEE_BEGINNER_WORDS, SPELLING_BEE_LOWER_INTERMEDIATE_WORDS } from "@/data/wordBank";
+import { ScrabbleGame } from "@/components/games/ScrabbleGame";
+import { CrosswordGame } from "@/components/games/CrosswordGame";
+import { WordGridGame } from "@/components/games/WordGridGame";
 
 function getLetterColor(letter: string, position: number, answer: string, guess: string): "correct" | "present" | "absent" {
   if (answer[position] === letter) return "correct";
@@ -272,7 +275,7 @@ const SPELLING_BEE_LEVELS = [
     tagline: "Advanced vocabulary for senior learners and Matric preparation",
     timerSeconds: 30,
     targetWords: 100,
-    premium: false,
+    premium: true,
     certificateLabel: "Upper Intermediate Spelling Bee",
     wordPool: SPELLING_BEE_WORDS,
     badges: [
@@ -774,29 +777,29 @@ const GAMES = [
   {
     id: "scrabble",
     name: "Scrabble",
-    tag: "vs Computer",
-    desc: "Drag and drop tiles to form high-scoring words on the board.",
-    status: "coming",
+    tag: "4 Levels",
+    desc: "Tap 7 letter tiles to build high-scoring words. Rare letters earn more — use all 7 for a BINGO bonus!",
+    status: "live",
     emoji: "🎯",
-    howToPlay: "Form words on the board using your letter tiles. Score points based on letter values and bonus squares. Play against the computer to test your vocabulary breadth.",
+    howToPlay: "Choose a level, then tap letter tiles from your rack to build a word in the word area. Tap a selected letter to return it. Hit Submit when ready — the word must be valid and meet the minimum length for your level. Shuffle resets your rack. Using all 7 tiles earns a +50 BINGO bonus!",
   },
   {
     id: "crossword",
     name: "Crossword",
-    tag: "Daily Puzzle",
-    desc: "Fill in themed clues. New puzzle every day.",
-    status: "coming",
+    tag: "4 Puzzles",
+    desc: "Solve themed 5×5 mini crosswords. Click a clue or cell, then type your answer.",
+    status: "live",
     emoji: "📝",
-    howToPlay: "Read the clues and fill in the answer on the crossword grid. A brand-new puzzle is available every day. Complete the grid without errors to earn a perfect score.",
+    howToPlay: "Click a clue in the panel (or tap a cell in the grid) to select a word. A text input appears — type your answer. The grid fills in live as you type. Once all words are filled, press Check Answers to see your result. Green = correct, red = needs fixing.",
   },
   {
     id: "word-grid",
     name: "Word Grid",
-    tag: "6×6 Challenge",
-    desc: "Find hidden words in all directions in a 6×6 letter grid.",
-    status: "coming",
+    tag: "Boggle-Style",
+    desc: "Swipe or drag adjacent letters in a grid to spell words before the timer runs out.",
+    status: "live",
     emoji: "🔤",
-    howToPlay: "Hidden words are embedded horizontally, vertically, and diagonally in a 6×6 grid of letters. Find and highlight all the hidden words before time runs out.",
+    howToPlay: "Hold and drag (or swipe on mobile) across adjacent letters — including diagonals — to trace a word path. Release to submit. Each letter can only be used once per word. Longer words score more points. The number next to each tile shows its position in your current word.",
   },
 ];
 
@@ -1026,23 +1029,14 @@ export default function Play() {
                       isPremium={isPremium}
                     />
                   )}
-                  {["scrabble", "crossword", "word-grid"].includes(activeGame) && (
-                    <div className="text-center py-12 space-y-5">
-                      <div className="text-6xl">{GAMES.find(g => g.id === activeGame)?.emoji}</div>
-                      <div>
-                        <div className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 border border-amber-400/30 mb-3">
-                          <Crown className="h-3 w-3" /> Premium Early Access
-                        </div>
-                        <h3 className="text-xl font-bold">{GAMES.find(g => g.id === activeGame)?.name}</h3>
-                        <p className="text-sm text-muted-foreground mt-2 max-w-xs mx-auto">
-                          We're building this one. As a Premium member you'll be the first to play when it drops.
-                        </p>
-                      </div>
-                      <div className="inline-flex items-center gap-2 text-xs text-muted-foreground border border-border rounded-full px-4 py-2">
-                        <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                        In development — coming soon
-                      </div>
-                    </div>
+                  {activeGame === "scrabble" && (
+                    <ScrabbleGame onScore={(s) => handleScore("Scrabble", s)} />
+                  )}
+                  {activeGame === "crossword" && (
+                    <CrosswordGame onScore={(s) => handleScore("Crossword", s)} />
+                  )}
+                  {activeGame === "word-grid" && (
+                    <WordGridGame onScore={(s) => handleScore("Word Grid", s)} />
                   )}
                 </div>
 
