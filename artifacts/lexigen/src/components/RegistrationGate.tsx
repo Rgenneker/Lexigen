@@ -89,9 +89,9 @@ function PhoneInput({
   );
 }
 
-export function RegistrationGate({ initialTab = "register" }: { initialTab?: Tab }) {
+export function RegistrationGate({ initialTab = "register", loginOnly = false }: { initialTab?: Tab; loginOnly?: boolean }) {
   const { registerFree, login } = useAuth();
-  const [tab, setTab] = useState<Tab>(initialTab);
+  const [tab, setTab] = useState<Tab>(loginOnly ? "login" : initialTab);
   const [loginView, setLoginView] = useState<LoginView>("form");
 
   const [firstName, setFirstName] = useState("");
@@ -204,6 +204,8 @@ export function RegistrationGate({ initialTab = "register" }: { initialTab?: Tab
                 ? "Reset your password"
                 : loginView === "forgot-result"
                 ? "Temporary password"
+                : loginOnly
+                ? "Sign in to Lexigenz"
                 : "Welcome back"}
             </h1>
             <p className="text-muted-foreground text-sm mt-1.5">
@@ -217,21 +219,23 @@ export function RegistrationGate({ initialTab = "register" }: { initialTab?: Tab
             </p>
           </div>
 
-          {/* Tabs */}
-          <div className="px-8 pb-0">
-            <div className="flex rounded-xl bg-muted/40 p-1 gap-1">
-              {(["register", "login"] as Tab[]).map(t => (
-                <button
-                  key={t}
-                  type="button"
-                  onClick={() => { setTab(t); setError(""); resetLoginView(); }}
-                  className={`flex-1 h-9 rounded-lg text-sm font-bold transition-all ${tab === t ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
-                >
-                  {t === "register" ? "Register" : "Sign In"}
-                </button>
-              ))}
+          {/* Tabs — hidden when loginOnly */}
+          {!loginOnly && (
+            <div className="px-8 pb-0">
+              <div className="flex rounded-xl bg-muted/40 p-1 gap-1">
+                {(["register", "login"] as Tab[]).map(t => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => { setTab(t); setError(""); resetLoginView(); }}
+                    className={`flex-1 h-9 rounded-lg text-sm font-bold transition-all ${tab === t ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                  >
+                    {t === "register" ? "Register" : "Sign In"}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <AnimatePresence mode="wait">
             {tab === "register" ? (
@@ -488,12 +492,22 @@ export function RegistrationGate({ initialTab = "register" }: { initialTab?: Tab
                   {loading ? "Signing in…" : "Sign In →"}
                 </Button>
 
-                <p className="text-center text-sm text-muted-foreground">
-                  No account yet?{" "}
-                  <button type="button" onClick={() => { setTab("register"); setError(""); }} className="text-primary font-bold hover:underline">
-                    Register free
-                  </button>
-                </p>
+                {!loginOnly && (
+                  <p className="text-center text-sm text-muted-foreground">
+                    No account yet?{" "}
+                    <button type="button" onClick={() => { setTab("register"); setError(""); }} className="text-primary font-bold hover:underline">
+                      Register free
+                    </button>
+                  </p>
+                )}
+                {loginOnly && (
+                  <p className="text-center text-sm text-muted-foreground">
+                    Don't have an account?{" "}
+                    <Link href="/play" className="text-primary font-bold hover:underline">
+                      Register free on the games page
+                    </Link>
+                  </p>
+                )}
 
                 <div className="flex justify-center">
                   <Link href="/" className="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2">

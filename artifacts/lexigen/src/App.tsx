@@ -39,9 +39,9 @@ const queryClient = new QueryClient({
   },
 });
 
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
+function ProtectedRoute({ children, loginOnly }: { children: React.ReactNode; loginOnly?: boolean }) {
   const { isRegistered } = useAuth();
-  if (!isRegistered) return <RegistrationGate />;
+  if (!isRegistered) return <RegistrationGate loginOnly={loginOnly} />;
   return <>{children}</>;
 }
 
@@ -60,6 +60,9 @@ function Router() {
           </Route>
           <Route path="/app">
             {() => <ProtectedRoute><AppPage /></ProtectedRoute>}
+          </Route>
+          <Route path="/signin">
+            {() => <ProtectedRoute loginOnly><AppPage /></ProtectedRoute>}
           </Route>
           <Route path="/invite">
             {() => <ProtectedRoute><Invite /></ProtectedRoute>}

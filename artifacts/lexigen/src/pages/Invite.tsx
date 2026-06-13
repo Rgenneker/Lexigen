@@ -6,7 +6,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useSendInvite } from "@workspace/api-client-react";
 import { useToast } from "@/hooks/use-toast";
-import { Globe, Users, Zap, Heart, BookOpen, Brain, Sparkles } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { Globe, Users, Zap, Heart, BookOpen, Brain, Sparkles, Crown } from "lucide-react";
+
+const FREE_GAMES = ["Wordle", "Lexigenz Game", "Spelling Bee"];
+const PREMIUM_GAMES = ["Wordle", "Lexigenz Game", "Spelling Bee", "Spelling Bee — Proficient", "Word Grid", "Crossword"];
 
 const articles = [
   {
@@ -75,6 +79,9 @@ export default function Invite() {
   const [game, setGame] = useState("Wordle");
   const [sent, setSent] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
+  const isPremium = user?.plan === "premium";
+  const availableGames = isPremium ? PREMIUM_GAMES : FREE_GAMES;
   const sendInvite = useSendInvite();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -195,14 +202,22 @@ export default function Invite() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-semibold">Challenge game</label>
-                    <div className="grid grid-cols-3 gap-2">
-                      {["Wordle", "Lexigenz Game", "Word Grid"].map(g => (
+                    <div className="flex items-center justify-between">
+                      <label className="text-sm font-semibold">Challenge game</label>
+                      {!isPremium && (
+                        <span className="text-xs text-muted-foreground flex items-center gap-1">
+                          <Crown className="h-3 w-3 text-primary" />
+                          <span>Premium unlocks 6 games</span>
+                        </span>
+                      )}
+                    </div>
+                    <div className={`grid gap-2 ${availableGames.length <= 3 ? "grid-cols-3" : "grid-cols-2 sm:grid-cols-3"}`}>
+                      {availableGames.map(g => (
                         <button
                           key={g}
                           type="button"
                           onClick={() => setGame(g)}
-                          className={`p-3 rounded-xl border text-sm font-medium transition-all ${
+                          className={`p-3 rounded-xl border text-sm font-medium transition-all text-left leading-tight ${
                             game === g
                               ? "border-primary bg-primary/10 text-primary"
                               : "border-border hover:border-primary/30"
@@ -213,6 +228,11 @@ export default function Invite() {
                         </button>
                       ))}
                     </div>
+                    {!isPremium && (
+                      <p className="text-xs text-muted-foreground">
+                        <a href="/premium" className="text-primary font-semibold hover:underline">Upgrade to Premium</a> to challenge friends to all 6 games.
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">

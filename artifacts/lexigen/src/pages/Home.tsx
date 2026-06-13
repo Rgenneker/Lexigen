@@ -153,9 +153,9 @@ export default function Home() {
             <Button size="lg" variant="outline" onClick={() => setShowFreemium(true)} className="h-14 px-8 text-lg font-bold rounded-full border-2 border-green-500 text-green-600 hover:bg-green-500/10 hover:scale-105 transition-all">
               🎁 Register Free
             </Button>
-            <Link href="/app">
+            <Link href="/signin">
               <Button size="lg" className="h-14 px-8 text-lg font-bold rounded-full bg-primary hover:bg-primary/90 hover:scale-105 transition-all shadow-[0_0_40px_rgba(139,92,246,0.5)]">
-                Get Started
+                Sign In
               </Button>
             </Link>
           </motion.div>
