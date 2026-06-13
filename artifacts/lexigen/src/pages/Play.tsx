@@ -378,8 +378,23 @@ function SpellingBeeCore({
     utterance.pitch = 1.0;
     utterance.volume = 1;
     setIsSpeaking(true);
-    utterance.onend = () => { setIsSpeaking(false); setPhase("active"); startTimer(); setTimeout(() => inputRef.current?.focus(), 50); };
-    utterance.onerror = () => setIsSpeaking(false);
+
+    // iOS Safari sometimes never fires onend — use a fallback timer to keep the game moving
+    const advance = () => {
+      clearTimeout(fallback);
+      setIsSpeaking(false);
+      setPhase("active");
+      startTimer();
+      setTimeout(() => inputRef.current?.focus(), 50);
+    };
+    // Generous estimate: ~200 ms per character at rate 0.75, minimum 2 s
+    const fallback = setTimeout(advance, Math.max(2000, currentWord.word.length * 200));
+
+    utterance.onend = advance;
+    utterance.onerror = () => { clearTimeout(fallback); setIsSpeaking(false); advance(); };
+
+    // resume() is required on iOS when speechSynthesis was paused by the OS
+    window.speechSynthesis.resume();
     window.speechSynthesis.speak(utterance);
   }, [currentWord.word, isSpeaking, phase, startTimer]);
 
