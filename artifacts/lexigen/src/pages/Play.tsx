@@ -980,10 +980,28 @@ export default function Play() {
                     >
                       <Info className="h-4 w-4" />
                     </button>
-                    <Button variant="outline" size="sm" className="rounded-full" onClick={() => setActiveGame(null)} data-testid="button-back-to-games">
-                      ← All Games
-                    </Button>
                   </div>
+                </div>
+
+                {/* Wordshuffl promo — above All Games button */}
+                <a
+                  href="https://wordshuffl.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-2.5 w-full px-4 py-3 mb-4 rounded-xl border border-border bg-muted/40 hover:border-primary/40 hover:bg-primary/5 transition-all text-sm"
+                >
+                  <span className="text-lg flex-shrink-0">🔀</span>
+                  <span className="text-muted-foreground group-hover:text-foreground transition-colors leading-snug">
+                    tryna unscramble your words?{" "}
+                    <span className="font-bold text-primary underline underline-offset-2">do it rn at wordshuffl.com</span>
+                    <span className="ml-1 opacity-60 group-hover:opacity-100 transition-opacity">→</span>
+                  </span>
+                </a>
+
+                <div className="flex justify-end mb-6">
+                  <Button variant="outline" size="sm" className="rounded-full" onClick={() => setActiveGame(null)} data-testid="button-back-to-games">
+                    ← All Games
+                  </Button>
                 </div>
 
                 <div className={`p-6 rounded-2xl border bg-card shadow-[0_0_40px_rgba(139,92,246,0.1)] ${
