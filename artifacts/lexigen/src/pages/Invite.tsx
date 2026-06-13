@@ -10,7 +10,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Globe, Users, Zap, Heart, BookOpen, Brain, Sparkles, Crown } from "lucide-react";
 
 const FREE_GAMES = ["Wordle", "Lexigenz Game", "Spelling Bee"];
-const PREMIUM_GAMES = ["Wordle", "Lexigenz Game", "Spelling Bee", "Spelling Bee — Proficient", "Word Grid", "Crossword"];
+const PREMIUM_GAMES = ["Wordle", "Lexigenz Game", "Spelling Bee", "Spelling Bee — Proficient", "Scrabble", "Word Grid", "Crossword"];
 
 const articles = [
   {
