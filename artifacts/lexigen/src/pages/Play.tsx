@@ -674,14 +674,16 @@ function SpellingBeeWithLevels({ onScore, isPremium }: { onScore: (score: number
           const locked = level.premium && !isPremium;
           return (
             <div key={level.id}>
-              <button
-                onClick={() => !locked && setSelectedLevel(level)}
-                disabled={locked}
+              <div
                 className={`w-full text-left p-4 rounded-2xl border-2 transition-all ${
                   locked
                     ? "border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5 cursor-default"
                     : "border-border hover:border-primary hover:bg-primary/5 cursor-pointer active:scale-[0.99]"
                 }`}
+                onClick={() => !locked && setSelectedLevel(level)}
+                role={locked ? undefined : "button"}
+                tabIndex={locked ? undefined : 0}
+                onKeyDown={e => { if (!locked && (e.key === "Enter" || e.key === " ")) setSelectedLevel(level); }}
               >
                 <div className="flex items-center gap-3">
                   <span className="text-2xl flex-shrink-0">{level.emoji}</span>
@@ -696,14 +698,16 @@ function SpellingBeeWithLevels({ onScore, isPremium }: { onScore: (score: number
                     </div>
                     <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{level.tagline}</p>
                   </div>
-                  <button
-                    type="button"
+                  <div
+                    role="button"
+                    tabIndex={0}
                     onClick={e => { e.stopPropagation(); setOpenInfo(openInfo === level.id ? null : level.id); }}
-                    className="text-muted-foreground hover:text-foreground transition-colors flex-shrink-0 p-1"
+                    onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); setOpenInfo(openInfo === level.id ? null : level.id); } }}
+                    className="text-muted-foreground hover:text-foreground transition-colors flex-shrink-0 p-1 cursor-pointer"
                     aria-label={`Info about ${level.name}`}
                   >
                     <Info className="h-4 w-4" />
-                  </button>
+                  </div>
                 </div>
                 <AnimatePresence>
                   {openInfo === level.id && (
@@ -720,7 +724,7 @@ function SpellingBeeWithLevels({ onScore, isPremium }: { onScore: (score: number
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </button>
+              </div>
               {locked && (
                 <div className="mt-1.5">
                   <Link href="/premium">
@@ -865,7 +869,7 @@ export default function Play() {
               {GAMES.map((game, i) => {
                 const topScore = scores?.filter(s => s.game === game.name)[0];
                 const isComingSoon = game.status === "coming";
-                const isLive = game.status === "live";
+                const isClickable = game.status === "live" || isPremium;
                 return (
                   <motion.div
                     key={game.id}
@@ -873,17 +877,25 @@ export default function Play() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.07 }}
                     className={`relative p-6 rounded-2xl border bg-card transition-all group ${
-                      isLive
+                      isClickable
                         ? "border-primary/30 hover:border-primary hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] cursor-pointer"
                         : "border-border opacity-70"
                     }`}
-                    onClick={() => isLive ? setActiveGame(game.id) : undefined}
+                    onClick={() => isClickable ? setActiveGame(game.id) : undefined}
                     data-testid={`game-card-${game.id}`}
                   >
-                    {/* Coming soon overlay */}
-                    {isComingSoon && (
+                    {/* Coming soon overlay — only for free users */}
+                    {isComingSoon && !isPremium && (
                       <div className="absolute inset-0 rounded-2xl bg-background/50 backdrop-blur-sm flex items-center justify-center z-10">
                         <Badge className="font-bold bg-muted text-muted-foreground border-border shadow-sm">Coming Soon</Badge>
+                      </div>
+                    )}
+                    {/* Premium early-access badge for coming-soon games */}
+                    {isComingSoon && isPremium && (
+                      <div className="absolute top-3 right-10 z-10">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 border border-amber-400/30">
+                          <Crown className="h-2.5 w-2.5" /> Early Access
+                        </span>
                       </div>
                     )}
 
@@ -896,7 +908,6 @@ export default function Play() {
                           {game.tag}
                         </Badge>
                         <div className="flex items-center gap-1.5">
-                          {/* How to play info button */}
                           <button
                             type="button"
                             onClick={e => { e.stopPropagation(); setHelpGame(game.id); }}
@@ -905,7 +916,7 @@ export default function Play() {
                           >
                             <Info className="h-4 w-4" />
                           </button>
-                          {isLive && (
+                          {isClickable && (
                             game.id === "spelling-bee"
                               ? <span className="text-lg opacity-0 group-hover:opacity-100 transition-opacity">🐝</span>
                               : <Gamepad2 className="h-4 w-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -923,7 +934,7 @@ export default function Play() {
                           <span>Top: <strong className="text-foreground">{topScore.score}</strong> by {topScore.username}</span>
                         </div>
                       )}
-                      {isLive && (
+                      {isClickable && (
                         <Button
                           size="sm"
                           className={`w-full rounded-full mt-2 font-bold ${game.id === "spelling-bee" ? "bg-amber-500 hover:bg-amber-600 text-white" : "bg-primary hover:bg-primary/90"}`}
@@ -1014,6 +1025,24 @@ export default function Play() {
                       onScore={(s) => handleScore("Spelling Bee", s)}
                       isPremium={isPremium}
                     />
+                  )}
+                  {["scrabble", "crossword", "word-grid"].includes(activeGame) && (
+                    <div className="text-center py-12 space-y-5">
+                      <div className="text-6xl">{GAMES.find(g => g.id === activeGame)?.emoji}</div>
+                      <div>
+                        <div className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 border border-amber-400/30 mb-3">
+                          <Crown className="h-3 w-3" /> Premium Early Access
+                        </div>
+                        <h3 className="text-xl font-bold">{GAMES.find(g => g.id === activeGame)?.name}</h3>
+                        <p className="text-sm text-muted-foreground mt-2 max-w-xs mx-auto">
+                          We're building this one. As a Premium member you'll be the first to play when it drops.
+                        </p>
+                      </div>
+                      <div className="inline-flex items-center gap-2 text-xs text-muted-foreground border border-border rounded-full px-4 py-2">
+                        <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                        In development — coming soon
+                      </div>
+                    </div>
                   )}
                 </div>
 
