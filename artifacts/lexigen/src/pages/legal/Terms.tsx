@@ -99,7 +99,7 @@ export default function Terms() {
 
       <h2>11. Contact</h2>
       <p>
-        If you have questions about these Terms, please contact us at <a href="mailto:hello@lexigen.com">hello@lexigen.com</a> or visit our <a href="/contact">Contact page</a>.
+        If you have questions about these Terms, please contact us at <a href="mailto:hello@lexigenz.com">hello@lexigenz.com</a> or visit our <a href="/contact">Contact page</a>.
       </p>
     </LegalLayout>
   );

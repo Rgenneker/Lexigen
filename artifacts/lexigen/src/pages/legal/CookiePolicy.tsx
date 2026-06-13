@@ -112,7 +112,7 @@ export default function CookiePolicy() {
       <p>
         <strong>Information Officer / Data Protection Officer</strong><br />
         Lexigenz Trading<br />
-        Email: <a href="mailto:hello@lexigen.com">hello@lexigen.com</a>
+        Email: <a href="mailto:hello@lexigenz.com">hello@lexigenz.com</a>
       </p>
     </LegalLayout>
   );

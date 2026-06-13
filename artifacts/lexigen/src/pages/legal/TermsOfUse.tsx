@@ -96,7 +96,7 @@ export default function TermsOfUse() {
         For legal notices, compliance inquiries, or questions relating to these Terms:<br /><br />
         <strong>Legal Department / Compliance Office</strong><br />
         Lexigenz Trading<br />
-        Email: <a href="mailto:hello@lexigen.com">hello@lexigen.com</a><br /><br />
+        Email: <a href="mailto:hello@lexigenz.com">hello@lexigenz.com</a><br /><br />
         All legal notices must be submitted in writing and directed to the designated contact details above.
       </p>
     </LegalLayout>

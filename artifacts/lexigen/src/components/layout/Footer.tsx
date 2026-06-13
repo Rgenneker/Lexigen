@@ -38,8 +38,8 @@ export function Footer() {
             </div>
             <div className="text-xs text-muted-foreground">
               Support:{" "}
-              <a href="mailto:hello@lexigen.com" className="text-primary hover:underline font-medium">
-                hello@lexigen.com
+              <a href="mailto:hello@lexigenz.com" className="text-primary hover:underline font-medium">
+                hello@lexigenz.com
               </a>
             </div>
           </div>

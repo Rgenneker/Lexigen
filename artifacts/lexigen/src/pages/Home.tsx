@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { FreemiumModal } from "@/components/FreemiumModal";
+import { PaymentModal } from "@/components/PaymentModal";
+import { useAuth } from "@/context/AuthContext";
 import {
   Brain, Flame, Gamepad2, Globe, BookOpen, Zap, Star,
   TrendingUp, Users, Clock, CheckCircle2, ChevronRight,
@@ -132,6 +134,18 @@ const STATS = [
 
 export default function Home() {
   const [showFreemium, setShowFreemium] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const { user, isRegistered, setPremium } = useAuth();
+  const isPremium = user?.plan === "premium";
+  const [, navigate] = useLocation();
+
+  const handleGetPremium = () => {
+    if (isRegistered && !isPremium) {
+      setShowPaymentModal(true);
+    } else if (!isRegistered) {
+      navigate("/premium");
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -471,11 +485,9 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Link href="/premium">
-                <Button className="w-full rounded-2xl bg-primary font-bold">
-                  Get Premium — $8 Forever
-                </Button>
-              </Link>
+              <Button className="w-full rounded-2xl bg-primary font-bold" onClick={handleGetPremium}>
+                Get Premium — $8 Forever
+              </Button>
             </div>
           </div>
         </div>
@@ -494,11 +506,9 @@ export default function Home() {
             <Button size="lg" variant="outline" onClick={() => setShowFreemium(true)} className="h-14 px-8 text-lg font-bold rounded-full border-2 border-green-500 text-green-600 hover:bg-green-500/10">
               🎁 Register Free
             </Button>
-            <Link href="/premium">
-              <Button size="lg" className="h-14 px-8 text-lg font-bold rounded-full bg-primary hover:bg-primary/90 shadow-[0_0_40px_rgba(139,92,246,0.4)]">
-                Get Premium — $8 <Zap className="h-4 w-4 ml-2" />
-              </Button>
-            </Link>
+            <Button size="lg" className="h-14 px-8 text-lg font-bold rounded-full bg-primary hover:bg-primary/90 shadow-[0_0_40px_rgba(139,92,246,0.4)]" onClick={handleGetPremium}>
+              Get Premium — $8 <Zap className="h-4 w-4 ml-2" />
+            </Button>
           </div>
         </div>
       </section>
@@ -507,6 +517,18 @@ export default function Home() {
       <AnimatePresence>
         {showFreemium && (
           <FreemiumModal onClose={() => setShowFreemium(false)} />
+        )}
+      </AnimatePresence>
+
+      {/* Premium payment modal */}
+      <AnimatePresence>
+        {showPaymentModal && user && (
+          <PaymentModal
+            onClose={() => setShowPaymentModal(false)}
+            onSuccess={() => { setPremium(); setShowPaymentModal(false); }}
+            userEmail={user.email}
+            userName={user.name}
+          />
         )}
       </AnimatePresence>
     </div>

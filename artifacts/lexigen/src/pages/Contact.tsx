@@ -123,8 +123,8 @@ export default function Contact() {
         >
           <Mail className="h-4 w-4" />
           <span>Support email:</span>
-          <a href="mailto:hello@lexigen.com" className="text-primary font-semibold hover:underline">
-            hello@lexigen.com
+          <a href="mailto:hello@lexigenz.com" className="text-primary font-semibold hover:underline">
+            hello@lexigenz.com
           </a>
         </motion.div>
       </div>

@@ -77,8 +77,8 @@ export default function LegalDisclaimer() {
       <p>
         For questions regarding this Disclaimer, please contact:<br /><br />
         <strong>Lexigenz.com</strong><br />
-        Email: <a href="mailto:hello@lexigen.com">hello@lexigen.com</a><br />
-        Website: <a href="https://www.lexigen.com">www.lexigen.com</a>
+        Email: <a href="mailto:hello@lexigenz.com">hello@lexigenz.com</a><br />
+        Website: <a href="https://lexigenz.com">https://lexigenz.com</a>
       </p>
 
       <div className="mt-10 p-6 rounded-2xl border border-destructive/30 bg-destructive/5">

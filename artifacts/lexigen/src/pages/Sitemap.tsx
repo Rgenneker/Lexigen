@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ExternalLink } from "lucide-react";
 
-const BASE_URL = "https://www.lexigen.com";
+const BASE_URL = "https://lexigenz.com";
 
 const pages = [
   {
@@ -84,8 +84,8 @@ const pages = [
         href: "/contact",
         label: "Contact",
         url: `${BASE_URL}/contact`,
-        description: "Contact Lexigenz Trading. Send us a message or email hello@lexigen.com with questions, bug reports, or feature suggestions.",
-        keywords: ["contact Lexigenz", "Lexigenz support", "hello@lexigen.com", "vocabulary app support", "Lexigenz Trading contact"],
+        description: "Contact Lexigenz Trading. Send us a message or email hello@lexigenz.com with questions, bug reports, or feature suggestions.",
+        keywords: ["contact Lexigenz", "Lexigenz support", "hello@lexigenz.com", "vocabulary app support", "Lexigenz Trading contact"],
         priority: "0.6",
         changefreq: "Yearly",
       },

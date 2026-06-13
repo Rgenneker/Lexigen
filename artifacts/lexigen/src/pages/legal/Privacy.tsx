@@ -78,7 +78,7 @@ export default function Privacy() {
         Depending on your jurisdiction, you may have rights under applicable data protection law (including POPIA in South Africa and GDPR in the EU), including the right to access, correct, or delete personal data held about you.
       </p>
       <p>
-        Because we collect minimal identifiable data, most requests can be addressed simply by clearing your browser's cookies and localStorage. For other requests, contact us at <a href="mailto:hello@lexigen.com">hello@lexigen.com</a>.
+        Because we collect minimal identifiable data, most requests can be addressed simply by clearing your browser's cookies and localStorage. For other requests, contact us at <a href="mailto:hello@lexigenz.com">hello@lexigenz.com</a>.
       </p>
 
       <h2>8. Changes to This Policy</h2>
@@ -88,7 +88,7 @@ export default function Privacy() {
 
       <h2>9. Contact Us</h2>
       <p>
-        For privacy-related questions or requests, contact us at <a href="mailto:hello@lexigen.com">hello@lexigen.com</a> or visit our <a href="/contact">Contact page</a>.
+        For privacy-related questions or requests, contact us at <a href="mailto:hello@lexigenz.com">hello@lexigenz.com</a> or visit our <a href="/contact">Contact page</a>.
       </p>
     </LegalLayout>
   );
