@@ -939,6 +939,30 @@ export default function Play() {
             </div>
           )}
 
+          {/* Wordshuffl promo */}
+          {!activeGame && (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mt-6 flex items-center justify-center"
+            >
+              <a
+                href="https://wordshuffl.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl border border-border bg-card hover:border-primary/40 hover:bg-primary/5 transition-all text-sm"
+              >
+                <span className="text-xl">🔀</span>
+                <span className="text-muted-foreground group-hover:text-foreground transition-colors">
+                  tryna unscramble your words?{" "}
+                  <span className="font-bold text-primary underline underline-offset-2">do it rn at wordshuffl.com</span>
+                  <span className="ml-1 opacity-60 group-hover:opacity-100 transition-opacity">→</span>
+                </span>
+              </a>
+            </motion.div>
+          )}
+
           {/* Active Game Panel */}
           <AnimatePresence>
             {activeGame && (
