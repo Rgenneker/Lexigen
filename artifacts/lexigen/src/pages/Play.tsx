@@ -310,6 +310,15 @@ const SPELLING_BEE_LEVELS = [
   },
 ];
 
+function Row({ label, value, bad }: { label: string; value: string; bad?: boolean }) {
+  return (
+    <div className="flex justify-between gap-2">
+      <span className="text-muted-foreground">{label}</span>
+      <span className={bad ? "text-destructive font-semibold" : "text-foreground"}>{value}</span>
+    </div>
+  );
+}
+
 // ─── SPELLING BEE CORE ────────────────────────────────────────
 function SpellingBeeCore({
   wordPool,
@@ -345,8 +354,18 @@ function SpellingBeeCore({
   const [newBadge, setNewBadge] = useState<BadgeMilestone | null>(null);
   const [showCertificate, setShowCertificate] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [showDiag, setShowDiag] = useState(false);
+  const [diagVoices, setDiagVoices] = useState<SpeechSynthesisVoice[]>([]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Populate available TTS voices (browsers load them async)
+  useEffect(() => {
+    const load = () => setDiagVoices(window.speechSynthesis?.getVoices() ?? []);
+    load();
+    window.speechSynthesis?.addEventListener("voiceschanged", load);
+    return () => window.speechSynthesis?.removeEventListener("voiceschanged", load);
+  }, []);
 
   const currentWord = shuffled[wordIdx % shuffled.length];
   const earnedBadges = badges.filter(m => earnedStreaks.includes(m.streak));
@@ -481,10 +500,50 @@ function SpellingBeeCore({
       {/* Level + exit bar */}
       <div className="flex items-center justify-between">
         <span className="text-xs font-bold text-muted-foreground">{levelEmoji} {levelName}</span>
-        <button onClick={onExit} className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
-          <X className="h-3.5 w-3.5" /> Change level
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowDiag(d => !d)}
+            className="text-[10px] text-muted-foreground/60 hover:text-muted-foreground transition-colors underline underline-offset-2"
+          >
+            {showDiag ? "hide diagnostics" : "audio diagnostics"}
+          </button>
+          <button onClick={onExit} className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <X className="h-3.5 w-3.5" /> Change level
+          </button>
+        </div>
       </div>
+
+      {/* Audio diagnostics panel */}
+      {showDiag && (() => {
+        const ua = navigator.userAgent;
+        const isIOS = /iPhone|iPad|iPod/i.test(ua);
+        const isAndroid = /Android/i.test(ua);
+        const isSafari = /Safari/i.test(ua) && !/Chrome/i.test(ua);
+        const isChrome = /Chrome/i.test(ua);
+        const synthSupported = "speechSynthesis" in window;
+        const audioCtxSupported = "AudioContext" in window || "webkitAudioContext" in window;
+        const ctxState = audioCtxRef.current?.state ?? "not created yet";
+        const enVoices = diagVoices.filter(v => v.lang.startsWith("en"));
+
+        return (
+          <div className="rounded-xl border border-border bg-muted/30 p-3 text-[11px] space-y-1.5 font-mono">
+            <p className="font-sans font-bold text-xs text-foreground mb-2">🔍 Audio Diagnostics</p>
+            <Row label="OS" value={isIOS ? "iOS" : isAndroid ? "Android" : "Desktop/Other"} />
+            <Row label="Browser" value={isSafari ? "Safari" : isChrome ? "Chrome" : "Other"} />
+            <Row label="speechSynthesis" value={synthSupported ? "✅ supported" : "❌ not supported"} bad={!synthSupported} />
+            <Row label="AudioContext" value={audioCtxSupported ? "✅ supported" : "❌ not supported"} bad={!audioCtxSupported} />
+            <Row label="AudioContext state" value={ctxState} bad={ctxState === "suspended"} />
+            <Row label="Total TTS voices" value={String(diagVoices.length)} bad={diagVoices.length === 0} />
+            <Row label="English voices" value={String(enVoices.length)} bad={enVoices.length === 0} />
+            {enVoices.length > 0 && (
+              <Row label="Default EN voice" value={enVoices[0]?.name ?? "—"} />
+            )}
+            {diagVoices.length === 0 && (
+              <p className="text-destructive font-sans mt-1">⚠️ No voices found — device TTS engine may be disabled. Check Settings → Accessibility → Text to Speech.</p>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Stats bar */}
       <div className="flex items-center justify-between">
