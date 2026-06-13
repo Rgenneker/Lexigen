@@ -8,6 +8,7 @@ import gamesRouter from "./games";
 import inviteRouter from "./invite";
 import premiumRouter from "./premium";
 import languageUnlockRouter from "./language-unlock";
+import ttsRouter from "./tts";
 
 const router: IRouter = Router();
 
@@ -20,5 +21,6 @@ router.use(gamesRouter);
 router.use(inviteRouter);
 router.use(premiumRouter);
 router.use(languageUnlockRouter);
+router.use(ttsRouter);
 
 export default router;

@@ -389,20 +389,15 @@ function SpellingBeeCore({
     }, 1000);
   }, [stopTimer]);
 
-  // Shared AudioContext singleton — unlocking it on user gesture satisfies
-  // mobile browser autoplay policies and also unblocks speechSynthesis on
-  // some iOS/Android builds that route TTS through the WebAudio stack.
+  // AudioContext ref — unlocking it on gesture satisfies mobile autoplay policy
   const audioCtxRef = useRef<AudioContext | undefined>(undefined);
+  const [audioBlocked, setAudioBlocked] = useState(false);
+
   const unlockAudioContext = useCallback(() => {
     if (typeof AudioContext === "undefined") return;
-    if (!audioCtxRef.current) {
-      audioCtxRef.current = new AudioContext();
-    }
+    if (!audioCtxRef.current) audioCtxRef.current = new AudioContext();
     const ctx = audioCtxRef.current;
-    if (ctx.state === "suspended") {
-      void ctx.resume();
-    }
-    // Play a silent buffer — required by some Android browsers to fully unlock
+    if (ctx.state === "suspended") void ctx.resume();
     const buf = ctx.createBuffer(1, 1, 22050);
     const src = ctx.createBufferSource();
     src.buffer = buf;
@@ -410,38 +405,56 @@ function SpellingBeeCore({
     src.start(0);
   }, []);
 
-  const playWord = useCallback(() => {
-    if (!window.speechSynthesis || isSpeaking || phase === "result") return;
+  // Advance the game phase after audio has played (or failed)
+  const advanceAfterAudio = useCallback(() => {
+    setIsSpeaking(false);
+    setPhase("active");
+    startTimer();
+    setTimeout(() => inputRef.current?.focus(), 50);
+  }, [startTimer]);
 
-    // Step 1: unlock the audio subsystem synchronously inside the gesture handler
-    unlockAudioContext();
-
-    // Step 2: cancel any queued speech, resume the synthesis engine (fixes iOS pause)
+  // Fallback: speechSynthesis when HTML5 Audio fails
+  const speakWithSynthesis = useCallback(() => {
+    if (!window.speechSynthesis) { advanceAfterAudio(); return; }
     window.speechSynthesis.cancel();
     window.speechSynthesis.resume();
-
     const utterance = new SpeechSynthesisUtterance(currentWord.word.toLowerCase());
     utterance.rate = 0.75;
     utterance.pitch = 1.0;
     utterance.volume = 1;
+    const fallback = setTimeout(advanceAfterAudio, Math.max(2000, currentWord.word.length * 200));
+    utterance.onend = () => { clearTimeout(fallback); advanceAfterAudio(); };
+    utterance.onerror = () => { clearTimeout(fallback); advanceAfterAudio(); };
+    window.speechSynthesis.speak(utterance);
+  }, [currentWord.word, advanceAfterAudio]);
+
+  const playWord = useCallback(() => {
+    if (isSpeaking || phase === "result") return;
+
+    // Unlock AudioContext synchronously inside the user gesture
+    unlockAudioContext();
+    setAudioBlocked(false);
     setIsSpeaking(true);
 
-    // iOS Safari: onend sometimes never fires — fallback timer keeps game moving
-    const advance = () => {
-      clearTimeout(fallback);
-      setIsSpeaking(false);
-      setPhase("active");
-      startTimer();
-      setTimeout(() => inputRef.current?.focus(), 50);
-    };
-    // ~200 ms per character at rate 0.75, minimum 2 s
-    const fallback = setTimeout(advance, Math.max(2000, currentWord.word.length * 200));
+    // Primary: HTML5 Audio via server-proxied TTS (works on all mobile browsers)
+    const audio = new Audio(`/api/tts?word=${encodeURIComponent(currentWord.word.toLowerCase())}`);
+    audio.preload = "auto";
 
-    utterance.onend = advance;
-    utterance.onerror = () => { clearTimeout(fallback); advance(); };
-
-    window.speechSynthesis.speak(utterance);
-  }, [currentWord.word, isSpeaking, phase, startTimer, unlockAudioContext]);
+    audio.play()
+      .then(() => {
+        console.log("Audio playing successfully!");
+        audio.onended = advanceAfterAudio;
+        // Safety fallback if onended never fires (e.g. very short clip)
+        const guard = setTimeout(advanceAfterAudio, Math.max(3000, currentWord.word.length * 250));
+        audio.onended = () => { clearTimeout(guard); advanceAfterAudio(); };
+      })
+      .catch(() => {
+        // Autoplay blocked — show unmute overlay and try speechSynthesis
+        setAudioBlocked(true);
+        setIsSpeaking(false);
+        speakWithSynthesis();
+      });
+  }, [currentWord.word, isSpeaking, phase, unlockAudioContext, advanceAfterAudio, speakWithSynthesis]);
 
   const handleSubmit = useCallback(() => {
     if (phase !== "active" || !timerStarted) return;
@@ -635,6 +648,18 @@ function SpellingBeeCore({
         <p className="text-[11px] text-muted-foreground text-center">
           {isSpeaking ? "Listening…" : timerStarted ? "Tap to hear again · Timer running" : "Tap 🔊 — timer starts when word plays"}
         </p>
+
+        {/* Unmute overlay — shown when autoplay was blocked */}
+        {audioBlocked && (
+          <button
+            onClick={playWord}
+            onTouchStart={(e) => { e.preventDefault(); playWord(); }}
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500 text-white text-xs font-bold shadow-lg animate-bounce"
+          >
+            <Volume2 className="h-3.5 w-3.5" />
+            Tap to unmute
+          </button>
+        )}
       </div>
 
       {/* Typing input */}
