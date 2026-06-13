@@ -88,6 +88,7 @@ export function Navbar() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
+    { href: "/how-it-works", label: "How It Works" },
     { href: "/articles", label: "Articles" },
     { href: "/play", label: "Play", protected: true },
     { href: "/app", label: "App", protected: true },
