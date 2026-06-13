@@ -370,16 +370,44 @@ function SpellingBeeCore({
     }, 1000);
   }, [stopTimer]);
 
+  // Shared AudioContext singleton — unlocking it on user gesture satisfies
+  // mobile browser autoplay policies and also unblocks speechSynthesis on
+  // some iOS/Android builds that route TTS through the WebAudio stack.
+  const audioCtxRef = useRef<AudioContext | undefined>(undefined);
+  const unlockAudioContext = useCallback(() => {
+    if (typeof AudioContext === "undefined") return;
+    if (!audioCtxRef.current) {
+      audioCtxRef.current = new AudioContext();
+    }
+    const ctx = audioCtxRef.current;
+    if (ctx.state === "suspended") {
+      void ctx.resume();
+    }
+    // Play a silent buffer — required by some Android browsers to fully unlock
+    const buf = ctx.createBuffer(1, 1, 22050);
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(ctx.destination);
+    src.start(0);
+  }, []);
+
   const playWord = useCallback(() => {
     if (!window.speechSynthesis || isSpeaking || phase === "result") return;
+
+    // Step 1: unlock the audio subsystem synchronously inside the gesture handler
+    unlockAudioContext();
+
+    // Step 2: cancel any queued speech, resume the synthesis engine (fixes iOS pause)
     window.speechSynthesis.cancel();
+    window.speechSynthesis.resume();
+
     const utterance = new SpeechSynthesisUtterance(currentWord.word.toLowerCase());
     utterance.rate = 0.75;
     utterance.pitch = 1.0;
     utterance.volume = 1;
     setIsSpeaking(true);
 
-    // iOS Safari sometimes never fires onend — use a fallback timer to keep the game moving
+    // iOS Safari: onend sometimes never fires — fallback timer keeps game moving
     const advance = () => {
       clearTimeout(fallback);
       setIsSpeaking(false);
@@ -387,16 +415,14 @@ function SpellingBeeCore({
       startTimer();
       setTimeout(() => inputRef.current?.focus(), 50);
     };
-    // Generous estimate: ~200 ms per character at rate 0.75, minimum 2 s
+    // ~200 ms per character at rate 0.75, minimum 2 s
     const fallback = setTimeout(advance, Math.max(2000, currentWord.word.length * 200));
 
     utterance.onend = advance;
-    utterance.onerror = () => { clearTimeout(fallback); setIsSpeaking(false); advance(); };
+    utterance.onerror = () => { clearTimeout(fallback); advance(); };
 
-    // resume() is required on iOS when speechSynthesis was paused by the OS
-    window.speechSynthesis.resume();
     window.speechSynthesis.speak(utterance);
-  }, [currentWord.word, isSpeaking, phase, startTimer]);
+  }, [currentWord.word, isSpeaking, phase, startTimer, unlockAudioContext]);
 
   const handleSubmit = useCallback(() => {
     if (phase !== "active" || !timerStarted) return;
@@ -534,8 +560,9 @@ function SpellingBeeCore({
       <div className="flex flex-col items-center gap-3">
         <button
           onClick={playWord}
+          onTouchStart={(e) => { e.preventDefault(); playWord(); }}
           disabled={isSpeaking || phase === "result"}
-          title={timerStarted ? "Click to hear the word again" : "Click to hear your word — timer starts on first play"}
+          title={timerStarted ? "Tap to hear the word again" : "Tap to hear your word — timer starts on first play"}
           className={`relative w-16 h-16 rounded-full flex items-center justify-center transition-all border-2 ${
             isSpeaking ? "border-primary bg-primary/20 text-primary animate-pulse scale-110"
             : phase === "result" ? "border-border bg-muted text-muted-foreground opacity-40 cursor-not-allowed"
@@ -547,7 +574,7 @@ function SpellingBeeCore({
           {isSpeaking && <span className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-40" />}
         </button>
         <p className="text-[11px] text-muted-foreground text-center">
-          {isSpeaking ? "Listening…" : timerStarted ? "Click to hear again · Timer running" : "Click 🔊 — timer starts when word plays"}
+          {isSpeaking ? "Listening…" : timerStarted ? "Tap to hear again · Timer running" : "Tap 🔊 — timer starts when word plays"}
         </p>
       </div>
 

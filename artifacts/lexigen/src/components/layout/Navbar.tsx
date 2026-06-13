@@ -300,13 +300,20 @@ export function Navbar() {
 
                 {isRegistered && (
                   <div className="flex items-center gap-2 -mt-2 pb-2 border-b border-border">
-                    <span className="w-8 h-8 rounded-full bg-primary/20 text-primary text-sm font-black flex items-center justify-center">
+                    <span className="w-8 h-8 rounded-full bg-primary/20 text-primary text-sm font-black flex items-center justify-center flex-shrink-0">
                       {firstName[0]?.toUpperCase()}
                     </span>
-                    <div>
-                      <p className="text-sm font-bold">{user?.name}</p>
-                      <p className="text-xs text-muted-foreground">{user?.email}</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold truncate">{user?.name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
                     </div>
+                    <button
+                      onClick={() => { logout(); setIsOpen(false); }}
+                      title="Sign out"
+                      className="flex-shrink-0 p-2 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
+                    >
+                      <LogOut className="h-4 w-4" />
+                    </button>
                   </div>
                 )}
 
