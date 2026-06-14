@@ -53,29 +53,8 @@ function Router() {
       <Navbar />
 
       {/* Sponsored content strip */}
-      <style>{`
-        #container-41d4aabb3588a1d80140791be9b04f74,
-        #container-41d4aabb3588a1d80140791be9b04f74 > *,
-        #container-41d4aabb3588a1d80140791be9b04f74 table,
-        #container-41d4aabb3588a1d80140791be9b04f74 td,
-        #container-41d4aabb3588a1d80140791be9b04f74 tr,
-        #container-41d4aabb3588a1d80140791be9b04f74 div {
-          background-color: transparent !important;
-          background: transparent !important;
-          color: hsl(var(--foreground)) !important;
-        }
-        #container-41d4aabb3588a1d80140791be9b04f74 a {
-          color: hsl(var(--foreground)) !important;
-        }
-      `}</style>
-      <div className="w-full border-b border-border bg-background">
-        <div className="container mx-auto px-4 max-w-6xl py-2">
-          <p className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">Sponsored</p>
-          <div
-            id="container-41d4aabb3588a1d80140791be9b04f74"
-            style={{ zoom: 0.55, overflow: "hidden" }}
-          />
-        </div>
+      <div className="w-full border-b border-border">
+        <div id="container-41d4aabb3588a1d80140791be9b04f74" />
       </div>
 
       <main className="flex-1 flex flex-col">
