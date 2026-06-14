@@ -22,6 +22,11 @@ const legal = [
 export function Footer() {
   return (
     <footer className="border-t border-border bg-card mt-auto">
+      {/* Ad banner — full width strip above footer content */}
+      <div className="w-full flex justify-center py-4 bg-muted/30 border-b border-border">
+        <div id="container-41d4aabb3588a1d80140791be9b04f74" />
+      </div>
+
       <div className="container mx-auto px-4 py-16 max-w-6xl">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
