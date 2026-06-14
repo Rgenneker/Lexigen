@@ -50,21 +50,6 @@ function Router() {
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <ScrollToTop />
 
-      {/* Ad bar — slim strip at the very top of every page */}
-      <div
-        style={{
-          width: "100%",
-          maxHeight: "70px",
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "transparent",
-        }}
-      >
-        <div id="container-41d4aabb3588a1d80140791be9b04f74" style={{ width: "100%", maxHeight: "70px", overflow: "hidden" }} />
-      </div>
-
       <Navbar />
       <main className="flex-1 flex flex-col">
         <Switch>
