@@ -52,16 +52,15 @@ function Router() {
 
       <Navbar />
 
-      {/* Content recommendation ad — scaled down to thumbnail strip */}
-      <div style={{ width: "100%", background: "#1a1a1a", overflow: "hidden" }}>
-        <div
-          id="container-41d4aabb3588a1d80140791be9b04f74"
-          style={{
-            transformOrigin: "top left",
-            transform: "scale(0.55)",
-            width: "182%",   /* compensate: 1/0.55 ≈ 1.82 so content fills full width */
-          }}
-        />
+      {/* Sponsored content strip */}
+      <div className="w-full border-b border-border bg-background">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <p className="text-[10px] text-muted-foreground uppercase tracking-widest pt-2 pb-1">Sponsored</p>
+          <div
+            id="container-41d4aabb3588a1d80140791be9b04f74"
+            style={{ zoom: 0.5, overflow: "hidden" }}
+          />
+        </div>
       </div>
 
       <main className="flex-1 flex flex-col">
