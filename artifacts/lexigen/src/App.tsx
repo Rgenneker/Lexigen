@@ -51,6 +51,12 @@ function Router() {
       <ScrollToTop />
 
       <Navbar />
+
+      {/* Content recommendation ad — full width, below navbar, top of every page */}
+      <div className="w-full bg-[#1a1a1a]">
+        <div id="container-41d4aabb3588a1d80140791be9b04f74" />
+      </div>
+
       <main className="flex-1 flex flex-col">
         <Switch>
           <Route path="/" component={Home} />
