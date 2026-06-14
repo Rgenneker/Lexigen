@@ -85,6 +85,12 @@ function Router() {
       </main>
       <Footer />
       <InviteReminderModal />
+
+      {/* Ad — fixed top-left, just below the navbar */}
+      <div
+        style={{ position: "fixed", top: "64px", left: "0", zIndex: 40 }}
+        id="container-41d4aabb3588a1d80140791be9b04f74"
+      />
     </div>
   );
 }
