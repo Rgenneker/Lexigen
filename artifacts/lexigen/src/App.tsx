@@ -52,9 +52,16 @@ function Router() {
 
       <Navbar />
 
-      {/* Content recommendation ad — full width, below navbar, top of every page */}
-      <div className="w-full bg-[#1a1a1a]">
-        <div id="container-41d4aabb3588a1d80140791be9b04f74" />
+      {/* Content recommendation ad — scaled down to thumbnail strip */}
+      <div style={{ width: "100%", background: "#1a1a1a", overflow: "hidden" }}>
+        <div
+          id="container-41d4aabb3588a1d80140791be9b04f74"
+          style={{
+            transformOrigin: "top left",
+            transform: "scale(0.55)",
+            width: "182%",   /* compensate: 1/0.55 ≈ 1.82 so content fills full width */
+          }}
+        />
       </div>
 
       <main className="flex-1 flex flex-col">
