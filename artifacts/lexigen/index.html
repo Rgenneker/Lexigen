@@ -38,6 +38,122 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- AI / Agent discoverability -->
+    <link rel="alternate" type="text/plain" href="https://lexigenz.com/llms.txt" title="LLMs.txt — AI Agent Reference" />
+
+    <!-- JSON-LD: WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://lexigenz.com/#website",
+      "name": "LexigenZ",
+      "alternateName": ["Lexigenz", "LexigenZ Vocabulary App"],
+      "url": "https://lexigenz.com",
+      "description": "South African daily vocabulary app for Gen Z and millennials. Word of the day, spelling bee, Wordle, Scrabble, crossword, anagram games, and 300,000+ word reference pages.",
+      "inLanguage": "en",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://lexigenz.com/word/{search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- JSON-LD: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://lexigenz.com/#organization",
+      "name": "Lexigenz Trading",
+      "url": "https://lexigenz.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://lexigenz.com/favicon.svg"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "hello@lexigenz.com",
+        "contactType": "customer support"
+      },
+      "areaServed": "ZA",
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "South Africa"
+      },
+      "sameAs": [
+        "https://twitter.com/lexigenz"
+      ]
+    }
+    </script>
+
+    <!-- JSON-LD: WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "@id": "https://lexigenz.com/#webapp",
+      "name": "LexigenZ",
+      "url": "https://lexigenz.com",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "offers": [
+        {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "ZAR",
+          "name": "Free Plan"
+        },
+        {
+          "@type": "Offer",
+          "price": "49",
+          "priceCurrency": "ZAR",
+          "name": "Premium Plan"
+        }
+      ],
+      "featureList": [
+        "Word of the Day",
+        "Spelling Bee Game",
+        "Wordle-style Game",
+        "Scrabble Helper",
+        "Crossword Solver",
+        "Word Search",
+        "Anagram Solver",
+        "Vocabulary Streaks",
+        "Word Journal",
+        "19 Languages Supported",
+        "Birth Archetype Personalisation",
+        "300,000+ Word Reference Pages"
+      ],
+      "inLanguage": "en",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Gen Z, Millennials, Students, Professionals"
+      }
+    }
+    </script>
+
+    <!-- JSON-LD: SiteLinksSearchBox -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "LexigenZ — Daily Vocabulary Builder",
+      "url": "https://lexigenz.com",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": ["h1", "h2", ".word-of-the-day", ".speakable"]
+      },
+      "isPartOf": {
+        "@id": "https://lexigenz.com/#website"
+      }
+    }
+    </script>
+
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9774952664394142"
      crossorigin="anonymous"></script>

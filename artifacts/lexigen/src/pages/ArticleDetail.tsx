@@ -7,17 +7,39 @@ import { ArrowLeft, Clock, Share2, Check, BookOpen } from "lucide-react";
 import { useState } from "react";
 import { ARTICLES, CATEGORY_COLORS } from "@/data/articles";
 import NotFound from "@/pages/not-found";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
-export default function ArticleDetail() {
-  const { id } = useParams<{ id: string }>();
+function ArticleDetailInner({ id }: { id: string }) {
   const [copied, setCopied] = useState(false);
-  const article = ARTICLES.find((a) => a.id === id);
+  const article = ARTICLES.find((a) => a.id === id)!;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  if (!article) return <NotFound />;
+  usePageMeta({
+    title: `${article.title} | LexigenZ`,
+    description: article.excerpt,
+    canonical: `/articles/${id}`,
+    ogType: "article",
+    keywords: `vocabulary, English words, ${article.category}, language learning, LexigenZ`,
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: article.title,
+      description: article.excerpt,
+      author: { "@type": "Organization", name: "Lexigenz Trading", url: "https://lexigenz.com" },
+      publisher: {
+        "@type": "Organization",
+        name: "LexigenZ",
+        logo: { "@type": "ImageObject", url: "https://lexigenz.com/favicon.svg" },
+      },
+      url: `https://lexigenz.com/articles/${id}`,
+      mainEntityOfPage: { "@type": "WebPage", "@id": `https://lexigenz.com/articles/${id}` },
+      articleSection: article.category,
+      timeRequired: `PT${article.readTime}M`,
+    },
+  });
 
   const currentIndex = ARTICLES.findIndex((a) => a.id === id);
   const prev = currentIndex > 0 ? ARTICLES[currentIndex - 1] : null;
@@ -136,4 +158,11 @@ export default function ArticleDetail() {
       </div>
     </div>
   );
+}
+
+export default function ArticleDetail() {
+  const { id } = useParams<{ id: string }>();
+  const article = ARTICLES.find((a) => a.id === id);
+  if (!article) return <NotFound />;
+  return <ArticleDetailInner id={id!} />;
 }

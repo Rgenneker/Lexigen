@@ -1,13 +1,19 @@
 User-agent: *
 Allow: /
-
-# Sitemap location
-Sitemap: https://www.lexigenz.com/sitemap.xml
-
-# Block internal API routes from indexing
 Disallow: /api/
 
-# Allow AdSense and Google crawlers full access
+# Sitemap locations
+Sitemap: https://lexigenz.com/sitemap-index.xml
+Sitemap: https://lexigenz.com/sitemap.xml
+Sitemap: https://lexigenz.com/sitemap-words.xml
+Sitemap: https://lexigenz.com/sitemap-categories.xml
+Sitemap: https://lexigenz.com/sitemap-lists.xml
+Sitemap: https://lexigenz.com/sitemap-articles.xml
+
+# LLMs and AI agent reference
+# See https://lexigenz.com/llms.txt for full AI/agent documentation
+
+# Google
 User-agent: Mediapartners-Google
 Allow: /
 
@@ -16,3 +22,52 @@ Allow: /
 
 User-agent: AdsBot-Google-Mobile
 Allow: /
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing / Microsoft
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# AI & LLM crawlers — explicitly permitted
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Block internal/private routes
+User-agent: *
+Disallow: /api/
+Disallow: /_vite/
+Disallow: /src/

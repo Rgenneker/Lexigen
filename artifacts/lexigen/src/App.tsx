@@ -24,6 +24,10 @@ import HowItWorks from "@/pages/HowItWorks";
 
 import Articles from "@/pages/Articles";
 import ArticleDetail from "@/pages/ArticleDetail";
+import WordPage from "@/pages/word/WordPage";
+import CategoryPage from "@/pages/word/CategoryPage";
+import VocabularyListPage from "@/pages/word/VocabularyListPage";
+import HubPage from "@/pages/word/HubPage";
 import Terms from "@/pages/legal/Terms";
 import Privacy from "@/pages/legal/Privacy";
 import TermsOfUse from "@/pages/legal/TermsOfUse";
@@ -79,6 +83,14 @@ function Router() {
           </Route>
           <Route path="/articles" component={Articles} />
           <Route path="/articles/:id" component={ArticleDetail} />
+          <Route path="/word/:slug/synonyms">{(p) => <WordPage slug={p.slug} type="synonyms" />}</Route>
+          <Route path="/word/:slug/antonyms">{(p) => <WordPage slug={p.slug} type="antonyms" />}</Route>
+          <Route path="/word/:slug/in-a-sentence">{(p) => <WordPage slug={p.slug} type="in-a-sentence" />}</Route>
+          <Route path="/word/:slug/advanced-alternatives">{(p) => <WordPage slug={p.slug} type="advanced-alternatives" />}</Route>
+          <Route path="/word/:slug">{(p) => <WordPage slug={p.slug} type="definition" />}</Route>
+          <Route path="/words/:type/:value" component={CategoryPage} />
+          <Route path="/vocabulary/:slug" component={VocabularyListPage} />
+          <Route path="/hub/:hub" component={HubPage} />
           <Route path="/faq" component={FAQ} />
           <Route path="/contact" component={Contact} />
           <Route path="/sitemap" component={Sitemap} />
