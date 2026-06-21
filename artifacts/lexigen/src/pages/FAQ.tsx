@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
-const CATEGORIES = ["All", "Getting Started", "Archetypes", "Games", "Premium", "Languages", "Privacy & Data", "Technical"];
+const CATEGORIES = ["All", "Getting Started", "Vocabulary", "Archetypes", "Games", "Premium", "Languages", "Privacy & Data", "Technical"];
 
 const faqs: { q: string; a: string; category: string }[] = [
   // Getting Started
@@ -211,6 +211,53 @@ const faqs: { q: string; a: string; category: string }[] = [
     category: "Technical",
     q: "Can I use Lexigenz offline?",
     a: "Lexigenz is a web-based platform and currently requires an internet connection to load your daily word, sync your streak, and access the games. We're exploring offline features for a future update. For now, the lightest way to access Lexigenz on mobile is to add the site to your home screen — it loads quickly even on slower connections."
+  },
+
+  // Vocabulary
+  {
+    category: "Vocabulary",
+    q: "How do I improve my vocabulary quickly?",
+    a: "The fastest path to vocabulary growth is a daily system — not a cramming session. Learn one new word every day with full context: its definition, etymology, and an example sentence you write yourself. Use spaced repetition to review words at increasing intervals (day 1, 3, 7, 14, 30). Read broadly outside your comfort zone. And use every new word in real conversation within 24 hours of learning it. Lexigenz is built around this exact system — one word per day, sentence builder, game reinforcement, and a Word Journal to track your progress."
+  },
+  {
+    category: "Vocabulary",
+    q: "What is the difference between active and passive vocabulary?",
+    a: "Your passive vocabulary is the set of words you understand when you read or hear them. Your active vocabulary is the set of words you actually use when you speak or write. Most adults have a passive vocabulary three to five times larger than their active vocabulary. The goal of vocabulary building is to convert passive recognition into active use — which requires deliberate practice like sentence writing, not just reading definitions."
+  },
+  {
+    category: "Vocabulary",
+    q: "How many words does the average person know?",
+    a: "Research suggests adult native English speakers have passive vocabularies of around 20,000–35,000 words, with active vocabularies of 5,000–10,000 words. Highly educated professionals and avid readers can have passive vocabularies exceeding 50,000 words. Vocabulary growth slows significantly in adulthood unless deliberately cultivated — which is exactly what Lexigenz is designed to support."
+  },
+  {
+    category: "Vocabulary",
+    q: "What vocabulary level do I need for professional English?",
+    a: "Research suggests that a vocabulary of around 8,000–9,000 word families provides access to approximately 98% of everyday professional English text. However, truly fluent and confident professional communication requires an active vocabulary well above this — particularly for writing, presenting, and negotiating. Academic and executive-level communication draws on a significantly broader range of precise, formal vocabulary. Lexigenz includes vocabulary lists tailored to business, academic, and advanced English contexts."
+  },
+  {
+    category: "Vocabulary",
+    q: "Does Lexigenz help with GRE or IELTS vocabulary preparation?",
+    a: "Yes. Lexigenz's vocabulary library includes high-frequency academic and advanced English words that appear frequently in GRE verbal sections, IELTS reading and writing tasks, and similar standardised tests. The personalised daily word system, sentence builder, and spaced repetition structure make it effective preparation for vocabulary-intensive exams — alongside dedicated test prep resources."
+  },
+  {
+    category: "Vocabulary",
+    q: "What are the best words to learn to sound more professional?",
+    a: "The most impactful professional vocabulary upgrades come from Tier 2 academic and business words — high-frequency words that appear across many professional contexts. Words like: articulate, substantiate, commensurate, iterate, pragmatic, synthesise, cogent, perspicacious, and galvanise. These words are precise, versatile, and signal clear, confident thinking. The Lexigenz vocabulary hub includes curated business vocabulary lists you can explore at your own pace."
+  },
+  {
+    category: "Vocabulary",
+    q: "How does Lexigenz's word-of-the-day work?",
+    a: "Every day, Lexigenz delivers one new word matched to your birth-based vocabulary archetype. Unlike generic word-of-the-day services, Lexigenz personalises the selection based on your archetype's language profile — so the words align with how you naturally think and communicate. Each word comes with its full definition, pronunciation, etymology, example sentences, and a Sentence Builder prompt so you can create your own context for the word and save it to your Word Journal."
+  },
+  {
+    category: "Vocabulary",
+    q: "Can vocabulary building help my Wordle and Scrabble performance?",
+    a: "Absolutely. Wordle rewards knowledge of common five-letter word patterns and high-frequency English letters (E, A, R, O, T, L, I, S, N). Scrabble rewards a completely different set — two-letter words, high-value Q/Z/X words, and bingo seven-letter plays. Lexigenz's game hubs include vocabulary lists and strategy guides specifically for Wordle and Scrabble players, alongside the Lexigenz vocabulary game that reinforces your daily words through competitive play."
+  },
+  {
+    category: "Vocabulary",
+    q: "What is the best way to memorise new words permanently?",
+    a: "Permanent vocabulary retention requires three things: context (learn words in sentences, not in isolation), generation (write your own sentences using the word — don't just read others'), and spaced repetition (review words at increasing intervals: 1, 3, 7, 14, and 30 days after first encounter). Words reviewed five times at these intervals typically move into long-term memory. The Lexigenz system is built around these three principles."
   },
 ];
 

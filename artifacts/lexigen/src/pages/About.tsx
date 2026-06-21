@@ -284,6 +284,41 @@ export default function About() {
         </div>
       </section>
 
+      {/* What Lexigenz Covers */}
+      <section className="py-20 px-4 bg-background border-t border-border">
+        <div className="container mx-auto max-w-4xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
+            <h2 className="text-3xl font-black mb-3">Everything Vocabulary, in One Place</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto text-sm">
+              Lexigenz is a full vocabulary ecosystem — daily words, word games, vocabulary lists, and learning tools across 19 languages.
+            </p>
+          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {[
+              { title: "Vocabulary Builder", desc: "Grow your English vocabulary with one personalised word per day — with etymology, usage, and sentence practice.", href: "/vocabulary" },
+              { title: "Word of the Day", desc: "A new word every day matched to your archetype — with full context, pronunciation, and example sentences.", href: "/word-of-the-day" },
+              { title: "Wordle Word Help", desc: "Vocabulary-focused Wordle game plus strategy guides and word lists for every Wordle player.", href: "/wordle-words" },
+              { title: "Scrabble Word Finder", desc: "High-value Scrabble words, two-letter words, Q-without-U words, and gameplay strategies.", href: "/scrabble-words" },
+              { title: "Spelling Bee Words", desc: "Vocabulary practice for spelling competition — from beginner lists to advanced championship-level words.", href: "/spelling-bee-words" },
+              { title: "Dictionary & Definitions", desc: "Look up any English word with full definitions, etymology, synonyms, antonyms, and pronunciation.", href: "/dictionary" },
+              { title: "Synonym Finder", desc: "Find the right synonym for any word — with context notes on nuance and register differences.", href: "/synonym-finder" },
+              { title: "Crossword Solver", desc: "Crossword vocabulary guides, common fill words, and clue-reading strategies for all levels.", href: "/crossword-words" },
+              { title: "Vocabulary Lists", desc: "Curated word lists by theme, difficulty, and use case — from GRE prep to business communication.", href: "/vocabulary-lists/advanced-english" },
+            ].map((item) => (
+              <Link key={item.title} href={item.href}>
+                <motion.div
+                  whileHover={{ y: -2 }}
+                  className="p-5 rounded-2xl border border-border bg-card hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer h-full"
+                >
+                  <h3 className="font-bold text-sm mb-2">{item.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Promise + CTA */}
       <section className="py-20 px-4 bg-card">
         <div className="container mx-auto max-w-3xl">
