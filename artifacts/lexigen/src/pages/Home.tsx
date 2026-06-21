@@ -5,11 +5,36 @@ import { Link, useLocation } from "wouter";
 import { FreemiumModal } from "@/components/FreemiumModal";
 import { PaymentModal } from "@/components/PaymentModal";
 import { useAuth } from "@/context/AuthContext";
+import { InteractiveCategoryBrowser } from "@/components/InteractiveCategoryBrowser";
+
 import {
   Brain, Flame, Gamepad2, Globe, BookOpen, Zap, Star,
   TrendingUp, Users, Clock, CheckCircle2, ChevronRight,
   Trophy, Sparkles, Target, BarChart3, Lock,
 } from "lucide-react";
+
+const HOME_BROWSE_CATEGORIES = [
+  {
+    id: "emotions",
+    label: "Emotion vocabulary",
+    words: ["joy","sorrow","anger","fear","surprise","disgust","trust","anticipation","melancholy","elated","anxious","serene","frustrated","euphoric","despondent","apprehensive","jubilant","forlorn","exhilarated","dejected","resentful","compassion","empathy","nostalgia","gratitude","remorse","envy","pride","shame","awe","contempt","longing","tranquil","agitated","ecstatic","wistful","indignant","content","bewildered","optimistic","grief","admiration","regret","tenderness","anguish","serenity","elation","dread","hope","affection"],
+  },
+  {
+    id: "business",
+    label: "Business vocabulary",
+    words: ["accountability","acquisition","agility","analytics","benchmark","capital","catalyst","collaborate","competitive","compliance","deliverable","differentiation","disruptive","ecosystem","efficiency","engagement","entrepreneur","equity","execution","forecast","framework","governance","growth","implementation","incentive","innovation","leadership","leverage","margin","metrics","milestone","monetize","negotiation","optimization","performance","pipeline","portfolio","productivity","profitability","revenue","roadmap","scalability","stakeholder","strategy","sustainability","synergy","traction","transformation","transparency","venture"],
+  },
+  {
+    id: "academic",
+    label: "Academic words",
+    words: ["abstract","analysis","annotation","argument","assertion","bibliography","causation","citation","classification","coherence","commentary","conceptual","conclusion","contradiction","critical","critique","deduction","dialectic","discourse","empirical","epistemology","evaluate","evidence","exemplify","extrapolate","fallacy","generalization","hypothesis","implication","inductive","inference","interpretation","juxtaposition","methodology","narrative","ontology","paradigm","pedagogy","perspective","phenomenon","philosophy","premise","rationale","refute","rhetoric","synthesis","theoretical","thesis","variable","verification"],
+  },
+  {
+    id: "advanced",
+    label: "Advanced English",
+    words: ["aberrant","abeyance","abstruse","acrimony","acumen","alacrity","ameliorate","anomalous","apathy","aplomb","arduous","astute","austere","belligerent","byzantine","callous","capricious","cogent","convoluted","copious","corroborate","culpable","cynical","dearth","debilitate","diligent","discern","disparate","equanimity","erudite","esoteric","fastidious","fortitude","garrulous","grandiloquent","hapless","hegemony","hubris","iconoclast","immutable","implacable","indefatigable","insidious","intractable","laconic","loquacious","magnanimous","mendacity","mercurial","meticulous","obtuse","onerous","ostracize","parsimony","pedantic","perspicacious","pragmatic","querulous","recalcitrant","reticent","sagacious","sardonic","sycophant","taciturn","tenacious","ubiquitous","vacillate","vehement","venerable","verbose"],
+  },
+];
 
 const HOW_IT_WORKS = [
   {
@@ -526,24 +551,9 @@ export default function Home() {
               </Link>
             ))}
           </div>
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            <p className="col-span-full text-xs text-muted-foreground font-semibold uppercase tracking-widest mb-1">Browse by Category</p>
-            {[
-              { href: "/words/letter/a", label: "Words starting with A" },
-              { href: "/words/letter/b", label: "Words starting with B" },
-              { href: "/words/suffix/tion", label: "Words ending in -tion" },
-              { href: "/words/suffix/ness", label: "Words ending in -ness" },
-              { href: "/words/theme/emotions", label: "Emotion vocabulary" },
-              { href: "/words/theme/business", label: "Business vocabulary" },
-              { href: "/words/theme/academic", label: "Academic words" },
-              { href: "/words/theme/advanced", label: "Advanced English" },
-            ].map(({ href, label }) => (
-              <Link key={href} href={href}>
-                <div className="text-xs text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-xl hover:bg-primary/5 border border-transparent hover:border-primary/20 cursor-pointer">
-                  {label}
-                </div>
-              </Link>
-            ))}
+          <div className="mt-10">
+            <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest mb-3">Browse by Category</p>
+            <InteractiveCategoryBrowser categories={HOME_BROWSE_CATEGORIES} wordCount={15} />
           </div>
         </div>
       </section>
