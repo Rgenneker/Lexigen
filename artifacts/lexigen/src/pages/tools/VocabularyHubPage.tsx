@@ -1,8 +1,209 @@
-import { motion } from "framer-motion";
+import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Brain, Star, TrendingUp, Users, Zap, ChevronRight } from "lucide-react";
+import { BookOpen, Brain, Star, TrendingUp, Users, Zap, RefreshCw, X, Loader2 } from "lucide-react";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { UNIQUE_WORDS } from "@/data/word-list";
+
+const CATEGORIES = [
+  { id: "a", label: "Words starting with A", filter: (w: string) => w.toLowerCase().startsWith("a") },
+  { id: "b", label: "Words starting with B", filter: (w: string) => w.toLowerCase().startsWith("b") },
+  { id: "tion", label: "Words ending in -tion", filter: (w: string) => w.toLowerCase().endsWith("tion") },
+  { id: "ness", label: "Words ending in -ness", filter: (w: string) => w.toLowerCase().endsWith("ness") },
+] as const;
+
+type CategoryId = typeof CATEGORIES[number]["id"];
+
+interface DictDefinition {
+  partOfSpeech: string;
+  definition: string;
+}
+
+function pickRandom(pool: string[], n: number): string[] {
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, n);
+}
+
+function BrowseByCategorySection() {
+  const [activeId, setActiveId] = useState<CategoryId | null>(null);
+  const [words, setWords] = useState<string[]>([]);
+  const [selectedWord, setSelectedWord] = useState<string | null>(null);
+  const [definition, setDefinition] = useState<DictDefinition[] | null>(null);
+  const [defLoading, setDefLoading] = useState(false);
+  const [defError, setDefError] = useState(false);
+
+  const loadCategory = useCallback((id: CategoryId) => {
+    const cat = CATEGORIES.find((c) => c.id === id)!;
+    const pool = UNIQUE_WORDS.filter(cat.filter);
+    setWords(pickRandom(pool, 15));
+    setActiveId(id);
+    setSelectedWord(null);
+    setDefinition(null);
+    setDefError(false);
+  }, []);
+
+  const refresh = useCallback(() => {
+    if (!activeId) return;
+    const cat = CATEGORIES.find((c) => c.id === activeId)!;
+    const pool = UNIQUE_WORDS.filter(cat.filter);
+    setWords(pickRandom(pool, 15));
+    setSelectedWord(null);
+    setDefinition(null);
+    setDefError(false);
+  }, [activeId]);
+
+  const selectWord = useCallback(async (word: string) => {
+    if (selectedWord === word) {
+      setSelectedWord(null);
+      setDefinition(null);
+      setDefError(false);
+      return;
+    }
+    setSelectedWord(word);
+    setDefinition(null);
+    setDefError(false);
+    setDefLoading(true);
+    try {
+      const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+      if (!res.ok) throw new Error("not found");
+      const data = await res.json();
+      const defs: DictDefinition[] = [];
+      for (const entry of data) {
+        for (const meaning of entry.meanings ?? []) {
+          const d = meaning.definitions?.[0];
+          if (d) defs.push({ partOfSpeech: meaning.partOfSpeech, definition: d.definition });
+          if (defs.length >= 3) break;
+        }
+        if (defs.length >= 3) break;
+      }
+      setDefinition(defs.length ? defs : null);
+      if (!defs.length) setDefError(true);
+    } catch {
+      setDefError(true);
+    } finally {
+      setDefLoading(false);
+    }
+  }, [selectedWord]);
+
+  return (
+    <section className="py-16 bg-background border-t border-border">
+      <div className="container px-4 mx-auto max-w-4xl">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <h2 className="text-3xl font-black mb-2">Browse by Category</h2>
+          <p className="text-muted-foreground mb-6 text-sm">Select a category to see words. Click any word to reveal its definition. Hit refresh to load new words.</p>
+
+          <div className="flex flex-col sm:flex-row gap-3 mb-6 flex-wrap">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => loadCategory(cat.id)}
+                className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all ${
+                  activeId === cat.id
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-card border-border hover:border-primary/50 hover:bg-primary/5"
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+
+          <AnimatePresence mode="wait">
+            {activeId && (
+              <motion.div
+                key={activeId}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+                className="rounded-2xl border border-border bg-card p-5"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-semibold text-muted-foreground">
+                    {CATEGORIES.find((c) => c.id === activeId)?.label}
+                  </span>
+                  <button
+                    onClick={refresh}
+                    className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground border border-border rounded-full px-3 py-1.5 transition-all hover:border-primary/40 hover:bg-primary/5"
+                  >
+                    <RefreshCw className="w-3 h-3" />
+                    Refresh
+                  </button>
+                </div>
+
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {words.map((w) => (
+                    <button
+                      key={w}
+                      onClick={() => selectWord(w)}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all border ${
+                        selectedWord === w
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-background border-border hover:border-primary/40 hover:bg-primary/5"
+                      }`}
+                    >
+                      {w}
+                    </button>
+                  ))}
+                </div>
+
+                <AnimatePresence>
+                  {selectedWord && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="mt-2 rounded-xl bg-background border border-border p-4">
+                        <div className="flex items-start justify-between gap-2 mb-3">
+                          <h3 className="font-black text-lg capitalize">{selectedWord}</h3>
+                          <button
+                            onClick={() => { setSelectedWord(null); setDefinition(null); setDefError(false); }}
+                            className="text-muted-foreground hover:text-foreground transition-colors p-0.5"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        {defLoading && (
+                          <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Loading definition...
+                          </div>
+                        )}
+
+                        {defError && !defLoading && (
+                          <p className="text-sm text-muted-foreground">Definition not found. <Link href={`/word/${selectedWord}`} className="text-primary underline">View full word page</Link></p>
+                        )}
+
+                        {definition && !defLoading && (
+                          <div className="space-y-2">
+                            {definition.map((d, i) => (
+                              <div key={i} className="flex gap-2">
+                                <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-semibold h-fit mt-0.5 whitespace-nowrap">{d.partOfSpeech}</span>
+                                <p className="text-sm text-muted-foreground leading-relaxed">{d.definition}</p>
+                              </div>
+                            ))}
+                            <Link href={`/word/${selectedWord}`} className="text-xs text-primary hover:underline mt-2 inline-block">
+                              View full page: synonyms, antonyms, examples
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
 
 export default function VocabularyHubPage() {
   usePageMeta({
@@ -111,35 +312,7 @@ export default function VocabularyHubPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-background border-t border-border">
-        <div className="container px-4 mx-auto max-w-4xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-3xl font-black mb-6">Browse Vocabulary by Category</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-              {[
-                { label: "Advanced English", href: "/vocabulary-lists/advanced-english" },
-                { label: "Business Vocabulary", href: "/vocabulary-lists/business-english" },
-                { label: "Academic Words", href: "/vocabulary-lists/academic-english" },
-                { label: "Positive Words", href: "/vocabulary-lists/positive-words" },
-                { label: "Powerful Words", href: "/vocabulary-lists/power-words" },
-                { label: "Emotion Words", href: "/vocabulary-lists/emotional-intelligence" },
-                { label: "Creative Writing", href: "/vocabulary-lists/creative-writing" },
-                { label: "GRE Vocabulary", href: "/vocabulary-lists/gre-vocabulary" },
-                { label: "Words Starting A", href: "/words/letter/a" },
-                { label: "Words Starting B", href: "/words/letter/b" },
-                { label: "Words Starting C", href: "/words/letter/c" },
-                { label: "Words Ending -tion", href: "/words/suffix/tion" },
-              ].map(({ label, href }) => (
-                <Link key={href} href={href}>
-                  <div className="p-3 rounded-xl border border-border bg-card hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer text-sm font-medium text-center">
-                    {label}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <BrowseByCategorySection />
 
       <section className="py-16 bg-card border-t border-border">
         <div className="container px-4 mx-auto max-w-4xl">
