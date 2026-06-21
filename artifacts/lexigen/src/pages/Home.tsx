@@ -6,11 +6,12 @@ import { FreemiumModal } from "@/components/FreemiumModal";
 import { PaymentModal } from "@/components/PaymentModal";
 import { useAuth } from "@/context/AuthContext";
 import { InteractiveCategoryBrowser } from "@/components/InteractiveCategoryBrowser";
+import { BENEFIT_EXPANDED } from "@/data/benefit-expanded";
 
 import {
   Brain, Flame, Gamepad2, Globe, BookOpen, Zap, Star,
   TrendingUp, Users, Clock, CheckCircle2, ChevronRight,
-  Trophy, Sparkles, Target, BarChart3, Lock,
+  Trophy, Sparkles, Target, BarChart3, Lock, ChevronDown,
 } from "lucide-react";
 
 const HOME_BROWSE_CATEGORIES = [
@@ -160,6 +161,7 @@ const STATS = [
 export default function Home() {
   const [showFreemium, setShowFreemium] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [expandedBenefit, setExpandedBenefit] = useState<string | null>(null);
   const { user, isRegistered, setPremium } = useAuth();
   const isPremium = user?.plan === "premium";
   const [, navigate] = useLocation();
@@ -329,23 +331,85 @@ export default function Home() {
             <p className="text-muted-foreground max-w-2xl mx-auto">Lexigenz is engineered around what actually makes new words stick — and what makes learning feel worth doing every single day.</p>
           </motion.div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {BENEFITS.map((b, i) => (
-              <motion.div
-                key={b.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.07 }}
-                viewport={{ once: true }}
-                className="p-6 rounded-2xl border border-border bg-card hover:border-primary/30 transition-colors"
-              >
-                <div className={`w-10 h-10 rounded-xl ${b.bg} flex items-center justify-center mb-4`}>
-                  <b.icon className={`h-5 w-5 ${b.color}`} />
-                </div>
-                <h3 className="font-bold mb-2 text-sm">{b.title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{b.desc}</p>
-              </motion.div>
-            ))}
+            {BENEFITS.map((b, i) => {
+              const isOpen = expandedBenefit === b.title;
+              return (
+                <motion.div
+                  key={b.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.07 }}
+                  viewport={{ once: true }}
+                  onClick={() => setExpandedBenefit(isOpen ? null : b.title)}
+                  className={`p-6 rounded-2xl border cursor-pointer transition-all duration-200 ${
+                    isOpen
+                      ? "border-primary/60 bg-primary/5 shadow-sm"
+                      : "border-border bg-card hover:border-primary/30"
+                  }`}
+                >
+                  <div className={`w-10 h-10 rounded-xl ${b.bg} flex items-center justify-center mb-4`}>
+                    <b.icon className={`h-5 w-5 ${b.color}`} />
+                  </div>
+                  <h3 className="font-bold mb-2 text-sm">{b.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{b.desc}</p>
+                  <div className={`mt-3 flex items-center gap-1 text-xs font-medium transition-colors ${isOpen ? "text-primary" : "text-muted-foreground/60"}`}>
+                    <span>{isOpen ? "Close" : "Read more"}</span>
+                    <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
+
+          <AnimatePresence mode="wait">
+            {expandedBenefit && (() => {
+              const expanded = BENEFIT_EXPANDED.find(e => e.id === expandedBenefit);
+              const benefit = BENEFITS.find(b => b.title === expandedBenefit);
+              if (!expanded || !benefit) return null;
+              return (
+                <motion.div
+                  key={expandedBenefit}
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25 }}
+                  className="mt-6 rounded-2xl border border-primary/20 bg-card p-8 md:p-12"
+                >
+                  <div className="flex items-start justify-between gap-4 mb-10">
+                    <div className="flex items-center gap-4">
+                      <div className={`w-12 h-12 rounded-2xl ${benefit.bg} flex items-center justify-center flex-shrink-0`}>
+                        <benefit.icon className={`h-6 w-6 ${benefit.color}`} />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1">Eight reasons</p>
+                        <h3 className="text-2xl md:text-3xl font-black">{benefit.title}</h3>
+                      </div>
+                    </div>
+                    <button
+                      onClick={e => { e.stopPropagation(); setExpandedBenefit(null); }}
+                      className="text-xs text-muted-foreground hover:text-foreground transition-colors flex-shrink-0 mt-1 px-3 py-1.5 rounded-lg hover:bg-muted"
+                    >
+                      Close
+                    </button>
+                  </div>
+
+                  <div className="space-y-10">
+                    {expanded.reasons.map((reason, idx) => (
+                      <div key={idx} className="flex gap-5">
+                        <div className={`flex-shrink-0 w-8 h-8 rounded-full ${benefit.bg} flex items-center justify-center text-xs font-black ${benefit.color}`}>
+                          {idx + 1}
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-base mb-2 leading-snug">{reason.heading}</h4>
+                          <p className="text-sm text-muted-foreground leading-relaxed">{reason.body}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })()}
+          </AnimatePresence>
         </div>
       </section>
 
