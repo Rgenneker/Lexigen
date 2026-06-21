@@ -1,7 +1,9 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Globe, Heart, Zap, BookOpen, Users, TrendingUp } from "lucide-react";
+import { Globe, Heart, Zap, BookOpen, Users, TrendingUp, ChevronDown } from "lucide-react";
+import { TOOL_EXPANDED } from "@/data/tool-expanded";
 
 const milestones = [
   { year: "2024", label: "Lexigenz Trading founded in South Africa" },
@@ -51,6 +53,7 @@ const languages = [
 ];
 
 export default function About() {
+  const [expandedTool, setExpandedTool] = useState<string | null>(null);
   return (
     <div className="min-h-screen">
       {/* Hero */}
@@ -304,18 +307,72 @@ export default function About() {
               { title: "Synonym Finder", desc: "Find the right synonym for any word — with context notes on nuance and register differences.", href: "/synonym-finder" },
               { title: "Crossword Solver", desc: "Crossword vocabulary guides, common fill words, and clue-reading strategies for all levels.", href: "/crossword-words" },
               { title: "Vocabulary Lists", desc: "Curated word lists by theme, difficulty, and use case — from GRE prep to business communication.", href: "/vocabulary-lists/advanced-english" },
-            ].map((item) => (
-              <Link key={item.title} href={item.href}>
+            ].map((item) => {
+              const isOpen = expandedTool === item.title;
+              return (
                 <motion.div
-                  whileHover={{ y: -2 }}
-                  className="p-5 rounded-2xl border border-border bg-card hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer h-full"
+                  key={item.title}
+                  whileHover={{ y: isOpen ? 0 : -2 }}
+                  onClick={() => setExpandedTool(isOpen ? null : item.title)}
+                  className={`p-5 rounded-2xl border transition-all cursor-pointer h-full ${
+                    isOpen
+                      ? "border-primary/60 bg-primary/5 shadow-sm"
+                      : "border-border bg-card hover:border-primary/40 hover:bg-primary/5"
+                  }`}
                 >
                   <h3 className="font-bold text-sm mb-2">{item.title}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                  <div className={`mt-3 flex items-center gap-1 text-xs font-medium transition-colors ${isOpen ? "text-primary" : "text-muted-foreground/50"}`}>
+                    <span>{isOpen ? "Close" : "Learn more"}</span>
+                    <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+                  </div>
                 </motion.div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
+
+          <AnimatePresence mode="wait">
+            {expandedTool && (() => {
+              const expanded = TOOL_EXPANDED.find(t => t.id === expandedTool);
+              if (!expanded) return null;
+              return (
+                <motion.div
+                  key={expandedTool}
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25 }}
+                  className="mt-6 rounded-2xl border border-primary/20 bg-card p-8 md:p-12"
+                >
+                  <div className="flex items-start justify-between gap-4 mb-10">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1">What you will learn</p>
+                      <h3 className="text-2xl md:text-3xl font-black">{expandedTool}</h3>
+                    </div>
+                    <button
+                      onClick={e => { e.stopPropagation(); setExpandedTool(null); }}
+                      className="text-xs text-muted-foreground hover:text-foreground transition-colors flex-shrink-0 mt-1 px-3 py-1.5 rounded-lg hover:bg-muted"
+                    >
+                      Close
+                    </button>
+                  </div>
+                  <div className="space-y-10">
+                    {expanded.reasons.map((reason, idx) => (
+                      <div key={idx} className="flex gap-5">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-black text-primary">
+                          {idx + 1}
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-base mb-2 leading-snug">{reason.heading}</h4>
+                          <p className="text-sm text-muted-foreground leading-relaxed">{reason.body}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })()}
+          </AnimatePresence>
         </div>
       </section>
 
