@@ -10,6 +10,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import PlaybookSection from "@/components/PlaybookSection";
 
 const CATEGORIES = ["All", "Getting Started", "Vocabulary", "Archetypes", "Games", "Premium", "Languages", "Privacy & Data", "Technical"];
 
@@ -298,6 +299,13 @@ export default function FAQ() {
             />
           </div>
         </motion.div>
+      </section>
+
+      {/* Playbook — prominent placement between hero and FAQ list */}
+      <section className="pb-8 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/15 via-background to-background">
+        <div className="container px-4 mx-auto max-w-3xl">
+          <PlaybookSection />
+        </div>
       </section>
 
       {/* Category filter */}
