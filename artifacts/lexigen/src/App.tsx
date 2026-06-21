@@ -28,6 +28,16 @@ import WordPage from "@/pages/word/WordPage";
 import CategoryPage from "@/pages/word/CategoryPage";
 import VocabularyListPage from "@/pages/word/VocabularyListPage";
 import HubPage from "@/pages/word/HubPage";
+import VocabularyHubPage from "@/pages/tools/VocabularyHubPage";
+import WordleWordsPage from "@/pages/tools/WordleWordsPage";
+import ScrabbleWordsPage from "@/pages/tools/ScrabbleWordsPage";
+import SpellingBeeWordsPage from "@/pages/tools/SpellingBeeWordsPage";
+import CrosswordWordsPage from "@/pages/tools/CrosswordWordsPage";
+import SynonymFinderPage from "@/pages/tools/SynonymFinderPage";
+import WordFinderPage from "@/pages/tools/WordFinderPage";
+import AnagramSolverPage from "@/pages/tools/AnagramSolverPage";
+import DictionaryPage from "@/pages/tools/DictionaryPage";
+import WordOfTheDayPage from "@/pages/tools/WordOfTheDayPage";
 import Terms from "@/pages/legal/Terms";
 import Privacy from "@/pages/legal/Privacy";
 import TermsOfUse from "@/pages/legal/TermsOfUse";
@@ -91,6 +101,16 @@ function Router() {
           <Route path="/words/:type/:value" component={CategoryPage} />
           <Route path="/vocabulary/:slug" component={VocabularyListPage} />
           <Route path="/hub/:hub" component={HubPage} />
+          <Route path="/vocabulary" component={VocabularyHubPage} />
+          <Route path="/wordle-words" component={WordleWordsPage} />
+          <Route path="/scrabble-words" component={ScrabbleWordsPage} />
+          <Route path="/spelling-bee-words" component={SpellingBeeWordsPage} />
+          <Route path="/crossword-words" component={CrosswordWordsPage} />
+          <Route path="/synonym-finder" component={SynonymFinderPage} />
+          <Route path="/word-finder" component={WordFinderPage} />
+          <Route path="/anagram-solver" component={AnagramSolverPage} />
+          <Route path="/dictionary" component={DictionaryPage} />
+          <Route path="/word-of-the-day" component={WordOfTheDayPage} />
           <Route path="/faq" component={FAQ} />
           <Route path="/contact" component={Contact} />
           <Route path="/sitemap" component={Sitemap} />
