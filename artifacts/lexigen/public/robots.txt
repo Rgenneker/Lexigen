@@ -5,7 +5,7 @@ Disallow: /api/
 # Sitemap locations
 Sitemap: https://lexigenz.com/sitemap-index.xml
 Sitemap: https://lexigenz.com/sitemap.xml
-Sitemap: https://lexigenz.com/sitemap-words.xml
+Sitemap: https://lexigenz.com/sitemap-words-1.xml
 Sitemap: https://lexigenz.com/sitemap-categories.xml
 Sitemap: https://lexigenz.com/sitemap-lists.xml
 Sitemap: https://lexigenz.com/sitemap-articles.xml
