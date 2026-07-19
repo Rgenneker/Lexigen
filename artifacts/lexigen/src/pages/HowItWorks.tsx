@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Star, Gamepad2, Users, Zap, Calendar } from "lucide-react";
+import AdsterraAd from "@/components/AdsterraAd";
 
 const steps = [
   {
@@ -51,6 +52,7 @@ const languages = [
 export default function HowItWorks() {
   return (
     <div className="min-h-screen">
+      <AdsterraAd />
       {/* Hero */}
       <section className="pt-20 pb-16 px-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/15 via-background to-background -z-10" />

@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import AdsterraAd from "@/components/AdsterraAd";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -276,6 +277,7 @@ export default function FAQ() {
 
   return (
     <div className="min-h-screen">
+      <AdsterraAd />
       {/* Header */}
       <section className="pt-24 pb-16 text-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/15 via-background to-background">
         <motion.div

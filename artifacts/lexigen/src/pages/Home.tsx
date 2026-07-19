@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
+import AdsterraAd from "@/components/AdsterraAd";
 import { FreemiumModal } from "@/components/FreemiumModal";
 import { PaymentModal } from "@/components/PaymentModal";
 import { useAuth } from "@/context/AuthContext";
@@ -176,6 +177,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <AdsterraAd />
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden pt-24 pb-32 flex-1 flex flex-col items-center justify-center">
