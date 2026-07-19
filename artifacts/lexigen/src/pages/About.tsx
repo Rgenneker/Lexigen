@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Globe, Heart, Zap, BookOpen, Users, TrendingUp, ChevronDown } from "lucide-react";
 import { TOOL_EXPANDED } from "@/data/tool-expanded";
+import AdsterraAd from "@/components/AdsterraAd";
 
 const milestones = [
   { year: "2024", label: "Lexigenz Trading founded in South Africa" },
@@ -56,6 +57,7 @@ export default function About() {
   const [expandedTool, setExpandedTool] = useState<string | null>(null);
   return (
     <div className="min-h-screen">
+      <AdsterraAd />
       {/* Hero */}
       <section className="pt-20 pb-24 px-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary/15 via-background to-background -z-10" />
