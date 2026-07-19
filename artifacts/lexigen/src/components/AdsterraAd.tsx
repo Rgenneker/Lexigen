@@ -5,20 +5,23 @@ const AD_SRC = `https://contributionhobblenewlywed.com/${AD_ID}/invoke.js`;
 
 export default function AdsterraAd() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const injected = useRef(false);
 
   useEffect(() => {
-    if (injected.current) return;
-    injected.current = true;
-
+    // Always remove any stale copy of the script so it re-executes
+    // AFTER this container div is already in the DOM
     const existing = document.querySelector(`script[src="${AD_SRC}"]`);
-    if (!existing) {
-      const script = document.createElement("script");
-      script.src = AD_SRC;
-      script.async = true;
-      script.setAttribute("data-cfasync", "false");
-      document.head.appendChild(script);
-    }
+    if (existing) existing.remove();
+
+    const script = document.createElement("script");
+    script.src = AD_SRC;
+    script.async = true;
+    script.setAttribute("data-cfasync", "false");
+    document.head.appendChild(script);
+
+    return () => {
+      const s = document.querySelector(`script[src="${AD_SRC}"]`);
+      if (s) s.remove();
+    };
   }, []);
 
   return (
