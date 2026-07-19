@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import AdsterraAd from "@/components/AdsterraAd";
+import AdsterraSocialBar from "@/components/AdsterraSocialBar";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -277,6 +278,7 @@ export default function FAQ() {
 
   return (
     <div className="min-h-screen">
+      <AdsterraSocialBar />
       <AdsterraAd />
       {/* Header */}
       <section className="pt-24 pb-16 text-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/15 via-background to-background">

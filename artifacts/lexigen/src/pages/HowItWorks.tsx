@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Star, Gamepad2, Users, Zap, Calendar } from "lucide-react";
 import AdsterraAd from "@/components/AdsterraAd";
+import AdsterraSocialBar from "@/components/AdsterraSocialBar";
 
 const steps = [
   {
@@ -52,6 +53,7 @@ const languages = [
 export default function HowItWorks() {
   return (
     <div className="min-h-screen">
+      <AdsterraSocialBar />
       <AdsterraAd />
       {/* Hero */}
       <section className="pt-20 pb-16 px-4 relative overflow-hidden">

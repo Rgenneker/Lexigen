@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Globe, Heart, Zap, BookOpen, Users, TrendingUp, ChevronDown } from "lucide-react";
 import { TOOL_EXPANDED } from "@/data/tool-expanded";
 import AdsterraAd from "@/components/AdsterraAd";
+import AdsterraSocialBar from "@/components/AdsterraSocialBar";
 
 const milestones = [
   { year: "2024", label: "Lexigenz Trading founded in South Africa" },
@@ -57,6 +58,7 @@ export default function About() {
   const [expandedTool, setExpandedTool] = useState<string | null>(null);
   return (
     <div className="min-h-screen">
+      <AdsterraSocialBar />
       <AdsterraAd />
       {/* Hero */}
       <section className="pt-20 pb-24 px-4 relative overflow-hidden">

@@ -4,10 +4,12 @@ import { Badge } from "@/components/ui/badge";
 import { Clock, BookOpen } from "lucide-react";
 import { ARTICLES, CATEGORY_COLORS } from "@/data/articles";
 import AdsterraAd from "@/components/AdsterraAd";
+import AdsterraSocialBar from "@/components/AdsterraSocialBar";
 
 export default function Articles() {
   return (
     <div className="min-h-screen bg-background">
+      <AdsterraSocialBar />
       <AdsterraAd />
       <div className="max-w-6xl mx-auto px-4 py-16">
         <motion.div
