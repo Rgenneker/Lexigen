@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
 import AdsterraAd from "@/components/AdsterraAd";
-import AdsterraSocialBar from "@/components/AdsterraSocialBar";
 import { FreemiumModal } from "@/components/FreemiumModal";
 import { PaymentModal } from "@/components/PaymentModal";
 import { useAuth } from "@/context/AuthContext";
@@ -178,7 +177,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <AdsterraSocialBar />
       <AdsterraAd />
 
       {/* ── Hero ── */}
