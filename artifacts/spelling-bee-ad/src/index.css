@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
+@import 'tailwindcss';
+
+:root {
+  --color-primary: #FFB800;
+  --color-secondary: #FF4B4B;
+  --color-accent: #00C2FF;
+
+  --color-bg-light: #FFFBEB;
+  --color-bg-dark: #1E1E1E;
+  --color-bg-muted: #FDE68A;
+
+  --color-text-primary: #333333;
+  --color-text-secondary: #555555;
+  --color-text-muted: #888888;
+  --color-text-inverse: #FFFFFF;
+
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+
+  --font-display: 'Fredoka', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+}
+
+@theme inline {
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
+  --color-bg-light: var(--color-bg-light);
+  --color-bg-dark: var(--color-bg-dark);
+  --color-bg-muted: var(--color-bg-muted);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-inverse: var(--color-text-inverse);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Utilities for Video App */
+.text-shadow-strong {
+  text-shadow: 2px 4px 0px rgba(0,0,0,0.2);
+}
+.text-shadow-colored {
+  text-shadow: 3px 5px 0px var(--color-accent);
+}
+.text-shadow-white {
+  text-shadow: 2px 2px 0px #FFF, -2px -2px 0px #FFF, 2px -2px 0px #FFF, -2px 2px 0px #FFF, 4px 4px 0px rgba(0,0,0,0.1);
+}
+.float-anim {
+  animation: float 4s ease-in-out infinite;
+}
+.float-anim-delay {
+  animation: float 4s ease-in-out 1.5s infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.clip-path-reveal {
+  clip-path: circle(0% at 50% 50%);
+}
+
+.pattern-dots {
+  background-image: radial-gradient(var(--color-text-muted) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.2;
+}

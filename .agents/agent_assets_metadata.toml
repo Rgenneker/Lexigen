@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "moa6DfJnPmNP3gmF-giI0"
+uri = "file://artifacts/spelling-bee-ad/public/audio/bg_music.mp3"
+type = "audio"
+title = "upbeat kids spelling bee music"

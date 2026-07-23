@@ -1,0 +1,27 @@
+kind = "video"
+previewPath = "/spelling-bee-ad/"
+title = "Spelling Bee Ad"
+version = "1.0.0"
+id = "artifacts/spelling-bee-ad"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/spelling-bee-ad/" ]
+localPort = 19815
+
+[services.development]
+run = "pnpm --filter @workspace/spelling-bee-ad run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/spelling-bee-ad", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/spelling-bee-ad/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19815"
+BASE_PATH = "/spelling-bee-ad/"
