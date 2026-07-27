@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
-import { Globe, Menu, Lock, CheckCircle2, AlertTriangle, Clock, LogOut, Crown } from "lucide-react";
+import { Globe, Menu, Lock, CheckCircle2, AlertTriangle, Clock, LogOut, Crown, ChevronDown } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { AnimatePresence } from "framer-motion";
@@ -92,11 +92,7 @@ export function Navbar() {
     { href: "/articles", label: "Articles" },
     { href: "/play", label: "Play", protected: true },
     { href: "/app", label: "App", protected: true },
-    { href: "/bee/create", label: "🐝 Bee", protected: true },
-    { href: "/bee/tournament/create", label: "🏆 Tourney", protected: true },
-    { href: "/bee/stats", label: "📊 Stats", protected: true },
     { href: "/leaderboard", label: "Rankings" },
-    { href: "/bee/world-championship", label: "🌍 Worlds" },
     { href: "/invite", label: "Invite", protected: true },
     { href: "/faq", label: "FAQ" },
   ];
@@ -130,6 +126,57 @@ export function Navbar() {
                 )}
               </Link>
             ))}
+
+            {/* Bee dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className={`text-sm font-medium transition-all hover:text-primary hover:scale-105 flex items-center gap-1 ${
+                    ["/bee/create", "/bee/tournament/create", "/bee/stats", "/bee/world-championship"].includes(location)
+                      ? "text-primary"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  🐝 Bee
+                  {!isRegistered && <Lock className="h-2.5 w-2.5 opacity-50" />}
+                  <ChevronDown className="h-3 w-3 opacity-60" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-52">
+                <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">
+                  Spelling Bee
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/bee/create" className="flex items-center gap-2 cursor-pointer w-full">
+                    <span className="text-base leading-none">🐝</span>
+                    <span>New Contest</span>
+                    {!isRegistered && <Lock className="h-3 w-3 ml-auto opacity-40" />}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/bee/tournament/create" className="flex items-center gap-2 cursor-pointer w-full">
+                    <span className="text-base leading-none">🏆</span>
+                    <span>Tournament</span>
+                    {!isRegistered && <Lock className="h-3 w-3 ml-auto opacity-40" />}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/bee/stats" className="flex items-center gap-2 cursor-pointer w-full">
+                    <span className="text-base leading-none">📊</span>
+                    <span>My Stats</span>
+                    {!isRegistered && <Lock className="h-3 w-3 ml-auto opacity-40" />}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/bee/world-championship" className="flex items-center gap-2 cursor-pointer w-full">
+                    <span className="text-base leading-none">🌍</span>
+                    <span>World Championship</span>
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           <div className="hidden md:flex items-center gap-3">
@@ -339,6 +386,31 @@ export function Navbar() {
                       )}
                     </Link>
                   ))}
+
+                  {/* Spelling Bee section */}
+                  <div className="border-t border-border pt-3 space-y-3">
+                    <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest">Spelling Bee</p>
+                    {[
+                      { href: "/bee/create", label: "🐝 New Contest", protected: true },
+                      { href: "/bee/tournament/create", label: "🏆 Tournament", protected: true },
+                      { href: "/bee/stats", label: "📊 My Stats", protected: true },
+                      { href: "/bee/world-championship", label: "🌍 World Championship", protected: false },
+                    ].map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className={`text-lg font-medium transition-all hover:text-primary hover:translate-x-1 flex items-center gap-2 ${
+                          location === link.href ? "text-primary" : "text-muted-foreground"
+                        }`}
+                      >
+                        {link.label}
+                        {link.protected && !isRegistered && (
+                          <Lock className="h-3.5 w-3.5 opacity-50" />
+                        )}
+                      </Link>
+                    ))}
+                  </div>
 
                   {/* Mobile language section */}
                   <div className="border-t border-border pt-4 space-y-2">
