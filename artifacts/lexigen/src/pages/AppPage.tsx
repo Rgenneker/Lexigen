@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,7 +21,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguageStore } from "@/store/useLanguageStore";
-import { Flame, Star, Trophy, BookOpen, Gamepad2, Trash2, Zap, Calendar, Brain } from "lucide-react";
+import { Flame, Star, Trophy, BookOpen, Gamepad2, Trash2, Zap, Calendar, Brain, ChevronRight } from "lucide-react";
 
 const LANGUAGE_CODES: Record<string, string> = {
   English: "en", Spanish: "es", Portuguese: "pt", French: "fr", German: "de",
@@ -357,6 +358,33 @@ export default function AppPage() {
             </motion.div>
           ))}
         </div>
+
+        {/* World Championship promo */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+        >
+          <Link href="/bee/world-championship">
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#1e0640] via-[#2d0a5e] to-[#130d3d] text-white px-6 py-5 flex items-center justify-between gap-4 cursor-pointer hover:shadow-lg hover:shadow-violet-500/20 transition-all">
+              <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors" />
+              <div className="absolute -right-8 -top-8 w-40 h-40 bg-fuchsia-500/15 rounded-full blur-2xl pointer-events-none" />
+              <div className="relative flex items-center gap-4 min-w-0">
+                <span className="text-3xl shrink-0">🌍</span>
+                <div className="min-w-0">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-amber-300/80">World Championship 2027</p>
+                  <p className="font-bold text-sm truncate">Global Spelling Bee · June 19 · 12:00 UTC</p>
+                  <p className="text-white/50 text-xs mt-0.5">
+                    {Math.ceil((new Date("2027-06-19T12:00:00Z").getTime() - Date.now()) / 86400000)} days away · Registration open now
+                  </p>
+                </div>
+              </div>
+              <div className="relative shrink-0 bg-violet-500 hover:bg-violet-400 transition-colors rounded-xl px-4 py-2 text-xs font-bold whitespace-nowrap flex items-center gap-1.5">
+                Register <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </div>
+          </Link>
+        </motion.div>
 
         {/* Main Grid */}
         <div className="grid lg:grid-cols-3 gap-6">

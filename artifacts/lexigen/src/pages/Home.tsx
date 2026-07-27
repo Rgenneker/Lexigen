@@ -324,6 +324,91 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── World Spelling Bee Championship promo ── */}
+      <section className="py-16">
+        <div className="container px-4 mx-auto max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1a0533] via-[#2d0a5e] to-[#0f1a4a] text-white shadow-2xl"
+          >
+            {/* Decorative blobs */}
+            <div className="absolute -top-20 -right-20 w-72 h-72 bg-violet-500/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-fuchsia-500/15 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-700/10 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative px-8 py-12 md:px-16 md:py-14 flex flex-col md:flex-row items-center gap-10">
+              {/* Left: content */}
+              <div className="flex-1 space-y-5">
+                <div className="inline-flex items-center gap-2 bg-amber-400/20 border border-amber-400/30 text-amber-300 rounded-full px-4 py-1.5 text-xs font-bold tracking-widest uppercase">
+                  <Trophy className="w-3.5 h-3.5" /> Annual Event
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black leading-tight">
+                  World Spelling Bee<br />
+                  <span className="bg-gradient-to-r from-violet-300 via-fuchsia-300 to-pink-300 bg-clip-text text-transparent">
+                    Championship 2027
+                  </span>
+                </h2>
+                <p className="text-white/70 text-lg leading-relaxed max-w-xl">
+                  One synchronous global final. Every speller from every country competing at the same moment. Do you have what it takes to become world champion?
+                </p>
+                <div className="flex flex-wrap gap-4 text-sm">
+                  {[
+                    { icon: "📅", text: "3rd Saturday of June · 12:00 UTC" },
+                    { icon: "🌍", text: "All countries eligible" },
+                    { icon: "🏆", text: "Winner enters Hall of Champions" },
+                  ].map((f) => (
+                    <span key={f.text} className="flex items-center gap-2 bg-white/10 rounded-full px-4 py-1.5 font-medium">
+                      {f.icon} {f.text}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-3 pt-2">
+                  <Link href="/bee/world-championship">
+                    <Button className="bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-400 hover:to-fuchsia-400 text-white font-bold shadow-lg shadow-violet-500/30 gap-2 px-6 h-12">
+                      <Sparkles className="w-4 h-4" /> Register for 2027
+                    </Button>
+                  </Link>
+                  <Link href="/leaderboard">
+                    <Button variant="ghost" className="text-white/80 hover:text-white hover:bg-white/10 gap-1.5 h-12">
+                      View Rankings <ChevronRight className="w-4 h-4" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right: countdown blocks */}
+              <div className="shrink-0 flex flex-col items-center gap-4">
+                <p className="text-white/50 text-xs font-bold uppercase tracking-widest">Countdown to 2027</p>
+                <div className="grid grid-cols-4 gap-3">
+                  {(() => {
+                    const target = new Date("2027-06-19T12:00:00Z").getTime();
+                    const diff = Math.max(0, target - Date.now());
+                    const d = Math.floor(diff / 86400000);
+                    const h = Math.floor((diff % 86400000) / 3600000);
+                    const m = Math.floor((diff % 3600000) / 60000);
+                    const s = Math.floor((diff % 60000) / 1000);
+                    return [
+                      { n: d, label: "DAYS" },
+                      { n: h, label: "HRS" },
+                      { n: m, label: "MIN" },
+                      { n: s, label: "SEC" },
+                    ].map(({ n, label }) => (
+                      <div key={label} className="flex flex-col items-center bg-white/10 rounded-2xl px-4 py-4 min-w-[64px]">
+                        <span className="text-3xl font-black tabular-nums text-violet-200">{String(n).padStart(2, "0")}</span>
+                        <span className="text-[9px] font-bold text-white/40 tracking-widest mt-1">{label}</span>
+                      </div>
+                    ));
+                  })()}
+                </div>
+                <p className="text-white/40 text-[11px]">June 19 · 2027 · 12:00 UTC</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ── Benefits ── */}
       <section className="py-24">
         <div className="container px-4 mx-auto max-w-6xl">
