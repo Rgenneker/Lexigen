@@ -19,6 +19,11 @@ import InvitePage from "@/pages/bee/InvitePage";
 import ContestPage from "@/pages/bee/ContestPage";
 import BeeProfilePage from "@/pages/bee/BeeProfilePage";
 import WorldChampionship from "@/pages/bee/WorldChampionship";
+import CreateTournament from "@/pages/bee/CreateTournament";
+import TournamentPage from "@/pages/bee/TournamentPage";
+import StatsPage from "@/pages/bee/StatsPage";
+import AdminPage from "@/pages/bee/AdminPage";
+import SpectatorPage from "@/pages/bee/SpectatorPage";
 import Leaderboard from "@/pages/Leaderboard";
 import AppPage from "@/pages/AppPage";
 import Invite from "@/pages/Invite";
@@ -98,6 +103,21 @@ function Router() {
             {() => <ProtectedRoute><BeeProfilePage /></ProtectedRoute>}
           </Route>
           <Route path="/bee/world-championship" component={WorldChampionship} />
+          <Route path="/bee/tournament/create">
+            {() => <ProtectedRoute><CreateTournament /></ProtectedRoute>}
+          </Route>
+          <Route path="/bee/tournament/:id">
+            {(p) => <ProtectedRoute><TournamentPage tournamentId={Number(p.id)} /></ProtectedRoute>}
+          </Route>
+          <Route path="/bee/watch/:contestId">
+            {(p) => <SpectatorPage contestId={Number(p.contestId)} />}
+          </Route>
+          <Route path="/bee/stats">
+            {() => <ProtectedRoute><StatsPage /></ProtectedRoute>}
+          </Route>
+          <Route path="/bee/admin">
+            {() => <ProtectedRoute><AdminPage /></ProtectedRoute>}
+          </Route>
           <Route path="/leaderboard" component={Leaderboard} />
           <Route path="/app">
             {() => <ProtectedRoute><AppPage /></ProtectedRoute>}

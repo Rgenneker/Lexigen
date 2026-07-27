@@ -93,6 +93,8 @@ export function Navbar() {
     { href: "/play", label: "Play", protected: true },
     { href: "/app", label: "App", protected: true },
     { href: "/bee/create", label: "🐝 Bee", protected: true },
+    { href: "/bee/tournament/create", label: "🏆 Tourney", protected: true },
+    { href: "/bee/stats", label: "📊 Stats", protected: true },
     { href: "/leaderboard", label: "Rankings" },
     { href: "/bee/world-championship", label: "🌍 Worlds" },
     { href: "/invite", label: "Invite", protected: true },

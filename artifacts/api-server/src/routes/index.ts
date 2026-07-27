@@ -10,6 +10,8 @@ import premiumRouter from "./premium";
 import languageUnlockRouter from "./language-unlock";
 import ttsRouter from "./tts";
 import beeRouter from "./bee";
+import tournamentRouter from "./tournament";
+import statsRouter from "./stats";
 
 const router: IRouter = Router();
 
@@ -24,5 +26,7 @@ router.use(premiumRouter);
 router.use(languageUnlockRouter);
 router.use(ttsRouter);
 router.use(beeRouter);
+router.use(tournamentRouter);
+router.use(statsRouter);
 
 export default router;

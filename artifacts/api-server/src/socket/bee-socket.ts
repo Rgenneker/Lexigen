@@ -1,5 +1,5 @@
 import type { Server, Socket } from "socket.io";
-import { db } from "@workspace/db";
+import { db, pool } from "@workspace/db";
 import {
   beeContestsTable,
   beeContestPlayersTable,
@@ -7,6 +7,7 @@ import {
 } from "@workspace/db/schema";
 import { eq, and } from "drizzle-orm";
 import { logger } from "../lib/logger";
+import { checkAchievements } from "../routes/stats.js";
 
 // ─── In-memory state ────────────────────────────────────────────────────────
 
@@ -185,6 +186,27 @@ async function endContest(io: Server, contestId: number): Promise<void> {
           ),
         );
     }
+
+    // Award achievements (non-blocking)
+    for (const p of room.players.values()) {
+      checkAchievements(p.userId, contestId).then((earned) => {
+        if (earned.length > 0) {
+          io.to(roomKey(contestId)).emit("bee:achievements", { userId: p.userId, keys: earned });
+        }
+      }).catch(() => {});
+    }
+
+    // Notify tournament if this contest is part of one
+    const { rows: [roundRow] } = await pool.query(
+      `SELECT tr.tournament_id FROM bee_tournament_rounds tr
+       WHERE tr.contest_id=$1 LIMIT 1`, [contestId],
+    );
+    if (roundRow?.tournament_id) {
+      io.to(`tournament:${roundRow.tournament_id}`).emit("bee:tournament-round-ended", {
+        tournamentId: roundRow.tournament_id,
+        contestId,
+      });
+    }
   } catch (err) {
     logger.error({ err }, "bee: error persisting contest end");
   }
@@ -284,14 +306,34 @@ export function registerBeeSocket(io: Server): void {
     });
 
     // ── bee:spectate ────────────────────────────────────────────────────────
-    socket.on("bee:spectate", ({ contestId }: { contestId: number }) => {
+    socket.on("bee:spectate", async ({ contestId }: { contestId: number }) => {
       socket.join(roomKey(contestId));
       const room = rooms.get(contestId);
       if (room) {
         room.spectators.add(socket.id);
-        if (room.status === "active") {
-          socket.emit("bee:leaderboard", buildLeaderboard(room.players));
-        }
+        const leaderboard = buildLeaderboard(room.players);
+        // Send full state snapshot to the new spectator
+        const currentWord = room.status === "active"
+          ? room.words[room.currentPosition]
+          : undefined;
+        socket.emit("bee:spectator-state", {
+          status: room.status,
+          currentWord: currentWord
+            ? { word: currentWord.word, position: room.currentPosition + 1, total: room.words.length }
+            : undefined,
+          leaderboard,
+        });
+        // Broadcast updated spectator count to everyone in the room
+        io.to(roomKey(contestId)).emit("bee:spectator-count", { count: room.spectators.size });
+      } else {
+        // Room not in memory — contest may be pending or finished
+        try {
+          const [contest] = await db.select().from(beeContestsTable)
+            .where(eq(beeContestsTable.id, contestId)).limit(1);
+          if (contest) {
+            socket.emit("bee:spectator-state", { status: contest.status, leaderboard: [] });
+          }
+        } catch { /* ignore */ }
       }
     });
 
@@ -412,6 +454,11 @@ export function registerBeeSocket(io: Server): void {
         }
       },
     );
+
+    // ── bee:join-tournament ─────────────────────────────────────────────────
+    socket.on("bee:join-tournament", ({ tournamentId }: { tournamentId: number }) => {
+      socket.join(`tournament:${tournamentId}`);
+    });
 
     // ── disconnect ───────────────────────────────────────────────────────────
     socket.on("disconnect", () => {
