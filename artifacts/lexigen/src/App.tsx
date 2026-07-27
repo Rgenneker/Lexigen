@@ -17,6 +17,8 @@ import Play from "@/pages/Play";
 import CreateContest from "@/pages/bee/CreateContest";
 import InvitePage from "@/pages/bee/InvitePage";
 import ContestPage from "@/pages/bee/ContestPage";
+import BeeProfilePage from "@/pages/bee/BeeProfilePage";
+import WorldChampionship from "@/pages/bee/WorldChampionship";
 import Leaderboard from "@/pages/Leaderboard";
 import AppPage from "@/pages/AppPage";
 import Invite from "@/pages/Invite";
@@ -92,6 +94,10 @@ function Router() {
           <Route path="/bee/play/:contestId">
             {(p) => <ProtectedRoute><ContestPage contestId={Number(p.contestId)} /></ProtectedRoute>}
           </Route>
+          <Route path="/bee/profile">
+            {() => <ProtectedRoute><BeeProfilePage /></ProtectedRoute>}
+          </Route>
+          <Route path="/bee/world-championship" component={WorldChampionship} />
           <Route path="/leaderboard" component={Leaderboard} />
           <Route path="/app">
             {() => <ProtectedRoute><AppPage /></ProtectedRoute>}

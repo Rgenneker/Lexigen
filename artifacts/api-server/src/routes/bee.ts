@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { db } from "@workspace/db";
+import { db, pool } from "@workspace/db";
 import {
   beeContestsTable,
   beeContestPlayersTable,
@@ -400,55 +400,38 @@ router.get("/bee/contests/:id/results", async (req, res) => {
   return res.json({ contest, players });
 });
 
-// ─── Global Leaderboard ────────────────────────────────────────────────────────
+// ─── Global Leaderboard (with geographic fields) ──────────────────────────────
 
 router.get("/bee/leaderboard", async (req, res) => {
-  const { level, limit = "20" } = req.query as { level?: string; limit?: string };
+  const { level, limit = "50", country, institution } = req.query as {
+    level?: string; limit?: string; country?: string; institution?: string;
+  };
 
-  let query = db
-    .select({
-      userId: beeContestPlayersTable.userId,
-      username: usersTable.username,
-      score: beeContestPlayersTable.score,
-      wordsCorrect: beeContestPlayersTable.wordsCorrect,
-      maxStreak: beeContestPlayersTable.maxStreak,
-      contestName: beeContestsTable.name,
-      level: beeContestsTable.level,
-      finishedAt: beeContestPlayersTable.finishedAt,
-    })
-    .from(beeContestPlayersTable)
-    .leftJoin(usersTable, eq(beeContestPlayersTable.userId, usersTable.id))
-    .leftJoin(beeContestsTable, eq(beeContestPlayersTable.contestId, beeContestsTable.id))
-    .orderBy(desc(beeContestPlayersTable.score))
-    .limit(Number(limit));
+  const conditions: string[] = [];
+  const values: (string | number)[] = [];
+  let idx = 1;
 
-  if (level) {
-    const rows = await db
-      .select({
-        userId: beeContestPlayersTable.userId,
-        username: usersTable.username,
-        score: beeContestPlayersTable.score,
-        wordsCorrect: beeContestPlayersTable.wordsCorrect,
-        maxStreak: beeContestPlayersTable.maxStreak,
-        contestName: beeContestsTable.name,
-        level: beeContestsTable.level,
-        finishedAt: beeContestPlayersTable.finishedAt,
-      })
-      .from(beeContestPlayersTable)
-      .leftJoin(usersTable, eq(beeContestPlayersTable.userId, usersTable.id))
-      .innerJoin(
-        beeContestsTable,
-        and(
-          eq(beeContestPlayersTable.contestId, beeContestsTable.id),
-          eq(beeContestsTable.level, level),
-        ),
-      )
-      .orderBy(desc(beeContestPlayersTable.score))
-      .limit(Number(limit));
-    return res.json({ rows });
-  }
+  if (level) { conditions.push(`bc.level = $${idx++}`); values.push(level); }
+  if (country) { conditions.push(`u.country = $${idx++}`); values.push(country); }
+  if (institution) { conditions.push(`u.institution ILIKE $${idx++}`); values.push(`%${institution}%`); }
 
-  const rows = await query;
+  const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+  values.push(Number(limit));
+
+  const sql = `
+    SELECT bcp.user_id AS "userId", u.username, bcp.score, bcp.words_correct AS "wordsCorrect",
+           bcp.max_streak AS "maxStreak", bc.name AS "contestName", bc.level,
+           bcp.finished_at AS "finishedAt",
+           u.country, u.city, u.institution, u.institution_type AS "institutionType"
+    FROM bee_contest_players bcp
+    LEFT JOIN users u ON bcp.user_id = u.id
+    LEFT JOIN bee_contests bc ON bcp.contest_id = bc.id
+    ${where}
+    ORDER BY bcp.score DESC
+    LIMIT $${idx}
+  `;
+
+  const { rows } = await pool.query(sql, values);
   return res.json({ rows });
 });
 
@@ -475,6 +458,116 @@ router.get("/bee/users/:userId/contests", async (req, res) => {
     .limit(50);
 
   return res.json({ contests: rows });
+});
+
+// ─── Bee Geographic Profile ────────────────────────────────────────────────────
+
+router.get("/bee/profile/:userId", async (req, res) => {
+  const userId = Number(req.params.userId);
+  const { rows } = await pool.query(
+    `SELECT country, city, institution, institution_type AS "institutionType"
+     FROM users WHERE id = $1`,
+    [userId],
+  );
+  if (!rows.length) return res.status(404).json({ error: "User not found" });
+  return res.json({ profile: rows[0] });
+});
+
+router.patch("/bee/profile", async (req, res) => {
+  const { userId, country, city, institution, institutionType } = req.body as {
+    userId: number; country?: string; city?: string; institution?: string; institutionType?: string;
+  };
+  if (!userId) return res.status(400).json({ error: "userId required" });
+  await pool.query(
+    `UPDATE users SET country=$1, city=$2, institution=$3, institution_type=$4 WHERE id=$5`,
+    [country ?? null, city ?? null, institution ?? null, institutionType ?? null, userId],
+  );
+  return res.json({ ok: true });
+});
+
+// ─── World Championship ────────────────────────────────────────────────────────
+
+function nextChampionshipYear(): { year: number; date: Date } {
+  function thirdSaturdayOfJune(y: number): Date {
+    const june1 = new Date(Date.UTC(y, 5, 1));
+    const dow = june1.getUTCDay(); // 0=Sun … 6=Sat
+    const firstSat = dow === 6 ? 1 : 1 + (6 - dow + 7) % 7;
+    return new Date(Date.UTC(y, 5, firstSat + 14, 12, 0, 0));
+  }
+  const now = new Date();
+  let year = now.getUTCFullYear();
+  let date = thirdSaturdayOfJune(year);
+  if (date <= now) { year += 1; date = thirdSaturdayOfJune(year); }
+  return { year, date };
+}
+
+router.get("/bee/world-championship", async (req, res) => {
+  const { userId } = req.query as { userId?: string };
+  const { year, date } = nextChampionshipYear();
+
+  // Registrant count
+  const { rows: [{ count }] } = await pool.query<{ count: string }>(
+    `SELECT COUNT(*) AS count FROM bee_championship_registrations WHERE year = $1`, [year],
+  );
+
+  // Past champions (highest elo per year from bee_world_rankings)
+  const { rows: pastChampions } = await pool.query(
+    `SELECT wr.year, u.username, u.country, u.institution, wr.elo_score AS "eloScore", wr.total_points AS "totalPoints"
+     FROM bee_world_rankings wr
+     JOIN users u ON wr.user_id = u.id
+     ORDER BY wr.year DESC, wr.elo_score DESC
+     LIMIT 10`,
+  );
+
+  // User registration + profile
+  let userRegistered = false;
+  let userProfile = null;
+  if (userId) {
+    const uid = Number(userId);
+    const { rows: [reg] } = await pool.query(
+      `SELECT id FROM bee_championship_registrations WHERE user_id=$1 AND year=$2`, [uid, year],
+    );
+    userRegistered = !!reg;
+    const { rows: [profile] } = await pool.query(
+      `SELECT country, city, institution, institution_type AS "institutionType" FROM users WHERE id=$1`, [uid],
+    );
+    userProfile = profile ?? null;
+  }
+
+  return res.json({
+    nextDate: date.toISOString(),
+    year,
+    registrantCount: Number(count),
+    pastChampions,
+    userRegistered,
+    userProfile,
+  });
+});
+
+router.post("/bee/world-championship/register", async (req, res) => {
+  const { userId } = req.body as { userId: number };
+  if (!userId) return res.status(400).json({ error: "userId required" });
+
+  const { year } = nextChampionshipYear();
+
+  // Check profile completeness
+  const { rows: [user] } = await pool.query(
+    `SELECT country, institution FROM users WHERE id=$1`, [userId],
+  );
+  if (!user) return res.status(404).json({ error: "User not found" });
+  if (!user.country || !user.institution) {
+    return res.status(422).json({ error: "Complete your geographic profile before registering" });
+  }
+
+  // Upsert registration
+  await pool.query(
+    `INSERT INTO bee_championship_registrations (user_id, year, country, city, institution, institution_type)
+     SELECT $1, $2, country, city, institution, institution_type FROM users WHERE id=$1
+     ON CONFLICT (user_id, year) DO NOTHING`,
+    [userId, year],
+  );
+
+  return res.json({ ok: true, year });
 });
 
 export default router;

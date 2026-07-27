@@ -94,6 +94,7 @@ export function Navbar() {
     { href: "/app", label: "App", protected: true },
     { href: "/bee/create", label: "🐝 Bee", protected: true },
     { href: "/leaderboard", label: "Rankings" },
+    { href: "/bee/world-championship", label: "🌍 Worlds" },
     { href: "/invite", label: "Invite", protected: true },
     { href: "/faq", label: "FAQ" },
   ];
