@@ -4,3 +4,4 @@ export * from "./streaks";
 export * from "./journal";
 export * from "./games";
 export * from "./language-unlocks";
+export * from "./bee";

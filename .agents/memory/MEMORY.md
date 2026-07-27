@@ -1,0 +1,2 @@
+- [Bee contest platform](bee-contest-platform.md) — Socket.IO on path /api/socket.io; bee tables created via raw SQL (drizzle-kit push blocked by users table unique constraint drift).
+- [DB push workaround](db-push-workaround.md) — drizzle-kit push hits TTY prompt for users table; use raw SQL via node in lib/db package for schema changes.

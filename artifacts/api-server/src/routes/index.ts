@@ -9,6 +9,7 @@ import inviteRouter from "./invite";
 import premiumRouter from "./premium";
 import languageUnlockRouter from "./language-unlock";
 import ttsRouter from "./tts";
+import beeRouter from "./bee";
 
 const router: IRouter = Router();
 
@@ -22,5 +23,6 @@ router.use(inviteRouter);
 router.use(premiumRouter);
 router.use(languageUnlockRouter);
 router.use(ttsRouter);
+router.use(beeRouter);
 
 export default router;

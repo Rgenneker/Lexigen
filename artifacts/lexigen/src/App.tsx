@@ -14,6 +14,10 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Play from "@/pages/Play";
+import CreateContest from "@/pages/bee/CreateContest";
+import InvitePage from "@/pages/bee/InvitePage";
+import ContestPage from "@/pages/bee/ContestPage";
+import Leaderboard from "@/pages/Leaderboard";
 import AppPage from "@/pages/AppPage";
 import Invite from "@/pages/Invite";
 import Premium from "@/pages/Premium";
@@ -79,6 +83,16 @@ function Router() {
           <Route path="/play">
             {() => <ProtectedRoute><Play /></ProtectedRoute>}
           </Route>
+          <Route path="/bee/create">
+            {() => <ProtectedRoute><CreateContest /></ProtectedRoute>}
+          </Route>
+          <Route path="/bee/invite/:token">
+            {(p) => <InvitePage token={p.token} />}
+          </Route>
+          <Route path="/bee/play/:contestId">
+            {(p) => <ProtectedRoute><ContestPage contestId={Number(p.contestId)} /></ProtectedRoute>}
+          </Route>
+          <Route path="/leaderboard" component={Leaderboard} />
           <Route path="/app">
             {() => <ProtectedRoute><AppPage /></ProtectedRoute>}
           </Route>

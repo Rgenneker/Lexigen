@@ -83,7 +83,7 @@ export function Navbar() {
     setUnlockModal(null);
   };
 
-  const PROTECTED = ["/play", "/app", "/invite"];
+  const PROTECTED = ["/play", "/app", "/invite", "/bee/create"];
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -92,6 +92,8 @@ export function Navbar() {
     { href: "/articles", label: "Articles" },
     { href: "/play", label: "Play", protected: true },
     { href: "/app", label: "App", protected: true },
+    { href: "/bee/create", label: "🐝 Bee", protected: true },
+    { href: "/leaderboard", label: "Rankings" },
     { href: "/invite", label: "Invite", protected: true },
     { href: "/faq", label: "FAQ" },
   ];
