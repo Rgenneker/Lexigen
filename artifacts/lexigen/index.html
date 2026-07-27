@@ -4,6 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
 
+    <!-- Ad-error suppressor: must run before Vite's HMR overlay registers its
+         own window.onerror / unhandledrejection listeners. Catches non-Error
+         throws from third-party ad scripts so Vite never sees them. -->
+    <script>
+      (function () {
+        var AD_HOST = "contributionhobblenewlywed.com";
+        function isAdError(src, msg) {
+          return (
+            (typeof src === "string" && src.indexOf(AD_HOST) !== -1) ||
+            (typeof msg === "string" && msg.indexOf(AD_HOST) !== -1)
+          );
+        }
+        var _prevOnError = window.onerror;
+        window.onerror = function (msg, src, line, col, err) {
+          // Swallow if it originates from the ad domain OR if it is not a real
+          // Error object (ad scripts often throw plain strings/objects).
+          if (isAdError(src, msg) || !(err instanceof Error)) {
+            return true; // prevents the browser + Vite overlay from seeing it
+          }
+          return _prevOnError ? _prevOnError(msg, src, line, col, err) : false;
+        };
+        window.addEventListener(
+          "unhandledrejection",
+          function (e) {
+            var reason = e.reason;
+            if (
+              !(reason instanceof Error) ||
+              isAdError("", String(reason))
+            ) {
+              e.preventDefault();
+            }
+          },
+          true // capture phase — fires before Vite's bubble-phase listener
+        );
+      })();
+    </script>
+
     <!-- Primary SEO -->
     <title>Lexigenz — Daily Vocabulary for Gen Z &amp; Millennials | Word of the Day App</title>
     <meta name="description" content="Lexigenz delivers a personalised word of the day based on your birth archetype. Build vocabulary through streaks, badges, word games, and a sentence builder — in 19 languages. Proudly South African." />

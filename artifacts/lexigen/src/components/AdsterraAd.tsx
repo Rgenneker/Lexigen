@@ -10,7 +10,7 @@ export default function AdsterraAd() {
   useEffect(() => {
     // Suppress any uncaught exception thrown by the ad script (it throws
     // strings/objects on 403 / blocked requests, not Error instances).
-    const handleWindowError = (event: ErrorEvent) => {
+    const handleWindowError = (event: ErrorEvent): boolean | undefined => {
       if (
         event.filename?.includes(AD_HOST) ||
         String(event.message).includes(AD_HOST) ||
@@ -20,6 +20,7 @@ export default function AdsterraAd() {
         event.preventDefault();
         return true;
       }
+      return undefined;
     };
     window.addEventListener("error", handleWindowError);
 
