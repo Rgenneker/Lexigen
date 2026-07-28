@@ -330,7 +330,7 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                     type="button"
                     className="w-full h-11 rounded-2xl border-2 border-primary/40 font-bold text-sm text-primary hover:bg-primary/5 hover:border-primary transition-all flex items-center justify-center gap-2"
                   >
-                    ⭐ Get Premium - $8 lifetime · All 19 languages
+                    ⭐ Get Premium - $8 lifetime · English + 1 language
                   </button>
                 </Link>
 
@@ -524,7 +524,7 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
           {[
             { icon: "📖", text: "Daily word" },
             { icon: "🎮", text: "6 games" },
-            { icon: "🌍", text: "19 languages" },
+            { icon: "🌍", text: "English + 1 language" },
           ].map(f => (
             <div key={f.text} className="bg-white/5 rounded-2xl px-3 py-3 border border-white/10 backdrop-blur-sm">
               <p className="text-xl">{f.icon}</p>

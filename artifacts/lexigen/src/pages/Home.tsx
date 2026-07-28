@@ -560,7 +560,7 @@ export default function Home() {
               </p>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Lock className="h-4 w-4" />
-                <span>Free: English only · <strong className="text-foreground">Premium: all 19 languages</strong></span>
+                <span>Free: English only · <strong className="text-foreground">Premium: English + 1 other language (additional languages $2)</strong></span>
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -664,7 +664,7 @@ export default function Home() {
               </div>
               <ul className="space-y-3 text-sm">
                 {[
-                  "Everything in Free", "All 19 languages", "Unlimited sentence builder", "Full word journal (unlimited)",
+                  "Everything in Free", "English + 1 language (more for $2)", "Unlimited sentence builder", "Full word journal (unlimited)",
                   "Monthly progress reports", "Exclusive Premium themes", "No ads", "Priority support",
                 ].map(f => (
                   <li key={f} className="flex items-center gap-2">

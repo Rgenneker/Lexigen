@@ -216,7 +216,7 @@ const STEPS = [
           {[
             { event: "First visit (no account)", desc: "Lexigenz works immediately. Enter your birth date on the App page to get your archetype and daily word. Data saves locally on your device.", status: "guest" },
             { event: "After registering (free)", desc: "Your streak, Word Journal, archetype, and language preference sync to your account. Access your journal from any device. Streak history is preserved.", status: "registered" },
-            { event: "After upgrading to Premium", desc: "All 19 languages unlock instantly. Unlimited Word Journal entries. Ad-free games. Premium themes. Monthly progress report. No expiry - ever.", status: "premium" },
+            { event: "After upgrading to Premium", desc: "English + 1 language unlock instantly (additional languages $2 each). Unlimited Word Journal entries. Ad-free games. Premium themes. Monthly progress report. No expiry - ever.", status: "premium" },
             { event: "Every time you sign in", desc: "Your streak is validated and synced. Today's word is served fresh. Your Word Journal is loaded. Language and archetype settings are restored.", status: "sync" },
           ].map(({ event, desc, status }) => (
             <div key={event} className="flex gap-3 p-3 rounded-xl border border-border bg-muted/30">
@@ -242,7 +242,7 @@ const STEPS = [
     emoji: "🌍",
     label: "Premium & Languages",
     title: "Premium, languages & the invite system",
-    tldr: "$8 once. 19 languages. No subscription. Share via link. Done.",
+    tldr: "$8 once. English + 1 language. No subscription. Share via link. Done.",
     content: (
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
@@ -257,7 +257,7 @@ const STEPS = [
           <div className="border-2 border-primary rounded-xl p-3 space-y-1 relative overflow-hidden">
             <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-bold px-2 py-0.5 rounded-bl-lg">$8 once</div>
             <p className="text-xs font-bold uppercase tracking-wide text-primary">Premium Forever</p>
-            {["All 19 languages", "Unlimited journal", "Ad-free games", "Monthly reports", "Premium themes", "Priority support"].map(f => (
+            {["English + 1 language (+more for $2)", "Unlimited journal", "Ad-free games", "Monthly reports", "Premium themes", "Priority support"].map(f => (
               <div key={f} className="flex items-center gap-2 text-xs">
                 <CheckCircle2 className="h-3 w-3 text-primary flex-shrink-0" /> {f}
               </div>
@@ -367,7 +367,7 @@ const CHEAT_SHEET_ITEMS = [
     color: "border-emerald-400/30 bg-emerald-500/5",
     items: [
       { label: "Free plan", value: "English only" },
-      { label: "Premium", value: "19 languages" },
+      { label: "Premium", value: "English + 1 language" },
       { label: "Switch via", value: "🌐 Globe icon" },
       { label: "Streak impact", value: "None" },
       { label: "SA languages", value: "Afrikaans, Zulu, Xhosa" },

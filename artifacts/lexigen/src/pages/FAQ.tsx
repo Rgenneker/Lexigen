@@ -122,7 +122,7 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Premium",
     q: "What does Premium include?",
-    a: "Lexigenz Premium unlocks: all 19 languages (Free is English only), unlimited Sentence Builder use, full Word Journal with no entry cap, monthly detailed progress reports, exclusive Premium visual themes, a completely ad-free experience, and priority support. Premium is a one-time payment of $8 - no subscription, no monthly fees, no expiry date."
+    a: "Lexigenz Premium unlocks: English + 1 language of your choice (Free is English only - additional languages available for $2 each), unlimited Sentence Builder use, full Word Journal with no entry cap, monthly detailed progress reports, exclusive Premium visual themes, a completely ad-free experience, and priority support. Premium is a one-time payment of $8 - no subscription, no monthly fees, no expiry date."
   },
   {
     category: "Premium",
@@ -154,7 +154,7 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Languages",
     q: "Which 19 languages does Lexigenz support?",
-    a: "Lexigenz supports: English, Afrikaans, Zulu, Xhosa, French, Spanish, Portuguese, German, Dutch, Italian, Arabic, Farsi, Russian, Bahasa Malay, Vietnamese, Tagalog, Japanese, Cantonese, and Chinese (Mandarin). Free users have access to English. Premium users can switch to any of the 19 languages at any time."
+    a: "Lexigenz supports: English, Afrikaans, Zulu, Xhosa, French, Spanish, Portuguese, German, Dutch, Italian, Arabic, Farsi, Russian, Bahasa Malay, Vietnamese, Tagalog, Japanese, Cantonese, and Chinese (Mandarin). Free users have access to English only. Premium includes English + 1 language of your choice. Additional languages are available for $2 each."
   },
   {
     category: "Languages",

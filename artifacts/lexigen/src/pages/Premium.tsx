@@ -193,7 +193,7 @@ function PaymentModal({
                   <p className="text-xs text-muted-foreground mt-0.5">{userEmail}</p>
                 </div>
                 <div className="space-y-2">
-                  {["All 6 word games - unlimited", "Unlimited word journal + PDF export", "All 19 languages", "Full archetype deep-dive", "Monthly reports & badges"].map(f => (
+                  {["All 6 word games - unlimited", "Unlimited word journal + PDF export", "English + 1 language (additional languages $2)", "Full archetype deep-dive", "Monthly reports & badges"].map(f => (
                     <div key={f} className="flex items-center gap-2 text-sm">
                       <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
                       <span>{f}</span>
@@ -264,7 +264,7 @@ function PaymentModal({
                   </p>
                 </div>
                 <div className="space-y-2 text-left">
-                  {["All 6 word games - unlimited", "Unlimited word journal + PDF export", "All 19 languages", "Full archetype deep-dive", "Monthly reports & badges"].map(f => (
+                  {["All 6 word games - unlimited", "Unlimited word journal + PDF export", "English + 1 language (additional languages $2)", "Full archetype deep-dive", "Monthly reports & badges"].map(f => (
                     <div key={f} className="flex items-center gap-2 text-sm">
                       <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
                       <span>{f}</span>
@@ -513,7 +513,7 @@ const comparison = [
   { feature: "Streak tracking", free: "Basic streak only", premium: "Badges, milestones & leaderboard" },
   { feature: "Birth archetype", free: "Basic profile", premium: "Full deep-dive report" },
   { feature: "Vocabulary reports", free: "None", premium: "Monthly growth report" },
-  { feature: "Languages", free: "English only", premium: "All 19 languages" },
+  { feature: "Languages", free: "English only", premium: "English + 1 language (more for $2)" },
   { feature: "Friend challenges", free: "Not available", premium: "Cross-language word duels" },
   { feature: "Custom word lists", free: "Not available", premium: "Build your own lists" },
   { feature: "Ads", free: "Shown", premium: "No ads, ever" },
@@ -616,7 +616,7 @@ export default function Premium() {
               { icon: BookOpen, label: "Unlimited word journal", limit: "Free: 5 entries only" },
               { icon: Download, label: "Export journal to PDF", limit: "Free: not available" },
               { icon: Zap, label: "Unlimited sentence builder", limit: "Free: 3 uses/day" },
-              { icon: Globe, label: "All 19 languages", limit: "Free: English only" },
+              { icon: Globe, label: "English + 1 language", limit: "More languages: $2 each" },
               { icon: Brain, label: "Full archetype deep-dive", limit: "Free: basic profile" },
               { icon: BarChart3, label: "Monthly vocabulary report", limit: "Free: not available" },
               { icon: Trophy, label: "Badge milestones & leaderboard", limit: "Free: basic streak" },
@@ -701,10 +701,10 @@ export default function Premium() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Globe className="h-5 w-5 text-primary" />
-                <span className="font-bold text-lg">Unlock all 19 languages</span>
+                <span className="font-bold text-lg">Unlock English + 1 other language</span>
               </div>
               <p className="text-muted-foreground text-sm max-w-sm">
-                Free users are limited to English only. Premium unlocks every language - switch anytime, learn without limits.
+                Free users are limited to English only. Premium includes English + 1 language of your choice. Additional languages available for $2 each.
               </p>
             </div>
             <Button size="lg" onClick={() => setShowModal(true)}

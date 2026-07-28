@@ -32,7 +32,7 @@ interface Props {
 const FEATURES = [
   "All 6 word games - unlimited",
   "Unlimited word journal + PDF export",
-  "All 19 languages",
+  "English + 1 language (additional languages $2)",
   "Full archetype deep-dive",
   "Monthly reports & badges",
 ];
