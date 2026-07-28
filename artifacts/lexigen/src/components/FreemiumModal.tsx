@@ -19,7 +19,7 @@ export function FreemiumModal({
   onSuccess?: () => void;
 }) {
   const [step, setStep] = useState<ModalStep>("form");
-  const [initials, setInitials] = useState("");
+  const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
   const [countryCode, setCountryCode] = useState("ZA");
   const [phone, setPhone] = useState("");
@@ -28,7 +28,7 @@ export function FreemiumModal({
   const { toast } = useToast();
 
   const selectedCountry = COUNTRIES.find(c => c.code === countryCode) ?? COUNTRIES.find(c => c.code === "ZA")!;
-  const canProceed = initials.trim().length > 0 && surname.trim().length > 0 && phone.trim().length > 0;
+  const canProceed = firstName.trim().length > 0 && surname.trim().length > 0 && phone.trim().length > 0;
 
   const handleRegister = useCallback(async () => {
     if (!canProceed) return;
@@ -38,7 +38,7 @@ export function FreemiumModal({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          initials: initials.trim(),
+          firstName: firstName.trim(),
           surname: surname.trim(),
           countryCode,
           phone: phone.trim(),
@@ -59,7 +59,7 @@ export function FreemiumModal({
     } finally {
       setLoading(false);
     }
-  }, [initials, surname, countryCode, phone, canProceed, onSuccess, toast]);
+  }, [firstName, surname, countryCode, phone, canProceed, onSuccess, toast]);
 
   return (
     <div
@@ -103,14 +103,14 @@ export function FreemiumModal({
                     <p className="text-sm text-muted-foreground">No credit card required — free forever.</p>
                   </div>
                   <div className="space-y-3">
-                    {/* Initials */}
+                    {/* First Name */}
                     <div className="space-y-1.5">
-                      <Label htmlFor="f-initials" className="text-sm font-semibold">Initials</Label>
+                      <Label htmlFor="f-firstname" className="text-sm font-semibold">First Name</Label>
                       <Input
-                        id="f-initials"
-                        value={initials}
-                        onChange={(e) => setInitials(e.target.value)}
-                        placeholder="e.g. R.G."
+                        id="f-firstname"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        placeholder="e.g. Russ"
                         className="rounded-xl h-11"
                       />
                     </div>
@@ -208,7 +208,7 @@ export function FreemiumModal({
                   <div>
                     <h2 className="text-2xl font-bold mb-2">You're in! 🎉</h2>
                     <p className="text-muted-foreground text-sm">
-                      Welcome, <span className="font-semibold text-foreground">{initials.trim()} {surname.trim()}</span>.<br />
+                      Welcome, <span className="font-semibold text-foreground">{firstName.trim()} {surname.trim()}</span>.<br />
                       Your free Lexigenz account is active.
                     </p>
                   </div>
