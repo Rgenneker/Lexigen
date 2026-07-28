@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
@@ -163,6 +163,15 @@ export default function Home() {
   const [showFreemium, setShowFreemium] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [expandedBenefit, setExpandedBenefit] = useState<string | null>(null);
+  const benefitExpandedRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (expandedBenefit && benefitExpandedRef.current) {
+      setTimeout(() => {
+        benefitExpandedRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    }
+  }, [expandedBenefit]);
   const { user, isRegistered, setPremium } = useAuth();
   const isPremium = user?.plan === "premium";
   const [, navigate] = useLocation();
@@ -455,6 +464,7 @@ export default function Home() {
               if (!expanded || !benefit) return null;
               return (
                 <motion.div
+                  ref={benefitExpandedRef}
                   key={expandedBenefit}
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
