@@ -69,7 +69,7 @@ const HUB_CONFIG: Record<string, {
     title: "Word of the Day Hub",
     icon: <Star className="w-8 h-8 text-primary" />,
     description: "Explore words of the day from LexigenZ. Each word is selected based on your birth archetype for a personalised daily vocabulary experience.",
-    metaDesc: "Word of the day hub. Personalised daily vocabulary words based on your birth archetype. Streaks, badges, and word journal — LexigenZ.",
+    metaDesc: "Word of the day hub. Personalised daily vocabulary words based on your birth archetype. Streaks, badges, and word journal - LexigenZ.",
     sections: [
       {
         heading: "How It Works",
@@ -332,7 +332,7 @@ export function HubPage() {
       <div className="mt-12 border border-border rounded-xl p-6 bg-muted/30 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
         <div className="flex-1">
           <h2 className="font-semibold mb-1">Learn one new word every day with LexigenZ</h2>
-          <p className="text-muted-foreground text-sm">Personalised vocabulary delivery based on your birth archetype — with streaks, badges, and 6 word games.</p>
+          <p className="text-muted-foreground text-sm">Personalised vocabulary delivery based on your birth archetype - with streaks, badges, and 6 word games.</p>
         </div>
         <Link href="/"><Button size="sm">Get Started Free <ArrowRight className="w-4 h-4 ml-1" /></Button></Link>
       </div>

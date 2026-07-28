@@ -10,13 +10,13 @@ import { useAuth } from "@/context/AuthContext";
 import { Globe, Users, Zap, Heart, BookOpen, Brain, Sparkles, Crown } from "lucide-react";
 
 const FREE_GAMES = ["Wordle", "Lexigenz Game", "Spelling Bee"];
-const PREMIUM_GAMES = ["Wordle", "Lexigenz Game", "Spelling Bee", "Spelling Bee — Proficient", "Scrabble", "Word Grid", "Crossword"];
+const PREMIUM_GAMES = ["Wordle", "Lexigenz Game", "Spelling Bee", "Spelling Bee - Proficient", "Scrabble", "Word Grid", "Crossword"];
 
 const articles = [
   {
     tag: "Memory Science",
     title: "Why Context Beats Repetition for Vocabulary Retention",
-    excerpt: "Research consistently shows that encountering a word in a meaningful sentence — one you've written yourself — is 3x more effective than flashcard drilling. Here's the neuroscience behind why your Word Journal is your most powerful learning tool.",
+    excerpt: "Research consistently shows that encountering a word in a meaningful sentence - one you've written yourself - is 3x more effective than flashcard drilling. Here's the neuroscience behind why your Word Journal is your most powerful learning tool.",
     readTime: "5 min read",
     icon: Brain,
   },
@@ -30,21 +30,21 @@ const articles = [
   {
     tag: "Social Learning",
     title: "Learning With Others: How Competitive Play Accelerates Word Memory",
-    excerpt: "When you challenge a friend to a Wordle match or race through the Lexigenz Game together, your brain encodes vocabulary differently — and faster. Discover the science of social vocabulary building.",
+    excerpt: "When you challenge a friend to a Wordle match or race through the Lexigenz Game together, your brain encodes vocabulary differently - and faster. Discover the science of social vocabulary building.",
     readTime: "6 min read",
     icon: Users,
   },
   {
     tag: "Gen Z & Language",
     title: "Code-Switching, Slang, and Standard English: Owning Every Register",
-    excerpt: "Gen Z already communicates fluently across multiple linguistic registers. Formal English, internet slang, community vernacular — Lexigenz helps you master formal vocabulary without losing the voice that's already yours.",
+    excerpt: "Gen Z already communicates fluently across multiple linguistic registers. Formal English, internet slang, community vernacular - Lexigenz helps you master formal vocabulary without losing the voice that's already yours.",
     readTime: "8 min read",
     icon: Globe,
   },
   {
     tag: "Personal Growth",
     title: "Word Power Is Life Power: How Vocabulary Shapes Confidence and Opportunity",
-    excerpt: "Studies link vocabulary size to career earnings, social confidence, and cognitive agility. This isn't about being 'proper' — it's about having more tools in your kit. More words means more ways to be understood, respected, and heard.",
+    excerpt: "Studies link vocabulary size to career earnings, social confidence, and cognitive agility. This isn't about being 'proper' - it's about having more tools in your kit. More words means more ways to be understood, respected, and heard.",
     readTime: "6 min read",
     icon: Zap,
   },
@@ -123,7 +123,7 @@ export default function Invite() {
               </span>
             </h1>
             <p className="mt-6 text-xl text-muted-foreground max-w-2xl mx-auto">
-              Vocabulary is better together. Challenge someone you love to a word game from wherever you are in the world — no flights required.
+              Vocabulary is better together. Challenge someone you love to a word game from wherever you are in the world - no flights required.
             </p>
           </motion.div>
         </div>
@@ -182,7 +182,7 @@ export default function Invite() {
               <>
                 <h2 className="text-3xl font-bold mb-2">Send a challenge</h2>
                 <p className="text-muted-foreground mb-8">
-                  Let your people know you're on Lexigenz — and that you're ready for a rematch.
+                  Let your people know you're on Lexigenz - and that you're ready for a rematch.
                 </p>
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="space-y-2">
@@ -279,7 +279,7 @@ export default function Invite() {
               Learn More
             </span>
             <h2 className="text-4xl font-bold tracking-tighter">
-              Become a better wordsmith — fast.
+              Become a better wordsmith - fast.
             </h2>
             <p className="text-muted-foreground mt-2">Original insights on language, memory, and growth.</p>
           </motion.div>

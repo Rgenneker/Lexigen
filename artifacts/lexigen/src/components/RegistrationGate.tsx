@@ -219,7 +219,7 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
             </p>
           </div>
 
-          {/* Tabs — hidden when loginOnly */}
+          {/* Tabs - hidden when loginOnly */}
           {!loginOnly && (
             <div className="px-8 pb-0">
               <div className="flex rounded-xl bg-muted/40 p-1 gap-1">
@@ -330,7 +330,7 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                     type="button"
                     className="w-full h-11 rounded-2xl border-2 border-primary/40 font-bold text-sm text-primary hover:bg-primary/5 hover:border-primary transition-all flex items-center justify-center gap-2"
                   >
-                    ⭐ Get Premium — $8 lifetime · All 19 languages
+                    ⭐ Get Premium - $8 lifetime · All 19 languages
                   </button>
                 </Link>
 

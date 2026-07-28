@@ -41,7 +41,7 @@ export default function Terms() {
 
       <h2>3. Intellectual Property</h2>
       <p>
-        All content on Lexigenz.com — including but not limited to word generator logic, code, design, text, graphics, and the Lexigenz name and logo — is the exclusive intellectual property of Lexigenz Trading and is protected by South African and international copyright and trademark law.
+        All content on Lexigenz.com - including but not limited to word generator logic, code, design, text, graphics, and the Lexigenz name and logo - is the exclusive intellectual property of Lexigenz Trading and is protected by South African and international copyright and trademark law.
       </p>
       <p>
         The Lexigenz trademark is registered in South Africa. Unauthorised use of the mark or any confusingly similar mark is prohibited.
@@ -65,7 +65,7 @@ export default function Terms() {
 
       <h2>6. Limitation of Liability</h2>
       <p>
-        To the maximum extent permitted by applicable law, Lexigenz Trading and its directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of, or inability to use, the Site or its word generators — even if advised of the possibility of such damages.
+        To the maximum extent permitted by applicable law, Lexigenz Trading and its directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of, or inability to use, the Site or its word generators - even if advised of the possibility of such damages.
       </p>
       <p>
         Our total liability to you for any claim arising from use of the Site shall not exceed ZAR 500 (five hundred South African rand).

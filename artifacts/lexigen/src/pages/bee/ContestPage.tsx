@@ -283,7 +283,7 @@ export default function ContestPage({ contestId }: { contestId: number }) {
               <Button onClick={handleReady} disabled={isReady || !myPlayer} className="w-full h-12 text-base font-semibold gap-2" size="lg">
                 {isReady ? <><CheckCheck className="w-5 h-5" /> You're Ready!</> : "I'm Ready →"}
               </Button>
-              {allReady && <p className="text-center text-sm text-emerald-600 font-medium animate-pulse">All players ready — starting now! 🐝</p>}
+              {allReady && <p className="text-center text-sm text-emerald-600 font-medium animate-pulse">All players ready - starting now! 🐝</p>}
               {!allReady && lobby.players.length < 2 && (
                 <p className="text-center text-xs text-muted-foreground">Need at least 2 players to start</p>
               )}

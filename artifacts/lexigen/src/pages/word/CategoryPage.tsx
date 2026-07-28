@@ -52,7 +52,7 @@ function LetterPage({ letter }: { letter: string }) {
   const l = letter.toLowerCase();
   const words = UNIQUE_WORDS.filter((w) => w.toLowerCase().startsWith(l));
   useDocumentMeta(
-    `Words Starting With ${letter.toUpperCase()} | Vocabulary List — LexigenZ`,
+    `Words Starting With ${letter.toUpperCase()} | Vocabulary List - LexigenZ`,
     `Browse ${words.length}+ English words starting with the letter ${letter.toUpperCase()}. Learn definitions, synonyms, and usage for each word on LexigenZ.`
   );
   return (
@@ -60,7 +60,7 @@ function LetterPage({ letter }: { letter: string }) {
       <Breadcrumb crumbs={[{ label: "Home", href: "/" }, { label: "Words", href: "/hub/dictionary" }, { label: `Words Starting With ${letter.toUpperCase()}` }]} />
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2">Words Starting With <span className="text-primary uppercase">{letter}</span></h1>
-        <p className="text-muted-foreground">{words.length} vocabulary words beginning with &ldquo;{letter.toUpperCase()}&rdquo; — click any word to see its full definition, synonyms, and usage.</p>
+        <p className="text-muted-foreground">{words.length} vocabulary words beginning with &ldquo;{letter.toUpperCase()}&rdquo; - click any word to see its full definition, synonyms, and usage.</p>
       </div>
       <div className="flex flex-wrap gap-2 mb-8">
         {LETTERS.map((lt) => (
@@ -94,7 +94,7 @@ function SuffixPage({ suffix }: { suffix: string }) {
   const s = suffix.toLowerCase();
   const words = UNIQUE_WORDS.filter((w) => w.toLowerCase().endsWith(s));
   useDocumentMeta(
-    `Words Ending In -${suffix.toUpperCase()} | Vocabulary List — LexigenZ`,
+    `Words Ending In -${suffix.toUpperCase()} | Vocabulary List - LexigenZ`,
     `Browse English words ending in "-${suffix}". Learn definitions, synonyms, and usage. Expand your vocabulary with LexigenZ.`
   );
   return (
@@ -136,7 +136,7 @@ function ThemePage({ theme }: { theme: string }) {
   const words = THEME_WORDS[theme.toLowerCase()] ?? [];
   const label = theme.charAt(0).toUpperCase() + theme.slice(1);
   useDocumentMeta(
-    `${label} Words | ${label} Vocabulary List — LexigenZ`,
+    `${label} Words | ${label} Vocabulary List - LexigenZ`,
     `Browse ${words.length}+ ${label.toLowerCase()} English words. Learn definitions and usage for ${label.toLowerCase()} vocabulary with LexigenZ.`
   );
   return (
@@ -144,7 +144,7 @@ function ThemePage({ theme }: { theme: string }) {
       <Breadcrumb crumbs={[{ label: "Home", href: "/" }, { label: "Words", href: "/hub/dictionary" }, { label: `${label} Words` }]} />
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2"><span className="text-primary">{label}</span> Words</h1>
-        <p className="text-muted-foreground">{words.length} curated {label.toLowerCase()} English vocabulary words — click any word to see its full definition.</p>
+        <p className="text-muted-foreground">{words.length} curated {label.toLowerCase()} English vocabulary words - click any word to see its full definition.</p>
       </div>
       {words.length === 0 ? (
         <p className="text-muted-foreground">No words found for theme &ldquo;{theme}&rdquo;.</p>

@@ -176,7 +176,7 @@ export default function WorldChampionship() {
                   <h3 className="font-bold text-lg text-emerald-700">You're registered! 🎉</h3>
                   <p className="text-muted-foreground text-sm mt-1">
                     Mark your calendar: <strong>{targetDate.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</strong> at 12:00 UTC.
-                    Keep practising — the best Proficient spelling wins the title.
+                    Keep practising - the best Proficient spelling wins the title.
                   </p>
                 </div>
                 <Button onClick={() => navigate("/bee/create")} variant="outline" className="gap-2 shrink-0">

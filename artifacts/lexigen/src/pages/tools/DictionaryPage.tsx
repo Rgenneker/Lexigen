@@ -5,7 +5,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function DictionaryPage() {
   usePageMeta({
-    title: "English Dictionary — Words, Definitions, Etymology & More | LexigenZ",
+    title: "English Dictionary - Words, Definitions, Etymology & More | LexigenZ",
     description: "Explore the English language with our complete dictionary guide. How to read dictionary entries, etymology, pronunciation, parts of speech, and how to use dictionary knowledge to build vocabulary.",
     canonical: "/dictionary",
     keywords: "english dictionary, word definitions, word etymology, dictionary guide, word meanings, dictionary lookup",

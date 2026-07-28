@@ -90,7 +90,7 @@ export default function CreateTournament() {
             <Trophy className="w-4 h-4" /> Tournament Organiser
           </div>
           <h1 className="text-4xl font-bold">Create a Tournament 🏆</h1>
-          <p className="text-muted-foreground">Multi-round elimination — only the best advance each round</p>
+          <p className="text-muted-foreground">Multi-round elimination - only the best advance each round</p>
         </div>
 
         {/* Name */}

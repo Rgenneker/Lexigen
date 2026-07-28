@@ -182,7 +182,7 @@ export default function Leaderboard() {
             ) : rows.length === 0 ? (
               <div className="text-center py-16 space-y-3">
                 <Trophy className="w-12 h-12 text-muted-foreground/30 mx-auto" />
-                <p className="text-muted-foreground">No scores yet — be the first!</p>
+                <p className="text-muted-foreground">No scores yet - be the first!</p>
                 <Button onClick={() => navigate("/bee/create")} variant="outline" className="gap-2">
                   <Crown className="w-4 h-4" /> Create a Contest
                 </Button>
@@ -209,7 +209,7 @@ export default function Leaderboard() {
                       <div className="min-w-0">
                         <p className="font-semibold text-sm truncate">
                           {flagEmoji && <span className="mr-1">{flagEmoji}</span>}
-                          {row.username ?? "—"}
+                          {row.username ?? "-"}
                         </p>
                         {row.contestName && <p className="text-xs text-muted-foreground truncate">{row.contestName}</p>}
                       </div>
@@ -258,7 +258,7 @@ export default function Leaderboard() {
               <div className="text-4xl">🌍</div>
               <div className="flex-1">
                 <p className="font-bold text-lg">World Spelling Bee Championship</p>
-                <p className="text-white/80 text-sm mt-0.5">Every year — 3rd Saturday of June, 12:00 UTC. A single synchronous global final. Top spellers from every country compete for the world title.</p>
+                <p className="text-white/80 text-sm mt-0.5">Every year - 3rd Saturday of June, 12:00 UTC. A single synchronous global final. Top spellers from every country compete for the world title.</p>
               </div>
               <Button onClick={() => navigate("/bee/world-championship")} variant="secondary" className="shrink-0 gap-2 font-semibold">
                 <Trophy className="w-4 h-4" /> Learn More

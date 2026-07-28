@@ -135,7 +135,7 @@ export default function BeeProfilePage() {
           </div>
           <div>
             <p className={`font-semibold text-sm ${isComplete ? "text-emerald-800" : "text-amber-800"}`}>
-              {isComplete ? "Profile complete — you can register for the World Championship!" : "Complete all fields to unlock World Championship registration"}
+              {isComplete ? "Profile complete - you can register for the World Championship!" : "Complete all fields to unlock World Championship registration"}
             </p>
           </div>
         </div>
@@ -144,7 +144,7 @@ export default function BeeProfilePage() {
         <Card className="border-0 shadow-xl">
           <CardHeader className="pb-4">
             <CardTitle>Location & Institution</CardTitle>
-            <CardDescription>Used for regional leaderboards only — never shared publicly beyond your display name</CardDescription>
+            <CardDescription>Used for regional leaderboards only - never shared publicly beyond your display name</CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
             {/* Country */}
@@ -225,7 +225,7 @@ export default function BeeProfilePage() {
                 <span className="text-2xl">🏆</span>
                 <div className="text-left">
                   <p className="font-semibold">Register for the World Championship</p>
-                  <p className="text-xs text-muted-foreground">Annual global final — 3rd Saturday of June, 12:00 UTC</p>
+                  <p className="text-xs text-muted-foreground">Annual global final - 3rd Saturday of June, 12:00 UTC</p>
                 </div>
               </div>
               <ChevronRight className="w-5 h-5 text-primary" />

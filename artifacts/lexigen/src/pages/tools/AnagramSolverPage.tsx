@@ -5,7 +5,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function AnagramSolverPage() {
   usePageMeta({
-    title: "Anagram Solver — Find Anagrams, Solve Word Puzzles | LexigenZ",
+    title: "Anagram Solver - Find Anagrams, Solve Word Puzzles | LexigenZ",
     description: "Complete guide to anagrams. What anagrams are, how to solve them mentally, famous anagrams, anagram games, and strategies for finding anagrams quickly without a tool.",
     canonical: "/anagram-solver",
     keywords: "anagram solver, find anagrams, word anagrams, anagram games, solve anagram, anagram puzzles",
@@ -13,7 +13,7 @@ export default function AnagramSolverPage() {
 
   const famousAnagrams = [
     { word: "LISTEN", anagram: "SILENT", note: "One of the most famous word anagram pairs in English" },
-    { word: "ASTRONOMER", anagram: "MOON STARER", note: "Astronomers study the moon — the anagram reflects this" },
+    { word: "ASTRONOMER", anagram: "MOON STARER", note: "Astronomers study the moon - the anagram reflects this" },
     { word: "CONVERSATION", anagram: "VOICES RANT ON", note: "A remarkably apt description of most conversations" },
     { word: "DORMITORY", anagram: "DIRTY ROOM", note: "Perhaps uncomfortably accurate for student living" },
     { word: "SCHOOL MASTER", anagram: "THE CLASSROOM", note: "Exactly where you would find a school master" },

@@ -5,7 +5,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function WordFinderPage() {
   usePageMeta({
-    title: "Word Finder — Find Words From Letters, Patterns & Clues | LexigenZ",
+    title: "Word Finder - Find Words From Letters, Patterns & Clues | LexigenZ",
     description: "Complete guide to finding words from letter combinations. How word finders work, common letter patterns, English word structure, and strategies for word games, puzzles, and creative writing.",
     canonical: "/word-finder",
     keywords: "word finder, find words from letters, word search, word patterns, letters to words, word game helper",

@@ -5,7 +5,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function SynonymFinderPage() {
   usePageMeta({
-    title: "Synonym Finder — Find the Right Word Every Time | LexigenZ",
+    title: "Synonym Finder - Find the Right Word Every Time | LexigenZ",
     description: "Discover synonyms that actually fit your context. Learn why synonyms are never perfectly interchangeable, how register and nuance differ, and how to choose the right word every time.",
     canonical: "/synonym-finder",
     keywords: "synonym finder, find synonyms, word synonyms, synonyms for writing, vocabulary synonyms, english synonyms",
@@ -26,7 +26,7 @@ export default function SynonymFinderPage() {
             <span className="text-xs font-bold uppercase tracking-widest text-violet-500">Writing Tools</span>
             <h1 className="text-5xl md:text-6xl font-black mt-3 mb-5">Synonym Finder</h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-              Find synonyms that actually work in your context. Because good writing is not about replacing a word with any synonym — it is about finding the word that says precisely what you mean.
+              Find synonyms that actually work in your context. Because good writing is not about replacing a word with any synonym - it is about finding the word that says precisely what you mean.
             </p>
           </motion.div>
         </div>

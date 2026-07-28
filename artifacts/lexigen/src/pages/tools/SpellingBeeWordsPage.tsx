@@ -5,7 +5,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function SpellingBeeWordsPage() {
   usePageMeta({
-    title: "Spelling Bee Words — Complete Guide to Spelling Competitions | LexigenZ",
+    title: "Spelling Bee Words - Complete Guide to Spelling Competitions | LexigenZ",
     description: "Master spelling bees with our complete guide. How to prepare, word roots to study, competition strategies, common bee words, and the vocabulary habits that produce champions.",
     canonical: "/spelling-bee-words",
     keywords: "spelling bee words, spelling bee preparation, spelling competition, how to win spelling bee, spelling bee strategy, spelling bee vocabulary",
@@ -131,7 +131,7 @@ export default function SpellingBeeWordsPage() {
       <section className="py-12 bg-primary/5 border-t border-border text-center">
         <div className="container px-4 mx-auto max-w-2xl">
           <h2 className="text-2xl font-black mb-4">Build a Championship Vocabulary</h2>
-          <p className="text-muted-foreground mb-6">LexigenZ delivers daily vocabulary with full etymology — exactly the depth that spelling bee preparation requires.</p>
+          <p className="text-muted-foreground mb-6">LexigenZ delivers daily vocabulary with full etymology - exactly the depth that spelling bee preparation requires.</p>
           <Link href="/app"><Button size="lg" className="rounded-full bg-primary font-bold px-10">Start Your Daily Practice</Button></Link>
         </div>
       </section>

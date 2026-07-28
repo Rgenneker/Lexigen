@@ -16,8 +16,8 @@ type Level = { id:string; name:string; emoji:string; tagline:string; rounds:numb
 
 const LEVELS: Level[] = [
   { id:'casual',   name:'Casual',   emoji:'😊', tagline:'Form any 3+ letter word from your 7 tiles', rounds:5, minLen:3, secs:60 },
-  { id:'standard', name:'Standard', emoji:'🎯', tagline:'4+ letters — classic Scrabble scoring',      rounds:6, minLen:4, secs:45 },
-  { id:'advanced', name:'Advanced', emoji:'🔥', tagline:'5+ letters only — bigger points per round',  rounds:7, minLen:5, secs:35 },
+  { id:'standard', name:'Standard', emoji:'🎯', tagline:'4+ letters - classic Scrabble scoring',      rounds:6, minLen:4, secs:45 },
+  { id:'advanced', name:'Advanced', emoji:'🔥', tagline:'5+ letters only - bigger points per round',  rounds:7, minLen:5, secs:35 },
   { id:'master',   name:'Master',   emoji:'👑', tagline:'Use all 7 tiles for a +50 BINGO bonus',      rounds:8, minLen:5, secs:25 },
 ];
 
@@ -98,7 +98,7 @@ export function ScrabbleGame({ onScore }: Props) {
     const w = word.map(t => t.letter).join('');
     if (w.length < level.minLen) { setError(`Need at least ${level.minLen} letters`); return; }
     if (!canForm(w, rack.concat(word))) { setError('Invalid tiles used'); return; }
-    if (!GAME_WORDS.has(w.toLowerCase())) { setError(`"${w.toLowerCase()}" — not in word list, try again`); return; }
+    if (!GAME_WORDS.has(w.toLowerCase())) { setError(`"${w.toLowerCase()}" - not in word list, try again`); return; }
     const sc = calcScore(w, word.length === 7);
     setResult({ score:sc, word:w });
     setTotal(t => t + sc);
@@ -139,7 +139,7 @@ export function ScrabbleGame({ onScore }: Props) {
       <div className="text-5xl">🏆</div>
       <div>
         <div className="text-3xl font-bold">{total}</div>
-        <div className="text-muted-foreground text-sm">total points — {level.rounds} rounds of {level.name}</div>
+        <div className="text-muted-foreground text-sm">total points - {level.rounds} rounds of {level.name}</div>
       </div>
       <Button onClick={() => { setLevel(null); setDone(false); }} className="rounded-full bg-primary font-bold px-8">Play Again</Button>
     </div>
@@ -199,7 +199,7 @@ export function ScrabbleGame({ onScore }: Props) {
                 <p className="font-mono tracking-widest mt-1">{result.word.toLowerCase()}</p>
                 {word.length === 7 && <p className="text-xs text-amber-600 font-bold mt-1">🔥 BINGO! Used all 7 tiles (+50 bonus)</p>}
               </>
-            ) : <p className="text-muted-foreground font-medium">Round skipped — 0 points</p>}
+            ) : <p className="text-muted-foreground font-medium">Round skipped - 0 points</p>}
           </motion.div>
         )}
       </AnimatePresence>

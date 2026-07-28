@@ -68,7 +68,7 @@ export function InviteReminderModal() {
             <div className="space-y-2">
               <h2 className="text-xl font-black">Share Lexigenz!</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Know someone who'd love growing their vocabulary every day? Invite them — it's completely free for them too.
+                Know someone who'd love growing their vocabulary every day? Invite them - it's completely free for them too.
               </p>
             </div>
 

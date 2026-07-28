@@ -14,7 +14,7 @@ const PUZZLES: Puzzle[] = [
     entries:[
       { num:1, dir:'across', row:0, col:0, answer:'MUSIC', clue:'Melodies and rhythms that move your soul' },
       { num:3, dir:'across', row:2, col:0, answer:'NAIVE', clue:'Lacking worldly experience or judgement' },
-      { num:4, dir:'across', row:4, col:0, answer:'EXTRA', clue:'More than needed — or a background actor' },
+      { num:4, dir:'across', row:4, col:0, answer:'EXTRA', clue:'More than needed - or a background actor' },
       { num:1, dir:'down',   row:0, col:0, answer:'MINCE', clue:'Chop finely, or speak with forced delicacy' },
       { num:2, dir:'down',   row:0, col:2, answer:'SAINT', clue:'A person of exceptional holiness or virtue' },
     ],
@@ -22,10 +22,10 @@ const PUZZLES: Puzzle[] = [
   {
     title:'SA Vibes', size:5,
     entries:[
-      { num:1, dir:'across', row:0, col:0, answer:'BRAVO', clue:'"Well done!" — a shout of approval' },
+      { num:1, dir:'across', row:0, col:0, answer:'BRAVO', clue:'"Well done!" - a shout of approval' },
       { num:3, dir:'across', row:2, col:0, answer:'SIREN', clue:'Alarm sound, or an irresistibly alluring person' },
       { num:4, dir:'across', row:4, col:0, answer:'DANCE', clue:'Move rhythmically to music' },
-      { num:1, dir:'down',   row:0, col:0, answer:'BASED', clue:'Grounded in fact — or Gen Z for "admirable"' },
+      { num:1, dir:'down',   row:0, col:0, answer:'BASED', clue:'Grounded in fact - or Gen Z for "admirable"' },
       { num:2, dir:'down',   row:0, col:4, answer:'OZONE', clue:'The protective atmospheric layer above Earth' },
     ],
   },
@@ -45,7 +45,7 @@ const PUZZLES: Puzzle[] = [
       { num:1, dir:'across', row:0, col:0, answer:'SHIRT', clue:'Common garment worn on the upper body' },
       { num:3, dir:'across', row:2, col:0, answer:'ANGER', clue:'Strong feeling of displeasure or hostility' },
       { num:4, dir:'across', row:4, col:0, answer:'PROOF', clue:'Conclusive evidence that something is true' },
-      { num:1, dir:'down',   row:0, col:0, answer:'SHARP', clue:'Having a fine cutting edge — or mentally keen' },
+      { num:1, dir:'down',   row:0, col:0, answer:'SHARP', clue:'Having a fine cutting edge - or mentally keen' },
       { num:2, dir:'down',   row:0, col:1, answer:'HONOR', clue:'High respect, or great esteem given to someone' },
     ],
   },
@@ -55,7 +55,7 @@ const LEVELS: Level[] = [
   { id:'rookie',  name:'Rookie',  emoji:'🌱', tagline:'Simple vocab, get into the groove',      puzzle:PUZZLES[0] },
   { id:'regular', name:'Regular', emoji:'🎯', tagline:'Everyday words with a cultural flavour',  puzzle:PUZZLES[1] },
   { id:'sharp',   name:'Sharp',   emoji:'🔥', tagline:'Rarer clues, tighter vocabulary',        puzzle:PUZZLES[2] },
-  { id:'wizard',  name:'Wizard',  emoji:'🧙', tagline:'Advanced words — the full Lexigenz test', puzzle:PUZZLES[3] },
+  { id:'wizard',  name:'Wizard',  emoji:'🧙', tagline:'Advanced words - the full Lexigenz test', puzzle:PUZZLES[3] },
 ];
 
 function buildSolved(entries: Entry[], size: number): string[][] {
@@ -263,7 +263,7 @@ export function CrosswordGame({ onScore }: Props) {
           <motion.div initial={{ opacity:0, y:4 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}
             className="p-3 bg-muted/40 rounded-xl border border-border space-y-2">
             <p className="text-xs font-bold text-primary">
-              {selected.num} {selected.dir === 'across' ? 'Across' : 'Down'} —{' '}
+              {selected.num} {selected.dir === 'across' ? 'Across' : 'Down'} -{' '}
               <span className="font-normal text-foreground">{selected.clue}</span>
             </p>
             <input
@@ -323,7 +323,7 @@ export function CrosswordGame({ onScore }: Props) {
 
       {checked && !done && wrongCells.size > 0 && (
         <p className="text-center text-sm text-red-500 font-medium">
-          {wrongCells.size} cell{wrongCells.size > 1 ? 's' : ''} need fixing — red cells are incorrect
+          {wrongCells.size} cell{wrongCells.size > 1 ? 's' : ''} need fixing - red cells are incorrect
         </p>
       )}
     </div>

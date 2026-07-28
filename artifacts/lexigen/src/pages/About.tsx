@@ -10,7 +10,7 @@ import AdsterraSocialBar from "@/components/AdsterraSocialBar";
 const milestones = [
   { year: "2024", label: "Lexigenz Trading founded in South Africa" },
   { year: "2024", label: "Concept: daily vocab meets birth archetype personalisation" },
-  { year: "2025", label: "Beta launch — English + 18 additional languages" },
+  { year: "2025", label: "Beta launch - English + 18 additional languages" },
   { year: "2025", label: "6 word games live, global challenge feature launched" },
   { year: "2026", label: "Community of learners across 5 continents" },
 ];
@@ -24,7 +24,7 @@ const values = [
   {
     icon: Heart,
     title: "Learning should feel personal.",
-    desc: "Generic word lists don't work. Your archetype, your language, your mood — Lexigenz shapes itself around you.",
+    desc: "Generic word lists don't work. Your archetype, your language, your mood - Lexigenz shapes itself around you.",
   },
   {
     icon: Zap,
@@ -39,7 +39,7 @@ const values = [
   {
     icon: Users,
     title: "Together is better.",
-    desc: "Challenge culture, shared streaks, and invite features — because the best vocabulary growth happens in community.",
+    desc: "Challenge culture, shared streaks, and invite features - because the best vocabulary growth happens in community.",
   },
   {
     icon: TrendingUp,
@@ -83,7 +83,7 @@ export default function About() {
               VOCAB.
             </h1>
             <p className="text-xl md:text-2xl leading-relaxed font-medium max-w-2xl text-muted-foreground">
-              Lexigenz is built to make daily vocabulary growth feel personal, playful, and meaningful — for every generation, in every language, across every border.
+              Lexigenz is built to make daily vocabulary growth feel personal, playful, and meaningful - for every generation, in every language, across every border.
             </p>
           </motion.div>
         </div>
@@ -106,7 +106,7 @@ export default function About() {
             </div>
             <div className="space-y-6">
               <p className="text-muted-foreground leading-relaxed">
-                Lexigenz was founded in South Africa with a simple belief: that the words you know shape the life you live. Academic vocabulary, professional English, multilingual fluency — these aren't luxuries. They're tools. And tools should be accessible to everyone.
+                Lexigenz was founded in South Africa with a simple belief: that the words you know shape the life you live. Academic vocabulary, professional English, multilingual fluency - these aren't luxuries. They're tools. And tools should be accessible to everyone.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 We built Lexigenz for the student who wants to level up before an interview. For the creative who wants richer language in their writing. For the professional who wants to communicate with more precision and confidence. For everyone who has ever reached for a word and found the cupboard bare.
@@ -134,7 +134,7 @@ export default function About() {
               Lexigenz Trading is a South African company. We started with the conviction that vocabulary platforms built for the West don't always serve the needs, rhythms, or realities of learners in Africa and the Global South. We wanted something that was African in its origin, but genuinely global in its reach.
             </p>
             <p className="text-muted-foreground leading-relaxed text-lg">
-              That's why Lexigenz launched with 19 languages from day one — including Afrikaans, Zulu, and Xhosa alongside global languages. That's why our archetype system celebrates personality and individuality over rote memorisation. And that's why we made community a core feature, not an afterthought.
+              That's why Lexigenz launched with 19 languages from day one - including Afrikaans, Zulu, and Xhosa alongside global languages. That's why our archetype system celebrates personality and individuality over rote memorisation. And that's why we made community a core feature, not an afterthought.
             </p>
 
             {/* Timeline */}
@@ -233,7 +233,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Platform Features — Gen Z focused */}
+      {/* Platform Features - Gen Z focused */}
       <section className="py-20 px-4 bg-card">
         <div className="container mx-auto max-w-4xl">
           <motion.div
@@ -247,7 +247,7 @@ export default function About() {
               Built to build better language.
             </h2>
             <p className="text-muted-foreground text-lg mt-4 max-w-2xl">
-              Every feature on Lexigenz is designed with one goal: helping Gen Z learners own the words they use — not just recognise them.
+              Every feature on Lexigenz is designed with one goal: helping Gen Z learners own the words they use - not just recognise them.
             </p>
           </motion.div>
 
@@ -256,22 +256,22 @@ export default function About() {
               {
                 tag: "01",
                 title: "Personalised Daily Word",
-                body: "Each day delivers one word — matched to your vocabulary level, your language choice, and your personal learning history. No overwhelm. Just one powerful word, fully contextualised with a definition, pronunciation, and real-world example sentence.",
+                body: "Each day delivers one word - matched to your vocabulary level, your language choice, and your personal learning history. No overwhelm. Just one powerful word, fully contextualised with a definition, pronunciation, and real-world example sentence.",
               },
               {
                 tag: "02",
                 title: "Birth-Based Archetype Insights",
-                body: "Your date of birth unlocks a unique vocabulary archetype — a profile that reflects how you process language, what words resonate with you, and how your communication style is wired. It's not astrology. It's personalisation with a purpose.",
+                body: "Your date of birth unlocks a unique vocabulary archetype - a profile that reflects how you process language, what words resonate with you, and how your communication style is wired. It's not astrology. It's personalisation with a purpose.",
               },
               {
                 tag: "03",
                 title: "Streak Rewards",
-                body: "Consistency is the whole game. Lexigenz tracks your daily check-ins and rewards you with milestone badges at 7, 30, 100, and 365 days. Every streak is a visible record of real growth — and a motivator to keep showing up.",
+                body: "Consistency is the whole game. Lexigenz tracks your daily check-ins and rewards you with milestone badges at 7, 30, 100, and 365 days. Every streak is a visible record of real growth - and a motivator to keep showing up.",
               },
               {
                 tag: "04",
                 title: "Social Challenges for Gen Z Learners",
-                body: "Vocabulary grows fastest in community. Invite friends, challenge peers to word duels, compare streaks, and build your vocabulary circle across timezones and borders. Words have always been social — Lexigenz just makes that explicit.",
+                body: "Vocabulary grows fastest in community. Invite friends, challenge peers to word duels, compare streaks, and build your vocabulary circle across timezones and borders. Words have always been social - Lexigenz just makes that explicit.",
               },
             ].map((item, i) => (
               <motion.div
@@ -297,20 +297,20 @@ export default function About() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
             <h2 className="text-3xl font-black mb-3">Everything Vocabulary, in One Place</h2>
             <p className="text-muted-foreground max-w-xl mx-auto text-sm">
-              Lexigenz is a full vocabulary ecosystem — daily words, word games, vocabulary lists, and learning tools across 19 languages.
+              Lexigenz is a full vocabulary ecosystem - daily words, word games, vocabulary lists, and learning tools across 19 languages.
             </p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {[
-              { title: "Vocabulary Builder", desc: "Grow your English vocabulary with one personalised word per day — with etymology, usage, and sentence practice.", href: "/vocabulary" },
-              { title: "Word of the Day", desc: "A new word every day matched to your archetype — with full context, pronunciation, and example sentences.", href: "/word-of-the-day" },
+              { title: "Vocabulary Builder", desc: "Grow your English vocabulary with one personalised word per day - with etymology, usage, and sentence practice.", href: "/vocabulary" },
+              { title: "Word of the Day", desc: "A new word every day matched to your archetype - with full context, pronunciation, and example sentences.", href: "/word-of-the-day" },
               { title: "Wordle Word Help", desc: "Vocabulary-focused Wordle game plus strategy guides and word lists for every Wordle player.", href: "/wordle-words" },
               { title: "Scrabble Word Finder", desc: "High-value Scrabble words, two-letter words, Q-without-U words, and gameplay strategies.", href: "/scrabble-words" },
-              { title: "Spelling Bee Words", desc: "Vocabulary practice for spelling competition — from beginner lists to advanced championship-level words.", href: "/spelling-bee-words" },
+              { title: "Spelling Bee Words", desc: "Vocabulary practice for spelling competition - from beginner lists to advanced championship-level words.", href: "/spelling-bee-words" },
               { title: "Dictionary & Definitions", desc: "Look up any English word with full definitions, etymology, synonyms, antonyms, and pronunciation.", href: "/dictionary" },
-              { title: "Synonym Finder", desc: "Find the right synonym for any word — with context notes on nuance and register differences.", href: "/synonym-finder" },
+              { title: "Synonym Finder", desc: "Find the right synonym for any word - with context notes on nuance and register differences.", href: "/synonym-finder" },
               { title: "Crossword Solver", desc: "Crossword vocabulary guides, common fill words, and clue-reading strategies for all levels.", href: "/crossword-words" },
-              { title: "Vocabulary Lists", desc: "Curated word lists by theme, difficulty, and use case — from GRE prep to business communication.", href: "/vocabulary-lists/advanced-english" },
+              { title: "Vocabulary Lists", desc: "Curated word lists by theme, difficulty, and use case - from GRE prep to business communication.", href: "/vocabulary-lists/advanced-english" },
             ].map((item) => {
               const isOpen = expandedTool === item.title;
               return (
@@ -391,7 +391,7 @@ export default function About() {
           >
             <h2 className="text-4xl font-bold tracking-tighter">Our Promise</h2>
             <p className="text-muted-foreground text-lg leading-relaxed max-w-xl mx-auto">
-              Consistent growth, not quick fixes. Personalisation, not generic lists. Community, not isolation. We are building a global vocabulary movement — rooted in South Africa, ready for the world.
+              Consistent growth, not quick fixes. Personalisation, not generic lists. Community, not isolation. We are building a global vocabulary movement - rooted in South Africa, ready for the world.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
               <Link href="/app">

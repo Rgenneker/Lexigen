@@ -14,12 +14,12 @@ const STEPS = [
     id: 0,
     emoji: "🗺️",
     label: "Platform Overview",
-    title: "Welcome to Lexigenz — here's your orientation",
+    title: "Welcome to Lexigenz - here's your orientation",
     tldr: "Lexigenz = one word a day, six games, your personality, 19 languages.",
     content: (
       <div className="space-y-5">
         <p className="text-muted-foreground leading-relaxed">
-          Lexigenz is a <strong>daily vocabulary growth platform</strong> built for people who want smarter language skills without the grind. The whole loop takes about 7 minutes a day — seriously, that's it.
+          Lexigenz is a <strong>daily vocabulary growth platform</strong> built for people who want smarter language skills without the grind. The whole loop takes about 7 minutes a day - seriously, that's it.
         </p>
         <div className="grid grid-cols-2 gap-3">
           {[
@@ -60,7 +60,7 @@ const STEPS = [
     id: 1,
     emoji: "🧭",
     label: "Navigation",
-    title: "Getting around — every page explained",
+    title: "Getting around - every page explained",
     tldr: "The navbar is your map. App = daily hub. Play = games. Articles = deep reads.",
     content: (
       <div className="space-y-4">
@@ -71,9 +71,9 @@ const STEPS = [
           {[
             { page: "Home", path: "/", icon: "🏠", desc: "Brand intro, features overview, browse categories by letter or theme." },
             { page: "About", path: "/about", icon: "💡", desc: "Meet the 9 tools (Dictionary, Synonym Finder, Anagram Solver, etc.) and why Lexigenz exists." },
-            { page: "How It Works", path: "/how-it-works", icon: "⚙️", desc: "The 6-step system explained — perfect to share with someone new." },
+            { page: "How It Works", path: "/how-it-works", icon: "⚙️", desc: "The 6-step system explained - perfect to share with someone new." },
             { page: "Articles", path: "/articles", icon: "📰", desc: "25+ deep-dive articles on words, games, communication & self-development." },
-            { page: "Play", path: "/play", icon: "🎮", desc: "Your game hub — access all 6 word games from here." },
+            { page: "Play", path: "/play", icon: "🎮", desc: "Your game hub - access all 6 word games from here." },
             { page: "App", path: "/app", icon: "⚡", desc: "Your daily learning home. Daily word, Sentence Builder, streak, Word Journal." },
             { page: "Invite", path: "/invite", icon: "📨", desc: "Challenge friends via link. No download needed on their end." },
             { page: "FAQ", path: "/faq", icon: "❓", desc: "You're here! Help centre + this Playbook." },
@@ -97,12 +97,12 @@ const STEPS = [
     id: 2,
     emoji: "🌟",
     label: "Your Archetype",
-    title: "Your vocabulary personality — how archetypes work",
+    title: "Your vocabulary personality - how archetypes work",
     tldr: "Birth date → 1 of 12 archetypes → personalised words, style & tone for life.",
     content: (
       <div className="space-y-4">
         <p className="text-muted-foreground text-sm leading-relaxed">
-          When you open the App page and enter your birth date, Lexigenz calculates your <strong>vocabulary archetype</strong> — a personality profile that shapes the style, tone, and type of words you receive. It's deterministic: same birth date = same archetype, always.
+          When you open the App page and enter your birth date, Lexigenz calculates your <strong>vocabulary archetype</strong> - a personality profile that shapes the style, tone, and type of words you receive. It's deterministic: same birth date = same archetype, always.
         </p>
         <div className="grid grid-cols-3 gap-2">
           {["The Visionary", "The Nurturer", "The Explorer", "The Sage", "The Creator", "The Guardian", "The Rebel", "The Diplomat", "The Achiever", "The Mystic", "The Maverick", "The Harmonizer"].map(a => (
@@ -125,7 +125,7 @@ const STEPS = [
           ))}
         </div>
         <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 text-sm">
-          <strong>Can I change it?</strong> Yes — update your birth date in your profile to explore different archetypes. Your archetype is stable by design but not a cage.
+          <strong>Can I change it?</strong> Yes - update your birth date in your profile to explore different archetypes. Your archetype is stable by design but not a cage.
         </div>
       </div>
     ),
@@ -134,7 +134,7 @@ const STEPS = [
     id: 3,
     emoji: "⚡",
     label: "Daily Word Loop",
-    title: "The daily loop — how words actually stick",
+    title: "The daily loop - how words actually stick",
     tldr: "Read → sentence → journal → review. Spaced repetition baked in.",
     content: (
       <div className="space-y-4">
@@ -143,9 +143,9 @@ const STEPS = [
         </p>
         <div className="space-y-3">
           {[
-            { step: "01", title: "Your daily word drops", desc: "A word matched to your archetype and language. Definition, etymology, pronunciation, example sentences — all included. Resets at midnight your time.", icon: BookOpen, color: "text-violet-600 bg-violet-500/10" },
-            { step: "02", title: "Sentence Builder", desc: "Write your own sentence using the word. This is the highest-retention step — generating your own sentence is 2-3× more effective than reading one. It saves automatically to your Word Journal.", icon: MessageSquare, color: "text-blue-600 bg-blue-500/10" },
-            { step: "03", title: "Word Journal", desc: "Every sentence you write is stored here. Free users get limited entries; Premium users get unlimited. Your journal is your vocabulary history — it grows with you.", icon: BookOpen, color: "text-emerald-600 bg-emerald-500/10" },
+            { step: "01", title: "Your daily word drops", desc: "A word matched to your archetype and language. Definition, etymology, pronunciation, example sentences - all included. Resets at midnight your time.", icon: BookOpen, color: "text-violet-600 bg-violet-500/10" },
+            { step: "02", title: "Sentence Builder", desc: "Write your own sentence using the word. This is the highest-retention step - generating your own sentence is 2-3× more effective than reading one. It saves automatically to your Word Journal.", icon: MessageSquare, color: "text-blue-600 bg-blue-500/10" },
+            { step: "03", title: "Word Journal", desc: "Every sentence you write is stored here. Free users get limited entries; Premium users get unlimited. Your journal is your vocabulary history - it grows with you.", icon: BookOpen, color: "text-emerald-600 bg-emerald-500/10" },
             { step: "04", title: "Streak check-in", desc: "Visiting the App page and engaging with today's word counts as your daily check-in. Miss a day? Streak resets. Milestones at 7, 30, 100, and 365 days unlock badges.", icon: Flame, color: "text-amber-600 bg-amber-500/10" },
           ].map(({ step, title, desc, icon: Icon, color }) => (
             <div key={step} className="flex gap-3 p-3 rounded-xl border border-border bg-muted/30">
@@ -170,7 +170,7 @@ const STEPS = [
     id: 4,
     emoji: "🎮",
     label: "6 Word Games",
-    title: "Play for Words — your 6-game suite, explained",
+    title: "Play for Words - your 6-game suite, explained",
     tldr: "Go to Play → pick a game. Each game trains a different vocab skill.",
     content: (
       <div className="space-y-3">
@@ -179,12 +179,12 @@ const STEPS = [
         </p>
         <div className="space-y-2">
           {[
-            { game: "Wordle", emoji: "🟩", desc: "Guess the 5-letter word in 6 tries. Colour feedback guides you. Words pulled from your archetype pool — so it's also vocabulary practice.", tip: "Start with CRANE or SLATE for best letter coverage." },
-            { game: "Scrabble vs Computer", emoji: "🔤", desc: "Classic tile-based word building against an AI opponent. Place tiles on the board to score points — double/triple score squares included.", tip: "Learn 2-letter words first. They unlock the board." },
-            { game: "Crossword", emoji: "✏️", desc: "Themed crossword puzzles generated for you. Fill the grid using across and down clues. Multiple difficulty levels.", tip: "Solve what you know first — crossing letters unlock the harder clues." },
-            { game: "Spelling Bee", emoji: "🐝", desc: "Find words using 7 letters arranged in a honeycomb — one centre letter must appear in every word. Longer words = more points.", tip: "Find the pangram (uses all 7 letters) for the bonus." },
-            { game: "Word Grid", emoji: "🔍", desc: "Hidden word search in a 6×6 grid. Find all the themed words before the clock runs out. Words can run in any direction.", tip: "Scan for unusual first letters first — they're easier to spot." },
-            { game: "The Lexigenz Game", emoji: "⏱️", desc: "7 letters drawn from L-E-X-I-G-E-N-Z. Unscramble them to spell the full word before the countdown hits zero. The fastest game — under 60 seconds.", tip: "Look for the vowels first: E, I. Build from there." },
+            { game: "Wordle", emoji: "🟩", desc: "Guess the 5-letter word in 6 tries. Colour feedback guides you. Words pulled from your archetype pool - so it's also vocabulary practice.", tip: "Start with CRANE or SLATE for best letter coverage." },
+            { game: "Scrabble vs Computer", emoji: "🔤", desc: "Classic tile-based word building against an AI opponent. Place tiles on the board to score points - double/triple score squares included.", tip: "Learn 2-letter words first. They unlock the board." },
+            { game: "Crossword", emoji: "✏️", desc: "Themed crossword puzzles generated for you. Fill the grid using across and down clues. Multiple difficulty levels.", tip: "Solve what you know first - crossing letters unlock the harder clues." },
+            { game: "Spelling Bee", emoji: "🐝", desc: "Find words using 7 letters arranged in a honeycomb - one centre letter must appear in every word. Longer words = more points.", tip: "Find the pangram (uses all 7 letters) for the bonus." },
+            { game: "Word Grid", emoji: "🔍", desc: "Hidden word search in a 6×6 grid. Find all the themed words before the clock runs out. Words can run in any direction.", tip: "Scan for unusual first letters first - they're easier to spot." },
+            { game: "The Lexigenz Game", emoji: "⏱️", desc: "7 letters drawn from L-E-X-I-G-E-N-Z. Unscramble them to spell the full word before the countdown hits zero. The fastest game - under 60 seconds.", tip: "Look for the vowels first: E, I. Build from there." },
           ].map(({ game, emoji, desc, tip }) => (
             <div key={game} className="border border-border rounded-xl overflow-hidden">
               <div className="flex items-center gap-2 px-3 py-2 bg-muted/40">
@@ -206,17 +206,17 @@ const STEPS = [
     emoji: "🔐",
     label: "Sign In & Updates",
     title: "What happens when you sign in",
-    tldr: "Sign-in syncs your streak, journal, archetype & Premium — across all devices.",
+    tldr: "Sign-in syncs your streak, journal, archetype & Premium - across all devices.",
     content: (
       <div className="space-y-4">
         <p className="text-muted-foreground text-sm leading-relaxed">
-          You can use Lexigenz without signing in, but registering gives you a persistent identity — your data travels with you, not just your device.
+          You can use Lexigenz without signing in, but registering gives you a persistent identity - your data travels with you, not just your device.
         </p>
         <div className="space-y-2">
           {[
             { event: "First visit (no account)", desc: "Lexigenz works immediately. Enter your birth date on the App page to get your archetype and daily word. Data saves locally on your device.", status: "guest" },
             { event: "After registering (free)", desc: "Your streak, Word Journal, archetype, and language preference sync to your account. Access your journal from any device. Streak history is preserved.", status: "registered" },
-            { event: "After upgrading to Premium", desc: "All 19 languages unlock instantly. Unlimited Word Journal entries. Ad-free games. Premium themes. Monthly progress report. No expiry — ever.", status: "premium" },
+            { event: "After upgrading to Premium", desc: "All 19 languages unlock instantly. Unlimited Word Journal entries. Ad-free games. Premium themes. Monthly progress report. No expiry - ever.", status: "premium" },
             { event: "Every time you sign in", desc: "Your streak is validated and synced. Today's word is served fresh. Your Word Journal is loaded. Language and archetype settings are restored.", status: "sync" },
           ].map(({ event, desc, status }) => (
             <div key={event} className="flex gap-3 p-3 rounded-xl border border-border bg-muted/30">
@@ -232,7 +232,7 @@ const STEPS = [
         </div>
         <div className="bg-emerald-500/10 border border-emerald-400/20 rounded-xl p-3 text-xs">
           <strong className="text-emerald-700 dark:text-emerald-400">Language switching:</strong>
-          <span className="text-muted-foreground"> Tap the 🌐 globe icon in the navbar anytime. Instant switch — no page reload needed. Your streak carries over. Premium users only (except English).</span>
+          <span className="text-muted-foreground"> Tap the 🌐 globe icon in the navbar anytime. Instant switch - no page reload needed. Your streak carries over. Premium users only (except English).</span>
         </div>
       </div>
     ),
@@ -274,7 +274,7 @@ const STEPS = [
         </div>
         <div className="bg-muted/50 border border-border rounded-xl p-3 space-y-1">
           <p className="text-sm font-bold">📨 Invite & Challenge</p>
-          <p className="text-xs text-muted-foreground">Go to the Invite page to send a challenge link to anyone. They don't need a Lexigenz account to play — just click the link. Great for challenging friends on Wordle or Scrabble.</p>
+          <p className="text-xs text-muted-foreground">Go to the Invite page to send a challenge link to anyone. They don't need a Lexigenz account to play - just click the link. Great for challenging friends on Wordle or Scrabble.</p>
         </div>
       </div>
     ),
@@ -292,7 +292,7 @@ const QUIZ_QUESTIONS = [
     q: "What determines your vocabulary archetype on Lexigenz?",
     options: ["A personality quiz", "Your birth date", "Your email address", "Your country"],
     answer: 1,
-    explanation: "Your archetype is calculated from your birth date — same date always produces the same archetype.",
+    explanation: "Your archetype is calculated from your birth date - same date always produces the same archetype.",
   },
   {
     q: "Which action triggers your daily streak check-in?",
@@ -304,7 +304,7 @@ const QUIZ_QUESTIONS = [
     q: "What happens to your Word Journal sentences after you write them?",
     options: ["They disappear at midnight", "They're public on your profile", "They save to your private journal", "They're sent to friends"],
     answer: 2,
-    explanation: "Every sentence you write saves to your private Word Journal — visible only to you.",
+    explanation: "Every sentence you write saves to your private Word Journal - visible only to you.",
   },
   {
     q: "Lexigenz Premium is priced at:",
@@ -593,7 +593,7 @@ export default function PlaybookSection({ defaultOpen = false }: PlaybookSection
                     </h4>
                     <p className="text-muted-foreground text-sm mb-4">
                       You got <strong className="text-foreground">{score} out of {QUIZ_QUESTIONS.length}</strong> correct.
-                      {score >= 4 ? " You clearly paid attention. Welcome to the Lexigenz crew. 🎯" : " Review the lessons and try again — vocab growth is all about repetition."}
+                      {score >= 4 ? " You clearly paid attention. Welcome to the Lexigenz crew. 🎯" : " Review the lessons and try again - vocab growth is all about repetition."}
                     </p>
 
                     {/* Answer review */}
@@ -718,7 +718,7 @@ export default function PlaybookSection({ defaultOpen = false }: PlaybookSection
               <div className="px-5 py-5">
                 <div className="mb-4">
                   <h4 className="text-base font-black">Lexigenz Cheat Sheet</h4>
-                  <p className="text-xs text-muted-foreground">Your visual quick-reference — screenshot this and keep it handy.</p>
+                  <p className="text-xs text-muted-foreground">Your visual quick-reference - screenshot this and keep it handy.</p>
                 </div>
 
                 {/* Visual infographic */}

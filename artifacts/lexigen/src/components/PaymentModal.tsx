@@ -30,7 +30,7 @@ interface Props {
 }
 
 const FEATURES = [
-  "All 6 word games — unlimited",
+  "All 6 word games - unlimited",
   "Unlimited word journal + PDF export",
   "All 19 languages",
   "Full archetype deep-dive",
@@ -142,7 +142,7 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
               </div>
               <div>
                 <p className="font-bold text-sm">Lexigenz Premium</p>
-                <p className="text-xs text-muted-foreground">$8.00 — once-off, forever</p>
+                <p className="text-xs text-muted-foreground">$8.00 - once-off, forever</p>
               </div>
             </div>
             <button
@@ -233,7 +233,7 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
                   <div>
                     <h2 className="text-2xl font-bold mb-1">Payment confirmed!</h2>
                     <p className="text-muted-foreground text-sm">
-                      Welcome to premium, <span className="font-semibold text-foreground">{userName}</span>. Every feature is now unlocked — forever.
+                      Welcome to premium, <span className="font-semibold text-foreground">{userName}</span>. Every feature is now unlocked - forever.
                     </p>
                   </div>
                   <div className="space-y-2 text-left">

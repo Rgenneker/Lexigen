@@ -46,9 +46,9 @@ export default function Privacy() {
       </p>
       <p>Cookies used by Google AdSense may include:</p>
       <ul>
-        <li><strong>__ga, __gads</strong> — Google advertising and analytics cookies</li>
-        <li><strong>IDE</strong> — DoubleClick cookie used by Google for targeting advertisements</li>
-        <li><strong>DSID, FLC</strong> — frequency capping and ad personalisation</li>
+        <li><strong>__ga, __gads</strong> - Google advertising and analytics cookies</li>
+        <li><strong>IDE</strong> - DoubleClick cookie used by Google for targeting advertisements</li>
+        <li><strong>DSID, FLC</strong> - frequency capping and ad personalisation</li>
       </ul>
       <p>You can opt out of personalised advertising at any time via Google Ads Settings, the Digital Advertising Alliance opt-out, or your browser's cookie settings.</p>
       <p>

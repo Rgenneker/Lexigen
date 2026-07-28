@@ -111,7 +111,7 @@ function LoadingState() {
 function DefinitionView({ word, data }: { word: string; data: DictionaryEntry[] }) {
   const entry = data[0];
   useDocumentMeta(
-    `Meaning of ${word} | Definition, Usage & Examples — LexigenZ`,
+    `Meaning of ${word} | Definition, Usage & Examples - LexigenZ`,
     `What does ${word} mean? Full definition, pronunciation, part of speech, and example sentences for "${word}". Learn advanced vocabulary on LexigenZ.`
   );
 
@@ -209,7 +209,7 @@ function DefinitionView({ word, data }: { word: string; data: DictionaryEntry[] 
 function SynonymsView({ word, data }: { word: string; data: DictionaryEntry[] }) {
   const synonyms = [...new Set(data.flatMap((e) => e.meanings.flatMap((m) => m.synonyms)))];
   useDocumentMeta(
-    `Synonyms of "${word}" — Full List | LexigenZ`,
+    `Synonyms of "${word}" - Full List | LexigenZ`,
     `Complete list of synonyms for "${word}". Discover words with similar meanings and expand your vocabulary with LexigenZ.`
   );
   return (
@@ -240,7 +240,7 @@ function SynonymsView({ word, data }: { word: string; data: DictionaryEntry[] })
 function AntonymsView({ word, data }: { word: string; data: DictionaryEntry[] }) {
   const antonyms = [...new Set(data.flatMap((e) => e.meanings.flatMap((m) => m.antonyms)))];
   useDocumentMeta(
-    `Antonyms of "${word}" — Opposite Words | LexigenZ`,
+    `Antonyms of "${word}" - Opposite Words | LexigenZ`,
     `What is the opposite of "${word}"? Full list of antonyms and opposite words. Improve your vocabulary contrast with LexigenZ.`
   );
   return (
@@ -273,7 +273,7 @@ function InASentenceView({ word, data }: { word: string; data: DictionaryEntry[]
     .flatMap((e) => e.meanings.flatMap((m) => m.definitions.map((d) => d.example)))
     .filter(Boolean) as string[];
   useDocumentMeta(
-    `"${word}" in a Sentence — Examples & Usage | LexigenZ`,
+    `"${word}" in a Sentence - Examples & Usage | LexigenZ`,
     `How to use "${word}" in a sentence. Real example sentences showing correct usage of "${word}". Improve your vocabulary and writing skills.`
   );
   return (
@@ -309,7 +309,7 @@ function InASentenceView({ word, data }: { word: string; data: DictionaryEntry[]
 function AdvancedAlternativesView({ word, data }: { word: string; data: DictionaryEntry[] }) {
   const synonyms = [...new Set(data.flatMap((e) => e.meanings.flatMap((m) => m.synonyms)))];
   useDocumentMeta(
-    `Advanced Alternatives to "${word}" | Sophisticated Synonyms — LexigenZ`,
+    `Advanced Alternatives to "${word}" | Sophisticated Synonyms - LexigenZ`,
     `Looking for a more sophisticated word than "${word}"? Discover advanced vocabulary alternatives and elevate your English with LexigenZ.`
   );
   return (
@@ -337,7 +337,7 @@ function AdvancedAlternativesView({ word, data }: { word: string; data: Dictiona
       )}
       <div className="pt-4 border-t border-border bg-muted/30 rounded-lg p-4">
         <h2 className="font-semibold mb-2 flex items-center gap-2"><BookOpen className="w-4 h-4" /> Build your advanced vocabulary</h2>
-        <p className="text-muted-foreground text-sm mb-3">LexigenZ delivers a personalised advanced word every day — tailored to your learning style and archetype.</p>
+        <p className="text-muted-foreground text-sm mb-3">LexigenZ delivers a personalised advanced word every day - tailored to your learning style and archetype.</p>
         <Link href="/"><Button size="sm">Get Your Daily Word <ArrowRight className="w-4 h-4 ml-1" /></Button></Link>
       </div>
     </div>
@@ -347,7 +347,7 @@ function AdvancedAlternativesView({ word, data }: { word: string; data: Dictiona
 // ─── Error State ───────────────────────────────────────────────────────────
 function WordNotFound({ word }: { word: string }) {
   useDocumentMeta(
-    `"${word}" — Word Reference | LexigenZ`,
+    `"${word}" - Word Reference | LexigenZ`,
     `Looking up "${word}". Explore vocabulary, definitions, and more on LexigenZ.`
   );
   return (

@@ -119,11 +119,11 @@ function DailyQuiz({ word, definition, partOfSpeech }: {
 
   if (quiz.completed) {
     const emoji = quiz.score === 3 ? "🎯" : quiz.score === 2 ? "✅" : quiz.score === 1 ? "📖" : "💡";
-    const msg = quiz.score === 3 ? "Perfect score!" : quiz.score >= 2 ? "Great job!" : "Good effort — come back tomorrow!";
+    const msg = quiz.score === 3 ? "Perfect score!" : quiz.score >= 2 ? "Great job!" : "Good effort - come back tomorrow!";
     return (
       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-8 space-y-3">
         <div className="text-5xl">{emoji}</div>
-        <p className="font-black text-xl">{quiz.score}/3 — {msg}</p>
+        <p className="font-black text-xl">{quiz.score}/3 - {msg}</p>
         <p className="text-sm text-muted-foreground">New word quiz available tomorrow.</p>
         <div className="flex justify-center gap-2 pt-1">
           {[0, 1, 2].map(i => (
@@ -169,7 +169,7 @@ function DailyQuiz({ word, definition, partOfSpeech }: {
         </div>
       </div>
 
-      {/* Q2: Part of speech — unlocks after Q1 */}
+      {/* Q2: Part of speech - unlocks after Q1 */}
       <AnimatePresence>
         {quiz.q1Answer !== null && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
@@ -200,7 +200,7 @@ function DailyQuiz({ word, definition, partOfSpeech }: {
         )}
       </AnimatePresence>
 
-      {/* Q3: Use in sentence — unlocks after Q2 */}
+      {/* Q3: Use in sentence - unlocks after Q2 */}
       <AnimatePresence>
         {quiz.q2Answer !== null && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">

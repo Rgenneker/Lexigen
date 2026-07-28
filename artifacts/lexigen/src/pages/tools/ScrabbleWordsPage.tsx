@@ -5,7 +5,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function ScrabbleWordsPage() {
   usePageMeta({
-    title: "Scrabble Words — Complete Strategy Guide & High-Value Word Lists | LexigenZ",
+    title: "Scrabble Words - Complete Strategy Guide & High-Value Word Lists | LexigenZ",
     description: "Master Scrabble with our complete guide. Two-letter words, Q without U words, bingo plays, board strategy, high-scoring words, and the vocabulary knowledge that wins games.",
     canonical: "/scrabble-words",
     keywords: "scrabble words, scrabble strategy, two letter words scrabble, high scoring scrabble words, q without u scrabble, scrabble bingo",

@@ -43,13 +43,13 @@ const HOW_IT_WORKS = [
     step: "01",
     icon: Brain,
     title: "Enter your birth date",
-    desc: "Lexigenz calculates your unique vocabulary archetype — a personality-driven language profile derived from your birth month and day. There are 12 archetypes, each with distinct word styles, strengths, and curated vocabulary paths.",
+    desc: "Lexigenz calculates your unique vocabulary archetype - a personality-driven language profile derived from your birth month and day. There are 12 archetypes, each with distinct word styles, strengths, and curated vocabulary paths.",
   },
   {
     step: "02",
     icon: Sparkles,
     title: "Receive your daily word",
-    desc: "Every morning, a new word lands in your feed — chosen specifically for your archetype and language preference. Not random dictionary filler: each word is selected to stretch your vocabulary in the direction that matches how you naturally think and speak.",
+    desc: "Every morning, a new word lands in your feed - chosen specifically for your archetype and language preference. Not random dictionary filler: each word is selected to stretch your vocabulary in the direction that matches how you naturally think and speak.",
   },
   {
     step: "03",
@@ -82,7 +82,7 @@ const BENEFITS = [
   {
     icon: Target,
     title: "Words matched to your personality",
-    desc: "Generic word lists ignore who you are. Your archetype means every word Lexigenz sends you is one you're more likely to actually use — in the conversations, writing, and situations that are real in your life.",
+    desc: "Generic word lists ignore who you are. Your archetype means every word Lexigenz sends you is one you're more likely to actually use - in the conversations, writing, and situations that are real in your life.",
     color: "text-pink-500",
     bg: "bg-pink-500/10",
   },
@@ -96,35 +96,35 @@ const BENEFITS = [
   {
     icon: Flame,
     title: "Habit-forming streak system",
-    desc: "Streaks work because they make daily learning feel urgent and rewarding. Lexigenz's streak engine is backed by milestone badges that make you want to keep going — even on the days you don't feel like it.",
+    desc: "Streaks work because they make daily learning feel urgent and rewarding. Lexigenz's streak engine is backed by milestone badges that make you want to keep going - even on the days you don't feel like it.",
     color: "text-orange-500",
     bg: "bg-orange-500/10",
   },
   {
     icon: Gamepad2,
     title: "Six unique word games",
-    desc: "Play is the most underrated learning tool. Lexigenz's six games — Wordle, Scrabble, Crossword, Spelling Bee, Word Grid, and the Lexigenz Game — use your learned words to reinforce them through competitive, timed challenges.",
+    desc: "Play is the most underrated learning tool. Lexigenz's six games - Wordle, Scrabble, Crossword, Spelling Bee, Word Grid, and the Lexigenz Game - use your learned words to reinforce them through competitive, timed challenges.",
     color: "text-green-500",
     bg: "bg-green-500/10",
   },
   {
     icon: BookOpen,
     title: "Your personal Word Journal",
-    desc: "Every sentence you build is saved in your Word Journal — a searchable, growing archive of your vocabulary history. Review past entries to see how far you've come, and revisit words that need another pass.",
+    desc: "Every sentence you build is saved in your Word Journal - a searchable, growing archive of your vocabulary history. Review past entries to see how far you've come, and revisit words that need another pass.",
     color: "text-cyan-500",
     bg: "bg-cyan-500/10",
   },
   {
     icon: TrendingUp,
     title: "Track real progress",
-    desc: "Monthly progress reports show words learned, games played, streaks maintained, and badges earned. Progress data makes growth visible — and visible growth is the best motivation to keep going.",
+    desc: "Monthly progress reports show words learned, games played, streaks maintained, and badges earned. Progress data makes growth visible - and visible growth is the best motivation to keep going.",
     color: "text-amber-500",
     bg: "bg-amber-500/10",
   },
   {
     icon: Users,
     title: "Built for sharing",
-    desc: "Send word challenges to friends. Invite others to beat your game scores. Lexigenz is designed to be social without being distracting — vocabulary growth as a shared experience, not a solo grind.",
+    desc: "Send word challenges to friends. Invite others to beat your game scores. Lexigenz is designed to be social without being distracting - vocabulary growth as a shared experience, not a solo grind.",
     color: "text-rose-500",
     bg: "bg-rose-500/10",
   },
@@ -247,19 +247,19 @@ export default function Home() {
             <span className="text-xs font-bold uppercase tracking-widest text-primary">What is Lexigenz?</span>
             <h2 className="text-4xl md:text-5xl font-black mt-3 mb-6">Vocabulary growth built around <em>you</em></h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Most vocabulary apps treat every user the same — the same word lists, the same exercises, the same generic approach. Lexigenz does the opposite.
+              Most vocabulary apps treat every user the same - the same word lists, the same exercises, the same generic approach. Lexigenz does the opposite.
             </p>
           </motion.div>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6 text-muted-foreground leading-relaxed">
               <p>
-                <strong className="text-foreground">Lexigenz is a daily vocabulary growth platform</strong> that personalises your entire language-learning experience based on who you are — starting with your birth date. Your birth month and day are used to assign you one of 12 personality archetypes, each with its own vocabulary style, word preferences, and language strengths.
+                <strong className="text-foreground">Lexigenz is a daily vocabulary growth platform</strong> that personalises your entire language-learning experience based on who you are - starting with your birth date. Your birth month and day are used to assign you one of 12 personality archetypes, each with its own vocabulary style, word preferences, and language strengths.
               </p>
               <p>
-                Every day, you receive a word calibrated to your archetype and your chosen language. You don't just read the definition — you use it in a sentence, play games that reinforce it, track your streak, and add it to a personal Word Journal that becomes your vocabulary history over time.
+                Every day, you receive a word calibrated to your archetype and your chosen language. You don't just read the definition - you use it in a sentence, play games that reinforce it, track your streak, and add it to a personal Word Journal that becomes your vocabulary history over time.
               </p>
               <p>
-                Built in South Africa, used globally. Lexigenz supports 19 languages — from English, Afrikaans, Zulu, and Xhosa to French, Arabic, Japanese, and Mandarin — making it one of the most linguistically inclusive vocabulary platforms in the world.
+                Built in South Africa, used globally. Lexigenz supports 19 languages - from English, Afrikaans, Zulu, and Xhosa to French, Arabic, Japanese, and Mandarin - making it one of the most linguistically inclusive vocabulary platforms in the world.
               </p>
               <div className="pt-4">
                 <Link href="/about">
@@ -275,7 +275,7 @@ export default function Home() {
                 { icon: CheckCircle2, text: "Sentence builder for contextual memory retention" },
                 { icon: CheckCircle2, text: "Six word games for playful reinforcement" },
                 { icon: CheckCircle2, text: "Daily streaks and milestone badge system" },
-                { icon: CheckCircle2, text: "Word Journal — your personal vocabulary archive" },
+                { icon: CheckCircle2, text: "Word Journal - your personal vocabulary archive" },
                 { icon: CheckCircle2, text: "19 languages with instant switching" },
                 { icon: CheckCircle2, text: "Monthly progress tracking and reports" },
                 { icon: CheckCircle2, text: "Friend challenges and social invite system" },
@@ -415,7 +415,7 @@ export default function Home() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
             <span className="text-xs font-bold uppercase tracking-widest text-primary">Why Lexigenz</span>
             <h2 className="text-4xl md:text-5xl font-black mt-3 mb-4">Eight reasons your vocabulary will never be the same</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">Lexigenz is engineered around what actually makes new words stick — and what makes learning feel worth doing every single day.</p>
+            <p className="text-muted-foreground max-w-2xl mx-auto">Lexigenz is engineered around what actually makes new words stick - and what makes learning feel worth doing every single day.</p>
           </motion.div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {BENEFITS.map((b, i) => {
@@ -506,7 +506,7 @@ export default function Home() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black mb-3">Word Tools & Resources</h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              Free vocabulary tools, word games, and learning resources — all in one place.
+              Free vocabulary tools, word games, and learning resources - all in one place.
             </p>
           </motion.div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
@@ -546,7 +546,7 @@ export default function Home() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-primary">Your archetype</span>
             <h2 className="text-4xl md:text-5xl font-black mt-3 mb-4">Which one are you?</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">Enter your birth date and Lexigenz instantly assigns your vocabulary archetype — a personality-driven language profile that shapes every word we send you.</p>
+            <p className="text-muted-foreground max-w-2xl mx-auto">Enter your birth date and Lexigenz instantly assigns your vocabulary archetype - a personality-driven language profile that shapes every word we send you.</p>
           </motion.div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {ARCHETYPES.map((a, i) => (
@@ -582,7 +582,7 @@ export default function Home() {
               <span className="text-xs font-bold uppercase tracking-widest text-primary">Language support</span>
               <h2 className="text-4xl font-black">One platform. 19 languages.</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Lexigenz was born in South Africa — a country with 11 official languages and a culture of multilingualism. That DNA is woven into the platform. Whether you're deepening your mother tongue or building vocabulary in a second language, Lexigenz meets you there.
+                Lexigenz was born in South Africa - a country with 11 official languages and a culture of multilingualism. That DNA is woven into the platform. Whether you're deepening your mother tongue or building vocabulary in a second language, Lexigenz meets you there.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 Switch your language from the navbar at any time. Your streak, journal, and archetype travel with you across every language.
@@ -702,7 +702,7 @@ export default function Home() {
                 ))}
               </ul>
               <Button className="w-full rounded-2xl bg-primary font-bold" onClick={handleGetPremium}>
-                Get Premium — $8 Forever
+                Get Premium - $8 Forever
               </Button>
             </div>
           </div>
@@ -723,7 +723,7 @@ export default function Home() {
               🎁 Register Free
             </Button>
             <Button size="lg" className="h-14 px-8 text-lg font-bold rounded-full bg-primary hover:bg-primary/90 shadow-[0_0_40px_rgba(139,92,246,0.4)]" onClick={handleGetPremium}>
-              Get Premium — $8 <Zap className="h-4 w-4 ml-2" />
+              Get Premium - $8 <Zap className="h-4 w-4 ml-2" />
             </Button>
           </div>
         </div>

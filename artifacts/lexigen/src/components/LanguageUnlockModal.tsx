@@ -182,7 +182,7 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
                     </h2>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       Unlock daily words, the Sentence Builder, and all word games in <strong>{language}</strong> for 60 days.
-                      One small payment — no subscription.
+                      One small payment - no subscription.
                     </p>
                   </div>
 
@@ -206,7 +206,7 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
                   {/* Price */}
                   <div className="p-4 rounded-2xl border border-border bg-muted/30 flex items-center justify-between">
                     <div>
-                      <p className="font-bold">{language} — 60-day access</p>
+                      <p className="font-bold">{language} - 60-day access</p>
                       <p className="text-xs text-muted-foreground">Renews for $2 every 60 days</p>
                     </div>
                     <p className="text-2xl font-black text-blue-600">$2</p>
@@ -218,7 +218,7 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
                     onClick={goToPayPal}
                   >
                     <Lock className="h-4 w-4 mr-2" />
-                    {isRenewal ? "Renew with PayPal" : "Unlock with PayPal"} — $2
+                    {isRenewal ? "Renew with PayPal" : "Unlock with PayPal"} - $2
                   </Button>
                   <p className="text-center text-xs text-muted-foreground">
                     Secure payment via PayPal · All major cards accepted

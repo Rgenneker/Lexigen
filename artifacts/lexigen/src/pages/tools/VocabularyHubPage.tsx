@@ -207,7 +207,7 @@ function BrowseByCategorySection() {
 
 export default function VocabularyHubPage() {
   usePageMeta({
-    title: "Vocabulary Hub — Build Your English Vocabulary | LexigenZ",
+    title: "Vocabulary Hub - Build Your English Vocabulary | LexigenZ",
     description: "Your complete English vocabulary learning centre. Discover how to build vocabulary fast, browse word lists by category, and find proven strategies used by top learners worldwide.",
     canonical: "/vocabulary",
     keywords: "vocabulary hub, build vocabulary, english vocabulary, vocabulary learning, word lists, vocabulary builder",

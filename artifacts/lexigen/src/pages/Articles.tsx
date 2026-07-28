@@ -25,7 +25,7 @@ export default function Articles() {
             Words. Culture. Knowledge.
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Free reads for curious minds. No login required — just good writing about language, communication, and word power.
+            Free reads for curious minds. No login required - just good writing about language, communication, and word power.
           </p>
         </motion.div>
 

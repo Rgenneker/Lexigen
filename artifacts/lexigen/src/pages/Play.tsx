@@ -389,7 +389,7 @@ function SpellingBeeCore({
     }, 1000);
   }, [stopTimer]);
 
-  // AudioContext ref — unlocking it on gesture satisfies mobile autoplay policy
+  // AudioContext ref - unlocking it on gesture satisfies mobile autoplay policy
   const audioCtxRef = useRef<AudioContext | undefined>(undefined);
   const [audioBlocked, setAudioBlocked] = useState(false);
 
@@ -449,7 +449,7 @@ function SpellingBeeCore({
         audio.onended = () => { clearTimeout(guard); advanceAfterAudio(); };
       })
       .catch(() => {
-        // Autoplay blocked — show unmute overlay and try speechSynthesis
+        // Autoplay blocked - show unmute overlay and try speechSynthesis
         setAudioBlocked(true);
         setIsSpeaking(false);
         speakWithSynthesis();
@@ -549,10 +549,10 @@ function SpellingBeeCore({
             <Row label="Total TTS voices" value={String(diagVoices.length)} bad={diagVoices.length === 0} />
             <Row label="English voices" value={String(enVoices.length)} bad={enVoices.length === 0} />
             {enVoices.length > 0 && (
-              <Row label="Default EN voice" value={enVoices[0]?.name ?? "—"} />
+              <Row label="Default EN voice" value={enVoices[0]?.name ?? "-"} />
             )}
             {diagVoices.length === 0 && (
-              <p className="text-destructive font-sans mt-1">⚠️ No voices found — device TTS engine may be disabled. Check Settings → Accessibility → Text to Speech.</p>
+              <p className="text-destructive font-sans mt-1">⚠️ No voices found - device TTS engine may be disabled. Check Settings → Accessibility → Text to Speech.</p>
             )}
           </div>
         );
@@ -634,7 +634,7 @@ function SpellingBeeCore({
           onClick={playWord}
           onTouchStart={(e) => { e.preventDefault(); playWord(); }}
           disabled={isSpeaking || phase === "result"}
-          title={timerStarted ? "Tap to hear the word again" : "Tap to hear your word — timer starts on first play"}
+          title={timerStarted ? "Tap to hear the word again" : "Tap to hear your word - timer starts on first play"}
           className={`relative w-16 h-16 rounded-full flex items-center justify-center transition-all border-2 ${
             isSpeaking ? "border-primary bg-primary/20 text-primary animate-pulse scale-110"
             : phase === "result" ? "border-border bg-muted text-muted-foreground opacity-40 cursor-not-allowed"
@@ -646,10 +646,10 @@ function SpellingBeeCore({
           {isSpeaking && <span className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-40" />}
         </button>
         <p className="text-[11px] text-muted-foreground text-center">
-          {isSpeaking ? "Listening…" : timerStarted ? "Tap to hear again · Timer running" : "Tap 🔊 — timer starts when word plays"}
+          {isSpeaking ? "Listening…" : timerStarted ? "Tap to hear again · Timer running" : "Tap 🔊 - timer starts when word plays"}
         </p>
 
-        {/* Unmute overlay — shown when autoplay was blocked */}
+        {/* Unmute overlay - shown when autoplay was blocked */}
         {audioBlocked && (
           <button
             onClick={playWord}
@@ -687,9 +687,9 @@ function SpellingBeeCore({
         {result && (
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="space-y-2">
             <div className={`text-center py-3 px-4 rounded-xl font-bold text-sm ${result === "correct" ? "bg-green-500/10 text-green-600 border border-green-500/30" : result === "timeout" ? "bg-amber-500/10 text-amber-600 border border-amber-400/30" : "bg-destructive/10 text-destructive border border-destructive/30"}`}>
-              {result === "correct" && `✅ Correct! "${currentWord.word}" — next word coming…`}
+              {result === "correct" && `✅ Correct! "${currentWord.word}" - next word coming…`}
               {result === "timeout" && `⏰ Time's up! The word was "${currentWord.word}"`}
-              {result === "wrong" && `❌ It's "${currentWord.word}" — keep going!`}
+              {result === "wrong" && `❌ It's "${currentWord.word}" - keep going!`}
             </div>
             {(result === "timeout" || result === "wrong") && (
               <div className="rounded-xl border border-primary/20 bg-primary/5 p-3 space-y-1.5 text-left">
@@ -751,7 +751,7 @@ function SpellingBeeCore({
                   <p className="text-4xl font-black text-primary">{targetWords}</p>
                   <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
                 </div>
-                <p className="text-sm text-muted-foreground">correctly spelled words in the<br /><strong>Lexigenz Spelling Bee — {levelName}</strong></p>
+                <p className="text-sm text-muted-foreground">correctly spelled words in the<br /><strong>Lexigenz Spelling Bee - {levelName}</strong></p>
               </div>
               {earnedBadges.length > 0 && (
                 <div className="flex flex-wrap justify-center gap-1.5">
@@ -850,7 +850,7 @@ function SpellingBeeWithLevels({ onScore, isPremium, onUpgrade }: { onScore: (sc
                       <p><span className="font-semibold text-foreground">Who it's for:</span> {level.tag} learners</p>
                       <p><span className="font-semibold text-foreground">Timer:</span> {level.timerSeconds} seconds per word</p>
                       <p><span className="font-semibold text-foreground">Certificate:</span> Awarded at {level.targetWords} correct words</p>
-                      {level.premium && <p className="text-primary font-semibold">🔒 Requires Premium membership — $8 lifetime</p>}
+                      {level.premium && <p className="text-primary font-semibold">🔒 Requires Premium membership - $8 lifetime</p>}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -858,7 +858,7 @@ function SpellingBeeWithLevels({ onScore, isPremium, onUpgrade }: { onScore: (sc
               {locked && (
                 <div className="mt-1.5">
                   <Button size="sm" className="w-full rounded-xl font-bold bg-primary text-xs h-9" onClick={onUpgrade}>
-                    <Crown className="h-3.5 w-3.5 mr-1.5" /> Unlock with Premium — $8 lifetime
+                    <Crown className="h-3.5 w-3.5 mr-1.5" /> Unlock with Premium - $8 lifetime
                   </Button>
                 </div>
               )}
@@ -879,7 +879,7 @@ const GAMES = [
     desc: "Guess the 5-letter word in 6 attempts. Green = correct spot. Yellow = wrong spot.",
     status: "live",
     emoji: "🟩",
-    howToPlay: "You have 6 tries to guess the secret 5-letter word. After each guess, tiles change colour — 🟩 Green means the letter is correct and in the right spot. 🟨 Yellow means the letter is in the word but wrong spot. ⬜ Grey means the letter is not in the word.",
+    howToPlay: "You have 6 tries to guess the secret 5-letter word. After each guess, tiles change colour - 🟩 Green means the letter is correct and in the right spot. 🟨 Yellow means the letter is in the word but wrong spot. ⬜ Grey means the letter is not in the word.",
   },
   {
     id: "lexigen-game",
@@ -903,10 +903,10 @@ const GAMES = [
     id: "scrabble",
     name: "Scrabble",
     tag: "4 Levels",
-    desc: "Tap 7 letter tiles to build high-scoring words. Rare letters earn more — use all 7 for a BINGO bonus!",
+    desc: "Tap 7 letter tiles to build high-scoring words. Rare letters earn more - use all 7 for a BINGO bonus!",
     status: "live",
     emoji: "🎯",
-    howToPlay: "Choose a level, then tap letter tiles from your rack to build a word in the word area. Tap a selected letter to return it. Hit Submit when ready — the word must be valid and meet the minimum length for your level. Shuffle resets your rack. Using all 7 tiles earns a +50 BINGO bonus!",
+    howToPlay: "Choose a level, then tap letter tiles from your rack to build a word in the word area. Tap a selected letter to return it. Hit Submit when ready - the word must be valid and meet the minimum length for your level. Shuffle resets your rack. Using all 7 tiles earns a +50 BINGO bonus!",
   },
   {
     id: "crossword",
@@ -915,7 +915,7 @@ const GAMES = [
     desc: "Solve themed 5×5 mini crosswords. Click a clue or cell, then type your answer.",
     status: "live",
     emoji: "📝",
-    howToPlay: "Click a clue in the panel (or tap a cell in the grid) to select a word. A text input appears — type your answer. The grid fills in live as you type. Once all words are filled, press Check Answers to see your result. Green = correct, red = needs fixing.",
+    howToPlay: "Click a clue in the panel (or tap a cell in the grid) to select a word. A text input appears - type your answer. The grid fills in live as you type. Once all words are filled, press Check Answers to see your result. Green = correct, red = needs fixing.",
   },
   {
     id: "word-grid",
@@ -924,7 +924,7 @@ const GAMES = [
     desc: "Swipe or drag adjacent letters in a grid to spell words before the timer runs out.",
     status: "live",
     emoji: "🔤",
-    howToPlay: "Hold and drag (or swipe on mobile) across adjacent letters — including diagonals — to trace a word path. Release to submit. Each letter can only be used once per word. Longer words score more points. The number next to each tile shows its position in your current word.",
+    howToPlay: "Hold and drag (or swipe on mobile) across adjacent letters - including diagonals - to trace a word path. Release to submit. Each letter can only be used once per word. Longer words score more points. The number next to each tile shows its position in your current word.",
   },
 ];
 
@@ -1013,7 +1013,7 @@ export default function Play() {
                     onClick={() => isClickable ? setActiveGame(game.id) : undefined}
                     data-testid={`game-card-${game.id}`}
                   >
-                    {/* Coming soon overlay — only for free users */}
+                    {/* Coming soon overlay - only for free users */}
                     {isComingSoon && !isPremium && (
                       <div className="absolute inset-0 rounded-2xl bg-background/50 backdrop-blur-sm flex items-center justify-center z-10">
                         <Badge className="font-bold bg-muted text-muted-foreground border-border shadow-sm">Coming Soon</Badge>
@@ -1123,7 +1123,7 @@ export default function Play() {
                   </div>
                 </div>
 
-                {/* Wordshuffl promo — above All Games button */}
+                {/* Wordshuffl promo - above All Games button */}
                 <a
                   href="https://wordshuffl.com"
                   target="_blank"

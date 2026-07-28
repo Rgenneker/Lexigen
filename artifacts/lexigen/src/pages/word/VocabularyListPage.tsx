@@ -29,7 +29,7 @@ const LIST_DATA: Record<string, { title: string; description: string; words: str
   },
   "difficult-english": {
     title: "Most Difficult English Words",
-    description: "The hardest English words to spell, pronounce, and remember — and what they mean.",
+    description: "The hardest English words to spell, pronounce, and remember - and what they mean.",
     words: ["aberration","acquiescence","amphibious","annihilation","antecedent","apoplectic","archipelago","assuage","bureaucracy","cacophonous","camouflage","catastrophe","chrysanthemum","circumnavigate","connoisseur","conscientious","contraband","counterfeit","desiccate","dilapidated","dissonance","entrepreneurial","ephemeral","etiquette","fascinate","fluorescent","fortuitous","idiosyncratic","impeccable","inadvertent","incandescent","incongruent","infrastructure","innocuous","insomnia","iridescent","kaleidoscope","labyrinthine","malapropism","malnourishment","melancholy","miscellaneous","mnemonic","monotonous","nomenclature","omnipotent","ostentatious","palindrome","paraphernalia","parsimonious","peculiar","philosophical","plagiarism","pneumonia","preposterous","psychedelic","quarantine","questionnaire","relinquish","reminiscent","rendezvous","rhapsody","sabotage","sacrilegious","saxophone","serendipity","silhouette","simultaneous","sophisticated","surveillance","susceptible","sycophant","treacherous","unprecedented","vengeance","vertiginous","whimsical"],
   },
   "powerful-english": {
@@ -178,7 +178,7 @@ function ListView({ slug, title, description, words }: { slug: string; title: st
         <BookOpen className="w-8 h-8 text-primary shrink-0" />
         <div className="flex-1">
           <h2 className="font-semibold mb-1">Build this vocabulary with LexigenZ</h2>
-          <p className="text-muted-foreground text-sm">Get a personalised word every day — based on your archetype — and track your progress with streaks and badges.</p>
+          <p className="text-muted-foreground text-sm">Get a personalised word every day - based on your archetype - and track your progress with streaks and badges.</p>
         </div>
         <Link href="/">
           <Button size="sm">Start Learning <ArrowRight className="w-4 h-4 ml-1" /></Button>

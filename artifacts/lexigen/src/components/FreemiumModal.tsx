@@ -90,7 +90,7 @@ export function FreemiumModal({
               </div>
               <div>
                 <p className="font-bold text-sm">Lexigenz Free</p>
-                <p className="text-xs text-muted-foreground">$0.00 — free forever</p>
+                <p className="text-xs text-muted-foreground">$0.00 - free forever</p>
               </div>
             </div>
             <button
@@ -109,7 +109,7 @@ export function FreemiumModal({
                 <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
                   <div>
                     <h2 className="text-xl font-bold mb-1">Create your free account</h2>
-                    <p className="text-sm text-muted-foreground">No credit card required — free forever.</p>
+                    <p className="text-sm text-muted-foreground">No credit card required - free forever.</p>
                   </div>
                   <div className="space-y-3">
                     {/* Name row */}
@@ -212,7 +212,7 @@ export function FreemiumModal({
                       <CreditCard className="h-5 w-5 text-green-600" />
                       <span className="font-bold text-sm">Amount due</span>
                     </div>
-                    <span className="font-bold text-lg text-green-600">$0.00 — Free</span>
+                    <span className="font-bold text-lg text-green-600">$0.00 - Free</span>
                   </div>
 
                   {/* What's included */}

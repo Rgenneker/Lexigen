@@ -5,7 +5,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function CrosswordWordsPage() {
   usePageMeta({
-    title: "Crossword Solver — Complete Guide to Crossword Puzzles | LexigenZ",
+    title: "Crossword Solver - Complete Guide to Crossword Puzzles | LexigenZ",
     description: "Master crossword puzzles with our complete guide. Solving strategies, common crossword fill words, clue reading techniques, themed puzzle tips, and the vocabulary that wins every grid.",
     canonical: "/crossword-words",
     keywords: "crossword solver, crossword words, crossword clue help, crossword strategy, crossword fill words, how to solve crosswords",

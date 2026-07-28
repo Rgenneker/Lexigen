@@ -21,27 +21,27 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Getting Started",
     q: "What exactly is Lexigenz?",
-    a: "Lexigenz is a personalised daily vocabulary growth platform built for Gen Z and millennials. It combines birth-based personality profiling with daily curated words, a sentence builder, six word games, streak tracking, and a personal Word Journal — all available in 19 languages. It's not just a dictionary app. It's a complete vocabulary development system built around who you are, not just what you want to learn."
+    a: "Lexigenz is a personalised daily vocabulary growth platform built for Gen Z and millennials. It combines birth-based personality profiling with daily curated words, a sentence builder, six word games, streak tracking, and a personal Word Journal - all available in 19 languages. It's not just a dictionary app. It's a complete vocabulary development system built around who you are, not just what you want to learn."
   },
   {
     category: "Getting Started",
     q: "Who is Lexigenz built for?",
-    a: "Lexigenz is designed for anyone who wants to grow their vocabulary in a way that feels natural and genuinely engaging — not like homework. The core audience is Gen Z and millennials aged 16–40, but the platform works for anyone who values language, loves word games, is learning a new language, or wants to communicate more powerfully in their daily life."
+    a: "Lexigenz is designed for anyone who wants to grow their vocabulary in a way that feels natural and genuinely engaging - not like homework. The core audience is Gen Z and millennials aged 16–40, but the platform works for anyone who values language, loves word games, is learning a new language, or wants to communicate more powerfully in their daily life."
   },
   {
     category: "Getting Started",
     q: "How do I start using Lexigenz?",
-    a: "Visit the App page to get your first daily word immediately — no sign-up required to start. Enter your birth date to unlock your archetype, choose your language, and you're in. For a registered experience with a saved Word Journal, streaks, and progress tracking, click 'Register Free' on the homepage. It takes under 60 seconds."
+    a: "Visit the App page to get your first daily word immediately - no sign-up required to start. Enter your birth date to unlock your archetype, choose your language, and you're in. For a registered experience with a saved Word Journal, streaks, and progress tracking, click 'Register Free' on the homepage. It takes under 60 seconds."
   },
   {
     category: "Getting Started",
     q: "Is there a mobile app?",
-    a: "Lexigenz is fully optimised for mobile browsers — it's designed to feel like a native app when accessed on your phone. You can add it to your home screen directly from your mobile browser (using 'Add to Home Screen' in Chrome or Safari) for an app-like experience without downloading anything from an app store."
+    a: "Lexigenz is fully optimised for mobile browsers - it's designed to feel like a native app when accessed on your phone. You can add it to your home screen directly from your mobile browser (using 'Add to Home Screen' in Chrome or Safari) for an app-like experience without downloading anything from an app store."
   },
   {
     category: "Getting Started",
     q: "What makes Lexigenz different from other vocabulary apps?",
-    a: "Most vocabulary apps give every user the same word lists. Lexigenz personalises your entire vocabulary experience from your birth date — your archetype defines the style, tone, and type of words you receive. Beyond that, the multi-modal learning loop (read → build a sentence → play games → streak → journal) is specifically engineered for retention. You don't just see a word once and move on."
+    a: "Most vocabulary apps give every user the same word lists. Lexigenz personalises your entire vocabulary experience from your birth date - your archetype defines the style, tone, and type of words you receive. Beyond that, the multi-modal learning loop (read → build a sentence → play games → streak → journal) is specifically engineered for retention. You don't just see a word once and move on."
   },
   {
     category: "Getting Started",
@@ -51,29 +51,29 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Getting Started",
     q: "What is the Sentence Builder?",
-    a: "The Sentence Builder is a writing prompt attached to each daily word. It asks you to write your own sentence using the word in a context that's meaningful to you. Generating your own sentence is the most powerful vocabulary retention method — because you're creating a personal memory anchor for the word, not just passively reading someone else's example. Every sentence you write saves to your Word Journal."
+    a: "The Sentence Builder is a writing prompt attached to each daily word. It asks you to write your own sentence using the word in a context that's meaningful to you. Generating your own sentence is the most powerful vocabulary retention method - because you're creating a personal memory anchor for the word, not just passively reading someone else's example. Every sentence you write saves to your Word Journal."
   },
   {
     category: "Getting Started",
     q: "What is the Word Journal?",
-    a: "Your Word Journal is a chronological archive of every word you've engaged with on Lexigenz — including the sentences you wrote, the date you encountered the word, and the language it was in. It becomes a personal vocabulary history that grows with you. Free users have a limited journal capacity; Premium users get unlimited entries."
+    a: "Your Word Journal is a chronological archive of every word you've engaged with on Lexigenz - including the sentences you wrote, the date you encountered the word, and the language it was in. It becomes a personal vocabulary history that grows with you. Free users have a limited journal capacity; Premium users get unlimited entries."
   },
 
   // Archetypes
   {
     category: "Archetypes",
     q: "What is a vocabulary archetype?",
-    a: "A vocabulary archetype is a personality-driven language profile that determines the style, tone, and type of words Lexigenz sends you. There are 12 archetypes — The Visionary, The Nurturer, The Explorer, The Sage, The Creator, The Guardian, The Rebel, The Diplomat, The Achiever, The Mystic, The Maverick, and The Harmonizer. Each archetype has its own vocabulary strengths, language style, and recommended word set."
+    a: "A vocabulary archetype is a personality-driven language profile that determines the style, tone, and type of words Lexigenz sends you. There are 12 archetypes - The Visionary, The Nurturer, The Explorer, The Sage, The Creator, The Guardian, The Rebel, The Diplomat, The Achiever, The Mystic, The Maverick, and The Harmonizer. Each archetype has its own vocabulary strengths, language style, and recommended word set."
   },
   {
     category: "Archetypes",
     q: "How is my archetype calculated?",
-    a: "Your archetype is calculated from your birth month and day. The system maps your birth date to one of the 12 archetypes using a deterministic algorithm — meaning two people born on the same date will always get the same archetype. It's not horoscope-based; it's a personality typing system inspired by numerological and chronological patterns."
+    a: "Your archetype is calculated from your birth month and day. The system maps your birth date to one of the 12 archetypes using a deterministic algorithm - meaning two people born on the same date will always get the same archetype. It's not horoscope-based; it's a personality typing system inspired by numerological and chronological patterns."
   },
   {
     category: "Archetypes",
     q: "Can my archetype change?",
-    a: "Your archetype is fixed to your birth date — it won't change unless you update your birth date in your profile. This is intentional: your archetype is meant to be a stable identity within Lexigenz that your vocabulary grows around, not a variable that shifts week to week."
+    a: "Your archetype is fixed to your birth date - it won't change unless you update your birth date in your profile. This is intentional: your archetype is meant to be a stable identity within Lexigenz that your vocabulary grows around, not a variable that shifts week to week."
   },
   {
     category: "Archetypes",
@@ -83,7 +83,7 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Archetypes",
     q: "Which archetype has the most advanced vocabulary?",
-    a: "The Sage and The Mystic tend toward the most complex and rare vocabulary — words that are precise, philosophical, and often Latin or Greek in origin. The Rebel and The Maverick lean toward contemporary, edgy, and hybrid vocabulary. The Explorer tends toward eclectic, cross-cultural terms. But all 12 archetypes receive rich, interesting words — the difference is in style and register, not quality."
+    a: "The Sage and The Mystic tend toward the most complex and rare vocabulary - words that are precise, philosophical, and often Latin or Greek in origin. The Rebel and The Maverick lean toward contemporary, edgy, and hybrid vocabulary. The Explorer tends toward eclectic, cross-cultural terms. But all 12 archetypes receive rich, interesting words - the difference is in style and register, not quality."
   },
 
   // Games
@@ -95,7 +95,7 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Games",
     q: "Do I need Premium to play the games?",
-    a: "Free users get access to the full games suite. Premium users get an ad-free gaming experience and access to expanded game modes. Games are a core part of the free Lexigenz experience — we believe play-based learning should be accessible to everyone."
+    a: "Free users get access to the full games suite. Premium users get an ad-free gaming experience and access to expanded game modes. Games are a core part of the free Lexigenz experience - we believe play-based learning should be accessible to everyone."
   },
   {
     category: "Games",
@@ -105,12 +105,12 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Games",
     q: "What is The Lexigenz Game?",
-    a: "The Lexigenz Game is our signature original game. You're given 7 random letters drawn from the letters in 'LEXIGENZ' and must unscramble them to spell the full word before the countdown timer hits zero. It sounds simple — but under pressure, it's surprisingly addictive. It's also the fastest game to complete, making it perfect for a 60-second vocabulary session."
+    a: "The Lexigenz Game is our signature original game. You're given 7 random letters drawn from the letters in 'LEXIGENZ' and must unscramble them to spell the full word before the countdown timer hits zero. It sounds simple - but under pressure, it's surprisingly addictive. It's also the fastest game to complete, making it perfect for a 60-second vocabulary session."
   },
   {
     category: "Games",
     q: "Can I challenge friends to the games?",
-    a: "Yes. The Invite page lets you send direct game challenges to friends and family anywhere in the world. Challenges can be sent via link — no app download needed for the recipient. Lexigenz is designed to make vocabulary social, not solitary."
+    a: "Yes. The Invite page lets you send direct game challenges to friends and family anywhere in the world. Challenges can be sent via link - no app download needed for the recipient. Lexigenz is designed to make vocabulary social, not solitary."
   },
   {
     category: "Games",
@@ -122,22 +122,22 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Premium",
     q: "What does Premium include?",
-    a: "Lexigenz Premium unlocks: all 19 languages (Free is English only), unlimited Sentence Builder use, full Word Journal with no entry cap, monthly detailed progress reports, exclusive Premium visual themes, a completely ad-free experience, and priority support. Premium is a one-time payment of $8 — no subscription, no monthly fees, no expiry date."
+    a: "Lexigenz Premium unlocks: all 19 languages (Free is English only), unlimited Sentence Builder use, full Word Journal with no entry cap, monthly detailed progress reports, exclusive Premium visual themes, a completely ad-free experience, and priority support. Premium is a one-time payment of $8 - no subscription, no monthly fees, no expiry date."
   },
   {
     category: "Premium",
     q: "Is Premium a subscription or a one-time payment?",
-    a: "Premium is a once-off payment of $8. You pay once and have Premium access forever — no recurring charges, no renewal reminders, no cancellation needed. This is a deliberate design choice. We believe that meaningful tools should be affordable and permanent, not a subscription you have to remember to cancel."
+    a: "Premium is a once-off payment of $8. You pay once and have Premium access forever - no recurring charges, no renewal reminders, no cancellation needed. This is a deliberate design choice. We believe that meaningful tools should be affordable and permanent, not a subscription you have to remember to cancel."
   },
   {
     category: "Premium",
     q: "How do I upgrade to Premium?",
-    a: "Click 'Get Premium' in the navbar or visit the Premium page. Enter your initials, surname, country, and mobile number, then choose to pay via your PayPal account or a credit/debit card through the PayPal secure checkout. Payment is processed by PayPal — Lexigenz never stores your card details."
+    a: "Click 'Get Premium' in the navbar or visit the Premium page. Enter your initials, surname, country, and mobile number, then choose to pay via your PayPal account or a credit/debit card through the PayPal secure checkout. Payment is processed by PayPal - Lexigenz never stores your card details."
   },
   {
     category: "Premium",
     q: "Which payment methods are accepted?",
-    a: "Lexigenz uses PayPal to process all Premium payments. You can pay with your existing PayPal account, or use a credit or debit card directly through PayPal's card entry form — no PayPal account required. All major international card brands are accepted."
+    a: "Lexigenz uses PayPal to process all Premium payments. You can pay with your existing PayPal account, or use a credit or debit card directly through PayPal's card entry form - no PayPal account required. All major international card brands are accepted."
   },
   {
     category: "Premium",
@@ -159,12 +159,12 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Languages",
     q: "Why does the free plan only include English?",
-    a: "English serves as the platform's universal baseline, allowing all users to experience the full Lexigenz learning loop without needing to pay. Supporting 19 high-quality language word sets requires ongoing editorial work — offering additional languages as a Premium feature allows us to maintain quality across all of them sustainably."
+    a: "English serves as the platform's universal baseline, allowing all users to experience the full Lexigenz learning loop without needing to pay. Supporting 19 high-quality language word sets requires ongoing editorial work - offering additional languages as a Premium feature allows us to maintain quality across all of them sustainably."
   },
   {
     category: "Languages",
     q: "Can I switch languages mid-streak?",
-    a: "Yes. Language switching is instant via the globe icon in the navbar. Your streak counter, Word Journal, and archetype all carry over — only the daily word changes to reflect your new language. There is no penalty for switching languages."
+    a: "Yes. Language switching is instant via the globe icon in the navbar. Your streak counter, Word Journal, and archetype all carry over - only the daily word changes to reflect your new language. There is no penalty for switching languages."
   },
   {
     category: "Languages",
@@ -186,7 +186,7 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Privacy & Data",
     q: "Is my Word Journal private?",
-    a: "Yes. Your Word Journal is private to you — it is not shared with other users, visible on the platform, or used for any purpose outside your own review. It is stored against your user profile and accessible only through your account."
+    a: "Yes. Your Word Journal is private to you - it is not shared with other users, visible on the platform, or used for any purpose outside your own review. It is stored against your user profile and accessible only through your account."
   },
   {
     category: "Privacy & Data",
@@ -198,7 +198,7 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Technical",
     q: "Why is my streak not updating?",
-    a: "Streaks update when you visit the App page and engage with your daily word. Make sure you're visiting the App section specifically — navigating other pages of the site does not trigger a streak check-in. If your streak hasn't updated despite a visit, try refreshing the App page. If the issue persists, contact us via the Contact page."
+    a: "Streaks update when you visit the App page and engage with your daily word. Make sure you're visiting the App section specifically - navigating other pages of the site does not trigger a streak check-in. If your streak hasn't updated despite a visit, try refreshing the App page. If the issue persists, contact us via the Contact page."
   },
   {
     category: "Technical",
@@ -208,59 +208,59 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Technical",
     q: "The PayPal payment form isn't loading. What should I do?",
-    a: "First, make sure you haven't blocked third-party scripts in your browser settings — the PayPal JS SDK is loaded from PayPal's servers and requires script access to run. Try disabling any ad-blockers temporarily. If the issue persists on a different browser or network, contact us at hello@lexigenz.com and we'll assist you directly."
+    a: "First, make sure you haven't blocked third-party scripts in your browser settings - the PayPal JS SDK is loaded from PayPal's servers and requires script access to run. Try disabling any ad-blockers temporarily. If the issue persists on a different browser or network, contact us at hello@lexigenz.com and we'll assist you directly."
   },
   {
     category: "Technical",
     q: "Can I use Lexigenz offline?",
-    a: "Lexigenz is a web-based platform and currently requires an internet connection to load your daily word, sync your streak, and access the games. We're exploring offline features for a future update. For now, the lightest way to access Lexigenz on mobile is to add the site to your home screen — it loads quickly even on slower connections."
+    a: "Lexigenz is a web-based platform and currently requires an internet connection to load your daily word, sync your streak, and access the games. We're exploring offline features for a future update. For now, the lightest way to access Lexigenz on mobile is to add the site to your home screen - it loads quickly even on slower connections."
   },
 
   // Vocabulary
   {
     category: "Vocabulary",
     q: "How do I improve my vocabulary quickly?",
-    a: "The fastest path to vocabulary growth is a daily system — not a cramming session. Learn one new word every day with full context: its definition, etymology, and an example sentence you write yourself. Use spaced repetition to review words at increasing intervals (day 1, 3, 7, 14, 30). Read broadly outside your comfort zone. And use every new word in real conversation within 24 hours of learning it. Lexigenz is built around this exact system — one word per day, sentence builder, game reinforcement, and a Word Journal to track your progress."
+    a: "The fastest path to vocabulary growth is a daily system - not a cramming session. Learn one new word every day with full context: its definition, etymology, and an example sentence you write yourself. Use spaced repetition to review words at increasing intervals (day 1, 3, 7, 14, 30). Read broadly outside your comfort zone. And use every new word in real conversation within 24 hours of learning it. Lexigenz is built around this exact system - one word per day, sentence builder, game reinforcement, and a Word Journal to track your progress."
   },
   {
     category: "Vocabulary",
     q: "What is the difference between active and passive vocabulary?",
-    a: "Your passive vocabulary is the set of words you understand when you read or hear them. Your active vocabulary is the set of words you actually use when you speak or write. Most adults have a passive vocabulary three to five times larger than their active vocabulary. The goal of vocabulary building is to convert passive recognition into active use — which requires deliberate practice like sentence writing, not just reading definitions."
+    a: "Your passive vocabulary is the set of words you understand when you read or hear them. Your active vocabulary is the set of words you actually use when you speak or write. Most adults have a passive vocabulary three to five times larger than their active vocabulary. The goal of vocabulary building is to convert passive recognition into active use - which requires deliberate practice like sentence writing, not just reading definitions."
   },
   {
     category: "Vocabulary",
     q: "How many words does the average person know?",
-    a: "Research suggests adult native English speakers have passive vocabularies of around 20,000–35,000 words, with active vocabularies of 5,000–10,000 words. Highly educated professionals and avid readers can have passive vocabularies exceeding 50,000 words. Vocabulary growth slows significantly in adulthood unless deliberately cultivated — which is exactly what Lexigenz is designed to support."
+    a: "Research suggests adult native English speakers have passive vocabularies of around 20,000–35,000 words, with active vocabularies of 5,000–10,000 words. Highly educated professionals and avid readers can have passive vocabularies exceeding 50,000 words. Vocabulary growth slows significantly in adulthood unless deliberately cultivated - which is exactly what Lexigenz is designed to support."
   },
   {
     category: "Vocabulary",
     q: "What vocabulary level do I need for professional English?",
-    a: "Research suggests that a vocabulary of around 8,000–9,000 word families provides access to approximately 98% of everyday professional English text. However, truly fluent and confident professional communication requires an active vocabulary well above this — particularly for writing, presenting, and negotiating. Academic and executive-level communication draws on a significantly broader range of precise, formal vocabulary. Lexigenz includes vocabulary lists tailored to business, academic, and advanced English contexts."
+    a: "Research suggests that a vocabulary of around 8,000–9,000 word families provides access to approximately 98% of everyday professional English text. However, truly fluent and confident professional communication requires an active vocabulary well above this - particularly for writing, presenting, and negotiating. Academic and executive-level communication draws on a significantly broader range of precise, formal vocabulary. Lexigenz includes vocabulary lists tailored to business, academic, and advanced English contexts."
   },
   {
     category: "Vocabulary",
     q: "Does Lexigenz help with GRE or IELTS vocabulary preparation?",
-    a: "Yes. Lexigenz's vocabulary library includes high-frequency academic and advanced English words that appear frequently in GRE verbal sections, IELTS reading and writing tasks, and similar standardised tests. The personalised daily word system, sentence builder, and spaced repetition structure make it effective preparation for vocabulary-intensive exams — alongside dedicated test prep resources."
+    a: "Yes. Lexigenz's vocabulary library includes high-frequency academic and advanced English words that appear frequently in GRE verbal sections, IELTS reading and writing tasks, and similar standardised tests. The personalised daily word system, sentence builder, and spaced repetition structure make it effective preparation for vocabulary-intensive exams - alongside dedicated test prep resources."
   },
   {
     category: "Vocabulary",
     q: "What are the best words to learn to sound more professional?",
-    a: "The most impactful professional vocabulary upgrades come from Tier 2 academic and business words — high-frequency words that appear across many professional contexts. Words like: articulate, substantiate, commensurate, iterate, pragmatic, synthesise, cogent, perspicacious, and galvanise. These words are precise, versatile, and signal clear, confident thinking. The Lexigenz vocabulary hub includes curated business vocabulary lists you can explore at your own pace."
+    a: "The most impactful professional vocabulary upgrades come from Tier 2 academic and business words - high-frequency words that appear across many professional contexts. Words like: articulate, substantiate, commensurate, iterate, pragmatic, synthesise, cogent, perspicacious, and galvanise. These words are precise, versatile, and signal clear, confident thinking. The Lexigenz vocabulary hub includes curated business vocabulary lists you can explore at your own pace."
   },
   {
     category: "Vocabulary",
     q: "How does Lexigenz's word-of-the-day work?",
-    a: "Every day, Lexigenz delivers one new word matched to your birth-based vocabulary archetype. Unlike generic word-of-the-day services, Lexigenz personalises the selection based on your archetype's language profile — so the words align with how you naturally think and communicate. Each word comes with its full definition, pronunciation, etymology, example sentences, and a Sentence Builder prompt so you can create your own context for the word and save it to your Word Journal."
+    a: "Every day, Lexigenz delivers one new word matched to your birth-based vocabulary archetype. Unlike generic word-of-the-day services, Lexigenz personalises the selection based on your archetype's language profile - so the words align with how you naturally think and communicate. Each word comes with its full definition, pronunciation, etymology, example sentences, and a Sentence Builder prompt so you can create your own context for the word and save it to your Word Journal."
   },
   {
     category: "Vocabulary",
     q: "Can vocabulary building help my Wordle and Scrabble performance?",
-    a: "Absolutely. Wordle rewards knowledge of common five-letter word patterns and high-frequency English letters (E, A, R, O, T, L, I, S, N). Scrabble rewards a completely different set — two-letter words, high-value Q/Z/X words, and bingo seven-letter plays. Lexigenz's game hubs include vocabulary lists and strategy guides specifically for Wordle and Scrabble players, alongside the Lexigenz vocabulary game that reinforces your daily words through competitive play."
+    a: "Absolutely. Wordle rewards knowledge of common five-letter word patterns and high-frequency English letters (E, A, R, O, T, L, I, S, N). Scrabble rewards a completely different set - two-letter words, high-value Q/Z/X words, and bingo seven-letter plays. Lexigenz's game hubs include vocabulary lists and strategy guides specifically for Wordle and Scrabble players, alongside the Lexigenz vocabulary game that reinforces your daily words through competitive play."
   },
   {
     category: "Vocabulary",
     q: "What is the best way to memorise new words permanently?",
-    a: "Permanent vocabulary retention requires three things: context (learn words in sentences, not in isolation), generation (write your own sentences using the word — don't just read others'), and spaced repetition (review words at increasing intervals: 1, 3, 7, 14, and 30 days after first encounter). Words reviewed five times at these intervals typically move into long-term memory. The Lexigenz system is built around these three principles."
+    a: "Permanent vocabulary retention requires three things: context (learn words in sentences, not in isolation), generation (write your own sentences using the word - don't just read others'), and spaced repetition (review words at increasing intervals: 1, 3, 7, 14, and 30 days after first encounter). Words reviewed five times at these intervals typically move into long-term memory. The Lexigenz system is built around these three principles."
   },
 ];
 
@@ -290,7 +290,7 @@ export default function FAQ() {
           <span className="text-xs font-bold uppercase tracking-widest text-primary">Help Centre</span>
           <h1 className="text-5xl md:text-6xl font-black mt-3 mb-4">Frequently asked questions</h1>
           <p className="text-muted-foreground text-lg mb-8">
-            Everything you need to know about Lexigenz — from how archetypes work to what Premium includes.
+            Everything you need to know about Lexigenz - from how archetypes work to what Premium includes.
           </p>
           {/* Search */}
           <div className="relative max-w-xl mx-auto">
@@ -305,7 +305,7 @@ export default function FAQ() {
         </motion.div>
       </section>
 
-      {/* Playbook — prominent placement between hero and FAQ list */}
+      {/* Playbook - prominent placement between hero and FAQ list */}
       <section className="pb-8 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/15 via-background to-background">
         <div className="container px-4 mx-auto max-w-3xl">
           <PlaybookSection />

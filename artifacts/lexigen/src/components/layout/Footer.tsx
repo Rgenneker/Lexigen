@@ -30,7 +30,7 @@ export function Footer() {
               <span className="font-bold text-2xl tracking-tighter text-primary">LEXIGENZ</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
-              A personalised daily vocabulary platform for Gen Z and millennials — proudly built in South Africa, spoken worldwide in 19 languages.
+              A personalised daily vocabulary platform for Gen Z and millennials - proudly built in South Africa, spoken worldwide in 19 languages.
             </p>
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <Globe className="h-3.5 w-3.5" />

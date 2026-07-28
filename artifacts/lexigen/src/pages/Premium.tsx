@@ -168,7 +168,7 @@ function PaymentModal({
             </div>
             <div>
               <p className="font-bold text-sm">Lexigenz Premium</p>
-              <p className="text-xs text-muted-foreground">$8.00 — once-off, forever</p>
+              <p className="text-xs text-muted-foreground">$8.00 - once-off, forever</p>
             </div>
           </div>
           <button
@@ -193,7 +193,7 @@ function PaymentModal({
                   <p className="text-xs text-muted-foreground mt-0.5">{userEmail}</p>
                 </div>
                 <div className="space-y-2">
-                  {["All 6 word games — unlimited", "Unlimited word journal + PDF export", "All 19 languages", "Full archetype deep-dive", "Monthly reports & badges"].map(f => (
+                  {["All 6 word games - unlimited", "Unlimited word journal + PDF export", "All 19 languages", "Full archetype deep-dive", "Monthly reports & badges"].map(f => (
                     <div key={f} className="flex items-center gap-2 text-sm">
                       <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
                       <span>{f}</span>
@@ -260,11 +260,11 @@ function PaymentModal({
                 <div>
                   <h2 className="text-2xl font-bold mb-1">Payment confirmed!</h2>
                   <p className="text-muted-foreground text-sm">
-                    Welcome to premium, <span className="font-semibold text-foreground">{userName}</span>. Every feature is now unlocked — forever.
+                    Welcome to premium, <span className="font-semibold text-foreground">{userName}</span>. Every feature is now unlocked - forever.
                   </p>
                 </div>
                 <div className="space-y-2 text-left">
-                  {["All 6 word games — unlimited", "Unlimited word journal + PDF export", "All 19 languages", "Full archetype deep-dive", "Monthly reports & badges"].map(f => (
+                  {["All 6 word games - unlimited", "Unlimited word journal + PDF export", "All 19 languages", "Full archetype deep-dive", "Monthly reports & badges"].map(f => (
                     <div key={f} className="flex items-center gap-2 text-sm">
                       <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
                       <span>{f}</span>
@@ -341,7 +341,7 @@ function VocabQuiz() {
   if (done) return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-4 py-6">
       <div className="text-5xl font-bold text-primary">{score}/{QUIZ_QUESTIONS.length}</div>
-      <p className="font-bold text-lg">{score === 5 ? "Perfect score!" : score >= 3 ? "Strong vocab skills." : "Keep practising — you're growing."}</p>
+      <p className="font-bold text-lg">{score === 5 ? "Perfect score!" : score >= 3 ? "Strong vocab skills." : "Keep practising - you're growing."}</p>
       <Button onClick={() => { setIdx(0); setScore(0); setSelected(null); setDone(false); }} variant="outline" size="sm" className="rounded-full mt-2">
         <RefreshCw className="h-3.5 w-3.5 mr-2" /> Try Again
       </Button>
@@ -444,7 +444,7 @@ function ProgressReport() {
       </div>
       <div className="p-4 rounded-xl border border-primary/30 bg-primary/5 text-center">
         <p className="text-xs text-muted-foreground mb-1">Archetype this month</p>
-        <p className="text-lg font-bold text-primary">The Visionary — 87% match</p>
+        <p className="text-lg font-bold text-primary">The Visionary - 87% match</p>
       </div>
     </div>
   );
@@ -454,7 +454,7 @@ function ProgressReport() {
 const sessions = [
   { id: "quiz" as SessionType, icon: Brain, label: "Vocab Quiz", desc: "Test 5 words with instant feedback." },
   { id: "builder" as SessionType, icon: Zap, label: "Sentence Builder", desc: "Unlimited creative practice with rotating prompts." },
-  { id: "report" as SessionType, icon: BarChart3, label: "Monthly Report", desc: "Growth dashboard — streaks, top words, archetype." },
+  { id: "report" as SessionType, icon: BarChart3, label: "Monthly Report", desc: "Growth dashboard - streaks, top words, archetype." },
 ];
 
 function PremiumDashboard({ dailyWord }: { dailyWord: string }) {
@@ -507,7 +507,7 @@ function PremiumDashboard({ dailyWord }: { dailyWord: string }) {
 // ── Comparison & marketing data ──────────────────────────
 const comparison = [
   { feature: "Daily word delivery", free: "1 word/day", premium: "1 word/day + etymology & audio" },
-  { feature: "Word games", free: "1 game/day", premium: "All 6 games — unlimited" },
+  { feature: "Word games", free: "1 game/day", premium: "All 6 games - unlimited" },
   { feature: "Word journal", free: "5 entries max", premium: "Unlimited + PDF export" },
   { feature: "Sentence builder", free: "3 uses/day", premium: "Unlimited sessions" },
   { feature: "Streak tracking", free: "Basic streak only", premium: "Badges, milestones & leaderboard" },
@@ -524,7 +524,7 @@ const testimonials = [
   { name: "Ayanda M.", location: "Johannesburg", text: "Eight dollars. That's it. I've been using it every single day for 3 months. The word journal alone is worth ten times that.", stars: 5 },
   { name: "Priya K.", location: "Cape Town", text: "I went from dreading English essays to actually enjoying them. The archetype report showed me exactly how I learn best.", stars: 5 },
   { name: "Luca T.", location: "London", text: "The games are actually addictive. Spelling Bee and the Lexigenz Game have me coming back every day. Premium was a no-brainer.", stars: 5 },
-  { name: "Fatima R.", location: "Dubai", text: "Learning in Arabic and switching to English for practise — seamlessly. That alone makes the $8 worth every cent.", stars: 5 },
+  { name: "Fatima R.", location: "Dubai", text: "Learning in Arabic and switching to English for practise - seamlessly. That alone makes the $8 worth every cent.", stars: 5 },
 ];
 
 // ── Main Export ──────────────────────────────────────────
@@ -576,20 +576,20 @@ export default function Premium() {
         <div className="container mx-auto max-w-4xl text-center space-y-6">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <div className="inline-flex items-center gap-2 bg-accent/20 text-accent border border-accent/30 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-6">
-              <Sparkles className="h-3.5 w-3.5" /> Introductory Offer — $8 once-off
+              <Sparkles className="h-3.5 w-3.5" /> Introductory Offer - $8 once-off
             </div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none">
               STOP BEING<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">AVERAGE WITH WORDS.</span>
             </h1>
             <p className="mt-6 text-xl text-muted-foreground max-w-2xl mx-auto">
-              Free gives you a taste. Premium gives you everything — for the price of a coffee. One payment. No subscription. No expiry. Unlimited, forever.
+              Free gives you a taste. Premium gives you everything - for the price of a coffee. One payment. No subscription. No expiry. Unlimited, forever.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
               <Button size="lg" onClick={() => setShowModal(true)}
                 className="rounded-full bg-primary hover:bg-primary/90 font-bold px-10 h-14 text-lg shadow-[0_0_40px_rgba(139,92,246,0.5)]"
                 data-testid="button-upgrade-hero">
-                Get Premium — $8 Forever
+                Get Premium - $8 Forever
               </Button>
               <a href="#compare">
                 <Button size="lg" variant="outline" className="rounded-full border-border hover:border-primary/50 font-bold px-8 h-14">
@@ -607,7 +607,7 @@ export default function Premium() {
         <div className="container mx-auto max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
             <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">You're on the free plan</p>
-            <h2 className="text-4xl font-bold tracking-tighter">Here's what you can't do — yet.</h2>
+            <h2 className="text-4xl font-bold tracking-tighter">Here's what you can't do - yet.</h2>
             <p className="text-muted-foreground text-lg mt-3 max-w-xl mx-auto">Every feature is waiting on the other side of a single $8 payment.</p>
           </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -704,13 +704,13 @@ export default function Premium() {
                 <span className="font-bold text-lg">Unlock all 19 languages</span>
               </div>
               <p className="text-muted-foreground text-sm max-w-sm">
-                Free users are limited to English only. Premium unlocks every language — switch anytime, learn without limits.
+                Free users are limited to English only. Premium unlocks every language - switch anytime, learn without limits.
               </p>
             </div>
             <Button size="lg" onClick={() => setShowModal(true)}
               className="rounded-full bg-primary hover:bg-primary/90 font-bold px-8 h-12 flex-shrink-0 shadow-[0_0_24px_rgba(139,92,246,0.4)]"
               data-testid="button-upgrade-languages">
-              Get Premium — $8
+              Get Premium - $8
             </Button>
           </motion.div>
         </div>
@@ -804,7 +804,7 @@ export default function Premium() {
               onClick={() => selectedPlan === "lifetime" && setShowModal(true)}
               disabled={selectedPlan !== "lifetime"}
               data-testid="button-upgrade-premium">
-              {selectedPlan === "lifetime" ? "Unlock Everything — $8 Forever" : "Select 'Once-off' to upgrade"}
+              {selectedPlan === "lifetime" ? "Unlock Everything - $8 Forever" : "Select 'Once-off' to upgrade"}
             </Button>
             <div className="grid grid-cols-3 gap-3 text-center">
               {[{ icon: Flame, label: "One payment" }, { icon: Crown, label: "No expiry" }, { icon: Globe, label: "Global access" }].map(b => (
@@ -834,7 +834,7 @@ export default function Premium() {
             <Button size="lg" onClick={() => setShowModal(true)}
               className="rounded-full bg-primary hover:bg-primary/90 font-bold px-12 h-14 text-lg shadow-[0_0_30px_rgba(139,92,246,0.5)]"
               data-testid="button-upgrade-final">
-              Get Premium — $8
+              Get Premium - $8
             </Button>
           </motion.div>
         </div>

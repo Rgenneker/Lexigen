@@ -46,7 +46,7 @@ export function Navbar() {
       const data = await res.json() as { unlocks: UnlockStatus[] };
       setUnlocks(data.unlocks ?? []);
     } catch {
-      // non-critical — silently ignore
+      // non-critical - silently ignore
     }
   }, []);
 

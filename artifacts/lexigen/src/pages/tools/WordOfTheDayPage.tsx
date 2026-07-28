@@ -6,8 +6,8 @@ import { Star, Calendar, Brain, Flame, BookOpen, Zap } from "lucide-react";
 
 export default function WordOfTheDayPage() {
   usePageMeta({
-    title: "Word of the Day — Daily Vocabulary for Every Archetype | LexigenZ",
-    description: "Get a new vocabulary word every day, personalised to your birth archetype. Full etymology, pronunciation, sentence builder, and word games — the complete daily word experience.",
+    title: "Word of the Day - Daily Vocabulary for Every Archetype | LexigenZ",
+    description: "Get a new vocabulary word every day, personalised to your birth archetype. Full etymology, pronunciation, sentence builder, and word games - the complete daily word experience.",
     canonical: "/word-of-the-day",
     keywords: "word of the day, daily vocabulary word, vocabulary word, english word of the day, learn a new word daily",
   });
@@ -28,7 +28,7 @@ export default function WordOfTheDayPage() {
   ];
 
   const benefits = [
-    { icon: Brain, title: "Spaced Repetition Built In", desc: "Each daily word is reinforced through sentence building, games, and the streak system — creating the spaced repetition that memory science shows is most effective for long-term retention." },
+    { icon: Brain, title: "Spaced Repetition Built In", desc: "Each daily word is reinforced through sentence building, games, and the streak system - creating the spaced repetition that memory science shows is most effective for long-term retention." },
     { icon: Flame, title: "Streak-Based Habit Formation", desc: "Daily streaks create the psychological loop that makes vocabulary practice automatic. Missing a day breaks the streak, creating a gentle but real incentive to return." },
     { icon: BookOpen, title: "Word Journal for Reflection", desc: "Every word and every sentence you write is saved to your personal Word Journal. Reviewing your journal is one of the most effective vocabulary reinforcement techniques available." },
     { icon: Star, title: "Archetype Personalisation", desc: "Your birth month determines your vocabulary archetype. Words are selected to match your archetype's language style, making each daily word feel relevant rather than random." },
@@ -118,7 +118,7 @@ export default function WordOfTheDayPage() {
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-3">Use the Sentence Builder Every Day</h3>
-                <p className="text-muted-foreground leading-relaxed">The sentence builder is the most important feature in LexigenZ for vocabulary retention, and it is the one most commonly skipped. The cognitive science is clear: generating your own sentence using a new word produces retention that is two to three times more durable than simply reading example sentences. Your sentence does not need to be literary. It needs to be personally meaningful — a sentence about something in your actual life. The personal relevance is part of what makes it memorable.</p>
+                <p className="text-muted-foreground leading-relaxed">The sentence builder is the most important feature in LexigenZ for vocabulary retention, and it is the one most commonly skipped. The cognitive science is clear: generating your own sentence using a new word produces retention that is two to three times more durable than simply reading example sentences. Your sentence does not need to be literary. It needs to be personally meaningful - a sentence about something in your actual life. The personal relevance is part of what makes it memorable.</p>
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-3">Play at Least One Game</h3>

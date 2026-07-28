@@ -126,11 +126,11 @@ export function WordGridGame({ onScore }: Props) {
       if (prev.length < level.minLen) return [];
       const word = prev.map(([r,c]) => grid[r][c]).join('').toLowerCase();
       if (!GAME_WORDS.has(word)) {
-        setRejected(`"${word}" — not in word list`);
+        setRejected(`"${word}" - not in word list`);
         return [];
       }
       if (foundRef.current.some(f => f.word === word)) {
-        setRejected(`"${word}" — already found!`);
+        setRejected(`"${word}" - already found!`);
         return [];
       }
       const pts = wordPts(word.length);
@@ -155,7 +155,7 @@ export function WordGridGame({ onScore }: Props) {
     <div className="space-y-3">
       <div className="text-center mb-4">
         <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1">🔤 Choose Your Level</p>
-        <p className="text-sm text-muted-foreground">Swipe/drag adjacent letters to spell words — like Boggle!</p>
+        <p className="text-sm text-muted-foreground">Swipe/drag adjacent letters to spell words - like Boggle!</p>
       </div>
       {LEVELS.map(l => (
         <div key={l.id} onClick={() => startGame(l)}

@@ -5,7 +5,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function WordleWordsPage() {
   usePageMeta({
-    title: "Wordle Words — Complete Guide, Strategies & Word Lists | LexigenZ",
+    title: "Wordle Words - Complete Guide, Strategies & Word Lists | LexigenZ",
     description: "Master Wordle with our complete guide. Best starting words, strategies, common patterns, hard mode tips, and how vocabulary knowledge gives you a decisive edge.",
     canonical: "/wordle-words",
     keywords: "wordle words, wordle strategy, best wordle starting words, wordle tips, wordle guide, five letter words",
@@ -15,7 +15,7 @@ export default function WordleWordsPage() {
   const commonPatterns = [
     { pattern: "Words ending in -IGHT", examples: "light, night, fight, might, right, sight, tight, bight, wight" },
     { pattern: "Words ending in -OUND", examples: "found, bound, round, sound, wound, mound, hound, pound, mound" },
-    { pattern: "Words ending in -TION", examples: "Not valid in Wordle — all five-letter -tion words are six letters" },
+    { pattern: "Words ending in -TION", examples: "Not valid in Wordle - all five-letter -tion words are six letters" },
     { pattern: "Words ending in -STER", examples: "aster, buster, foster, luster, mister, oyster, sister" },
     { pattern: "Words ending in -ATCH", examples: "batch, catch, hatch, latch, match, patch, watch" },
     { pattern: "Words ending in -ARGE", examples: "barge, charge, large, marge" },

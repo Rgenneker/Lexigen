@@ -10,7 +10,7 @@ const steps = [
     number: "01",
     icon: Calendar,
     title: "Enter your birth date",
-    desc: "Your birth date unlocks your personal vocabulary archetype — a unique profile that shapes every word recommendation, daily insight, and language style tip you receive.",
+    desc: "Your birth date unlocks your personal vocabulary archetype - a unique profile that shapes every word recommendation, daily insight, and language style tip you receive.",
   },
   {
     number: "02",
@@ -22,7 +22,7 @@ const steps = [
     number: "03",
     icon: Zap,
     title: "Build your sentence",
-    desc: "Use the Sentence Builder to write your own sentence with today's word. This is the most powerful step — creating your own context locks the word into long-term memory.",
+    desc: "Use the Sentence Builder to write your own sentence with today's word. This is the most powerful step - creating your own context locks the word into long-term memory.",
   },
   {
     number: "04",
@@ -34,13 +34,13 @@ const steps = [
     number: "05",
     icon: Gamepad2,
     title: "Play for words",
-    desc: "Six Lexigenz-branded word games — Wordle, the Lexigenz Game, Scrabble vs Computer, Crossword, Spelling Bee, and Word Grid. Every game sharpens your vocabulary in a different way.",
+    desc: "Six Lexigenz-branded word games - Wordle, the Lexigenz Game, Scrabble vs Computer, Crossword, Spelling Bee, and Word Grid. Every game sharpens your vocabulary in a different way.",
   },
   {
     number: "06",
     icon: Users,
     title: "Invite & challenge friends",
-    desc: "Share Lexigenz with your circle. Challenge friends to word games, compare streaks, and grow your vocabulary together — no borders, no timezones, just words.",
+    desc: "Share Lexigenz with your circle. Challenge friends to word games, compare streaks, and grow your vocabulary together - no borders, no timezones, just words.",
   },
 ];
 
@@ -76,7 +76,7 @@ export default function HowItWorks() {
               </span>
             </h1>
             <p className="text-muted-foreground text-xl max-w-xl">
-              Lexigenz is designed for seven minutes a day. Here's exactly how it works — and why it sticks.
+              Lexigenz is designed for seven minutes a day. Here's exactly how it works - and why it sticks.
             </p>
           </motion.div>
         </div>
