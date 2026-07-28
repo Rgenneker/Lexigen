@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -56,6 +56,16 @@ const languages = [
 
 export default function About() {
   const [expandedTool, setExpandedTool] = useState<string | null>(null);
+  const expandedRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (expandedTool && expandedRef.current) {
+      setTimeout(() => {
+        expandedRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    }
+  }, [expandedTool]);
+
   return (
     <div className="min-h-screen">
       <AdsterraSocialBar />
@@ -341,6 +351,7 @@ export default function About() {
               if (!expanded) return null;
               return (
                 <motion.div
+                  ref={expandedRef}
                   key={expandedTool}
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
