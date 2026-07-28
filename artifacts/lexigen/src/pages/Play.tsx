@@ -879,6 +879,7 @@ const GAMES = [
     desc: "Guess the 5-letter word in 6 attempts. Green = correct spot. Yellow = wrong spot.",
     status: "live",
     emoji: "🟩",
+    premium: true,
     howToPlay: "You have 6 tries to guess the secret 5-letter word. After each guess, tiles change colour - 🟩 Green means the letter is correct and in the right spot. 🟨 Yellow means the letter is in the word but wrong spot. ⬜ Grey means the letter is not in the word.",
   },
   {
@@ -906,6 +907,7 @@ const GAMES = [
     desc: "Tap 7 letter tiles to build high-scoring words. Rare letters earn more - use all 7 for a BINGO bonus!",
     status: "live",
     emoji: "🎯",
+    premium: true,
     howToPlay: "Choose a level, then tap letter tiles from your rack to build a word in the word area. Tap a selected letter to return it. Hit Submit when ready - the word must be valid and meet the minimum length for your level. Shuffle resets your rack. Using all 7 tiles earns a +50 BINGO bonus!",
   },
   {
@@ -915,6 +917,7 @@ const GAMES = [
     desc: "Solve themed 5×5 mini crosswords. Click a clue or cell, then type your answer.",
     status: "live",
     emoji: "📝",
+    premium: true,
     howToPlay: "Click a clue in the panel (or tap a cell in the grid) to select a word. A text input appears - type your answer. The grid fills in live as you type. Once all words are filled, press Check Answers to see your result. Green = correct, red = needs fixing.",
   },
   {
@@ -924,6 +927,7 @@ const GAMES = [
     desc: "Swipe or drag adjacent letters in a grid to spell words before the timer runs out.",
     status: "live",
     emoji: "🔤",
+    premium: true,
     howToPlay: "Hold and drag (or swipe on mobile) across adjacent letters - including diagonals - to trace a word path. Release to submit. Each letter can only be used once per word. Longer words score more points. The number next to each tile shows its position in your current word.",
   },
 ];
@@ -998,7 +1002,8 @@ export default function Play() {
               {GAMES.map((game, i) => {
                 const topScore = scores?.filter(s => s.game === game.name)[0];
                 const isComingSoon = game.status === "coming";
-                const isClickable = game.status === "live" || isPremium;
+                const isLocked = !!(game as any).premium && !isPremium;
+                const isClickable = game.status === "live" && !isComingSoon;
                 return (
                   <motion.div
                     key={game.id}
@@ -1006,20 +1011,37 @@ export default function Play() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.07 }}
                     className={`relative p-6 rounded-2xl border bg-card transition-all group ${
-                      isClickable
-                        ? "border-primary/30 hover:border-primary hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] cursor-pointer"
-                        : "border-border opacity-70"
+                      isLocked
+                        ? "border-border/60 cursor-pointer hover:border-primary/40 hover:shadow-[0_0_20px_rgba(139,92,246,0.08)]"
+                        : isClickable
+                          ? "border-primary/30 hover:border-primary hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] cursor-pointer"
+                          : "border-border opacity-70"
                     }`}
-                    onClick={() => isClickable ? setActiveGame(game.id) : undefined}
+                    onClick={() => isLocked ? setShowPaymentModal(true) : isClickable ? setActiveGame(game.id) : undefined}
                     data-testid={`game-card-${game.id}`}
                   >
-                    {/* Coming soon overlay - only for free users */}
+                    {/* Lock overlay for premium-gated games */}
+                    {isLocked && (
+                      <div className="absolute inset-0 rounded-2xl bg-background/40 backdrop-blur-[2px] flex flex-col items-center justify-center z-10 gap-2">
+                        <div className="flex items-center gap-2 bg-background/90 border border-primary/30 rounded-full px-4 py-2 shadow-sm">
+                          <Lock className="h-4 w-4 text-primary" />
+                          <span className="text-xs font-bold text-primary">Premium Only</span>
+                        </div>
+                        <button
+                          onClick={e => { e.stopPropagation(); setShowPaymentModal(true); }}
+                          className="text-[11px] font-semibold text-muted-foreground hover:text-primary transition-colors underline underline-offset-2"
+                        >
+                          Upgrade for $8 →
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Coming soon overlay */}
                     {isComingSoon && !isPremium && (
                       <div className="absolute inset-0 rounded-2xl bg-background/50 backdrop-blur-sm flex items-center justify-center z-10">
                         <Badge className="font-bold bg-muted text-muted-foreground border-border shadow-sm">Coming Soon</Badge>
                       </div>
                     )}
-                    {/* Premium early-access badge for coming-soon games */}
                     {isComingSoon && isPremium && (
                       <div className="absolute top-3 right-10 z-10">
                         <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 border border-amber-400/30">
@@ -1045,7 +1067,7 @@ export default function Play() {
                           >
                             <Info className="h-4 w-4" />
                           </button>
-                          {isClickable && (
+                          {!isLocked && isClickable && (
                             game.id === "spelling-bee"
                               ? <span className="text-lg opacity-0 group-hover:opacity-100 transition-opacity">🐝</span>
                               : <Gamepad2 className="h-4 w-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -1063,7 +1085,16 @@ export default function Play() {
                           <span>Top: <strong className="text-foreground">{topScore.score}</strong> by {topScore.username}</span>
                         </div>
                       )}
-                      {isClickable && (
+                      {isLocked ? (
+                        <Button
+                          size="sm"
+                          className="w-full rounded-full mt-2 font-bold bg-primary/10 text-primary border border-primary/30 hover:bg-primary hover:text-white"
+                          onClick={e => { e.stopPropagation(); setShowPaymentModal(true); }}
+                          data-testid={`button-unlock-${game.id}`}
+                        >
+                          <Crown className="h-3.5 w-3.5 mr-1.5" /> Unlock with Premium
+                        </Button>
+                      ) : isClickable ? (
                         <Button
                           size="sm"
                           className={`w-full rounded-full mt-2 font-bold ${game.id === "spelling-bee" ? "bg-amber-500 hover:bg-amber-600 text-white" : "bg-primary hover:bg-primary/90"}`}
@@ -1071,7 +1102,7 @@ export default function Play() {
                         >
                           {game.id === "spelling-bee" ? "🐝 Play Spelling Bee" : "Play Now"}
                         </Button>
-                      )}
+                      ) : null}
                     </div>
                   </motion.div>
                 );
