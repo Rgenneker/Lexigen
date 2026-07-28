@@ -510,45 +510,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Word Tools Hub Section ── */}
-      <section className="py-20 bg-background border-t border-border">
-        <div className="container px-4 mx-auto max-w-5xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black mb-3">Word Tools & Resources</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              Free vocabulary tools, word games, and learning resources - all in one place.
-            </p>
-          </motion.div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {[
-              { href: "/vocabulary", emoji: "📚", label: "Vocabulary Hub" },
-              { href: "/wordle-words", emoji: "🟩", label: "Wordle Words" },
-              { href: "/scrabble-words", emoji: "🎯", label: "Scrabble Words" },
-              { href: "/spelling-bee-words", emoji: "🐝", label: "Spelling Bee" },
-              { href: "/crossword-words", emoji: "✏️", label: "Crossword Solver" },
-              { href: "/synonym-finder", emoji: "🔀", label: "Synonym Finder" },
-              { href: "/word-finder", emoji: "🔍", label: "Word Finder" },
-              { href: "/anagram-solver", emoji: "🔤", label: "Anagram Solver" },
-              { href: "/dictionary", emoji: "📖", label: "Dictionary" },
-              { href: "/word-of-the-day", emoji: "⭐", label: "Word of the Day" },
-            ].map(({ href, emoji, label }) => (
-              <Link key={href} href={href}>
-                <motion.div
-                  whileHover={{ y: -2 }}
-                  className="flex flex-col items-center gap-2 p-4 rounded-2xl border border-border bg-card hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer text-center"
-                >
-                  <span className="text-2xl">{emoji}</span>
-                  <span className="text-xs font-bold leading-tight">{label}</span>
-                </motion.div>
-              </Link>
-            ))}
-          </div>
-          <div className="mt-10">
-            <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest mb-3">Browse by Category</p>
-            <InteractiveCategoryBrowser categories={HOME_BROWSE_CATEGORIES} wordCount={15} />
-          </div>
-        </div>
-      </section>
 
       {/* ── Archetypes ── */}
       <section className="py-24 bg-card">

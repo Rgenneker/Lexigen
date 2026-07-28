@@ -4,6 +4,30 @@ import { Button } from "@/components/ui/button";
 import { BookOpen, Star, Gamepad2, Users, Zap, Calendar } from "lucide-react";
 import AdsterraAd from "@/components/AdsterraAd";
 import AdsterraSocialBar from "@/components/AdsterraSocialBar";
+import { InteractiveCategoryBrowser } from "@/components/InteractiveCategoryBrowser";
+
+const BROWSE_CATEGORIES = [
+  {
+    id: "emotions",
+    label: "Emotion vocabulary",
+    words: ["joy","sorrow","anger","fear","surprise","disgust","trust","anticipation","melancholy","elated","anxious","serene","frustrated","euphoric","despondent","apprehensive","jubilant","forlorn","exhilarated","dejected","resentful","compassion","empathy","nostalgia","gratitude","remorse","envy","pride","shame","awe","contempt","longing","tranquil","agitated","ecstatic","wistful","indignant","content","bewildered","optimistic","grief","admiration","regret","tenderness","anguish","serenity","elation","dread","hope","affection"],
+  },
+  {
+    id: "business",
+    label: "Business vocabulary",
+    words: ["accountability","acquisition","agility","analytics","benchmark","capital","catalyst","collaborate","competitive","compliance","deliverable","differentiation","disruptive","ecosystem","efficiency","engagement","entrepreneur","equity","execution","forecast","framework","governance","growth","implementation","incentive","innovation","leadership","leverage","margin","metrics","milestone","monetize","negotiation","optimization","performance","pipeline","portfolio","productivity","profitability","revenue","roadmap","scalability","stakeholder","strategy","sustainability","synergy","traction","transformation","transparency","venture"],
+  },
+  {
+    id: "academic",
+    label: "Academic words",
+    words: ["abstract","analysis","annotation","argument","assertion","bibliography","causation","citation","classification","coherence","commentary","conceptual","conclusion","contradiction","critical","critique","deduction","dialectic","discourse","empirical","epistemology","evaluate","evidence","exemplify","extrapolate","fallacy","generalization","hypothesis","implication","inductive","inference","interpretation","juxtaposition","methodology","narrative","ontology","paradigm","pedagogy","perspective","phenomenon","philosophy","premise","rationale","refute","rhetoric","synthesis","theoretical","thesis","variable","verification"],
+  },
+  {
+    id: "advanced",
+    label: "Advanced English",
+    words: ["aberrant","abeyance","abstruse","acrimony","acumen","alacrity","ameliorate","anomalous","apathy","aplomb","arduous","astute","austere","belligerent","byzantine","callous","capricious","cogent","convoluted","copious","corroborate","culpable","cynical","dearth","debilitate","diligent","discern","disparate","equanimity","erudite","esoteric","fastidious","fortitude","garrulous","grandiloquent","hapless","hegemony","hubris","iconoclast","immutable","implacable","indefatigable","insidious","intractable","laconic","loquacious","magnanimous","mendacity","mercurial","meticulous","obtuse","onerous","ostracize","parsimony","pedantic","perspicacious","pragmatic","querulous","recalcitrant","reticent","sagacious","sardonic","sycophant","taciturn","tenacious","ubiquitous","vacillate","vehement","venerable","verbose"],
+  },
+];
 
 const steps = [
   {
@@ -147,6 +171,46 @@ export default function HowItWorks() {
                 {lang}
               </motion.span>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Word Tools & Resources */}
+      <section className="py-20 bg-background border-t border-border">
+        <div className="container px-4 mx-auto max-w-5xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black mb-3">Word Tools & Resources</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Free vocabulary tools, word games, and learning resources - all in one place.
+            </p>
+          </motion.div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            {[
+              { href: "/vocabulary", emoji: "📚", label: "Vocabulary Hub" },
+              { href: "/wordle-words", emoji: "🟩", label: "Wordle Words" },
+              { href: "/scrabble-words", emoji: "🎯", label: "Scrabble Words" },
+              { href: "/spelling-bee-words", emoji: "🐝", label: "Spelling Bee" },
+              { href: "/crossword-words", emoji: "✏️", label: "Crossword Solver" },
+              { href: "/synonym-finder", emoji: "🔀", label: "Synonym Finder" },
+              { href: "/word-finder", emoji: "🔍", label: "Word Finder" },
+              { href: "/anagram-solver", emoji: "🔤", label: "Anagram Solver" },
+              { href: "/dictionary", emoji: "📖", label: "Dictionary" },
+              { href: "/word-of-the-day", emoji: "⭐", label: "Word of the Day" },
+            ].map(({ href, emoji, label }) => (
+              <Link key={href} href={href}>
+                <motion.div
+                  whileHover={{ y: -2 }}
+                  className="flex flex-col items-center gap-2 p-4 rounded-2xl border border-border bg-card hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer text-center"
+                >
+                  <span className="text-2xl">{emoji}</span>
+                  <span className="text-xs font-bold leading-tight">{label}</span>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-10">
+            <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest mb-3">Browse by Category</p>
+            <InteractiveCategoryBrowser categories={BROWSE_CATEGORIES} wordCount={15} />
           </div>
         </div>
       </section>
