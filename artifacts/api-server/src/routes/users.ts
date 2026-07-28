@@ -10,7 +10,7 @@ const DEFAULT_USER_ID = 1;
 
 // ─── Password validation ───────────────────────────────────────
 function isValidPassword(pw: string): boolean {
-  return pw.length >= 8 && /^[a-zA-Z0-9]+$/.test(pw);
+  return pw.length >= 8 && /^[a-zA-Z0-9@#$&!]+$/.test(pw) && /[@#$&!]/.test(pw);
 }
 
 // ─── Archetypes ────────────────────────────────────────────────
@@ -178,7 +178,7 @@ router.post("/register/free", async (req, res) => {
     return res.status(400).json({ error: "A valid email address is required." });
   }
   if (!password || !isValidPassword(password)) {
-    return res.status(400).json({ error: "Password must be at least 8 alphanumeric characters." });
+    return res.status(400).json({ error: "Password must be at least 8 characters with letters, numbers, and at least one special character (@, #, $, &, !)." });
   }
   if (!phone?.trim()) {
     return res.status(400).json({ error: "Cell phone number is required." });

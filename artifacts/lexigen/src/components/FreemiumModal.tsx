@@ -35,7 +35,7 @@ export function FreemiumModal({
     firstName.trim().length > 0 &&
     lastName.trim().length > 0 &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
-    password.length >= 8 &&
+    password.length >= 8 && /^[a-zA-Z0-9@#$&!]+$/.test(password) && /[@#$&!]/.test(password) &&
     phone.trim().length > 0;
 
   const handleRegister = useCallback(async () => {
@@ -167,7 +167,7 @@ export function FreemiumModal({
                           {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                         </button>
                       </div>
-                      <p className="text-xs text-muted-foreground">Letters and numbers only · min 8 characters</p>
+                      <p className="text-xs text-muted-foreground">Min 8 characters · letters & numbers · at least one of @ # $ & !</p>
                     </div>
                     {/* Country */}
                     <div className="space-y-1.5">
