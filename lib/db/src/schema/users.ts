@@ -14,6 +14,7 @@ export const usersTable = pgTable("users", {
   isPremium: boolean("is_premium").notNull().default(false),
   premiumPlan: text("premium_plan"),
   premiumExpiresAt: timestamp("premium_expires_at"),
+  premiumLanguage: text("premium_language"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

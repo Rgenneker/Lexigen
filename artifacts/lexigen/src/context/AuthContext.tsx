@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useCallback } from "react";
 
 export interface AuthUser {
   id?: number;
@@ -6,6 +6,7 @@ export interface AuthUser {
   email: string;
   phone?: string;
   plan: "free" | "premium";
+  premiumLanguage: string | null;
   registeredAt: string;
 }
 
@@ -15,6 +16,7 @@ interface AuthContextType {
   registerFree: (firstName: string, lastName: string, email: string, password: string, phone: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   setPremium: () => void;
+  setPremiumLanguage: (language: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -26,7 +28,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? (JSON.parse(stored) as AuthUser) : null;
+      if (!stored) return null;
+      const parsed = JSON.parse(stored) as AuthUser;
+      // backfill field for existing sessions
+      if (!("premiumLanguage" in parsed)) parsed.premiumLanguage = null;
+      return parsed;
     } catch {
       return null;
     }
@@ -55,6 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email: data.email,
       phone: data.phone,
       plan: "free",
+      premiumLanguage: null,
       registeredAt: new Date().toISOString(),
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newUser));
@@ -71,13 +78,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const body = await res.json().catch(() => ({})) as { error?: string };
       throw new Error(body.error ?? "Login failed");
     }
-    const data = await res.json() as { id: number; name: string; email: string; phone?: string; plan: string; registeredAt: string };
+    const data = await res.json() as {
+      id: number; name: string; email: string; phone?: string;
+      plan: string; premiumLanguage: string | null; registeredAt: string;
+    };
     const loggedIn: AuthUser = {
       id: data.id,
       name: data.name,
       email: data.email,
       phone: data.phone,
       plan: data.plan as "free" | "premium",
+      premiumLanguage: data.premiumLanguage ?? null,
       registeredAt: data.registeredAt,
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(loggedIn));
@@ -91,13 +102,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(updated);
   };
 
+  const setPremiumLanguage = useCallback(async (language: string) => {
+    if (!user?.id) return;
+    const res = await fetch("/api/user/premium-language", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: user.id, language }),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({})) as { error?: string };
+      throw new Error(body.error ?? "Failed to save language");
+    }
+    const updated: AuthUser = { ...user, premiumLanguage: language };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    setUser(updated);
+  }, [user]);
+
   const logout = () => {
     localStorage.removeItem(STORAGE_KEY);
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, isRegistered: !!user, registerFree, login, setPremium, logout }}>
+    <AuthContext.Provider value={{ user, isRegistered: !!user, registerFree, login, setPremium, setPremiumLanguage, logout }}>
       {children}
     </AuthContext.Provider>
   );

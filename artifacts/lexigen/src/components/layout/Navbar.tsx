@@ -15,6 +15,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { AnimatePresence } from "framer-motion";
 import { LanguageUnlockModal } from "@/components/LanguageUnlockModal";
 import { PaymentModal } from "@/components/PaymentModal";
+import { PremiumLanguageModal } from "@/components/PremiumLanguageModal";
 import { useAuth } from "@/context/AuthContext";
 
 const LANGUAGES = [
@@ -37,18 +38,24 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [unlocks, setUnlocks] = useState<UnlockStatus[]>([]);
   const [unlockModal, setUnlockModal] = useState<{ language: string; isRenewal: boolean; daysRemaining?: number } | null>(null);
-  const { user, isRegistered, logout, setPremium } = useAuth();
+  const { user, isRegistered, logout, setPremium, setPremiumLanguage } = useAuth();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showLangModal, setShowLangModal] = useState(false);
+  const [changingLang, setChangingLang] = useState(false);
+
+  const isPremium = user?.plan === "premium";
+  const premiumLanguage = user?.premiumLanguage ?? null;
 
   const fetchUnlocks = useCallback(async () => {
     try {
-      const res = await fetch("/api/language-unlock/status");
+      const userId = user?.id ? `?userId=${user.id}` : "";
+      const res = await fetch(`/api/language-unlock/status${userId}`);
       const data = await res.json() as { unlocks: UnlockStatus[] };
       setUnlocks(data.unlocks ?? []);
     } catch {
-      // non-critical - silently ignore
+      // non-critical
     }
-  }, []);
+  }, [user?.id]);
 
   useEffect(() => {
     fetchUnlocks();
@@ -59,14 +66,21 @@ export function Navbar() {
   const getUnlockStatus = (lang: string): UnlockStatus | null =>
     unlocks.find(u => u.language === lang) ?? null;
 
+  /** A language is unlocked if:
+   *  - it's English (always free)
+   *  - it's the user's included premium language
+   *  - the user has a paid 60-day unlock for it
+   */
   const isUnlocked = (lang: string): boolean => {
     if (lang === "English") return true;
+    if (isPremium && premiumLanguage === lang) return true;
     const u = getUnlockStatus(lang);
     return !!u && !u.expired;
   };
 
   const handleLanguageClick = (lang: string) => {
     if (lang === "English") { setLanguage(lang); return; }
+    if (isPremium && premiumLanguage === lang) { setLanguage(lang); return; }
     const u = getUnlockStatus(lang);
     if (u && !u.expired) {
       setLanguage(lang);
@@ -83,7 +97,18 @@ export function Navbar() {
     setUnlockModal(null);
   };
 
+  /** Called when premium upgrade completes */
+  const handlePremiumSuccess = () => {
+    setPremium();
+    setShowPaymentModal(false);
+    // If no premium language chosen yet, open the picker
+    if (!premiumLanguage) {
+      setShowLangModal(true);
+    }
+  };
+
   const PROTECTED = ["/play", "/app", "/invite", "/bee/create"];
+  void PROTECTED;
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -98,9 +123,22 @@ export function Navbar() {
   ];
 
   const currentStatus = language !== "English" ? getUnlockStatus(language) : null;
-  const showRenewalBadge = currentStatus && (currentStatus.expired || currentStatus.daysRemaining <= 7);
+  const isPremiumLang = isPremium && premiumLanguage === language;
+  const showRenewalBadge = !isPremiumLang && currentStatus && (currentStatus.expired || currentStatus.daysRemaining <= 7);
   const firstName = user?.name.split(" ")[0] ?? "";
-  const isPremium = user?.plan === "premium";
+
+  const langLabel = (lang: string) => {
+    if (lang === "English") return <span className="text-[10px] bg-green-500/10 text-green-600 px-1.5 py-0.5 rounded-full font-semibold">Free</span>;
+    if (isPremium && premiumLanguage === lang) return <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-semibold">Included</span>;
+    const u = getUnlockStatus(lang);
+    if (!u || u.expired) return <span className="text-[10px] bg-blue-500/10 text-blue-600 px-1.5 py-0.5 rounded-full font-semibold">$2</span>;
+    if (u.daysRemaining <= 7) return <span className="text-[10px] bg-amber-500/10 text-amber-600 px-1.5 py-0.5 rounded-full font-semibold flex items-center gap-1"><Clock className="h-2.5 w-2.5" />{u.daysRemaining}d</span>;
+    return <span className="text-[10px] bg-green-500/10 text-green-600 px-1.5 py-0.5 rounded-full font-semibold">{u.daysRemaining}d</span>;
+  };
+
+  const dropdownLabel = isPremium
+    ? `English + ${premiumLanguage ?? "1 language"} · Others $2`
+    : "Free: English · Others $2 / 60 days";
 
   return (
     <>
@@ -202,17 +240,24 @@ export function Navbar() {
                   <span className="sr-only">Select language</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="max-h-[340px] overflow-y-auto w-56">
+              <DropdownMenuContent align="end" className="max-h-[360px] overflow-y-auto w-60">
                 <DropdownMenuLabel className="text-xs text-muted-foreground font-normal pb-1">
-                  Free: English · Others $2 / 60 days
+                  {dropdownLabel}
                 </DropdownMenuLabel>
+                {isPremium && (
+                  <DropdownMenuItem
+                    onClick={() => { setChangingLang(true); setShowLangModal(true); }}
+                    className="text-xs text-primary cursor-pointer font-semibold flex items-center gap-1.5"
+                  >
+                    <Globe className="h-3 w-3" />
+                    Change included language
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 {LANGUAGES.map((lang) => {
                   const unlocked = isUnlocked(lang);
-                  const status = lang !== "English" ? getUnlockStatus(lang) : null;
                   const isActive = language === lang;
-                  const nearExpiry = status && !status.expired && status.daysRemaining <= 7;
-                  const expired = status?.expired;
+                  const isIncluded = isPremium && premiumLanguage === lang;
                   return (
                     <DropdownMenuItem
                       key={lang}
@@ -223,31 +268,13 @@ export function Navbar() {
                     >
                       <span className="flex items-center gap-2">
                         {isActive && <CheckCircle2 className="h-3.5 w-3.5 text-primary flex-shrink-0" />}
-                        {!isActive && !unlocked && lang !== "English" && (
+                        {!isActive && !unlocked && lang !== "English" && !isIncluded && (
                           <Lock className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
                         )}
-                        {!isActive && unlocked && <span className="w-3.5" />}
+                        {!isActive && (unlocked || isIncluded) && <span className="w-3.5" />}
                         <span className="text-sm">{lang}</span>
                       </span>
-                      {lang === "English" && (
-                        <span className="text-[10px] bg-green-500/10 text-green-600 px-1.5 py-0.5 rounded-full font-semibold">Free</span>
-                      )}
-                      {lang !== "English" && !unlocked && !expired && (
-                        <span className="text-[10px] bg-blue-500/10 text-blue-600 px-1.5 py-0.5 rounded-full font-semibold">$2</span>
-                      )}
-                      {lang !== "English" && expired && (
-                        <span className="text-[10px] bg-red-500/10 text-red-600 px-1.5 py-0.5 rounded-full font-semibold">Expired</span>
-                      )}
-                      {lang !== "English" && nearExpiry && (
-                        <span className="text-[10px] bg-amber-500/10 text-amber-600 px-1.5 py-0.5 rounded-full font-semibold flex items-center gap-1">
-                          <Clock className="h-2.5 w-2.5" />{status!.daysRemaining}d
-                        </span>
-                      )}
-                      {lang !== "English" && unlocked && !nearExpiry && (
-                        <span className="text-[10px] bg-green-500/10 text-green-600 px-1.5 py-0.5 rounded-full font-semibold">
-                          {status!.daysRemaining}d
-                        </span>
-                      )}
+                      {langLabel(lang)}
                     </DropdownMenuItem>
                   );
                 })}
@@ -283,11 +310,30 @@ export function Navbar() {
                       {firstName}
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuContent align="end" className="w-52">
                     <DropdownMenuLabel className="font-normal text-xs text-muted-foreground">
                       {user?.email}
                     </DropdownMenuLabel>
+                    {isPremium && premiumLanguage && (
+                      <DropdownMenuLabel className="font-normal text-xs text-muted-foreground -mt-1">
+                        Languages: English + {premiumLanguage}
+                      </DropdownMenuLabel>
+                    )}
+                    {isPremium && !premiumLanguage && (
+                      <DropdownMenuLabel className="font-normal text-xs text-amber-600 -mt-1">
+                        No 2nd language chosen yet
+                      </DropdownMenuLabel>
+                    )}
                     <DropdownMenuSeparator />
+                    {isPremium && (
+                      <DropdownMenuItem
+                        onClick={() => { setChangingLang(true); setShowLangModal(true); }}
+                        className="flex items-center gap-2 cursor-pointer text-primary font-semibold"
+                      >
+                        <Globe className="h-3.5 w-3.5" />
+                        {premiumLanguage ? "Change included language" : "Choose included language"}
+                      </DropdownMenuItem>
+                    )}
                     {!isPremium && (
                       <DropdownMenuItem
                         onClick={() => setShowPaymentModal(true)}
@@ -359,6 +405,11 @@ export function Navbar() {
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-bold truncate">{user?.name}</p>
                       <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                      {isPremium && (
+                        <p className="text-xs text-primary font-medium truncate">
+                          English{premiumLanguage ? ` + ${premiumLanguage}` : " + (pick a 2nd language)"}
+                        </p>
+                      )}
                     </div>
                     <button
                       onClick={() => { logout(); setIsOpen(false); }}
@@ -414,11 +465,23 @@ export function Navbar() {
 
                   {/* Mobile language section */}
                   <div className="border-t border-border pt-4 space-y-2">
-                    <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest">Language</p>
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest">Language</p>
+                      {isPremium && (
+                        <button
+                          onClick={() => { setChangingLang(true); setShowLangModal(true); setIsOpen(false); }}
+                          className="text-xs text-primary font-semibold flex items-center gap-1"
+                        >
+                          <Globe className="h-3 w-3" />
+                          {premiumLanguage ? "Change" : "Choose language"}
+                        </button>
+                      )}
+                    </div>
                     <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
                       {LANGUAGES.map((lang) => {
                         const unlocked = isUnlocked(lang);
                         const isActive = language === lang;
+                        const isIncluded = isPremium && premiumLanguage === lang;
                         return (
                           <button
                             key={lang}
@@ -430,7 +493,8 @@ export function Navbar() {
                             }`}
                           >
                             <span className="truncate">{lang}</span>
-                            {!unlocked && lang !== "English" && <Lock className="h-3 w-3 flex-shrink-0 text-muted-foreground" />}
+                            {isIncluded && <Crown className="h-3 w-3 flex-shrink-0 text-primary" />}
+                            {!unlocked && !isIncluded && lang !== "English" && <Lock className="h-3 w-3 flex-shrink-0 text-muted-foreground" />}
                           </button>
                         );
                       })}
@@ -446,6 +510,16 @@ export function Navbar() {
                         >
                           <Crown className="h-4 w-4 mr-2" />
                           Upgrade to Premium
+                        </Button>
+                      )}
+                      {isPremium && !premiumLanguage && (
+                        <Button
+                          className="w-full bg-primary/10 text-primary border border-primary/30 font-bold"
+                          variant="outline"
+                          onClick={() => { setChangingLang(false); setShowLangModal(true); setIsOpen(false); }}
+                        >
+                          <Globe className="h-4 w-4 mr-2" />
+                          Choose your included language
                         </Button>
                       )}
                       <Button
@@ -489,9 +563,19 @@ export function Navbar() {
         {showPaymentModal && user && (
           <PaymentModal
             onClose={() => setShowPaymentModal(false)}
-            onSuccess={() => { setPremium(); setShowPaymentModal(false); }}
+            onSuccess={handlePremiumSuccess}
             userEmail={user.email}
             userName={user.name}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Premium Language Picker Modal */}
+      <AnimatePresence>
+        {showLangModal && (
+          <PremiumLanguageModal
+            isChange={changingLang}
+            onClose={() => { setShowLangModal(false); setChangingLang(false); }}
           />
         )}
       </AnimatePresence>

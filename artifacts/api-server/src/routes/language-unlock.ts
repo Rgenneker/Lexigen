@@ -40,11 +40,12 @@ async function getPayPalToken(): Promise<string> {
 // ── GET /api/language-unlock/status ──────────────────────
 // Returns unlock status for every language the user has purchased
 router.get("/language-unlock/status", async (req, res) => {
+  const userId = parseInt((req.query.userId as string) ?? String(DEFAULT_USER_ID), 10);
   const now = new Date();
   const unlocks = await db
     .select()
     .from(languageUnlocksTable)
-    .where(eq(languageUnlocksTable.userId, DEFAULT_USER_ID));
+    .where(eq(languageUnlocksTable.userId, userId));
 
   const result = unlocks.map((u) => {
     const expired = u.expiresAt <= now;

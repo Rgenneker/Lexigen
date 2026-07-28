@@ -255,6 +255,7 @@ router.post("/login", async (req, res) => {
     email: user.email,
     phone: user.phone ?? undefined,
     plan: user.isPremium ? "premium" : "free",
+    premiumLanguage: user.premiumLanguage ?? null,
     registeredAt: user.createdAt.toISOString(),
   });
 });
@@ -336,6 +337,34 @@ router.get("/users/archetype", async (req, res) => {
   const archetypeName = getArchetypeFromBirthDate(birthDate);
   const archetype = ARCHETYPES[archetypeName] ?? ARCHETYPES["The Explorer"];
   return res.json(archetype);
+});
+
+// ─── Premium language (GET) ────────────────────────────────────
+router.get("/user/premium-language", async (req, res) => {
+  const userId = parseInt((req.query.userId as string) ?? "0", 10);
+  if (!userId) return res.status(400).json({ error: "userId required" });
+  const [user] = await db.select({ premiumLanguage: usersTable.premiumLanguage })
+    .from(usersTable).where(eq(usersTable.id, userId));
+  if (!user) return res.status(404).json({ error: "User not found" });
+  return res.json({ premiumLanguage: user.premiumLanguage ?? null });
+});
+
+// ─── Premium language (SET) ────────────────────────────────────
+router.post("/user/premium-language", async (req, res) => {
+  const { userId, language } = req.body as { userId?: number; language?: string };
+  if (!userId || !language?.trim()) {
+    return res.status(400).json({ error: "userId and language are required" });
+  }
+  // Verify user is premium
+  const [user] = await db.select({ isPremium: usersTable.isPremium })
+    .from(usersTable).where(eq(usersTable.id, userId));
+  if (!user) return res.status(404).json({ error: "User not found" });
+  if (!user.isPremium) return res.status(403).json({ error: "Premium required" });
+
+  await db.update(usersTable)
+    .set({ premiumLanguage: language.trim() })
+    .where(eq(usersTable.id, userId));
+  return res.json({ success: true, premiumLanguage: language.trim() });
 });
 
 router.get("/stats/summary", async (req, res) => {
