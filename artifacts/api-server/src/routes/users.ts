@@ -218,6 +218,7 @@ router.post("/register/free", async (req, res) => {
   req.log.info({ userId: newUser.id, email: normalizedEmail }, "free registration");
 
   return res.status(201).json({
+    success: true,
     id: newUser.id,
     name: displayName,
     email: normalizedEmail,
