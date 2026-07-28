@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { COUNTRIES } from "@/data/countries";
 import {
-  X, ChevronRight, Loader2, CheckCircle2, CreditCard,
+  X, ChevronRight, Loader2, CheckCircle2, CreditCard, Eye, EyeOff,
 } from "lucide-react";
 
 type ModalStep = "form" | "success" | "error";
@@ -20,7 +20,10 @@ export function FreemiumModal({
 }) {
   const [step, setStep] = useState<ModalStep>("form");
   const [firstName, setFirstName] = useState("");
-  const [surname, setSurname] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [countryCode, setCountryCode] = useState("ZA");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,7 +31,12 @@ export function FreemiumModal({
   const { toast } = useToast();
 
   const selectedCountry = COUNTRIES.find(c => c.code === countryCode) ?? COUNTRIES.find(c => c.code === "ZA")!;
-  const canProceed = firstName.trim().length > 0 && surname.trim().length > 0 && phone.trim().length > 0;
+  const canProceed =
+    firstName.trim().length > 0 &&
+    lastName.trim().length > 0 &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
+    password.length >= 8 &&
+    phone.trim().length > 0;
 
   const handleRegister = useCallback(async () => {
     if (!canProceed) return;
@@ -39,8 +47,9 @@ export function FreemiumModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           firstName: firstName.trim(),
-          surname: surname.trim(),
-          countryCode,
+          lastName: lastName.trim(),
+          email: email.trim(),
+          password,
           phone: phone.trim(),
         }),
       });
@@ -59,7 +68,7 @@ export function FreemiumModal({
     } finally {
       setLoading(false);
     }
-  }, [firstName, surname, countryCode, phone, canProceed, onSuccess, toast]);
+  }, [firstName, lastName, email, password, countryCode, phone, canProceed, onSuccess, toast]);
 
   return (
     <div
@@ -103,27 +112,62 @@ export function FreemiumModal({
                     <p className="text-sm text-muted-foreground">No credit card required — free forever.</p>
                   </div>
                   <div className="space-y-3">
-                    {/* First Name */}
+                    {/* Name row */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="f-firstname" className="text-sm font-semibold">First Name</Label>
+                        <Input
+                          id="f-firstname"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          placeholder="e.g. Russ"
+                          className="rounded-xl h-11"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="f-lastname" className="text-sm font-semibold">Last Name</Label>
+                        <Input
+                          id="f-lastname"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          placeholder="e.g. Smith"
+                          className="rounded-xl h-11"
+                        />
+                      </div>
+                    </div>
+                    {/* Email */}
                     <div className="space-y-1.5">
-                      <Label htmlFor="f-firstname" className="text-sm font-semibold">First Name</Label>
+                      <Label htmlFor="f-email" className="text-sm font-semibold">Email Address</Label>
                       <Input
-                        id="f-firstname"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        placeholder="e.g. Russ"
+                        id="f-email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@example.com"
                         className="rounded-xl h-11"
                       />
                     </div>
-                    {/* Surname */}
+                    {/* Password */}
                     <div className="space-y-1.5">
-                      <Label htmlFor="f-surname" className="text-sm font-semibold">Surname</Label>
-                      <Input
-                        id="f-surname"
-                        value={surname}
-                        onChange={(e) => setSurname(e.target.value)}
-                        placeholder="e.g. Smith"
-                        className="rounded-xl h-11"
-                      />
+                      <Label htmlFor="f-password" className="text-sm font-semibold">Password</Label>
+                      <div className="relative">
+                        <Input
+                          id="f-password"
+                          type={showPassword ? "text" : "password"}
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="Min 8 characters"
+                          className="rounded-xl h-11 pr-10"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(v => !v)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                      </div>
+                      <p className="text-xs text-muted-foreground">Letters and numbers only · min 8 characters</p>
                     </div>
                     {/* Country */}
                     <div className="space-y-1.5">
@@ -143,7 +187,7 @@ export function FreemiumModal({
                     </div>
                     {/* Phone */}
                     <div className="space-y-1.5">
-                      <Label htmlFor="f-phone" className="text-sm font-semibold">Mobile number</Label>
+                      <Label htmlFor="f-phone" className="text-sm font-semibold">Cell Phone Number</Label>
                       <div className="flex gap-2">
                         <div className="flex items-center gap-1.5 h-11 px-3 rounded-xl border border-input bg-muted/50 text-sm font-medium flex-shrink-0 min-w-[72px] justify-center">
                           <span>{selectedCountry.flag}</span>
@@ -208,7 +252,7 @@ export function FreemiumModal({
                   <div>
                     <h2 className="text-2xl font-bold mb-2">You're in! 🎉</h2>
                     <p className="text-muted-foreground text-sm">
-                      Welcome, <span className="font-semibold text-foreground">{firstName.trim()} {surname.trim()}</span>.<br />
+                      Welcome, <span className="font-semibold text-foreground">{firstName.trim()} {lastName.trim()}</span>.<br />
                       Your free Lexigenz account is active.
                     </p>
                   </div>
