@@ -1,3 +1,4 @@
+import { langColor } from "@/data/language-colors";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -680,20 +681,19 @@ export default function Premium() {
               { name: "Japanese", sa: false },
               { name: "Cantonese", sa: false },
               { name: "Chinese (Mandarin)", sa: false },
-            ].map((lang, i) => (
-              <motion.span key={lang.name}
-                initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }} transition={{ delay: i * 0.03 }}
-                className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all ${
-                  lang.sa
-                    ? "bg-primary/15 border-primary/40 text-primary"
-                    : "bg-card border-border text-foreground hover:border-primary/30"
-                }`}>
-                {lang.name}
-              </motion.span>
-            ))}
+            ].map((lang, i) => {
+              const c = langColor(lang.name);
+              return (
+                <motion.span key={lang.name}
+                  initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }} transition={{ delay: i * 0.03 }}
+                  className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all ${c.bg} ${c.text} ${c.border}`}>
+                  {lang.name}
+                </motion.span>
+              );
+            })}
           </motion.div>
-          <p className="text-center text-xs text-muted-foreground mb-10">South African languages highlighted</p>
+          <p className="text-center text-xs text-muted-foreground mb-10">Each language shown in its own colour</p>
 
           {/* Inline premium CTA */}
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}

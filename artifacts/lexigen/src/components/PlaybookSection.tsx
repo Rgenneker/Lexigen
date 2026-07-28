@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { langColor } from "@/data/language-colors";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -267,9 +268,10 @@ const STEPS = [
         <div>
           <p className="text-sm font-bold mb-2">🌐 The 19 languages</p>
           <div className="flex flex-wrap gap-1.5">
-            {["English", "Afrikaans", "Zulu", "Xhosa", "French", "Spanish", "Portuguese", "German", "Dutch", "Italian", "Arabic", "Farsi", "Russian", "Bahasa Malay", "Vietnamese", "Tagalog", "Japanese", "Cantonese", "Mandarin"].map(lang => (
-              <span key={lang} className="text-xs bg-muted border border-border px-2 py-0.5 rounded-full font-medium">{lang}</span>
-            ))}
+            {["English", "Afrikaans", "Zulu", "Xhosa", "French", "Spanish", "Portuguese", "German", "Dutch", "Italian", "Arabic", "Farsi", "Russian", "Bahasa Malay", "Vietnamese", "Tagalog", "Japanese", "Cantonese", "Mandarin"].map(lang => {
+              const c = langColor(lang);
+              return <span key={lang} className={`text-xs px-2 py-0.5 rounded-full font-medium border ${c.bg} ${c.text} ${c.border}`}>{lang}</span>;
+            })}
           </div>
         </div>
         <div className="bg-muted/50 border border-border rounded-xl p-3 space-y-1">

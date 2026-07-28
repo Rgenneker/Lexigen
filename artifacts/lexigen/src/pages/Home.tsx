@@ -8,6 +8,7 @@ import { PaymentModal } from "@/components/PaymentModal";
 import { useAuth } from "@/context/AuthContext";
 import { InteractiveCategoryBrowser } from "@/components/InteractiveCategoryBrowser";
 import { BENEFIT_EXPANDED } from "@/data/benefit-expanded";
+import { langColor } from "@/data/language-colors";
 
 import {
   Brain, Flame, Gamepad2, Globe, BookOpen, Zap, Star,
@@ -565,15 +566,11 @@ export default function Home() {
             </div>
             <div className="flex flex-wrap gap-2">
               {LANGUAGES.map((lang) => {
-                const highlighted = ["Afrikaans", "Zulu", "Xhosa"].includes(lang);
+                const c = langColor(lang);
                 return (
                   <span
                     key={lang}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${
-                      highlighted
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-muted text-muted-foreground border-border"
-                    }`}
+                    className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${c.bg} ${c.text} ${c.border}`}
                   >
                     {lang}
                   </span>
