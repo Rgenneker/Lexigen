@@ -670,7 +670,7 @@ export default function Home() {
                 ))}
               </ul>
               <Button className="w-full rounded-2xl bg-primary font-bold" onClick={handleGetPremium}>
-                Get Premium - $8 Forever
+                {isRegistered ? "Get Premium - $8 Forever" : "Sign up to get Premium"}
               </Button>
             </div>
           </div>
@@ -691,7 +691,7 @@ export default function Home() {
               🎁 Register Free
             </Button>
             <Button size="lg" className="h-14 px-8 text-lg font-bold rounded-full bg-primary hover:bg-primary/90 shadow-[0_0_40px_rgba(139,92,246,0.4)]" onClick={handleGetPremium}>
-              Get Premium - $8 <Zap className="h-4 w-4 ml-2" />
+              {isRegistered ? <> Get Premium - $8 <Zap className="h-4 w-4 ml-2" /></> : "Sign up to get Premium"}
             </Button>
           </div>
         </div>
