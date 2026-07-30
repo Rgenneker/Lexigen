@@ -10,10 +10,10 @@ import { QRCodeSVG } from "qrcode.react";
 import { Crown, Plus, X, Search, Link, QrCode, Trophy, ChevronRight } from "lucide-react";
 
 const LEVELS = [
-  { key: "beginner", label: "Beginner", desc: "3–6 letter phonetic words", color: "bg-emerald-100 text-emerald-800 border-emerald-200", free: true, words: 10 },
-  { key: "lower_intermediate", label: "Lower Intermediate", desc: "6–8 letters, common roots", color: "bg-blue-100 text-blue-800 border-blue-200", free: true, words: 15 },
-  { key: "upper_intermediate", label: "Upper Intermediate", desc: "8–12 letters, Latin/Greek roots", color: "bg-violet-100 text-violet-800 border-violet-200", free: false, words: 20 },
-  { key: "proficient", label: "Proficient", desc: "12+ letters, advanced etymology", color: "bg-rose-100 text-rose-800 border-rose-200", free: false, words: 25 },
+  { key: "beginner", label: "Beginner", desc: "3–6 letter phonetic words", color: "bg-emerald-100 text-emerald-800 border-emerald-200", cardBg: "bg-emerald-50 border-emerald-200", free: true, words: 10 },
+  { key: "lower_intermediate", label: "Lower Intermediate", desc: "6–8 letters, common roots", color: "bg-blue-100 text-blue-800 border-blue-200", cardBg: "bg-blue-50 border-blue-200", free: true, words: 15 },
+  { key: "upper_intermediate", label: "Upper Intermediate", desc: "8–12 letters, Latin/Greek roots", color: "bg-violet-100 text-violet-800 border-violet-200", cardBg: "bg-violet-50 border-violet-200", free: false, words: 20 },
+  { key: "proficient", label: "Proficient", desc: "12+ letters, advanced etymology", color: "bg-rose-100 text-rose-800 border-rose-200", cardBg: "bg-rose-50 border-rose-200", free: false, words: 25 },
 ];
 
 interface SearchedUser { id: number; username: string; email: string }
@@ -159,7 +159,7 @@ export default function CreateContest() {
           </CardHeader>
           <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {LEVELS.map((l) => (
-              <button key={l.key} onClick={() => setLevel(l.key)} className={`relative text-left p-4 rounded-xl border-2 transition-all ${level === l.key ? "border-primary bg-primary/5 shadow-md" : "border-border hover:border-primary/40"}`}>
+              <button key={l.key} onClick={() => setLevel(l.key)} className={`relative text-left p-4 rounded-xl border-2 transition-all ${level === l.key ? "border-primary bg-primary/5 shadow-md" : `${l.cardBg} hover:border-primary/40`}`}>
                 {!l.free && <span className="absolute top-2 right-2 text-[10px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">$1</span>}
                 <p className="font-semibold text-sm">{l.label}</p>
                 <p className="text-xs text-muted-foreground mt-0.5">{l.desc}</p>

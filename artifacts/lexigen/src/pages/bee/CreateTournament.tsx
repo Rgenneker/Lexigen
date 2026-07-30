@@ -9,10 +9,10 @@ import { useToast } from "@/hooks/use-toast";
 import { Crown, Search, X, Plus, Trophy, ChevronRight, Users } from "lucide-react";
 
 const LEVELS = [
-  { key: "beginner", label: "Beginner", color: "bg-emerald-100 text-emerald-800", paid: false },
-  { key: "lower_intermediate", label: "Lower Intermediate", color: "bg-blue-100 text-blue-800", paid: false },
-  { key: "upper_intermediate", label: "Upper Intermediate", color: "bg-violet-100 text-violet-800", paid: true },
-  { key: "proficient", label: "Proficient", color: "bg-rose-100 text-rose-800", paid: true },
+  { key: "beginner", label: "Beginner", color: "bg-emerald-100 text-emerald-800", cardBg: "bg-emerald-50 border-emerald-200", paid: false },
+  { key: "lower_intermediate", label: "Lower Intermediate", color: "bg-blue-100 text-blue-800", cardBg: "bg-blue-50 border-blue-200", paid: false },
+  { key: "upper_intermediate", label: "Upper Intermediate", color: "bg-violet-100 text-violet-800", cardBg: "bg-violet-50 border-violet-200", paid: true },
+  { key: "proficient", label: "Proficient", color: "bg-rose-100 text-rose-800", cardBg: "bg-rose-50 border-rose-200", paid: true },
 ];
 
 const SIZE_OPTIONS = [
@@ -125,7 +125,7 @@ export default function CreateTournament() {
             <div className="grid grid-cols-2 gap-2">
               {LEVELS.map((l) => (
                 <button key={l.key} onClick={() => setLevel(l.key)}
-                  className={`relative py-3 px-4 rounded-xl border-2 text-sm font-medium transition-all text-left ${level === l.key ? "border-primary bg-primary/5" : "border-border hover:border-primary/40"}`}>
+                  className={`relative py-3 px-4 rounded-xl border-2 text-sm font-medium transition-all text-left ${level === l.key ? "border-primary bg-primary/5" : `${l.cardBg} hover:border-primary/40`}`}>
                   {l.paid && <span className="absolute top-2 right-2 text-[10px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">$1</span>}
                   <Badge className={`mb-1 ${l.color}`}>{l.label}</Badge>
                 </button>
