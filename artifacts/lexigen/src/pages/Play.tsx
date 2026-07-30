@@ -874,7 +874,7 @@ function SpellingBeeWithLevels({ onScore, isPremium, onUpgrade }: { onScore: (sc
                       <p><span className="font-semibold text-foreground">Who it's for:</span> {level.tag} learners</p>
                       <p><span className="font-semibold text-foreground">Timer:</span> {level.timerSeconds} seconds per word</p>
                       <p><span className="font-semibold text-foreground">Certificate:</span> Awarded at {level.targetWords} correct words</p>
-                      {level.premium && <p className="text-primary font-semibold">🔒 Requires Premium membership - $8 lifetime</p>}
+                      {level.premium && <p className="text-primary font-semibold">🔒 Requires Premium membership - $8</p>}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -882,7 +882,7 @@ function SpellingBeeWithLevels({ onScore, isPremium, onUpgrade }: { onScore: (sc
               {locked && (
                 <div className="mt-1.5">
                   <Button size="sm" className="w-full rounded-xl font-bold bg-primary text-xs h-9" onClick={onUpgrade}>
-                    <Crown className="h-3.5 w-3.5 mr-1.5" /> Unlock with Premium - $8 lifetime
+                    <Crown className="h-3.5 w-3.5 mr-1.5" /> Unlock with Premium - $8
                   </Button>
                 </div>
               )}
