@@ -128,7 +128,7 @@ export function PremiumPreviewModal({ onClose, onGetPremium, onSignUp, isPremium
                 className="w-full h-12 rounded-2xl bg-primary font-black text-base shadow-[0_0_24px_rgba(139,92,246,0.35)] hover:shadow-[0_0_32px_rgba(139,92,246,0.5)] transition-all"
               >
                 <Crown className="h-4 w-4 mr-2" />
-                {user ? "Get Premium — $8 Forever" : "Sign up to get Premium"}
+                {user ? "Get Premium — $8" : "Sign up to get Premium"}
               </Button>
             )}
             <Link href="/premium" onClick={onClose}>
