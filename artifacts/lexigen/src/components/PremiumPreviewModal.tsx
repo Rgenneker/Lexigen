@@ -35,7 +35,7 @@ const FEATURES = [
   {
     icon: <Star className="h-4 w-4" />,
     title: "One payment. No subscription.",
-    sub: "Pay $8 once — yours forever, no expiry, no recurring fees",
+    sub: "Pay $8 once — no expiry, no recurring fees",
   },
 ];
 
@@ -94,7 +94,7 @@ export function PremiumPreviewModal({ onClose, onGetPremium, onSignUp, isPremium
               <span className="text-primary">with words.</span>
             </h2>
             <p className="text-sm text-muted-foreground mt-2">
-              One payment. No subscription. No expiry. Yours forever.
+              One payment. No subscription. No expiry.
             </p>
           </div>
 

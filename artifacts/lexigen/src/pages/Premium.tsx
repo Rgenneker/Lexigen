@@ -146,7 +146,7 @@ function PaymentModal({
   const handleSuccess = () => {
     onSuccess();
     onClose();
-    toast({ title: "🎉 Welcome to Lexigenz Premium!", description: "Every feature is now unlocked forever." });
+    toast({ title: "🎉 Welcome to Lexigenz Premium!", description: "Every feature is now unlocked." });
   };
 
   return (
@@ -169,7 +169,7 @@ function PaymentModal({
             </div>
             <div>
               <p className="font-bold text-sm">Lexigenz Premium</p>
-              <p className="text-xs text-muted-foreground">$8.00 - once-off, forever</p>
+              <p className="text-xs text-muted-foreground">$8.00 - once-off</p>
             </div>
           </div>
           <button
@@ -261,7 +261,7 @@ function PaymentModal({
                 <div>
                   <h2 className="text-2xl font-bold mb-1">Payment confirmed!</h2>
                   <p className="text-muted-foreground text-sm">
-                    Welcome to premium, <span className="font-semibold text-foreground">{userName}</span>. Every feature is now unlocked - forever.
+                    Welcome to premium, <span className="font-semibold text-foreground">{userName}</span>. Every feature is now unlocked.
                   </p>
                 </div>
                 <div className="space-y-2 text-left">
@@ -584,13 +584,13 @@ export default function Premium() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">AVERAGE WITH WORDS.</span>
             </h1>
             <p className="mt-6 text-xl text-muted-foreground max-w-2xl mx-auto">
-              Free gives you a taste. Premium gives you everything - for the price of a coffee. One payment. No subscription. No expiry. Unlimited, forever.
+              Free gives you a taste. Premium gives you everything - for the price of a coffee. One payment. No subscription. No expiry.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
               <Button size="lg" onClick={() => setShowModal(true)}
                 className="rounded-full bg-primary hover:bg-primary/90 font-bold px-10 h-14 text-lg shadow-[0_0_40px_rgba(139,92,246,0.5)]"
                 data-testid="button-upgrade-hero">
-                Get Premium - $8 Forever
+                Get Premium - $8
               </Button>
               <a href="#compare">
                 <Button size="lg" variant="outline" className="rounded-full border-border hover:border-primary/50 font-bold px-8 h-14">
@@ -784,7 +784,7 @@ export default function Premium() {
             {[
               { id: "monthly", label: "Monthly", price: "Free", sub: "limited use" },
               { id: "annual", label: "Annually", price: "Free", sub: "limited use" },
-              { id: "lifetime", label: "Once-off", price: "$8", sub: "unlimited · forever", badge: "Best Value" },
+              { id: "lifetime", label: "Once-off", price: "$8", sub: "unlimited", badge: "Best Value" },
             ].map(plan => (
               <button key={plan.id} onClick={() => setSelectedPlan(plan.id)}
                 className={`relative p-4 rounded-2xl border-2 text-center transition-all ${selectedPlan === plan.id ? "border-primary bg-primary/10 shadow-[0_0_20px_rgba(139,92,246,0.2)]" : "border-border hover:border-primary/40 bg-card"}`}
@@ -804,7 +804,7 @@ export default function Premium() {
               onClick={() => selectedPlan === "lifetime" && setShowModal(true)}
               disabled={selectedPlan !== "lifetime"}
               data-testid="button-upgrade-premium">
-              {selectedPlan === "lifetime" ? "Unlock Everything - $8 Forever" : "Select 'Once-off' to upgrade"}
+              {selectedPlan === "lifetime" ? "Unlock Everything - $8" : "Select 'Once-off' to upgrade"}
             </Button>
             <div className="grid grid-cols-3 gap-3 text-center">
               {[{ icon: Flame, label: "One payment" }, { icon: Crown, label: "No expiry" }, { icon: Globe, label: "Global access" }].map(b => (

@@ -150,7 +150,7 @@ export default function WordOfTheDayPage() {
       <section className="py-16 bg-primary/5 border-t border-border text-center">
         <div className="container px-4 mx-auto max-w-2xl">
           <h2 className="text-3xl font-black mb-4">Start Today. One Word at a Time.</h2>
-          <p className="text-muted-foreground mb-8 text-lg">Free forever. No credit card. No downloads. Just a better word every morning, matched to who you are.</p>
+          <p className="text-muted-foreground mb-8 text-lg">Free. No credit card. No downloads. Just a better word every morning, matched to who you are.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/app"><Button size="lg" className="rounded-full bg-primary font-bold px-10">Get Today's Word</Button></Link>
             <Link href="/how-it-works"><Button size="lg" variant="outline" className="rounded-full px-10">How It Works</Button></Link>

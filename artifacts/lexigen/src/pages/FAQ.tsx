@@ -131,7 +131,7 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Premium",
     q: "Is Premium a subscription or a one-time payment?",
-    a: "Premium is a once-off payment of $8. You pay once and have Premium access forever - no recurring charges, no renewal reminders, no cancellation needed. This is a deliberate design choice. We believe that meaningful tools should be affordable and permanent, not a subscription you have to remember to cancel."
+    a: "Premium is a once-off payment of $8. You pay once and have Premium access with no recurring charges, no renewal reminders, no cancellation needed. This is a deliberate design choice. We believe that meaningful tools should be affordable and permanent, not a subscription you have to remember to cancel."
   },
   {
     category: "Premium",

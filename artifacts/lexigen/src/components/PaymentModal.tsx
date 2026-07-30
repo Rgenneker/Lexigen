@@ -119,7 +119,7 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
   const handleSuccess = () => {
     onSuccess();
     onClose();
-    toast({ title: "🎉 Welcome to Lexigenz Premium!", description: "Every feature is now unlocked forever." });
+    toast({ title: "🎉 Welcome to Lexigenz Premium!", description: "Every feature is now unlocked." });
   };
 
   return (
@@ -233,7 +233,7 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
                   <div>
                     <h2 className="text-2xl font-bold mb-1">Payment confirmed!</h2>
                     <p className="text-muted-foreground text-sm">
-                      Welcome to premium, <span className="font-semibold text-foreground">{userName}</span>. Every feature is now unlocked - forever.
+                      Welcome to premium, <span className="font-semibold text-foreground">{userName}</span>. Every feature is now unlocked.
                     </p>
                   </div>
                   <div className="space-y-2 text-left">

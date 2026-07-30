@@ -338,7 +338,7 @@ export default function VocabularyHubPage() {
       <section className="py-16 bg-primary/5 border-t border-border text-center">
         <div className="container px-4 mx-auto max-w-2xl">
           <h2 className="text-3xl font-black mb-4">Start Building Your Vocabulary Today</h2>
-          <p className="text-muted-foreground mb-8">One personalised word per day. Full etymology. Sentence builder. Six word games. Word Journal. Free forever.</p>
+          <p className="text-muted-foreground mb-8">One personalised word per day. Full etymology. Sentence builder. Six word games. Word Journal. Free.</p>
           <Link href="/app"><Button size="lg" className="rounded-full bg-primary font-bold px-10">Get Your First Word</Button></Link>
         </div>
       </section>
