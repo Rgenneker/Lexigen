@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -24,11 +25,12 @@ interface AckPayload { position: number; correct: boolean; points: number; corre
 interface HintPayload { position: number; level: number; hint: string }
 interface EndedPayload { contestId: number; finalRankings: RankEntry[] }
 
-const LEVEL_LABELS: Record<string, string> = { beginner: "Beginner", lower_intermediate: "Lower Intermediate", upper_intermediate: "Upper Intermediate", proficient: "Proficient" };
+const LEVEL_LABEL_KEY: Record<string, string> = { beginner: "bee.createContest.levels.beginner", lower_intermediate: "bee.createContest.levels.lowerIntermediate", upper_intermediate: "bee.createContest.levels.upperIntermediate", proficient: "bee.createContest.levels.proficient" };
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function LiveLeaderboard({ rankings, myId }: { rankings: RankEntry[]; myId?: number }) {
+  const { t } = useTranslation();
   return (
     <div className="space-y-1.5">
       {rankings.map((r) => (
@@ -38,7 +40,7 @@ function LiveLeaderboard({ rankings, myId }: { rankings: RankEntry[]; myId?: num
           </span>
           <div className="flex-1 min-w-0">
             <p className={`text-sm font-medium truncate ${r.userId === myId ? "text-primary" : ""}`}>{r.userName}</p>
-            <p className="text-xs text-muted-foreground">{r.wordsCorrect} correct{r.currentStreak >= 3 ? ` · 🔥 ${r.currentStreak}` : ""}</p>
+            <p className="text-xs text-muted-foreground">{r.wordsCorrect} {t("bee.contest.correct")}{r.currentStreak >= 3 ? ` · 🔥 ${r.currentStreak}` : ""}</p>
           </div>
           <span className="text-sm font-bold tabular-nums shrink-0">{r.score}</span>
         </div>
@@ -50,6 +52,7 @@ function LiveLeaderboard({ rankings, myId }: { rankings: RankEntry[]; myId?: num
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function ContestPage({ contestId }: { contestId: number }) {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const { toast } = useToast();
@@ -198,7 +201,7 @@ export default function ContestPage({ contestId }: { contestId: number }) {
       return (
         <div className="min-h-screen flex flex-col items-center justify-center gap-4">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          <p className="text-muted-foreground text-sm">Joining lobby…</p>
+          <p className="text-muted-foreground text-sm">{t("bee.contest.joiningLobby")}</p>
         </div>
       );
     }
@@ -212,9 +215,9 @@ export default function ContestPage({ contestId }: { contestId: number }) {
             <p className="text-5xl">🐝</p>
             <h1 className="text-3xl font-bold">{lobby.contestName}</h1>
             <div className="flex items-center justify-center gap-2 flex-wrap">
-              <Badge variant="secondary">{LEVEL_LABELS[lobby.level]}</Badge>
-              <Badge variant="outline">{lobby.totalWords} words</Badge>
-              {lobby.spectatorCount > 0 && <Badge variant="outline">{lobby.spectatorCount} watching</Badge>}
+              <Badge variant="secondary">{t(LEVEL_LABEL_KEY[lobby.level] ?? lobby.level)}</Badge>
+              <Badge variant="outline">{t("bee.contest.totalWords", { count: lobby.totalWords })}</Badge>
+              {lobby.spectatorCount > 0 && <Badge variant="outline">{t("bee.contest.spectatorCount", { count: lobby.spectatorCount })}</Badge>}
             </div>
           </div>
 
@@ -224,7 +227,7 @@ export default function ContestPage({ contestId }: { contestId: number }) {
               <CardContent className="pt-5 space-y-3">
                 <div className="flex items-center gap-2 mb-1">
                   <Users className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">Players ({lobby.players.length}/5)</span>
+                  <span className="font-semibold">{t("bee.contest.playersCount", { count: lobby.players.length })}</span>
                 </div>
                 {lobby.players.map((p, i) => (
                   <div key={p.userId} className={`flex items-center gap-3 p-3 rounded-xl border ${p.userId === user?.id ? "border-primary/40 bg-primary/5" : "border-border bg-muted/30"}`}>
@@ -232,17 +235,17 @@ export default function ContestPage({ contestId }: { contestId: number }) {
                       {p.userName.charAt(0).toUpperCase()}
                     </div>
                     <div className="flex-1">
-                      <p className="font-medium text-sm">{p.userName} {p.userId === user?.id && <span className="text-xs text-muted-foreground">(you)</span>}</p>
-                      {i === 0 && <p className="text-xs text-amber-600 font-medium flex items-center gap-1"><Crown className="w-3 h-3" /> Organiser</p>}
+                      <p className="font-medium text-sm">{p.userName} {p.userId === user?.id && <span className="text-xs text-muted-foreground">{t("bee.contest.you")}</span>}</p>
+                      {i === 0 && <p className="text-xs text-amber-600 font-medium flex items-center gap-1"><Crown className="w-3 h-3" /> {t("bee.contest.organiserLabel")}</p>}
                     </div>
                     <span className={`text-xs font-semibold px-2 py-1 rounded-full ${p.ready ? "bg-emerald-100 text-emerald-700" : "bg-muted text-muted-foreground"}`}>
-                      {p.ready ? "Ready ✓" : "Waiting…"}
+                      {p.ready ? t("bee.contest.ready") : t("bee.contest.waiting")}
                     </span>
                   </div>
                 ))}
                 {lobby.players.length < 5 && (
                   <div className="border-2 border-dashed border-border rounded-xl p-3 text-center text-sm text-muted-foreground">
-                    Waiting for more players ({5 - lobby.players.length} spots left)
+                    {t("bee.contest.waitingPlayers", { count: 5 - lobby.players.length })}
                   </div>
                 )}
               </CardContent>
@@ -252,23 +255,23 @@ export default function ContestPage({ contestId }: { contestId: number }) {
             <div className="space-y-4">
               <Card className="border-0 shadow-lg">
                 <CardContent className="pt-5 space-y-3">
-                  <p className="font-semibold text-sm">Invite more players</p>
+                  <p className="font-semibold text-sm">{t("bee.contest.inviteMore")}</p>
                   <div className="bg-muted/50 rounded-lg p-3 text-center">
-                    <p className="text-xs text-muted-foreground mb-1">Contest Code</p>
+                    <p className="text-xs text-muted-foreground mb-1">{t("bee.contest.codeLabel")}</p>
                     <p className="text-2xl font-mono font-bold tracking-widest text-primary">{lobby.contestId}</p>
                   </div>
                   <div className="flex border rounded-lg overflow-hidden">
                     <button onClick={() => setShareTab("link")} className={`flex-1 py-2 text-xs font-medium flex items-center justify-center gap-1 transition-colors ${shareTab === "link" ? "bg-primary text-primary-foreground" : "hover:bg-muted"}`}>
-                      <Link className="w-3.5 h-3.5" /> Link
+                      <Link className="w-3.5 h-3.5" /> {t("bee.contest.shareLink")}
                     </button>
                     <button onClick={() => setShareTab("qr")} className={`flex-1 py-2 text-xs font-medium flex items-center justify-center gap-1 transition-colors ${shareTab === "qr" ? "bg-primary text-primary-foreground" : "hover:bg-muted"}`}>
-                      <QrCode className="w-3.5 h-3.5" /> QR Code
+                      <QrCode className="w-3.5 h-3.5" /> {t("bee.contest.shareQR")}
                     </button>
                   </div>
                   {shareTab === "link" ? (
                     <div className="flex gap-2">
                       <input value={shareUrl} readOnly className="flex-1 text-xs font-mono bg-muted/50 border rounded px-2 py-1.5 outline-none" />
-                      <Button variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(shareUrl); toast({ title: "Copied!" }); }}>Copy</Button>
+                      <Button variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(shareUrl); toast({ title: t("bee.contest.copied") }); }}>{t("bee.contest.copy")}</Button>
                     </div>
                   ) : (
                     <div className="flex justify-center py-1">
@@ -281,11 +284,11 @@ export default function ContestPage({ contestId }: { contestId: number }) {
               </Card>
 
               <Button onClick={handleReady} disabled={isReady || !myPlayer} className="w-full h-12 text-base font-semibold gap-2" size="lg">
-                {isReady ? <><CheckCheck className="w-5 h-5" /> You're Ready!</> : "I'm Ready →"}
+                {isReady ? <><CheckCheck className="w-5 h-5" /> {t("bee.contest.youReady")}</> : t("bee.contest.readyBtn")}
               </Button>
-              {allReady && <p className="text-center text-sm text-emerald-600 font-medium animate-pulse">All players ready - starting now! 🐝</p>}
+              {allReady && <p className="text-center text-sm text-emerald-600 font-medium animate-pulse">{t("bee.contest.allReady")}</p>}
               {!allReady && lobby.players.length < 2 && (
-                <p className="text-center text-xs text-muted-foreground">Need at least 2 players to start</p>
+                <p className="text-center text-xs text-muted-foreground">{t("bee.contest.needPlayers")}</p>
               )}
             </div>
           </div>
@@ -306,18 +309,18 @@ export default function ContestPage({ contestId }: { contestId: number }) {
         <div className="max-w-xl mx-auto space-y-6">
           <div className="text-center space-y-2">
             <p className="text-6xl">{myRank?.rank === 1 ? "🏆" : "🐝"}</p>
-            <h1 className="text-3xl font-bold">{myRank?.rank === 1 ? "You Won!" : "Contest Over!"}</h1>
+            <h1 className="text-3xl font-bold">{myRank?.rank === 1 ? t("bee.contest.youWon") : t("bee.contest.contestOver")}</h1>
             {myRank && myRank.rank > 1 && (
-              <p className="text-muted-foreground"><span className="font-semibold text-foreground">{winner.userName}</span> wins with {winner.score} pts</p>
+              <p className="text-muted-foreground">{t("bee.contest.winnerAnnounce", { winner: winner.userName, score: winner.score })}</p>
             )}
           </div>
 
           {myRank && (
             <div className="grid grid-cols-3 gap-3">
               {[
-                { label: "Your Score", value: myRank.score, icon: "🎯" },
-                { label: "Rank", value: `#${myRank.rank}`, icon: "🏅" },
-                { label: "Correct", value: myRank.wordsCorrect, icon: "✅" },
+                { label: t("bee.contest.yourScore"), value: myRank.score, icon: "🎯" },
+                { label: t("bee.contest.rank"), value: `#${myRank.rank}`, icon: "🏅" },
+                { label: t("bee.contest.correct"), value: myRank.wordsCorrect, icon: "✅" },
               ].map((s) => (
                 <div key={s.label} className="bg-card border rounded-xl p-3 text-center shadow-sm">
                   <p className="text-2xl">{s.icon}</p>
@@ -330,17 +333,17 @@ export default function ContestPage({ contestId }: { contestId: number }) {
 
           <Card className="border-0 shadow-lg">
             <CardContent className="pt-5">
-              <p className="font-semibold mb-3 flex items-center gap-2"><Trophy className="w-4 h-4 text-amber-500" /> Final Leaderboard</p>
+              <p className="font-semibold mb-3 flex items-center gap-2"><Trophy className="w-4 h-4 text-amber-500" /> {t("bee.contest.finalLeaderboard")}</p>
               <LiveLeaderboard rankings={finalRankings} myId={user?.id} />
             </CardContent>
           </Card>
 
           <div className="flex gap-3">
             <Button onClick={() => navigate("/bee/create")} className="flex-1 gap-2">
-              <Crown className="w-4 h-4" /> New Contest
+              <Crown className="w-4 h-4" /> {t("bee.contest.newContest")}
             </Button>
             <Button onClick={() => navigate("/leaderboard")} variant="outline" className="flex-1 gap-2">
-              <Trophy className="w-4 h-4" /> Leaderboard
+              <Trophy className="w-4 h-4" /> {t("bee.contest.leaderboardBtn")}
             </Button>
           </div>
         </div>
@@ -364,8 +367,8 @@ export default function ContestPage({ contestId }: { contestId: number }) {
           {currentWord && (
             <div className="space-y-1">
               <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Word {currentWord.position} / {currentWord.total}</span>
-                <span className={timeLeft <= 5 ? "text-rose-500 font-bold animate-pulse" : ""}>{Math.ceil(timeLeft)}s</span>
+                <span>{t("bee.contest.wordProgress", { pos: currentWord.position, total: currentWord.total })}</span>
+                <span className={timeLeft <= 5 ? "text-rose-500 font-bold animate-pulse" : ""}>{Math.ceil(timeLeft)}{t("bee.contest.timerSuffix")}</span>
               </div>
               <div className="h-2.5 bg-muted rounded-full overflow-hidden">
                 <div className={`h-full ${timerColor} transition-all duration-100 rounded-full`} style={{ width: `${timerPct}%` }} />
@@ -379,19 +382,19 @@ export default function ContestPage({ contestId }: { contestId: number }) {
               {currentWord ? (
                 <>
                   <div>
-                    <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium mb-2">Spell this word</p>
+                    <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium mb-2">{t("bee.contest.spellThisWord")}</p>
                     <button onClick={() => speak(currentWord.word)} className="inline-flex items-center gap-2 text-lg font-medium text-primary hover:opacity-80 transition-opacity">
                       <Volume2 className="w-5 h-5" />
-                      <span className="italic">Listen again</span>
+                      <span className="italic">{t("bee.contest.listenAgain")}</span>
                     </button>
                   </div>
 
                   {/* Hints */}
                   <div className="flex gap-2 justify-center flex-wrap">
                     {[
-                      { level: 1, label: "Pronunciation", icon: "🔊" },
-                      { level: 2, label: "Origin", icon: "📚" },
-                      { level: 3, label: "In a sentence", icon: "💬" },
+                      { level: 1, label: t("bee.contest.hintPronunciation"), icon: "🔊" },
+                      { level: 2, label: t("bee.contest.hintOrigin"), icon: "📚" },
+                      { level: 3, label: t("bee.contest.hintSentence"), icon: "💬" },
                     ].map((h) => (
                       <div key={h.level} className="text-left">
                         {hints[h.level] ? (
@@ -406,7 +409,7 @@ export default function ContestPage({ contestId }: { contestId: number }) {
                             className="flex items-center gap-1.5 text-xs border border-dashed rounded-lg px-3 py-2 text-muted-foreground hover:border-amber-400 hover:text-amber-600 transition-colors disabled:opacity-50"
                           >
                             <Lightbulb className="w-3.5 h-3.5" />
-                            {h.label} <span className="text-[10px] opacity-70">-20pts</span>
+                            {h.label} <span className="text-[10px] opacity-70">{t("bee.contest.wordHintCost")}</span>
                           </button>
                         )}
                       </div>
@@ -417,11 +420,11 @@ export default function ContestPage({ contestId }: { contestId: number }) {
                   {ack ? (
                     <div className={`flex flex-col items-center gap-2 py-4 ${ack.correct ? "text-emerald-600" : "text-rose-600"}`}>
                       {ack.correct ? <CheckCircle2 className="w-10 h-10" /> : <XCircle className="w-10 h-10" />}
-                      <p className="text-lg font-bold">{ack.correct ? `+${ack.points} pts` : "Incorrect"}</p>
+                      <p className="text-lg font-bold">{ack.correct ? t("bee.contest.pointsEarned", { points: ack.points }) : t("bee.contest.incorrect")}</p>
                       {!ack.correct && ack.correctAnswer && (
-                        <p className="text-sm text-muted-foreground">Correct spelling: <span className="font-semibold text-foreground">{ack.correctAnswer}</span></p>
+                        <p className="text-sm text-muted-foreground">{t("bee.contest.correctSpelling", { word: ack.correctAnswer })}</p>
                       )}
-                      <p className="text-sm text-muted-foreground">Next word coming up…</p>
+                      <p className="text-sm text-muted-foreground">{t("bee.contest.nextWordComing")}</p>
                     </div>
                   ) : (
                     <div className="flex gap-2 max-w-sm mx-auto">
@@ -430,7 +433,7 @@ export default function ContestPage({ contestId }: { contestId: number }) {
                         value={answer}
                         onChange={(e) => setAnswer(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                        placeholder="Type your spelling…"
+                        placeholder={t("bee.contest.typingPlaceholder")}
                         disabled={submitted}
                         className="text-base text-center tracking-widest font-mono h-12"
                         autoComplete="off"
@@ -438,7 +441,7 @@ export default function ContestPage({ contestId }: { contestId: number }) {
                         spellCheck={false}
                       />
                       <Button onClick={handleSubmit} disabled={!answer.trim() || submitted} className="h-12 px-5">
-                        Submit
+                        {t("bee.contest.submitBtn")}
                       </Button>
                     </div>
                   )}
@@ -446,7 +449,7 @@ export default function ContestPage({ contestId }: { contestId: number }) {
               ) : (
                 <div className="py-8 text-muted-foreground flex flex-col items-center gap-3">
                   <Loader2 className="w-8 h-8 animate-spin text-primary" />
-                  <p>Waiting for next word…</p>
+                  <p>{t("bee.contest.waitingWord")}</p>
                 </div>
               )}
             </CardContent>
@@ -454,7 +457,7 @@ export default function ContestPage({ contestId }: { contestId: number }) {
 
           {/* My score */}
           <div className="flex items-center justify-center gap-4 text-sm">
-            <span className="text-muted-foreground">Your score:</span>
+            <span className="text-muted-foreground">{t("bee.contest.yourScoreLabel")}</span>
             <span className="text-2xl font-bold text-primary">{myScore}</span>
           </div>
         </div>
@@ -463,8 +466,8 @@ export default function ContestPage({ contestId }: { contestId: number }) {
         <div className="w-full lg:w-72 space-y-3">
           <div className="flex items-center gap-2">
             <Trophy className="w-4 h-4 text-amber-500" />
-            <span className="font-semibold text-sm">Live Leaderboard</span>
-            <span className="ml-auto text-xs text-emerald-500 font-medium animate-pulse">● LIVE</span>
+            <span className="font-semibold text-sm">{t("bee.contest.liveLeaderboard")}</span>
+            <span className="ml-auto text-xs text-emerald-500 font-medium animate-pulse">{t("bee.contest.live")}</span>
           </div>
           <LiveLeaderboard rankings={leaderboard} myId={user?.id} />
         </div>

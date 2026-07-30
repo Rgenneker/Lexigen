@@ -5,11 +5,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Clock, Share2, Check, BookOpen } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ARTICLES, CATEGORY_COLORS } from "@/data/articles";
 import NotFound from "@/pages/not-found";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 function ArticleDetailInner({ id }: { id: string }) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const article = ARTICLES.find((a) => a.id === id)!;
 
@@ -69,7 +71,7 @@ function ArticleDetailInner({ id }: { id: string }) {
           <Link href="/articles">
             <Button variant="ghost" size="sm" className="mb-8 -ml-2 text-muted-foreground hover:text-foreground">
               <ArrowLeft className="w-4 h-4 mr-1" />
-              All Articles
+              {t("articleDetail.allArticles")}
             </Button>
           </Link>
 
@@ -79,7 +81,7 @@ function ArticleDetailInner({ id }: { id: string }) {
             </span>
             <span className="text-xs text-muted-foreground flex items-center gap-1">
               <Clock className="w-3 h-3" />
-              {article.readTime} min read
+              {article.readTime} {t("articleDetail.minRead")}
             </span>
           </div>
 
@@ -96,7 +98,7 @@ function ArticleDetailInner({ id }: { id: string }) {
           <div className="flex items-center justify-between mb-10 pb-8 border-b border-border">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <BookOpen className="w-4 h-4" />
-              <span>Authored by <strong className="text-foreground">Lexigenz</strong></span>
+<span>{t("articleDetail.authoredBy")} <strong className="text-foreground">Lexigenz</strong></span>
             </div>
             <Button
               variant="outline"
@@ -105,7 +107,7 @@ function ArticleDetailInner({ id }: { id: string }) {
               className="gap-2"
             >
               {copied ? <Check className="w-4 h-4 text-green-500" /> : <Share2 className="w-4 h-4" />}
-              {copied ? "Copied!" : "Share"}
+              {copied ? t("articleDetail.copied") : t("articleDetail.share")}
             </Button>
           </div>
 
@@ -115,14 +117,14 @@ function ArticleDetailInner({ id }: { id: string }) {
 
           <div className="mt-14 pt-10 border-t border-border">
             <p className="text-xs text-muted-foreground text-center mb-8">
-              All articles authored by <strong>Lexigenz</strong> · Free to read · No account required
+              {t("articleDetail.footer")} <strong>Lexigenz</strong> {t("articleDetail.footerSuffix")}
             </p>
 
             <div className="grid grid-cols-2 gap-4">
               {prev ? (
                 <Link href={`/articles/${prev.id}`}>
                   <div className="group p-4 rounded-xl border border-border hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer">
-                    <p className="text-xs text-muted-foreground mb-1">← Previous</p>
+                    <p className="text-xs text-muted-foreground mb-1">{t("articleDetail.prevLabel")}</p>
                     <p className="text-sm font-bold line-clamp-2 group-hover:text-primary transition-colors">
                       {prev.title}
                     </p>
@@ -134,7 +136,7 @@ function ArticleDetailInner({ id }: { id: string }) {
               {next ? (
                 <Link href={`/articles/${next.id}`}>
                   <div className="group p-4 rounded-xl border border-border hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer text-right">
-                    <p className="text-xs text-muted-foreground mb-1">Next →</p>
+                    <p className="text-xs text-muted-foreground mb-1">{t("articleDetail.nextLabel")}</p>
                     <p className="text-sm font-bold line-clamp-2 group-hover:text-primary transition-colors">
                       {next.title}
                     </p>
@@ -149,7 +151,7 @@ function ArticleDetailInner({ id }: { id: string }) {
               <Link href="/articles">
                 <Button variant="outline">
                   <BookOpen className="w-4 h-4 mr-2" />
-                  Browse all articles
+                  {t("articleDetail.browseAll")}
                 </Button>
               </Link>
             </div>

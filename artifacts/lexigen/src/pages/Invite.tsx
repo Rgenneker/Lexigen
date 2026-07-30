@@ -8,6 +8,7 @@ import { useSendInvite } from "@workspace/api-client-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { Globe, Users, Zap, Heart, BookOpen, Brain, Sparkles, Crown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const FREE_GAMES = ["Wordle", "Lexigenz Game", "Spelling Bee"];
 const PREMIUM_GAMES = ["Wordle", "Lexigenz Game", "Spelling Bee", "Spelling Bee - Proficient", "Scrabble", "Word Grid", "Crossword"];
@@ -50,30 +51,32 @@ const articles = [
   },
 ];
 
-const benefits = [
-  {
-    icon: Globe,
-    title: "No borders, no barriers",
-    desc: "Challenge anyone, anywhere. Your word game arena spans 19 languages and every timezone.",
-  },
-  {
-    icon: Heart,
-    title: "Build real connection",
-    desc: "Shared learning is the most underrated form of bonding. Play a round, learn something, grow together.",
-  },
-  {
-    icon: Zap,
-    title: "Stay in your own space",
-    desc: "No commute. No awkward scheduling. Challenge your cousin in Johannesburg while you're in your kitchen in Tokyo.",
-  },
-  {
-    icon: Users,
-    title: "Accountability built in",
-    desc: "When your friends see your streak, you'll think twice about breaking it. Healthy pressure, real results.",
-  },
-];
-
 export default function Invite() {
+  const { t } = useTranslation();
+
+  const benefits = [
+    {
+      icon: Globe,
+      title: t("invite.benefitBorders"),
+      desc: t("invite.benefitBordersDesc"),
+    },
+    {
+      icon: Heart,
+      title: t("invite.benefitConnection"),
+      desc: t("invite.benefitConnectionDesc"),
+    },
+    {
+      icon: Zap,
+      title: t("invite.benefitSpace"),
+      desc: t("invite.benefitSpaceDesc"),
+    },
+    {
+      icon: Users,
+      title: t("invite.benefitAccountability"),
+      desc: t("invite.benefitAccountabilityDesc"),
+    },
+  ];
+
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [game, setGame] = useState("Wordle");
@@ -92,10 +95,17 @@ export default function Invite() {
       {
         onSuccess: () => {
           setSent(true);
-          toast({ title: "Invite sent!", description: `Your challenge to ${email} is on its way.` });
+          toast({
+            title: t("invite.toastSuccess"),
+            description: t("invite.toastSuccessDesc", { email }),
+          });
         },
         onError: () => {
-          toast({ title: "Something went wrong", description: "Please try again.", variant: "destructive" });
+          toast({
+            title: t("invite.toastError"),
+            description: t("invite.toastErrorDesc"),
+            variant: "destructive",
+          });
         },
       }
     );
@@ -113,17 +123,13 @@ export default function Invite() {
             transition={{ duration: 0.5 }}
           >
             <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-primary bg-primary/10 px-4 py-1.5 rounded-full mb-4">
-              Invite & Challenge
+              {t("invite.badge")}
             </span>
             <h1 className="text-5xl md:text-8xl font-bold tracking-tighter leading-none">
-              WORDS WITHOUT
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-primary">
-                BORDERS.
-              </span>
+              {t("invite.heading")}
             </h1>
             <p className="mt-6 text-xl text-muted-foreground max-w-2xl mx-auto">
-              Vocabulary is better together. Challenge someone you love to a word game from wherever you are in the world - no flights required.
+              {t("invite.subtitle")}
             </p>
           </motion.div>
         </div>
@@ -165,9 +171,9 @@ export default function Invite() {
             {sent ? (
               <div className="text-center space-y-4 py-8">
                 <div className="text-6xl mb-4">🎯</div>
-                <h2 className="text-3xl font-bold">Challenge sent!</h2>
+                <h2 className="text-3xl font-bold">{t("invite.successHeading")}</h2>
                 <p className="text-muted-foreground">
-                  Your friend is about to get their vocabulary tested. May the best wordsmith win.
+                  {t("invite.successDesc", { game })}
                 </p>
                 <Button
                   onClick={() => { setSent(false); setEmail(""); setMessage(""); }}
@@ -175,24 +181,24 @@ export default function Invite() {
                   className="mt-4 rounded-full border-primary/30 hover:border-primary"
                   data-testid="button-invite-another"
                 >
-                  Invite someone else
+                  {t("invite.sendAnother")}
                 </Button>
               </div>
             ) : (
               <>
-                <h2 className="text-3xl font-bold mb-2">Send a challenge</h2>
+                <h2 className="text-3xl font-bold mb-2">{t("invite.sendChallenge")}</h2>
                 <p className="text-muted-foreground mb-8">
-                  Let your people know you're on Lexigenz - and that you're ready for a rematch.
+                  {t("invite.subtitle")}
                 </p>
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="space-y-2">
                     <label className="text-sm font-semibold" htmlFor="invite-email">
-                      Friend's email
+                      {t("invite.labelEmail")}
                     </label>
                     <Input
                       id="invite-email"
                       type="email"
-                      placeholder="their@email.com"
+                      placeholder={t("invite.placeholderEmail")}
                       value={email}
                       onChange={e => setEmail(e.target.value)}
                       required
@@ -203,11 +209,11 @@ export default function Invite() {
 
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <label className="text-sm font-semibold">Challenge game</label>
+                      <label className="text-sm font-semibold">{t("invite.labelGame")}</label>
                       {!isPremium && (
                         <span className="text-xs text-muted-foreground flex items-center gap-1">
                           <Crown className="h-3 w-3 text-primary" />
-                          <span>Premium unlocks 6 games</span>
+                          <span>{t("invite.premiumGamesNote")}</span>
                         </span>
                       )}
                     </div>
@@ -230,18 +236,18 @@ export default function Invite() {
                     </div>
                     {!isPremium && (
                       <p className="text-xs text-muted-foreground">
-                        <a href="/premium" className="text-primary font-semibold hover:underline">Upgrade to Premium</a> to challenge friends to all 6 games.
+                        <a href="/premium" className="text-primary font-semibold hover:underline">{t("common.upgrade")}</a> {t("invite.premiumGamesNote")}
                       </p>
                     )}
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-sm font-semibold" htmlFor="invite-message">
-                      Personal message (optional)
+                      {t("invite.labelMessage")}
                     </label>
                     <Textarea
                       id="invite-message"
-                      placeholder="Think you can beat me? Let's find out..."
+                      placeholder={t("invite.placeholderMessage")}
                       value={message}
                       onChange={e => setMessage(e.target.value)}
                       className="rounded-xl resize-none"
@@ -257,7 +263,7 @@ export default function Invite() {
                     disabled={sendInvite.isPending || !email}
                     data-testid="button-send-invite"
                   >
-                    {sendInvite.isPending ? "Sending..." : "Send Challenge"}
+                    {sendInvite.isPending ? t("invite.sending") : t("invite.sendChallenge")}
                   </Button>
                 </form>
               </>
@@ -276,12 +282,12 @@ export default function Invite() {
             className="mb-12"
           >
             <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-accent bg-accent/10 px-4 py-1.5 rounded-full mb-4">
-              Learn More
+              {t("invite.articlesLearnMore")}
             </span>
             <h2 className="text-4xl font-bold tracking-tighter">
-              Become a better wordsmith - fast.
+              {t("invite.articlesHeading")}
             </h2>
-            <p className="text-muted-foreground mt-2">Original insights on language, memory, and growth.</p>
+            <p className="text-muted-foreground mt-2">{t("invite.articlesSubtitle")}</p>
           </motion.div>
 
           <div className="space-y-6">

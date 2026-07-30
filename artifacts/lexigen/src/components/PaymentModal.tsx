@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import {
   X, Loader2, CheckCircle2, CreditCard, Crown, Check, ChevronRight,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 declare global {
   interface Window {
@@ -30,11 +31,11 @@ interface Props {
 }
 
 const FEATURES = [
-  "All 6 word games - unlimited",
-  "Unlimited word journal + PDF export",
-  "English + 1 language (additional languages $2)",
-  "Full archetype deep-dive",
-  "Monthly reports & badges",
+  "premium.featureGames",
+  "premium.featureJournal",
+  "premium.featureLang",
+  "premium.featureArchetype",
+  "premium.featureReports",
 ];
 
 export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props) {
@@ -44,6 +45,7 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
   const [sdkLoading, setSdkLoading] = useState(false);
   const paypalContainerRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const loadPayPalSdk = useCallback(async () => {
     setSdkLoading(true);
@@ -61,16 +63,16 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
       script.onload = () => { setSdkReady(true); setSdkLoading(false); };
       script.onerror = () => {
         setSdkLoading(false);
-        setErrorMsg("Failed to load PayPal. Please check your connection.");
+        setErrorMsg(t("premium.modal.paypalError"));
         setStep("error");
       };
       document.head.appendChild(script);
     } catch {
       setSdkLoading(false);
-      setErrorMsg("Could not reach PayPal. Please try again.");
+      setErrorMsg(t("premium.modal.paypalReachError"));
       setStep("error");
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     if (!sdkReady || step !== "paypal" || !paypalContainerRef.current || !window.paypal) return;
@@ -94,22 +96,22 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
           if (result.success) {
             setStep("success");
           } else {
-            setErrorMsg(result.error ?? "Payment capture failed.");
+            setErrorMsg(result.error ?? t("premium.modal.captureError"));
             setStep("error");
           }
         },
         onError: () => {
-          setErrorMsg("Something went wrong with PayPal. Please try again.");
+          setErrorMsg(t("premium.modal.paypalGenericError"));
           setStep("error");
         },
         onCancel: () => setStep("confirm"),
       })
       .render(paypalContainerRef.current)
       .catch(() => {
-        setErrorMsg("PayPal buttons failed to render.");
+        setErrorMsg(t("premium.modal.renderError"));
         setStep("error");
       });
-  }, [sdkReady, step, userEmail]);
+  }, [sdkReady, step, userEmail, t]);
 
   const handleContinue = async () => {
     setStep("paypal");
@@ -119,7 +121,10 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
   const handleSuccess = () => {
     onSuccess();
     onClose();
-    toast({ title: "🎉 Welcome to Lexigenz Premium!", description: "Every feature is now unlocked." });
+    toast({
+      title: t("premium.modal.welcomeToast"),
+      description: t("premium.modal.welcomeToastDesc"),
+    });
   };
 
   return (
@@ -141,8 +146,8 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
                 <Crown className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="font-bold text-sm">Lexigenz Premium</p>
-                <p className="text-xs text-muted-foreground">$8.00 - once-off</p>
+                <p className="font-bold text-sm">{t("premium.modal.title")}</p>
+                <p className="text-xs text-muted-foreground">{t("premium.modal.subtitle")}</p>
               </div>
             </div>
             <button
@@ -160,24 +165,24 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
               {step === "confirm" && (
                 <motion.div key="confirm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-5">
                   <div>
-                    <h2 className="text-xl font-bold mb-1">Ready to upgrade?</h2>
+                    <h2 className="text-xl font-bold mb-1">{t("premium.modal.readyToUpgrade")}</h2>
                     <p className="text-sm text-muted-foreground">
-                      Upgrading account for <span className="font-semibold text-foreground">{userName}</span>
+                      {t("premium.modal.upgradingFor")} <span className="font-semibold text-foreground">{userName}</span>
                     </p>
                     <p className="text-xs text-muted-foreground mt-0.5">{userEmail}</p>
                   </div>
                   <div className="space-y-2">
-                    {FEATURES.map(f => (
-                      <div key={f} className="flex items-center gap-2 text-sm">
+                    {FEATURES.map(key => (
+                      <div key={key} className="flex items-center gap-2 text-sm">
                         <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
-                        <span>{f}</span>
+                        <span>{t(key)}</span>
                       </div>
                     ))}
                   </div>
                   <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <CreditCard className="h-5 w-5 text-primary" />
-                      <span className="font-bold text-sm">Amount due</span>
+                      <span className="font-bold text-sm">{t("premium.modal.amountDue")}</span>
                     </div>
                     <span className="font-bold text-lg text-primary">$8.00 USD</span>
                   </div>
@@ -188,13 +193,13 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
                     disabled={sdkLoading}
                   >
                     {sdkLoading ? (
-                      <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Loading PayPal…</>
+                      <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> {t("premium.modal.loadingPaypal")}</>
                     ) : (
-                      <>Pay with PayPal <ChevronRight className="h-4 w-4 ml-1" /></>
+                      <>{t("premium.modal.payWithPaypal")} <ChevronRight className="h-4 w-4 ml-1" /></>
                     )}
                   </Button>
                   <p className="text-center text-xs text-muted-foreground">
-                    Secured by PayPal · No card details stored by Lexigenz
+                    {t("premium.modal.securedBy")}
                   </p>
                 </motion.div>
               )}
@@ -203,15 +208,15 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
               {step === "paypal" && (
                 <motion.div key="paypal" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-5">
                   <div>
-                    <h2 className="text-xl font-bold mb-1">Complete payment</h2>
+                    <h2 className="text-xl font-bold mb-1">{t("premium.modal.completePayment")}</h2>
                     <p className="text-sm text-muted-foreground">
-                      Pay with your PayPal account or a credit/debit card · $8.00 USD
+                      {t("premium.modal.completePaymentDesc")}
                     </p>
                   </div>
                   <div ref={paypalContainerRef} className="min-h-[56px]">
                     {!sdkReady && (
                       <div className="flex items-center justify-center py-6 gap-2 text-muted-foreground text-sm">
-                        <Loader2 className="h-4 w-4 animate-spin" /> Loading PayPal…
+                        <Loader2 className="h-4 w-4 animate-spin" /> {t("premium.modal.loadingPaypal")}
                       </div>
                     )}
                   </div>
@@ -219,7 +224,7 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
                     onClick={() => setStep("confirm")}
                     className="text-xs text-muted-foreground hover:text-foreground underline w-full text-center"
                   >
-                    ← Back
+                    {t("common.back")}
                   </button>
                 </motion.div>
               )}
@@ -231,16 +236,16 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
                     <CheckCircle2 className="h-9 w-9 text-green-500" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold mb-1">Payment confirmed!</h2>
+                    <h2 className="text-2xl font-bold mb-1">{t("premium.modal.paymentConfirmed")}</h2>
                     <p className="text-muted-foreground text-sm">
-                      Welcome to premium, <span className="font-semibold text-foreground">{userName}</span>. Every feature is now unlocked.
+                      {t("premium.modal.welcomePremium", { name: userName })} {t("premium.modal.welcomeDesc")}
                     </p>
                   </div>
                   <div className="space-y-2 text-left">
-                    {FEATURES.map(f => (
-                      <div key={f} className="flex items-center gap-2 text-sm">
+                    {FEATURES.map(key => (
+                      <div key={key} className="flex items-center gap-2 text-sm">
                         <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
-                        <span>{f}</span>
+                        <span>{t(key)}</span>
                       </div>
                     ))}
                   </div>
@@ -249,7 +254,7 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
                     className="w-full h-12 rounded-2xl bg-primary hover:bg-primary/90 font-bold"
                     onClick={handleSuccess}
                   >
-                    Go to my Premium Dashboard
+                    {t("premium.dashboardBtn")}
                   </Button>
                 </motion.div>
               )}
@@ -261,15 +266,15 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
                     <X className="h-9 w-9 text-destructive" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold mb-1">Payment failed</h2>
-                    <p className="text-muted-foreground text-sm">{errorMsg || "Something went wrong. Please try again."}</p>
+                    <h2 className="text-xl font-bold mb-1">{t("premium.modal.paymentFailed")}</h2>
+                    <p className="text-muted-foreground text-sm">{errorMsg || t("common.error")}</p>
                   </div>
                   <Button
                     variant="outline"
                     className="w-full h-12 rounded-2xl font-bold"
                     onClick={() => { setStep("confirm"); setErrorMsg(""); }}
                   >
-                    Try Again
+                    {t("common.tryAgain")}
                   </Button>
                 </motion.div>
               )}

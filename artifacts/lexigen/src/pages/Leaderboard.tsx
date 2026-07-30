@@ -5,14 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Trophy, Crown, Flame, Target, Plus, Globe, Building2, Search } from "lucide-react";
-
-const LEVELS = [
-  { key: "", label: "All Levels" },
-  { key: "beginner", label: "Beginner" },
-  { key: "lower_intermediate", label: "Lower Intermediate" },
-  { key: "upper_intermediate", label: "Upper Intermediate" },
-  { key: "proficient", label: "Proficient" },
-];
+import { useTranslation } from "react-i18next";
 
 const LEVEL_BADGE: Record<string, string> = {
   beginner: "bg-emerald-100 text-emerald-700",
@@ -21,15 +14,15 @@ const LEVEL_BADGE: Record<string, string> = {
   proficient: "bg-rose-100 text-rose-700",
 };
 
-const COUNTRY_NAMES: Record<string, string> = {
-  ZA: "🇿🇦 South Africa", NG: "🇳🇬 Nigeria", KE: "🇰🇪 Kenya", GH: "🇬🇭 Ghana",
-  EG: "🇪🇬 Egypt", US: "🇺🇸 United States", GB: "🇬🇧 United Kingdom",
-  CA: "🇨🇦 Canada", AU: "🇦🇺 Australia", IN: "🇮🇳 India",
-  PH: "🇵🇭 Philippines", SG: "🇸🇬 Singapore", MY: "🇲🇾 Malaysia",
-  NZ: "🇳🇿 New Zealand", IE: "🇮🇪 Ireland", ZW: "🇿🇼 Zimbabwe",
-  ZM: "🇿🇲 Zambia", UG: "🇺🇬 Uganda", TZ: "🇹🇿 Tanzania",
-  BW: "🇧🇼 Botswana", DE: "🇩🇪 Germany", FR: "🇫🇷 France",
-  BR: "🇧🇷 Brazil", CN: "🇨🇳 China", JP: "🇯🇵 Japan",
+const COUNTRY_KEY_MAP: Record<string, string> = {
+  ZA: "leaderboard.countryZA", NG: "leaderboard.countryNG", KE: "leaderboard.countryKE", GH: "leaderboard.countryGH",
+  EG: "leaderboard.countryEG", US: "leaderboard.countryUS", GB: "leaderboard.countryGB",
+  CA: "leaderboard.countryCA", AU: "leaderboard.countryAU", IN: "leaderboard.countryIN",
+  PH: "leaderboard.countryPH", SG: "leaderboard.countrySG", MY: "leaderboard.countryMY",
+  NZ: "leaderboard.countryNZ", IE: "leaderboard.countryIE", ZW: "leaderboard.countryZW",
+  ZM: "leaderboard.countryZM", UG: "leaderboard.countryUG", TZ: "leaderboard.countryTZ",
+  BW: "leaderboard.countryBW", DE: "leaderboard.countryDE", FR: "leaderboard.countryFR",
+  BR: "leaderboard.countryBR", CN: "leaderboard.countryCN", JP: "leaderboard.countryJP",
 };
 
 interface LeaderRow {
@@ -50,6 +43,16 @@ interface LeaderRow {
 type ViewMode = "global" | "country" | "institution";
 
 export default function Leaderboard() {
+  const { t } = useTranslation();
+
+  const LEVELS = [
+    { key: "", label: t("leaderboard.allLevels") },
+    { key: "beginner", label: t("leaderboard.beginner") },
+    { key: "lower_intermediate", label: t("leaderboard.lowerIntermediate") },
+    { key: "upper_intermediate", label: t("leaderboard.upperIntermediate") },
+    { key: "proficient", label: t("leaderboard.proficient") },
+  ];
+
   const [, navigate] = useLocation();
   const [level, setLevel] = useState("");
   const [view, setView] = useState<ViewMode>("global");
@@ -72,7 +75,6 @@ export default function Leaderboard() {
       .finally(() => setLoading(false));
   }, [level, view, countryFilter, institutionSearch]);
 
-  // Collect available countries from data for the country dropdown
   const availableCountries = Array.from(new Set(rows.map((r) => r.country).filter(Boolean))) as string[];
 
   return (
@@ -81,16 +83,16 @@ export default function Leaderboard() {
         {/* Header */}
         <div className="text-center space-y-3">
           <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 rounded-full px-4 py-1.5 text-sm font-medium">
-            <Trophy className="w-4 h-4" /> Global Leaderboard
+            <Trophy className="w-4 h-4" /> {t("leaderboard.badge")}
           </div>
-          <h1 className="text-4xl font-bold">Spelling Bee Champions 🐝</h1>
-          <p className="text-muted-foreground">Top scores across all LexigenZ Spelling Bee contests</p>
+          <h1 className="text-4xl font-bold">{t("leaderboard.heading")}</h1>
+          <p className="text-muted-foreground">{t("leaderboard.subtitle")}</p>
           <div className="flex gap-3 justify-center">
             <Button onClick={() => navigate("/bee/create")} className="gap-2">
-              <Plus className="w-4 h-4" /> Create a Contest
+              <Plus className="w-4 h-4" /> {t("leaderboard.createContest")}
             </Button>
             <Button onClick={() => navigate("/bee/world-championship")} variant="outline" className="gap-2">
-              🌍 World Championship
+              🌍 {t("nav.worldChampionship")}
             </Button>
           </div>
         </div>
@@ -98,9 +100,9 @@ export default function Leaderboard() {
         {/* View mode tabs */}
         <div className="flex rounded-xl border bg-muted/30 p-1 gap-1">
           {([
-            { key: "global", label: "🌐 Global", icon: Globe },
-            { key: "country", label: "🗺️ By Country", icon: Globe },
-            { key: "institution", label: "🏫 By Institution", icon: Building2 },
+            { key: "global", label: `🌐 ${t("leaderboard.globalView")}`, icon: Globe },
+            { key: "country", label: `🗺️ ${t("leaderboard.countryView")}`, icon: Globe },
+            { key: "institution", label: `🏫 ${t("leaderboard.institutionView")}`, icon: Building2 },
           ] as { key: ViewMode; label: string; icon: typeof Globe }[]).map((tab) => (
             <button
               key={tab.key}
@@ -116,7 +118,7 @@ export default function Leaderboard() {
         {view === "country" && (
           <div className="flex gap-2 flex-wrap">
             <button onClick={() => setCountryFilter("")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${!countryFilter ? "bg-primary text-primary-foreground border-primary" : "bg-background border-border hover:border-primary/50"}`}>
-              All Countries
+              {t("leaderboard.allCountries")}
             </button>
             {availableCountries.map((c) => (
               <button
@@ -124,12 +126,9 @@ export default function Leaderboard() {
                 onClick={() => setCountryFilter(c === countryFilter ? "" : c)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${countryFilter === c ? "bg-primary text-primary-foreground border-primary" : "bg-background border-border hover:border-primary/50"}`}
               >
-                {COUNTRY_NAMES[c] ?? c}
+                {COUNTRY_KEY_MAP[c] ? t(COUNTRY_KEY_MAP[c]) : c}
               </button>
             ))}
-            {availableCountries.length === 0 && (
-              <p className="text-sm text-muted-foreground py-2">Play some contests to see country rankings!</p>
-            )}
           </div>
         )}
 
@@ -138,7 +137,7 @@ export default function Leaderboard() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
-                placeholder="Search by institution name…"
+                placeholder={t("leaderboard.institutionSearch")}
                 value={institutionSearch}
                 onChange={(e) => setInstitutionSearch(e.target.value)}
                 className="pl-9"
@@ -164,13 +163,13 @@ export default function Leaderboard() {
         <Card className="border-0 shadow-xl overflow-hidden">
           <CardHeader className="border-b bg-muted/30 py-3">
             <div className="grid grid-cols-12 text-xs font-semibold text-muted-foreground uppercase tracking-wider px-2">
-              <span className="col-span-1 text-center">#</span>
-              <span className="col-span-4">Player</span>
-              <span className="col-span-2 text-right">Score</span>
+              <span className="col-span-1 text-center">{t("leaderboard.rankColumn")}</span>
+              <span className="col-span-4">{t("leaderboard.player")}</span>
+              <span className="col-span-2 text-right">{t("leaderboard.score")}</span>
               <span className="col-span-1 text-right">✅</span>
               <span className="col-span-1 text-right">🔥</span>
               <span className="col-span-3 text-right hidden sm:block">
-                {view === "institution" ? "Institution" : view === "country" ? "City" : "Level"}
+                {view === "institution" ? t("leaderboard.institution", { defaultValue: "Institution" }) : view === "country" ? t("leaderboard.cityColumn") : t("leaderboard.contest")}
               </span>
             </div>
           </CardHeader>
@@ -182,15 +181,15 @@ export default function Leaderboard() {
             ) : rows.length === 0 ? (
               <div className="text-center py-16 space-y-3">
                 <Trophy className="w-12 h-12 text-muted-foreground/30 mx-auto" />
-                <p className="text-muted-foreground">No scores yet - be the first!</p>
+                <p className="text-muted-foreground">{t("leaderboard.noData")}</p>
                 <Button onClick={() => navigate("/bee/create")} variant="outline" className="gap-2">
-                  <Crown className="w-4 h-4" /> Create a Contest
+                  <Crown className="w-4 h-4" /> {t("leaderboard.createContest")}
                 </Button>
               </div>
             ) : (
               rows.map((row, i) => {
                 const rank = i + 1;
-                const flagEmoji = row.country ? (COUNTRY_NAMES[row.country]?.slice(0, 2) ?? "") : "";
+                const flagEmoji = row.country ? (COUNTRY_KEY_MAP[row.country] ? t(COUNTRY_KEY_MAP[row.country]).slice(0, 2) : "") : "";
                 return (
                   <div
                     key={`${row.userId}-${i}`}
@@ -257,12 +256,12 @@ export default function Leaderboard() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div className="text-4xl">🌍</div>
               <div className="flex-1">
-                <p className="font-bold text-lg">World Spelling Bee Championship</p>
-                <p className="text-white/80 text-sm mt-0.5">Every year - 3rd Saturday of June, 12:00 UTC. A single synchronous global final. Top spellers from every country compete for the world title.</p>
-                <p className="text-white/70 text-xs mt-1">Free for Premium members · $2 entry for free accounts</p>
+                <p className="font-bold text-lg">{t("leaderboard.championshipBanner")}</p>
+                <p className="text-white/80 text-sm mt-0.5">{t("leaderboard.championshipDesc")}</p>
+                <p className="text-white/70 text-xs mt-1">{t("leaderboard.championshipPricing")}</p>
               </div>
               <Button onClick={() => navigate("/bee/world-championship")} variant="secondary" className="shrink-0 gap-2 font-semibold">
-                <Trophy className="w-4 h-4" /> Learn More
+                <Trophy className="w-4 h-4" /> {t("leaderboard.registerChampionship")}
               </Button>
             </div>
           </CardContent>

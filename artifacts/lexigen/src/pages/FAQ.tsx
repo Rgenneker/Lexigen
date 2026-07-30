@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Accordion,
@@ -17,8 +17,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import PlaybookSection from "@/components/PlaybookSection";
-
-const CATEGORIES = ["All", "Getting Started", "Vocabulary", "Archetypes", "Games", "Premium", "Languages", "Privacy & Data", "Technical"];
+import { useTranslation } from "react-i18next";
 
 const faqs: { q: string; a: string; category: string }[] = [
   // Getting Started
@@ -269,6 +268,31 @@ const faqs: { q: string; a: string; category: string }[] = [
 ];
 
 export default function FAQ() {
+  const { t } = useTranslation();
+
+  const CATEGORIES = [
+    { key: "All", label: t("faq.categories.all") },
+    { key: "Getting Started", label: t("faq.categories.gettingStarted") },
+    { key: "Vocabulary", label: t("faq.categories.vocabulary") },
+    { key: "Archetypes", label: t("faq.categories.archetypes") },
+    { key: "Games", label: t("faq.categories.games") },
+    { key: "Premium", label: t("faq.categories.premium") },
+    { key: "Languages", label: t("faq.categories.languages") },
+    { key: "Privacy & Data", label: t("faq.categories.privacy") },
+    { key: "Technical", label: t("faq.categories.technical") },
+  ];
+
+  const CATEGORY_BADGE: Record<string, string> = useMemo(() => ({
+    "Getting Started": t("faq.categories.gettingStarted"),
+    "Vocabulary": t("faq.categories.vocabulary"),
+    "Archetypes": t("faq.categories.archetypes"),
+    "Games": t("faq.categories.games"),
+    "Premium": t("faq.categories.premium"),
+    "Languages": t("faq.categories.languages"),
+    "Privacy & Data": t("faq.categories.privacy"),
+    "Technical": t("faq.categories.technical"),
+  }), [t]);
+
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [showPreview, setShowPreview] = useState(false);
@@ -277,13 +301,21 @@ export default function FAQ() {
   const { user, setPremium } = useAuth();
   const isPremium = user?.plan === "premium";
 
-  const filtered = faqs.filter(f => {
+  const faqsWithIdx = faqs.map((f, idx) => ({
+    ...f,
+    idx,
+    tq: t(`faq.items.${idx}.q`),
+    ta: t(`faq.items.${idx}.a`),
+  }));
+  const filtered = faqsWithIdx.filter(f => {
     const matchCat = activeCategory === "All" || f.category === activeCategory;
     const matchSearch = search.trim() === "" ||
-      f.q.toLowerCase().includes(search.toLowerCase()) ||
-      f.a.toLowerCase().includes(search.toLowerCase());
+      f.tq.toLowerCase().includes(search.toLowerCase()) ||
+      f.ta.toLowerCase().includes(search.toLowerCase());
     return matchCat && matchSearch;
   });
+
+  const activeCategoryLabel = CATEGORIES.find(c => c.key === activeCategory)?.label ?? activeCategory;
 
   return (
     <div className="min-h-screen">
@@ -296,10 +328,10 @@ export default function FAQ() {
           animate={{ opacity: 1, y: 0 }}
           className="container px-4 mx-auto max-w-3xl"
         >
-          <span className="text-xs font-bold uppercase tracking-widest text-primary">Help Centre</span>
-          <h1 className="text-5xl md:text-6xl font-black mt-3 mb-4">Frequently asked questions</h1>
+          <span className="text-xs font-bold uppercase tracking-widest text-primary">{t("faq.badge")}</span>
+          <h1 className="text-5xl md:text-6xl font-black mt-3 mb-4">{t("faq.heading")}</h1>
           <p className="text-muted-foreground text-lg mb-8">
-            Everything you need to know about Lexigenz - from how archetypes work to what Premium includes.
+            {t("faq.subtitle")}
           </p>
           {/* Search */}
           <div className="relative max-w-xl mx-auto">
@@ -307,7 +339,7 @@ export default function FAQ() {
             <Input
               value={search}
               onChange={e => setSearch(e.target.value)}
-              placeholder="Search questions…"
+              placeholder={t("faq.searchPlaceholder")}
               className="pl-10 h-12 rounded-2xl border-border"
             />
           </div>
@@ -327,15 +359,15 @@ export default function FAQ() {
           <div className="flex gap-2 overflow-x-auto py-3 scrollbar-hide">
             {CATEGORIES.map(cat => (
               <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
+                key={cat.key}
+                onClick={() => setActiveCategory(cat.key)}
                 className={`flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-150 ${
-                  activeCategory === cat
+                  activeCategory === cat.key
                     ? "bg-primary text-primary-foreground shadow-sm"
                     : "bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary hover:ring-1 hover:ring-primary/30"
                 }`}
               >
-                {cat}
+                {cat.label}
               </button>
             ))}
           </div>
@@ -347,34 +379,34 @@ export default function FAQ() {
         <div className="container px-4 mx-auto max-w-3xl">
           {filtered.length === 0 ? (
             <div className="text-center py-24 text-muted-foreground">
-              <p className="text-lg">No results for "{search}"</p>
-              <p className="text-sm mt-2">Try a different search term or browse by category.</p>
+              <p className="text-lg">{t("common.noResults", { search })}</p>
+              <p className="text-sm mt-2">{t("common.noResultsHint")}</p>
             </div>
           ) : (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <p className="text-xs text-muted-foreground mb-6 font-semibold uppercase tracking-widest">
-                {filtered.length} question{filtered.length !== 1 ? "s" : ""}
-                {activeCategory !== "All" ? ` in ${activeCategory}` : ""}
+                {t("common.questions", { count: filtered.length })}
+                {activeCategory !== "All" ? ` ${t("faq.inCategory", { category: activeCategoryLabel })}` : ""}
               </p>
               <Accordion type="single" collapsible className="space-y-3">
                 {filtered.map((faq, i) => (
                   <motion.div
-                    key={faq.q}
+                    key={faq.idx}
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.03 }}
                   >
-                    <AccordionItem value={`faq-${i}`} className="border border-border rounded-2xl px-2 overflow-hidden">
+                    <AccordionItem value={`faq-${faq.idx}`} className="border border-border rounded-2xl px-2 overflow-hidden">
                       <AccordionTrigger className="text-left font-semibold py-5 hover:no-underline text-sm leading-snug">
                         <div className="flex items-start gap-3 text-left">
                           <span className="flex-shrink-0 mt-0.5 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wide whitespace-nowrap">
-                            {faq.category}
+                            {CATEGORY_BADGE[faq.category] ?? faq.category}
                           </span>
-                          <span>{faq.q}</span>
+                          <span>{t(`faq.items.${faq.idx}.q`)}</span>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className="text-muted-foreground text-sm leading-relaxed pb-5 pl-2">
-                        {faq.a}
+                        {t(`faq.items.${faq.idx}.a`)}
                       </AccordionContent>
                     </AccordionItem>
                   </motion.div>
@@ -388,16 +420,16 @@ export default function FAQ() {
       {/* Bottom CTA */}
       <section className="py-16 bg-card border-t border-border">
         <div className="container px-4 mx-auto max-w-2xl text-center space-y-4">
-          <h2 className="text-2xl font-bold">Still have a question?</h2>
+          <h2 className="text-2xl font-bold">{t("faq.stillQuestion")}</h2>
           <p className="text-muted-foreground text-sm">
-            Can't find what you're looking for? Our team is here to help.
+            {t("faq.stillQuestionDesc")}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
             <Link href="/contact">
-              <Button className="rounded-full bg-primary">Contact us</Button>
+              <Button className="rounded-full bg-primary">{t("common.contactUs")}</Button>
             </Link>
             <Button variant="outline" className="rounded-full" onClick={() => setShowPreview(true)}>
-              View Premium
+              {t("common.viewPremium")}
             </Button>
           </div>
         </div>

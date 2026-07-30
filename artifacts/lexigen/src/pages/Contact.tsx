@@ -5,8 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Mail } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function Contact() {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -16,7 +18,7 @@ export default function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSent(true);
-    toast({ title: "Message sent!", description: "We'll get back to you soon." });
+    toast({ title: t("contact.toastTitle"), description: t("contact.toastDesc") });
   };
 
   return (
@@ -28,11 +30,9 @@ export default function Contact() {
           transition={{ duration: 0.4 }}
           className="space-y-3 mb-12"
         >
-          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Get in Touch</p>
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tighter">Contact Us</h1>
-          <p className="text-muted-foreground text-lg">
-            Questions or feedback? Send us a message and we'll get back to you soon.
-          </p>
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{t("contact.badge")}</p>
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tighter">{t("contact.heading")}</h1>
+          <p className="text-muted-foreground text-lg">{t("contact.subtitle")}</p>
         </motion.div>
 
         <motion.div
@@ -46,9 +46,9 @@ export default function Contact() {
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
                 <Mail className="h-7 w-7 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold">Message sent!</h3>
+              <h3 className="text-2xl font-bold">{t("contact.successHeading")}</h3>
               <p className="text-muted-foreground">
-                We'll get back to you soon at <strong>{email}</strong>.
+                {t("contact.successDesc")} <strong>{email}</strong>.
               </p>
               <Button
                 variant="outline"
@@ -56,16 +56,16 @@ export default function Contact() {
                 className="rounded-full border-border hover:border-primary mt-2"
                 data-testid="button-send-another"
               >
-                Send another message
+                {t("contact.sendAnother")}
               </Button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-1.5">
-                <label className="text-sm font-semibold" htmlFor="contact-name">Name</label>
+                <label className="text-sm font-semibold" htmlFor="contact-name">{t("contact.labelName")}</label>
                 <Input
                   id="contact-name"
-                  placeholder="Your name"
+                  placeholder={t("contact.placeholderName")}
                   value={name}
                   onChange={e => setName(e.target.value)}
                   required
@@ -75,11 +75,11 @@ export default function Contact() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm font-semibold" htmlFor="contact-email">Email</label>
+                <label className="text-sm font-semibold" htmlFor="contact-email">{t("contact.labelEmail")}</label>
                 <Input
                   id="contact-email"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder={t("contact.placeholderEmail")}
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   required
@@ -89,10 +89,10 @@ export default function Contact() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm font-semibold" htmlFor="contact-message">Message</label>
+                <label className="text-sm font-semibold" htmlFor="contact-message">{t("contact.labelMessage")}</label>
                 <Textarea
                   id="contact-message"
-                  placeholder="Tell us how we can help"
+                  placeholder={t("contact.placeholderMessage")}
                   value={message}
                   onChange={e => setMessage(e.target.value)}
                   required
@@ -109,7 +109,7 @@ export default function Contact() {
                 disabled={!name || !email || !message}
                 data-testid="button-submit-contact"
               >
-                Send Message
+                {t("contact.submit")}
               </Button>
             </form>
           )}
@@ -122,7 +122,7 @@ export default function Contact() {
           className="mt-8 flex items-center justify-center gap-2 text-sm text-muted-foreground"
         >
           <Mail className="h-4 w-4" />
-          <span>Support email:</span>
+          <span>{t("footer.support")}</span>
           <a href="mailto:hello@lexigenz.com" className="text-primary font-semibold hover:underline">
             hello@lexigenz.com
           </a>

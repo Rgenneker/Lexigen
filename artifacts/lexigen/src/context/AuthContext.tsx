@@ -31,7 +31,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!stored) return null;
       const parsed = JSON.parse(stored) as AuthUser;
       // backfill field for existing sessions
-      if (!("premiumLanguage" in parsed)) parsed.premiumLanguage = null;
+      if (parsed.premiumLanguage === undefined) parsed.premiumLanguage = null;
       return parsed;
     } catch {
       return null;

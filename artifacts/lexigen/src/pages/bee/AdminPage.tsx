@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,6 +25,7 @@ interface AdminUser { id: number; username: string; email: string; is_premium: b
 type AdminTab = "overview" | "contests" | "users";
 
 export default function AdminPage() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const { toast } = useToast();
@@ -80,22 +82,22 @@ export default function AdminPage() {
   useEffect(() => { if (isAdmin && tab === "users") loadUsers(); }, [isAdmin, tab]);
 
   async function cancelContest(id: number) {
-    if (!user?.id || !confirm("Cancel this contest?")) return;
+    if (!user?.id || !confirm(t("bee.admin.confirmCancel"))) return;
     await fetch(`/api/bee/admin/contests/${id}/cancel`, {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId: user.id }),
     });
-    toast({ title: "Contest cancelled" });
+    toast({ title: t("bee.admin.contestCancelled") });
     await loadContests();
   }
 
   async function toggleAdmin(targetId: number, targetName: string) {
-    if (!user?.id || !confirm(`Toggle admin for ${targetName}?`)) return;
+    if (!user?.id || !confirm(t("bee.admin.confirmToggleAdmin", { name: targetName }))) return;
     await fetch(`/api/bee/admin/users/${targetId}/toggle-admin`, {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId: user.id }),
     });
-    toast({ title: "Admin status updated" });
+    toast({ title: t("bee.admin.adminUpdated") });
     await loadUsers();
   }
 
@@ -108,9 +110,9 @@ export default function AdminPage() {
   if (!isAdmin) return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-center px-4">
       <Shield className="w-14 h-14 text-muted-foreground/30" />
-      <h2 className="text-2xl font-bold">Admin Access Required</h2>
-      <p className="text-muted-foreground max-w-sm">You don't have admin privileges. Contact a platform administrator to request access.</p>
-      <Button onClick={() => navigate("/")} variant="outline">Go Home</Button>
+      <h2 className="text-2xl font-bold">{t("bee.admin.accessRequired")}</h2>
+      <p className="text-muted-foreground max-w-sm">{t("bee.admin.accessRequiredDesc")}</p>
+      <Button onClick={() => navigate("/")} variant="outline">{t("bee.admin.goHome")}</Button>
     </div>
   );
 
@@ -122,17 +124,17 @@ export default function AdminPage() {
             <Shield className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-            <p className="text-sm text-muted-foreground">Spelling Bee platform management</p>
+            <h1 className="text-2xl font-bold">{t("bee.admin.heading")}</h1>
+            <p className="text-sm text-muted-foreground">{t("bee.admin.subtitle")}</p>
           </div>
         </div>
 
         {/* Tabs */}
         <div className="flex rounded-xl border bg-background p-1 gap-1 shadow-sm">
           {([
-            { key: "overview", label: "📊 Overview", icon: BarChart3 },
-            { key: "contests", label: "🐝 Contests", icon: Trophy },
-            { key: "users", label: "👥 Users", icon: Users },
+            { key: "overview", label: t("bee.admin.tabOverview"), icon: BarChart3 },
+            { key: "contests", label: t("bee.admin.tabContests"), icon: Trophy },
+            { key: "users", label: t("bee.admin.tabUsers"), icon: Users },
           ] as { key: AdminTab; label: string; icon: typeof BarChart3 }[]).map((t) => (
             <button key={t.key} onClick={() => setTab(t.key)}
               className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${tab === t.key ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"}`}>
@@ -146,10 +148,10 @@ export default function AdminPage() {
           <div className="space-y-5">
             <div className="grid sm:grid-cols-4 gap-4">
               {[
-                { label: "Total Users", value: overview.totalUsers, icon: "👥", color: "text-primary" },
-                { label: "Total Contests", value: overview.totalContests, icon: "🐝", color: "text-amber-600" },
-                { label: "Active Now", value: overview.activeContests, icon: "⚡", color: "text-emerald-600" },
-                { label: "Total Answers", value: overview.totalAnswers.toLocaleString(), icon: "✍️", color: "text-violet-600" },
+                { label: t("bee.admin.totalUsers"), value: overview.totalUsers, icon: "👥", color: "text-primary" },
+                { label: t("bee.admin.totalContests"), value: overview.totalContests, icon: "🐝", color: "text-amber-600" },
+                { label: t("bee.admin.activeNow"), value: overview.activeContests, icon: "⚡", color: "text-emerald-600" },
+                { label: t("bee.admin.totalAnswers"), value: overview.totalAnswers.toLocaleString(), icon: "✍️", color: "text-violet-600" },
               ].map((s) => (
                 <Card key={s.label} className="border-0 shadow-md text-center">
                   <CardContent className="pt-5 pb-5">
@@ -167,34 +169,52 @@ export default function AdminPage() {
         {tab === "contests" && (
           <div className="space-y-4">
             <div className="flex gap-2 flex-wrap">
-              {["", "pending", "active", "finished", "cancelled"].map((s) => (
+              {["", "pending", "active", "finished", "cancelled"].map((s) => {
+              const statusLabel: Record<string, string> = {
+                pending: t("bee.admin.statusPending"),
+                active: t("bee.admin.statusActive"),
+                finished: t("bee.admin.statusFinished"),
+                cancelled: t("bee.admin.statusCancelled"),
+              };
+              return (
                 <button key={s} onClick={() => setContestStatus(s)}
                   className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all border ${contestStatus === s ? "bg-primary text-primary-foreground border-primary" : "border-border hover:border-primary/50"}`}>
-                  {s || "All"}
+                  {s ? (statusLabel[s] ?? s) : t("bee.admin.filterAll")}
                 </button>
-              ))}
+              );
+              })}
             </div>
             <Card className="border-0 shadow-lg overflow-hidden">
               <CardContent className="p-0">
                 {loading ? (
                   <div className="flex justify-center py-12"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
                 ) : contests.length === 0 ? (
-                  <p className="text-center py-12 text-muted-foreground text-sm">No contests found</p>
+                  <p className="text-center py-12 text-muted-foreground text-sm">{t("bee.admin.noContests")}</p>
                 ) : contests.map((c) => (
                   <div key={c.id} className="flex items-center gap-3 px-4 py-3 border-b last:border-0 hover:bg-muted/20">
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-sm truncate">{c.name}</p>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <Badge className={`text-xs ${LEVEL_COLOR[c.level]}`}>{c.level.replace(/_/g, " ")}</Badge>
-                        <Badge className={`text-xs ${STATUS_COLOR[c.status]}`}>{c.status}</Badge>
-                        <span className="text-xs text-muted-foreground">{c.player_count} players · by {c.organiser}</span>
+                        <Badge className={`text-xs ${LEVEL_COLOR[c.level]}`}>{{
+                            beginner: t("bee.admin.levelBeginner"),
+                            lower_intermediate: t("bee.admin.levelLowerIntermediate"),
+                            upper_intermediate: t("bee.admin.levelUpperIntermediate"),
+                            proficient: t("bee.admin.levelProficient")
+                          }[c.level] ?? c.level.replace(/_/g, " ")}</Badge>
+                        <Badge className={`text-xs ${STATUS_COLOR[c.status]}`}>{{
+                            pending: t("bee.admin.statusPending"),
+                            active: t("bee.admin.statusActive"),
+                            finished: t("bee.admin.statusFinished"),
+                            cancelled: t("bee.admin.statusCancelled")
+                          }[c.status] ?? c.status}</Badge>
+                        <span className="text-xs text-muted-foreground">{t("bee.admin.contestMeta", { count: c.player_count, organiser: c.organiser })}</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <span className="text-xs font-mono text-muted-foreground">{c.contest_code}</span>
                       {c.status !== "finished" && c.status !== "cancelled" && (
                         <Button size="sm" variant="destructive" onClick={() => cancelContest(c.id)} className="gap-1 h-7 text-xs">
-                          <XCircle className="w-3 h-3" /> Cancel
+                          <XCircle className="w-3 h-3" /> {t("bee.admin.cancelContest")}
                         </Button>
                       )}
                     </div>
@@ -211,17 +231,17 @@ export default function AdminPage() {
             <div className="flex gap-2">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input placeholder="Search username or email…" value={userSearch} onChange={(e) => setUserSearch(e.target.value)}
+                <Input placeholder={t("bee.admin.searchPlaceholder")} value={userSearch} onChange={(e) => setUserSearch(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && loadUsers()} className="pl-9" />
               </div>
-              <Button variant="outline" onClick={loadUsers}>Search</Button>
+              <Button variant="outline" onClick={loadUsers}>{t("bee.admin.searchBtn")}</Button>
             </div>
             <Card className="border-0 shadow-lg overflow-hidden">
               <CardContent className="p-0">
                 {loading ? (
                   <div className="flex justify-center py-12"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
                 ) : users.length === 0 ? (
-                  <p className="text-center py-12 text-muted-foreground text-sm">No users found</p>
+                  <p className="text-center py-12 text-muted-foreground text-sm">{t("bee.admin.noUsers")}</p>
                 ) : users.map((u) => (
                   <div key={u.id} className="flex items-center gap-3 px-4 py-3 border-b last:border-0 hover:bg-muted/20">
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-bold shrink-0">
@@ -230,13 +250,13 @@ export default function AdminPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 flex-wrap">
                         <p className="font-medium text-sm">{u.username}</p>
-                        {u.is_admin && <Badge className="bg-primary/10 text-primary text-xs">Admin</Badge>}
-                        {u.is_premium && <Badge className="bg-amber-100 text-amber-700 text-xs">Premium</Badge>}
+                        {u.is_admin && <Badge className="bg-primary/10 text-primary text-xs">{t("bee.admin.badgeAdmin")}</Badge>}
+                        {u.is_premium && <Badge className="bg-amber-100 text-amber-700 text-xs">{t("bee.admin.badgePremium")}</Badge>}
                       </div>
                       <p className="text-xs text-muted-foreground truncate">{u.email} · {u.bee_contests} bee contests{u.country ? ` · ${u.country}` : ""}</p>
                     </div>
                     <Button size="sm" variant="outline" onClick={() => toggleAdmin(u.id, u.username)} className="h-7 text-xs shrink-0">
-                      {u.is_admin ? "Revoke Admin" : "Make Admin"}
+                      {u.is_admin ? t("bee.admin.revokeAdmin") : t("bee.admin.makeAdmin")}
                     </Button>
                   </div>
                 ))}

@@ -18,12 +18,28 @@ import { PaymentModal } from "@/components/PaymentModal";
 import { PremiumLanguageModal } from "@/components/PremiumLanguageModal";
 import { useAuth } from "@/context/AuthContext";
 import { langColor } from "@/data/language-colors";
+import { useTranslation } from "react-i18next";
 
-const LANGUAGES = [
-  "English", "Spanish", "Portuguese", "French", "German", "Dutch",
-  "Italian", "Arabic", "Afrikaans", "Zulu", "Xhosa", "Farsi",
-  "Russian", "Bahasa Malay", "Vietnamese", "Tagalog", "Japanese",
-  "Cantonese", "Chinese (Mandarin)",
+const LANGUAGE_DATA = [
+  { key: "lang.english",    name: "English" },
+  { key: "lang.spanish",    name: "Spanish" },
+  { key: "lang.portuguese", name: "Portuguese" },
+  { key: "lang.french",     name: "French" },
+  { key: "lang.german",     name: "German" },
+  { key: "lang.dutch",      name: "Dutch" },
+  { key: "lang.italian",    name: "Italian" },
+  { key: "lang.arabic",     name: "Arabic" },
+  { key: "lang.afrikaans",  name: "Afrikaans" },
+  { key: "lang.zulu",       name: "Zulu" },
+  { key: "lang.xhosa",      name: "Xhosa" },
+  { key: "lang.farsi",      name: "Farsi" },
+  { key: "lang.russian",    name: "Russian" },
+  { key: "lang.malay",      name: "Bahasa Malay" },
+  { key: "lang.vietnamese", name: "Vietnamese" },
+  { key: "lang.tagalog",    name: "Tagalog" },
+  { key: "lang.japanese",   name: "Japanese" },
+  { key: "lang.cantonese",  name: "Cantonese" },
+  { key: "lang.mandarin",   name: "Chinese (Mandarin)" },
 ];
 
 interface UnlockStatus {
@@ -34,6 +50,7 @@ interface UnlockStatus {
 }
 
 export function Navbar() {
+  const { t } = useTranslation();
   const [location] = useLocation();
   const { language, setLanguage } = useLanguageStore();
   const [isOpen, setIsOpen] = useState(false);
@@ -67,11 +84,6 @@ export function Navbar() {
   const getUnlockStatus = (lang: string): UnlockStatus | null =>
     unlocks.find(u => u.language === lang) ?? null;
 
-  /** A language is unlocked if:
-   *  - it's English (always free)
-   *  - it's the user's included premium language
-   *  - the user has a paid 60-day unlock for it
-   */
   const isUnlocked = (lang: string): boolean => {
     if (lang === "English") return true;
     if (isPremium && premiumLanguage === lang) return true;
@@ -98,11 +110,9 @@ export function Navbar() {
     setUnlockModal(null);
   };
 
-  /** Called when premium upgrade completes */
   const handlePremiumSuccess = () => {
     setPremium();
     setShowPaymentModal(false);
-    // If no premium language chosen yet, open the picker
     if (!premiumLanguage) {
       setShowLangModal(true);
     }
@@ -112,14 +122,14 @@ export function Navbar() {
   void PROTECTED;
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/how-it-works", label: "How It Works" },
-    { href: "/articles", label: "Articles" },
-    { href: "/play", label: "Play", protected: true },
-    { href: "/app", label: "App", protected: true },
-    { href: "/invite", label: "Invite", protected: true },
-    { href: "/faq", label: "FAQ" },
+    { href: "/", label: t("nav.home") },
+    { href: "/about", label: t("nav.about") },
+    { href: "/how-it-works", label: t("nav.howItWorks") },
+    { href: "/articles", label: t("nav.articles") },
+    { href: "/play", label: t("nav.play"), protected: true },
+    { href: "/app", label: t("nav.app"), protected: true },
+    { href: "/invite", label: t("nav.invite"), protected: true },
+    { href: "/faq", label: t("nav.faq") },
   ];
 
   const currentStatus = language !== "English" ? getUnlockStatus(language) : null;
@@ -128,8 +138,8 @@ export function Navbar() {
   const firstName = user?.name.split(" ")[0] ?? "";
 
   const langLabel = (lang: string) => {
-    if (lang === "English") return <span className="text-[10px] bg-green-500/10 text-green-600 px-1.5 py-0.5 rounded-full font-semibold">Free</span>;
-    if (isPremium && premiumLanguage === lang) return <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-semibold">Included</span>;
+    if (lang === "English") return <span className="text-[10px] bg-green-500/10 text-green-600 px-1.5 py-0.5 rounded-full font-semibold">{t("common.free")}</span>;
+    if (isPremium && premiumLanguage === lang) return <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-semibold">{t("nav.included")}</span>;
     const u = getUnlockStatus(lang);
     if (!u || u.expired) return <span className="text-[10px] bg-blue-500/10 text-blue-600 px-1.5 py-0.5 rounded-full font-semibold">$2</span>;
     if (u.daysRemaining <= 7) return <span className="text-[10px] bg-amber-500/10 text-amber-600 px-1.5 py-0.5 rounded-full font-semibold flex items-center gap-1"><Clock className="h-2.5 w-2.5" />{u.daysRemaining}d</span>;
@@ -137,15 +147,15 @@ export function Navbar() {
   };
 
   const dropdownLabel = isPremium
-    ? `English + ${premiumLanguage ?? "1 language"} · Others $2`
-    : "Free: English · Others $2 / 60 days";
+    ? t("nav.languageDropdownPremium", { lang: premiumLanguage ?? "1 language" })
+    : t("nav.languageDropdownFree");
 
   return (
     <>
       <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <span className="font-bold text-2xl tracking-tighter text-primary hover:opacity-80 transition-opacity">LEXIGENZ</span>
+            <span className="font-bold text-2xl tracking-tighter text-primary hover:opacity-80 transition-opacity">{t("common.appName")}</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -175,41 +185,41 @@ export function Navbar() {
                       : "text-muted-foreground"
                   }`}
                 >
-                  🐝 Bee
+                  {t("nav.bee")}
                   {!isRegistered && <Lock className="h-2.5 w-2.5 opacity-50" />}
                   <ChevronDown className="h-3 w-3 opacity-60" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-52">
                 <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">
-                  Spelling Bee
+                  {t("nav.spellingBee")}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link href="/bee/create" className="flex items-center gap-2 cursor-pointer w-full">
                     <span className="text-base leading-none">🐝</span>
-                    <span>New Contest</span>
+                    <span>{t("nav.newContest")}</span>
                     {!isRegistered && <Lock className="h-3 w-3 ml-auto opacity-40" />}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/bee/tournament/create" className="flex items-center gap-2 cursor-pointer w-full">
                     <span className="text-base leading-none">🏆</span>
-                    <span>Tournament</span>
+                    <span>{t("nav.tournament")}</span>
                     {!isRegistered && <Lock className="h-3 w-3 ml-auto opacity-40" />}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/bee/stats" className="flex items-center gap-2 cursor-pointer w-full">
                     <span className="text-base leading-none">📊</span>
-                    <span>My Stats</span>
+                    <span>{t("nav.myStats")}</span>
                     {!isRegistered && <Lock className="h-3 w-3 ml-auto opacity-40" />}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/leaderboard" className="flex items-center gap-2 cursor-pointer w-full">
                     <span className="text-base leading-none">🏅</span>
-                    <span>Rankings</span>
+                    <span>{t("nav.rankings")}</span>
                     {!isRegistered && <Lock className="h-3 w-3 ml-auto opacity-40" />}
                   </Link>
                 </DropdownMenuItem>
@@ -217,7 +227,7 @@ export function Navbar() {
                 <DropdownMenuItem asChild>
                   <Link href="/bee/world-championship" className="flex items-center gap-2 cursor-pointer w-full">
                     <span className="text-base leading-none">🌍</span>
-                    <span>World Championship</span>
+                    <span>{t("nav.worldChampionship")}</span>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -232,19 +242,21 @@ export function Navbar() {
                 className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-600 text-xs font-bold hover:bg-amber-500/20 hover:scale-105 transition-all"
               >
                 <AlertTriangle className="h-3 w-3" />
-                {currentStatus!.expired ? `${language} expired` : `${language}: ${currentStatus!.daysRemaining}d left`}
+                {currentStatus!.expired
+                  ? t("nav.expiredBadge", { lang: language })
+                  : t("nav.expiresInDays", { lang: language, days: currentStatus!.daysRemaining })}
               </button>
             )}
 
             {/* Language picker */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-9 w-9 relative" title="Switch language">
+                <Button variant="ghost" size="icon" className="h-9 w-9 relative" title={t("nav.languageLabel")}>
                   <Globe className="h-4 w-4" />
                   {showRenewalBadge && (
                     <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-amber-500 rounded-full border-2 border-background" />
                   )}
-                  <span className="sr-only">Select language</span>
+                  <span className="sr-only">{t("nav.languageLabel")}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="max-h-[360px] overflow-y-auto w-60">
@@ -257,11 +269,11 @@ export function Navbar() {
                     className="text-xs text-primary cursor-pointer font-semibold flex items-center gap-1.5"
                   >
                     <Globe className="h-3 w-3" />
-                    Change included language
+                    {t("nav.changeIncludedLanguage")}
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
-                {LANGUAGES.map((lang) => {
+                {LANGUAGE_DATA.map(({ name: lang, key: langKey }) => {
                   const unlocked = isUnlocked(lang);
                   const isActive = language === lang;
                   const isIncluded = isPremium && premiumLanguage === lang;
@@ -279,7 +291,7 @@ export function Navbar() {
                           <Lock className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
                         )}
                         {!isActive && (unlocked || isIncluded) && <span className="w-3.5" />}
-                        <span className="text-sm">{lang}</span>
+                        <span className="text-sm">{t(langKey)}</span>
                       </span>
                       {langLabel(lang)}
                     </DropdownMenuItem>
@@ -291,23 +303,21 @@ export function Navbar() {
             {/* User area */}
             {isRegistered ? (
               <div className="flex items-center gap-2">
-                {/* Plan badge */}
                 {isPremium ? (
                   <span className="flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/25">
                     <Crown className="h-3 w-3" />
-                    Premium
+                    {t("nav.premiumBadge")}
                   </span>
                 ) : (
                   <button
                     onClick={() => setShowPaymentModal(true)}
-                    title="Upgrade to Premium"
+                    title={t("nav.upgradeAction")}
                     className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-muted text-muted-foreground border border-border hover:border-primary/40 hover:text-primary hover:bg-primary/5 transition-all"
                   >
-                    Free
+                    {t("common.free")}
                   </button>
                 )}
 
-                {/* User name + logout dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-border hover:border-primary/40 hover:bg-primary/5 transition-all text-sm font-semibold">
@@ -323,12 +333,12 @@ export function Navbar() {
                     </DropdownMenuLabel>
                     {isPremium && premiumLanguage && (
                       <DropdownMenuLabel className="font-normal text-xs text-muted-foreground -mt-1">
-                        Languages: English + {premiumLanguage}
+                        {t("nav.languagesLabel", { lang: premiumLanguage })}
                       </DropdownMenuLabel>
                     )}
                     {isPremium && !premiumLanguage && (
                       <DropdownMenuLabel className="font-normal text-xs text-amber-600 -mt-1">
-                        No 2nd language chosen yet
+                        {t("nav.noSecondLanguage")}
                       </DropdownMenuLabel>
                     )}
                     <DropdownMenuSeparator />
@@ -338,7 +348,7 @@ export function Navbar() {
                         className="flex items-center gap-2 cursor-pointer text-primary font-semibold"
                       >
                         <Globe className="h-3.5 w-3.5" />
-                        {premiumLanguage ? "Change included language" : "Choose included language"}
+                        {premiumLanguage ? t("nav.changeIncludedLanguage") : t("nav.chooseIncludedLanguage")}
                       </DropdownMenuItem>
                     )}
                     {!isPremium && (
@@ -347,7 +357,7 @@ export function Navbar() {
                         className="flex items-center gap-2 cursor-pointer text-primary font-semibold"
                       >
                         <Crown className="h-3.5 w-3.5" />
-                        Upgrade to Premium
+                        {t("nav.upgradeAction")}
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem
@@ -355,15 +365,14 @@ export function Navbar() {
                       className="flex items-center gap-2 cursor-pointer text-muted-foreground hover:text-destructive"
                     >
                       <LogOut className="h-3.5 w-3.5" />
-                      Sign out
+                      {t("nav.signOut")}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                {/* Quick sign-out button */}
                 <button
                   onClick={logout}
-                  title="Sign out"
+                  title={t("nav.signOut")}
                   className="p-1.5 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
                 >
                   <LogOut className="h-4 w-4" />
@@ -372,7 +381,7 @@ export function Navbar() {
             ) : (
               <Link href="/signin">
                 <Button variant="default" className="bg-primary text-primary-foreground font-bold tracking-tight">
-                  Sign In
+                  {t("common.signIn")}
                 </Button>
               </Link>
             )}
@@ -388,17 +397,21 @@ export function Navbar() {
               </SheetTrigger>
               <SheetContent side="right" className="flex flex-col gap-6">
                 <div className="flex items-center justify-between mt-4">
-                  <span className="font-bold text-2xl tracking-tighter text-primary">LEXIGENZ</span>
+                  <span className="font-bold text-2xl tracking-tighter text-primary">{t("common.appName")}</span>
                   {isRegistered && (
                     <div className="flex items-center gap-2">
                       {isPremium ? (
                         <span className="flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/25">
-                          <Crown className="h-3 w-3" />Premium
+                          <Crown className="h-3 w-3" />{t("nav.premiumBadge")}
                         </span>
                       ) : (
-                        <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border">
-                          Free
-                        </span>
+                        <button
+                          onClick={() => { setShowPaymentModal(true); setIsOpen(false); }}
+                          className="flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border hover:border-primary/40 hover:text-primary hover:bg-primary/5 transition-all"
+                        >
+                          <Crown className="h-2.5 w-2.5" />
+                          {t("nav.upgradeAction")}
+                        </button>
                       )}
                     </div>
                   )}
@@ -414,13 +427,13 @@ export function Navbar() {
                       <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
                       {isPremium && (
                         <p className="text-xs text-primary font-medium truncate">
-                          English{premiumLanguage ? ` + ${premiumLanguage}` : " + (pick a 2nd language)"}
+                          English{premiumLanguage ? ` + ${premiumLanguage}` : ` + (${t("nav.chooseIncludedLanguage")})`}
                         </p>
                       )}
                     </div>
                     <button
                       onClick={() => { logout(); setIsOpen(false); }}
-                      title="Sign out"
+                      title={t("nav.signOut")}
                       className="flex-shrink-0 p-2 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
                     >
                       <LogOut className="h-4 w-4" />
@@ -447,13 +460,13 @@ export function Navbar() {
 
                   {/* Spelling Bee section */}
                   <div className="border-t border-border pt-3 space-y-3">
-                    <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest">Spelling Bee</p>
+                    <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest">{t("nav.spellingBee")}</p>
                     {[
-                      { href: "/bee/create", label: "🐝 New Contest", protected: true },
-                      { href: "/bee/tournament/create", label: "🏆 Tournament", protected: true },
-                      { href: "/bee/stats", label: "📊 My Stats", protected: true },
-                      { href: "/leaderboard", label: "🏅 Rankings", protected: true },
-                      { href: "/bee/world-championship", label: "🌍 World Championship", protected: false },
+                      { href: "/bee/create", label: `🐝 ${t("nav.newContest")}`, protected: true },
+                      { href: "/bee/tournament/create", label: `🏆 ${t("nav.tournament")}`, protected: true },
+                      { href: "/bee/stats", label: `📊 ${t("nav.myStats")}`, protected: true },
+                      { href: "/leaderboard", label: `🏅 ${t("nav.rankings")}`, protected: true },
+                      { href: "/bee/world-championship", label: `🌍 ${t("nav.worldChampionship")}`, protected: false },
                     ].map((link) => (
                       <Link
                         key={link.href}
@@ -474,76 +487,47 @@ export function Navbar() {
                   {/* Mobile language section */}
                   <div className="border-t border-border pt-4 space-y-2">
                     <div className="flex items-center justify-between">
-                      <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest">Language</p>
+                      <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest">{t("nav.languagesHeader")}</p>
                       {isPremium && (
                         <button
                           onClick={() => { setChangingLang(true); setShowLangModal(true); setIsOpen(false); }}
                           className="text-xs text-primary font-semibold flex items-center gap-1"
                         >
                           <Globe className="h-3 w-3" />
-                          {premiumLanguage ? "Change" : "Choose language"}
+                          {premiumLanguage ? t("nav.changeIncludedLanguage") : t("nav.chooseIncludedLanguage")}
                         </button>
                       )}
                     </div>
                     <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
-                      {LANGUAGES.map((lang) => {
+                      {LANGUAGE_DATA.map(({ name: lang, key: langKey }) => {
                         const unlocked = isUnlocked(lang);
                         const isActive = language === lang;
                         const isIncluded = isPremium && premiumLanguage === lang;
                         const c = langColor(lang);
                         return (
                           <button
-                            key={lang}
+                            key={langKey}
                             onClick={() => { handleLanguageClick(lang); setIsOpen(false); }}
                             className={`flex items-center justify-between gap-1 px-3 py-2 rounded-xl text-sm font-medium border transition-all hover:scale-[1.02] ${c.bg} ${c.text} ${c.border} ${
                               isActive ? "ring-2 ring-offset-1 ring-current/30 opacity-100" : "opacity-70 hover:opacity-100"
                             }`}
                           >
-                            <span className="truncate">{lang}</span>
-                            {isIncluded && <Crown className="h-3 w-3 flex-shrink-0 opacity-80" />}
-                            {!unlocked && !isIncluded && lang !== "English" && <Lock className="h-3 w-3 flex-shrink-0 opacity-50" />}
+                            <span className="truncate text-xs">{t(langKey)}</span>
+                            <span className="flex-shrink-0">
+                              {isActive ? <CheckCircle2 className="h-3 w-3" /> : !unlocked && !isIncluded && lang !== "English" ? <Lock className="h-3 w-3 opacity-50" /> : null}
+                            </span>
                           </button>
                         );
                       })}
                     </div>
                   </div>
 
-                  {isRegistered ? (
-                    <div className="space-y-2 pt-2 border-t border-border">
-                      {!isPremium && (
-                        <Button
-                          className="w-full bg-primary text-primary-foreground font-bold"
-                          onClick={() => { setShowPaymentModal(true); setIsOpen(false); }}
-                        >
-                          <Crown className="h-4 w-4 mr-2" />
-                          Upgrade to Premium
-                        </Button>
-                      )}
-                      {isPremium && !premiumLanguage && (
-                        <Button
-                          className="w-full bg-primary/10 text-primary border border-primary/30 font-bold"
-                          variant="outline"
-                          onClick={() => { setChangingLang(false); setShowLangModal(true); setIsOpen(false); }}
-                        >
-                          <Globe className="h-4 w-4 mr-2" />
-                          Choose your included language
-                        </Button>
-                      )}
-                      <Button
-                        variant="outline"
-                        className="w-full"
-                        onClick={() => { logout(); setIsOpen(false); }}
-                      >
-                        <LogOut className="h-4 w-4 mr-2" />
-                        Sign out
-                      </Button>
+                  {!isRegistered && (
+                    <div className="border-t border-border pt-4 flex flex-col gap-3">
+                      <Link href="/signin" onClick={() => setIsOpen(false)}>
+                        <Button className="w-full">{t("common.signIn")}</Button>
+                      </Link>
                     </div>
-                  ) : (
-                    <Link href="/signin" onClick={() => setIsOpen(false)}>
-                      <Button className="w-full mt-2 bg-primary text-primary-foreground font-bold">
-                        Sign In
-                      </Button>
-                    </Link>
                   )}
                 </div>
               </SheetContent>
@@ -552,7 +536,6 @@ export function Navbar() {
         </div>
       </nav>
 
-      {/* Language Unlock Modal */}
       <AnimatePresence>
         {unlockModal && (
           <LanguageUnlockModal
@@ -565,27 +548,27 @@ export function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* Premium Payment Modal */}
-      <AnimatePresence>
-        {showPaymentModal && user && (
-          <PaymentModal
-            onClose={() => setShowPaymentModal(false)}
-            onSuccess={handlePremiumSuccess}
-            userEmail={user.email}
-            userName={user.name}
-          />
-        )}
-      </AnimatePresence>
+      {showPaymentModal && user && (
+        <PaymentModal
+          onClose={() => setShowPaymentModal(false)}
+          onSuccess={handlePremiumSuccess}
+          userEmail={user.email}
+          userName={user.name}
+        />
+      )}
 
-      {/* Premium Language Picker Modal */}
-      <AnimatePresence>
-        {showLangModal && (
-          <PremiumLanguageModal
-            isChange={changingLang}
-            onClose={() => { setShowLangModal(false); setChangingLang(false); }}
-          />
-        )}
-      </AnimatePresence>
+      {showLangModal && (
+        <PremiumLanguageModal
+          isChange={changingLang}
+          onClose={async () => {
+            // After the modal saves internally, sync the selected language
+            const updated = user?.premiumLanguage;
+            if (updated) setLanguage(updated);
+            setShowLangModal(false);
+            setChangingLang(false);
+          }}
+        />
+      )}
     </>
   );
 }

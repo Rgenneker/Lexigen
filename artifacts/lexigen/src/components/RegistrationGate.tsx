@@ -5,13 +5,14 @@ import { Link } from "wouter";
 import { Eye, EyeOff, ChevronDown, Lock, ArrowLeft, Copy, Check } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { COUNTRY_CODES } from "@/data/countryCodes";
+import { useTranslation } from "react-i18next";
 
 type Tab = "register" | "login";
 type LoginView = "form" | "forgot" | "forgot-result";
 
 function validatePassword(pw: string): string | null {
-  if (pw.length < 8) return "Password must be at least 8 characters.";
-  if (!/^[a-zA-Z0-9]+$/.test(pw)) return "Password must only contain letters and numbers.";
+  if (pw.length < 8) return "errorPasswordLength";
+  if (!/^[a-zA-Z0-9]+$/.test(pw)) return "errorPasswordChars";
   return null;
 }
 
@@ -60,6 +61,7 @@ function PhoneInput({
   phone: string;
   onPhoneChange: (v: string) => void;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="flex gap-2">
       <div className="relative flex-shrink-0">
@@ -81,7 +83,7 @@ function PhoneInput({
         type="tel"
         value={phone}
         onChange={e => onPhoneChange(e.target.value.replace(/[^0-9\s\-()]/g, ""))}
-        placeholder="cell number"
+        placeholder={t("registrationGate.cellPlaceholder")}
         autoComplete="tel-national"
         className="flex-1 h-11 rounded-xl border border-input bg-muted/30 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
       />
@@ -91,6 +93,7 @@ function PhoneInput({
 
 export function RegistrationGate({ initialTab = "register", loginOnly = false }: { initialTab?: Tab; loginOnly?: boolean }) {
   const { registerFree, login } = useAuth();
+  const { t } = useTranslation();
   const [tab, setTab] = useState<Tab>(loginOnly ? "login" : initialTab);
   const [loginView, setLoginView] = useState<LoginView>("form");
 
@@ -114,11 +117,11 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!firstName.trim() || !lastName.trim()) { setError("First and last name are required."); return; }
-    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError("Please enter a valid email address."); return; }
+    if (!firstName.trim() || !lastName.trim()) { setError(t("registrationGate.errorNameRequired")); return; }
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError(t("registrationGate.errorEmailInvalid")); return; }
     const pwErr = validatePassword(password);
-    if (pwErr) { setError(pwErr); return; }
-    if (!phone.trim()) { setError("Cell number is required."); return; }
+    if (pwErr) { setError(t(`registrationGate.${pwErr}`)); return; }
+    if (!phone.trim()) { setError(t("registrationGate.errorPhoneRequired")); return; }
     setLoading(true);
     try {
       await registerFree(firstName, lastName, email, password, `${dialCode} ${phone.trim()}`);
@@ -131,13 +134,13 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!loginEmail.trim()) { setError("Email is required."); return; }
-    if (!loginPassword) { setError("Password is required."); return; }
+    if (!loginEmail.trim()) { setError(t("registrationGate.errorEmailRequired")); return; }
+    if (!loginPassword) { setError(t("registrationGate.errorPasswordRequired")); return; }
     setLoading(true);
     try {
       await login(loginEmail, loginPassword);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed. Check your email and password.");
+      setError(err instanceof Error ? err.message : t("registrationGate.errorLoginFailed"));
       setLoading(false);
     }
   };
@@ -146,7 +149,7 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
     e.preventDefault();
     setError("");
     if (!forgotEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(forgotEmail)) {
-      setError("Please enter a valid email address.");
+      setError(t("registrationGate.errorEmailInvalid"));
       return;
     }
     setLoading(true);
@@ -199,23 +202,23 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
             <p className="text-primary font-black text-sm tracking-[0.25em] uppercase mb-2">LEXIGENZ</p>
             <h1 className="text-2xl font-black leading-tight">
               {tab === "register"
-                ? "Create your free account"
+                ? t("registrationGate.registerHeading")
                 : loginView === "forgot"
-                ? "Reset your password"
+                ? t("registrationGate.resetPassword")
                 : loginView === "forgot-result"
-                ? "Temporary password"
+                ? t("registrationGate.resetSent")
                 : loginOnly
-                ? "Sign in to Lexigenz"
-                : "Welcome back"}
+                ? t("registrationGate.signInToLexigenz")
+                : t("registrationGate.loginHeading")}
             </h1>
             <p className="text-muted-foreground text-sm mt-1.5">
               {tab === "register"
-                ? "English included · 6 word games · Upgrade anytime"
+                ? t("registrationGate.registerSubtitle")
                 : loginView === "forgot"
-                ? "We'll generate a temporary password for your account"
+                ? t("registrationGate.forgotDesc")
                 : loginView === "forgot-result"
-                ? "Use this to sign in, then update your password"
-                : "Sign in to continue your streak"}
+                ? t("registrationGate.resetSentDesc")
+                : t("registrationGate.loginSubtitle")}
             </p>
           </div>
 
@@ -223,14 +226,14 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
           {!loginOnly && (
             <div className="px-8 pb-0">
               <div className="flex rounded-xl bg-muted/40 p-1 gap-1">
-                {(["register", "login"] as Tab[]).map(t => (
+                {(["register", "login"] as Tab[]).map(tabKey => (
                   <button
-                    key={t}
+                    key={tabKey}
                     type="button"
-                    onClick={() => { setTab(t); setError(""); resetLoginView(); }}
-                    className={`flex-1 h-9 rounded-lg text-sm font-bold transition-all ${tab === t ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+                    onClick={() => { setTab(tabKey); setError(""); resetLoginView(); }}
+                    className={`flex-1 h-9 rounded-lg text-sm font-bold transition-all ${tab === tabKey ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
                   >
-                    {t === "register" ? "Register" : "Sign In"}
+                    {tabKey === "register" ? t("registrationGate.tabRegister") : t("registrationGate.tabLogin")}
                   </button>
                 ))}
               </div>
@@ -251,23 +254,23 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                 {/* Name row */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">First Name</label>
+                    <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">{t("registrationGate.labelFirstName")}</label>
                     <input
                       type="text"
                       value={firstName}
                       onChange={e => setFirstName(e.target.value)}
-                      placeholder="Alex"
+                      placeholder={t("registrationGate.placeholderFirstName")}
                       autoComplete="given-name"
                       className="w-full h-11 rounded-xl border border-input bg-muted/30 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Last Name</label>
+                    <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">{t("registrationGate.labelLastName")}</label>
                     <input
                       type="text"
                       value={lastName}
                       onChange={e => setLastName(e.target.value)}
-                      placeholder="Smith"
+                      placeholder={t("registrationGate.placeholderLastName")}
                       autoComplete="family-name"
                       className="w-full h-11 rounded-xl border border-input bg-muted/30 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
                     />
@@ -276,12 +279,12 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
 
                 {/* Email */}
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Email Address</label>
+                  <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">{t("registrationGate.labelEmail")}</label>
                   <input
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    placeholder="alex@example.com"
+                    placeholder={t("registrationGate.placeholderEmail")}
                     autoComplete="email"
                     className="w-full h-11 rounded-xl border border-input bg-muted/30 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
                   />
@@ -290,15 +293,15 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                 {/* Password */}
                 <div className="space-y-1.5">
                   <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-                    <Lock className="w-3 h-3" /> Password
+                    <Lock className="w-3 h-3" /> {t("registrationGate.labelPassword")}
                   </label>
                   <PasswordInput value={password} onChange={setPassword} autoComplete="new-password" />
-                  <p className="text-[11px] text-muted-foreground">Letters and numbers only · min 8 characters</p>
+                  <p className="text-[11px] text-muted-foreground">{t("registrationGate.passwordHint")}</p>
                 </div>
 
                 {/* Phone */}
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Cell Phone Number</label>
+                  <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">{t("registrationGate.labelPhone")}</label>
                   <PhoneInput
                     dialCode={dialCode}
                     onDialChange={setDialCode}
@@ -316,12 +319,12 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                   disabled={loading}
                   className="w-full h-12 rounded-2xl bg-primary text-primary-foreground font-bold text-base shadow-lg shadow-primary/30"
                 >
-                  {loading ? "Creating account…" : "Register Free →"}
+                  {loading ? t("registrationGate.registering") : t("registrationGate.registerBtn")}
                 </Button>
 
                 <div className="flex items-center gap-3">
                   <div className="flex-1 h-px bg-border" />
-                  <span className="text-xs text-muted-foreground font-medium">or go all-in</span>
+                  <span className="text-xs text-muted-foreground font-medium">{t("registrationGate.orGoAllIn")}</span>
                   <div className="flex-1 h-px bg-border" />
                 </div>
 
@@ -330,20 +333,20 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                     type="button"
                     className="w-full h-11 rounded-2xl border-2 border-primary/40 font-bold text-sm text-primary hover:bg-primary/5 hover:border-primary transition-all flex items-center justify-center gap-2"
                   >
-                    ⭐ Get Premium - $8 · English + 1 language
+                    ⭐ {t("registrationGate.premiumCta")}
                   </button>
                 </Link>
 
                 <p className="text-center text-[11px] text-muted-foreground leading-relaxed">
-                  By registering you agree to our{" "}
-                  <Link href="/terms" className="underline underline-offset-2 hover:text-foreground">Terms</Link>
-                  {" "}and{" "}
-                  <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">Privacy Policy</Link>.
+                  {t("registrationGate.byRegistering")}{" "}
+                  <Link href="/terms" className="underline underline-offset-2 hover:text-foreground">{t("registrationGate.termsLink")}</Link>
+                  {" "}{t("registrationGate.and")}{" "}
+                  <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">{t("registrationGate.privacyLink")}</Link>.
                 </p>
 
                 <div className="flex justify-center">
                   <Link href="/" className="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2">
-                    ← Back to Home
+                    {t("common.backHome")}
                   </Link>
                 </div>
               </motion.form>
@@ -362,16 +365,16 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                   onClick={resetLoginView}
                   className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors mb-1"
                 >
-                  <ArrowLeft className="w-3.5 h-3.5" /> Back to Sign In
+                  <ArrowLeft className="w-3.5 h-3.5" /> {t("registrationGate.backToLogin")}
                 </button>
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Your Email Address</label>
+                  <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">{t("registrationGate.labelEmail")}</label>
                   <input
                     type="email"
                     value={forgotEmail}
                     onChange={e => setForgotEmail(e.target.value)}
-                    placeholder="alex@example.com"
+                    placeholder={t("registrationGate.placeholderEmail")}
                     autoComplete="email"
                     className="w-full h-11 rounded-xl border border-input bg-muted/30 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
                   />
@@ -386,11 +389,11 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                   disabled={loading}
                   className="w-full h-12 rounded-2xl bg-primary text-primary-foreground font-bold text-base shadow-lg shadow-primary/30"
                 >
-                  {loading ? "Generating…" : "Get Temporary Password →"}
+                  {loading ? t("registrationGate.generating") : t("registrationGate.sendReset")}
                 </Button>
 
                 <p className="text-center text-xs text-muted-foreground">
-                  A temporary password will be shown on screen. Use it to sign in, then contact us to set a permanent one.
+                  {t("registrationGate.tempPasswordHint")}
                 </p>
               </motion.form>
             ) : loginView === "forgot-result" ? (
@@ -405,7 +408,7 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                 {tempPassword ? (
                   <>
                     <p className="text-sm text-muted-foreground">
-                      A temporary password has been set for <span className="font-semibold text-foreground">{forgotEmail}</span>. Copy it and use it to sign in.
+                      {t("registrationGate.tempPasswordSet", { email: forgotEmail })}
                     </p>
                     <div className="flex items-center gap-2">
                       <div className="flex-1 font-mono text-lg font-bold tracking-widest bg-muted/50 border border-border rounded-xl px-4 py-3 text-center select-all">
@@ -421,14 +424,14 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                       </button>
                     </div>
                     <p className="text-[11px] text-amber-600 bg-amber-500/10 border border-amber-400/30 rounded-lg px-3 py-2">
-                      ⚠️ This password replaces your old one immediately. Sign in now to secure your account.
+                      {t("registrationGate.tempPasswordWarning")}
                     </p>
                   </>
                 ) : (
                   <div className="py-4 text-center space-y-2">
-                    <p className="text-sm font-semibold">No account found</p>
+                    <p className="text-sm font-semibold">{t("registrationGate.noAccountFound")}</p>
                     <p className="text-xs text-muted-foreground">
-                      We couldn't find an account for <span className="font-medium">{forgotEmail}</span>. Check the email or create a free account.
+                      {t("registrationGate.noAccountFoundDesc", { email: forgotEmail })}
                     </p>
                   </div>
                 )}
@@ -439,7 +442,7 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                   variant="outline"
                   className="w-full h-11 rounded-2xl font-bold"
                 >
-                  <ArrowLeft className="w-4 h-4 mr-2" /> Back to Sign In
+                  <ArrowLeft className="w-4 h-4 mr-2" /> {t("registrationGate.backToLogin")}
                 </Button>
               </motion.div>
             ) : (
@@ -453,12 +456,12 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                 className="px-8 pb-8 pt-5 space-y-4"
               >
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Email Address</label>
+                  <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">{t("registrationGate.labelEmail")}</label>
                   <input
                     type="email"
                     value={loginEmail}
                     onChange={e => setLoginEmail(e.target.value)}
-                    placeholder="alex@example.com"
+                    placeholder={t("registrationGate.placeholderEmail")}
                     autoComplete="email"
                     className="w-full h-11 rounded-xl border border-input bg-muted/30 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
                   />
@@ -467,14 +470,14 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
                     <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-                      <Lock className="w-3 h-3" /> Password
+                      <Lock className="w-3 h-3" /> {t("registrationGate.labelPassword")}
                     </label>
                     <button
                       type="button"
                       onClick={() => { setLoginView("forgot"); setForgotEmail(loginEmail); setError(""); }}
                       className="text-[11px] text-primary hover:underline font-semibold"
                     >
-                      Forgot password?
+                      {t("registrationGate.forgotPassword")}
                     </button>
                   </div>
                   <PasswordInput value={loginPassword} onChange={setLoginPassword} autoComplete="current-password" />
@@ -489,29 +492,29 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                   disabled={loading}
                   className="w-full h-12 rounded-2xl bg-primary text-primary-foreground font-bold text-base shadow-lg shadow-primary/30"
                 >
-                  {loading ? "Signing in…" : "Sign In →"}
+                  {loading ? t("registrationGate.loggingIn") : t("registrationGate.loginBtn")}
                 </Button>
 
                 {!loginOnly && (
                   <p className="text-center text-sm text-muted-foreground">
-                    No account yet?{" "}
+                    {t("registrationGate.noAccount")}{" "}
                     <button type="button" onClick={() => { setTab("register"); setError(""); }} className="text-primary font-bold hover:underline">
-                      Register free
+                      {t("registrationGate.tabRegister")}
                     </button>
                   </p>
                 )}
                 {loginOnly && (
                   <p className="text-center text-sm text-muted-foreground">
-                    Don't have an account?{" "}
+                    {t("registrationGate.alreadyHaveAccount")}{" "}
                     <Link href="/play" className="text-primary font-bold hover:underline">
-                      Register free on the games page
+                      {t("registrationGate.registerFreeOnGamesPage")}
                     </Link>
                   </p>
                 )}
 
                 <div className="flex justify-center">
                   <Link href="/" className="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2">
-                    ← Back to Home
+                    {t("common.backHome")}
                   </Link>
                 </div>
               </motion.form>
@@ -522,13 +525,13 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
         {/* Feature chips */}
         <div className="mt-4 grid grid-cols-3 gap-2 text-center">
           {[
-            { icon: "📖", text: "Daily word" },
-            { icon: "🎮", text: "6 games" },
-            { icon: "🌍", text: "English + 1 language" },
+            { icon: "📖", textKey: "registrationGate.featureDailyWord" },
+            { icon: "🎮", textKey: "registrationGate.feature6Games" },
+            { icon: "🌍", textKey: "registrationGate.featureEnglishPlus1" },
           ].map(f => (
-            <div key={f.text} className="bg-white/5 rounded-2xl px-3 py-3 border border-white/10 backdrop-blur-sm">
+            <div key={f.textKey} className="bg-white/5 rounded-2xl px-3 py-3 border border-white/10 backdrop-blur-sm">
               <p className="text-xl">{f.icon}</p>
-              <p className="text-[11px] text-white/60 font-semibold mt-1">{f.text}</p>
+              <p className="text-[11px] text-white/60 font-semibold mt-1">{t(f.textKey)}</p>
             </div>
           ))}
         </div>

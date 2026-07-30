@@ -13,6 +13,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguageStore } from "@/store/useLanguageStore";
 import { useAuth } from "@/context/AuthContext";
+import { useTranslation } from "react-i18next";
 import {
   Check, Zap, Lock, TrendingUp, Gamepad2, FileText,
   Crown, Brain, ChevronRight, RefreshCw, BarChart3,
@@ -65,6 +66,7 @@ function PaymentModal({
   userEmail: string;
   userName: string;
 }) {
+  const { t } = useTranslation();
   const [step, setStep] = useState<ModalStep>("confirm");
   const [errorMsg, setErrorMsg] = useState("");
   const [sdkReady, setSdkReady] = useState(false);
@@ -88,16 +90,16 @@ function PaymentModal({
       script.onload = () => { setSdkReady(true); setSdkLoading(false); };
       script.onerror = () => {
         setSdkLoading(false);
-        setErrorMsg("Failed to load PayPal. Please check your connection.");
+        setErrorMsg(t("premium.modal.paypalError"));
         setStep("error");
       };
       document.head.appendChild(script);
     } catch {
       setSdkLoading(false);
-      setErrorMsg("Could not reach PayPal. Please try again.");
+      setErrorMsg(t("premium.modal.paypalReachError"));
       setStep("error");
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     if (!sdkReady || step !== "paypal" || !paypalContainerRef.current || !window.paypal) return;
@@ -121,22 +123,22 @@ function PaymentModal({
           if (result.success) {
             setStep("success");
           } else {
-            setErrorMsg(result.error ?? "Payment capture failed.");
+            setErrorMsg(result.error ?? t("premium.modal.captureError"));
             setStep("error");
           }
         },
         onError: () => {
-          setErrorMsg("Something went wrong with PayPal. Please try again.");
+          setErrorMsg(t("premium.modal.paypalGenericError"));
           setStep("error");
         },
         onCancel: () => setStep("confirm"),
       })
       .render(paypalContainerRef.current)
       .catch(() => {
-        setErrorMsg("PayPal buttons failed to render.");
+        setErrorMsg(t("premium.modal.renderError"));
         setStep("error");
       });
-  }, [sdkReady, step, userEmail]);
+  }, [sdkReady, step, userEmail, t]);
 
   const handleContinue = async () => {
     setStep("paypal");
@@ -146,8 +148,16 @@ function PaymentModal({
   const handleSuccess = () => {
     onSuccess();
     onClose();
-    toast({ title: "🎉 Welcome to Lexigenz Premium!", description: "Every feature is now unlocked." });
+    toast({ title: t("premium.modal.welcomeToast"), description: t("premium.modal.welcomeToastDesc") });
   };
+
+  const premiumFeatures = [
+    t("premium.featureGames"),
+    t("premium.featureJournal"),
+    t("premium.featureLang"),
+    t("premium.featureArchetype"),
+    t("premium.featureReports"),
+  ];
 
   return (
     <div
@@ -168,8 +178,8 @@ function PaymentModal({
               <Crown className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <p className="font-bold text-sm">Lexigenz Premium</p>
-              <p className="text-xs text-muted-foreground">$8.00 - once-off</p>
+              <p className="font-bold text-sm">{t("premium.modal.title")}</p>
+              <p className="text-xs text-muted-foreground">{t("premium.modal.subtitle")}</p>
             </div>
           </div>
           <button
@@ -187,14 +197,14 @@ function PaymentModal({
             {step === "confirm" && (
               <motion.div key="confirm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-5">
                 <div>
-                  <h2 className="text-xl font-bold mb-1">Ready to upgrade?</h2>
+                  <h2 className="text-xl font-bold mb-1">{t("premium.modal.readyToUpgrade")}</h2>
                   <p className="text-sm text-muted-foreground">
-                    Upgrading account for <span className="font-semibold text-foreground">{userName}</span>
+                    {t("premium.modal.upgradingFor")} <span className="font-semibold text-foreground">{userName}</span>
                   </p>
                   <p className="text-xs text-muted-foreground mt-0.5">{userEmail}</p>
                 </div>
                 <div className="space-y-2">
-                  {["All 6 word games - unlimited", "Unlimited word journal + PDF export", "English + 1 language (additional languages $2)", "Full archetype deep-dive", "Monthly reports & badges"].map(f => (
+                  {premiumFeatures.map(f => (
                     <div key={f} className="flex items-center gap-2 text-sm">
                       <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
                       <span>{f}</span>
@@ -204,7 +214,7 @@ function PaymentModal({
                 <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <CreditCard className="h-5 w-5 text-primary" />
-                    <span className="font-bold text-sm">Amount due</span>
+                    <span className="font-bold text-sm">{t("premium.modal.amountDue")}</span>
                   </div>
                   <span className="font-bold text-lg text-primary">$8.00 USD</span>
                 </div>
@@ -216,13 +226,13 @@ function PaymentModal({
                   data-testid="payment-continue"
                 >
                   {sdkLoading ? (
-                    <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Loading PayPal…</>
+                    <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> {t("premium.modal.loadingPaypal")}</>
                   ) : (
-                    <>Pay with PayPal <ChevronRight className="h-4 w-4 ml-1" /></>
+                    <>{t("premium.modal.payWithPaypal")} <ChevronRight className="h-4 w-4 ml-1" /></>
                   )}
                 </Button>
                 <p className="text-center text-xs text-muted-foreground">
-                  Secured by PayPal · No card details stored by Lexigenz
+                  {t("premium.modal.securedBy")}
                 </p>
               </motion.div>
             )}
@@ -231,15 +241,15 @@ function PaymentModal({
             {step === "paypal" && (
               <motion.div key="paypal" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-5">
                 <div>
-                  <h2 className="text-xl font-bold mb-1">Complete payment</h2>
+                  <h2 className="text-xl font-bold mb-1">{t("premium.modal.completePayment")}</h2>
                   <p className="text-sm text-muted-foreground">
-                    Pay with your PayPal account or a credit/debit card · $8.00 USD
+                    {t("premium.modal.completePaymentDesc")}
                   </p>
                 </div>
                 <div ref={paypalContainerRef} className="min-h-[56px]">
                   {!sdkReady && (
                     <div className="flex items-center justify-center py-6 gap-2 text-muted-foreground text-sm">
-                      <Loader2 className="h-4 w-4 animate-spin" /> Loading PayPal…
+                      <Loader2 className="h-4 w-4 animate-spin" /> {t("premium.modal.loadingPaypal")}
                     </div>
                   )}
                 </div>
@@ -247,7 +257,7 @@ function PaymentModal({
                   onClick={() => setStep("confirm")}
                   className="text-xs text-muted-foreground hover:text-foreground underline w-full text-center"
                 >
-                  ← Back
+                  {t("common.back")}
                 </button>
               </motion.div>
             )}
@@ -259,13 +269,13 @@ function PaymentModal({
                   <CheckCircle2 className="h-9 w-9 text-green-500" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold mb-1">Payment confirmed!</h2>
+                  <h2 className="text-2xl font-bold mb-1">{t("premium.modal.paymentConfirmed")}</h2>
                   <p className="text-muted-foreground text-sm">
-                    Welcome to premium, <span className="font-semibold text-foreground">{userName}</span>. Every feature is now unlocked.
+                    {t("premium.modal.welcomePremium")} <span className="font-semibold text-foreground">{userName}</span>. {t("premium.modal.welcomeDesc")}
                   </p>
                 </div>
                 <div className="space-y-2 text-left">
-                  {["All 6 word games - unlimited", "Unlimited word journal + PDF export", "English + 1 language (additional languages $2)", "Full archetype deep-dive", "Monthly reports & badges"].map(f => (
+                  {premiumFeatures.map(f => (
                     <div key={f} className="flex items-center gap-2 text-sm">
                       <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
                       <span>{f}</span>
@@ -278,7 +288,7 @@ function PaymentModal({
                   onClick={handleSuccess}
                   data-testid="payment-success-btn"
                 >
-                  Go to my Premium Dashboard
+                  {t("premium.dashboardBtn")}
                 </Button>
               </motion.div>
             )}
@@ -290,15 +300,15 @@ function PaymentModal({
                   <X className="h-9 w-9 text-destructive" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold mb-1">Payment failed</h2>
-                  <p className="text-muted-foreground text-sm">{errorMsg || "Something went wrong. Please try again."}</p>
+                  <h2 className="text-xl font-bold mb-1">{t("premium.modal.paymentFailed")}</h2>
+                  <p className="text-muted-foreground text-sm">{errorMsg || t("common.error")}</p>
                 </div>
                 <Button
                   variant="outline"
                   className="w-full h-12 rounded-2xl font-bold"
                   onClick={() => { setStep("confirm"); setErrorMsg(""); }}
                 >
-                  Try Again
+                  {t("common.tryAgain")}
                 </Button>
               </motion.div>
             )}
@@ -323,6 +333,7 @@ const QUIZ_QUESTIONS = [
 ];
 
 function VocabQuiz() {
+  const { t } = useTranslation();
   const [idx, setIdx] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
@@ -342,9 +353,9 @@ function VocabQuiz() {
   if (done) return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-4 py-6">
       <div className="text-5xl font-bold text-primary">{score}/{QUIZ_QUESTIONS.length}</div>
-      <p className="font-bold text-lg">{score === 5 ? "Perfect score!" : score >= 3 ? "Strong vocab skills." : "Keep practising - you're growing."}</p>
+      <p className="font-bold text-lg">{score === 5 ? t("premium.quizPerfect") : score >= 3 ? t("premium.quizStrong") : t("premium.quizKeepPractising")}</p>
       <Button onClick={() => { setIdx(0); setScore(0); setSelected(null); setDone(false); }} variant="outline" size="sm" className="rounded-full mt-2">
-        <RefreshCw className="h-3.5 w-3.5 mr-2" /> Try Again
+        <RefreshCw className="h-3.5 w-3.5 mr-2" /> {t("premium.quizTryAgain")}
       </Button>
     </motion.div>
   );
@@ -352,14 +363,14 @@ function VocabQuiz() {
   return (
     <div className="space-y-5">
       <div className="flex justify-between text-xs">
-        <span className="font-bold uppercase tracking-wider text-muted-foreground">Question {idx + 1}/{QUIZ_QUESTIONS.length}</span>
-        <span className="font-bold text-primary">{score} correct</span>
+        <span className="font-bold uppercase tracking-wider text-muted-foreground">{t("premium.quizQuestion", { idx: idx + 1, total: QUIZ_QUESTIONS.length })}</span>
+        <span className="font-bold text-primary">{t("premium.quizCorrect", { score })}</span>
       </div>
       <div className="h-1.5 bg-muted rounded-full overflow-hidden">
         <motion.div animate={{ width: `${(idx / QUIZ_QUESTIONS.length) * 100}%` }} className="h-full bg-primary rounded-full" />
       </div>
       <div className="text-center py-4">
-        <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">What does this mean?</p>
+        <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">{t("premium.quizMeaning")}</p>
         <p className="text-4xl font-bold font-mono">{q.word}</p>
       </div>
       <div className="space-y-2">
@@ -378,13 +389,14 @@ function VocabQuiz() {
 }
 
 function SentenceBuilder({ word }: { word: string }) {
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const [saved, setSaved] = useState<string[]>([]);
   const prompts = [
-    `Use "${word}" to describe a moment that shaped you.`,
-    `Write a sentence with "${word}" set in a city you love.`,
-    `Describe someone you admire using "${word}".`,
-    `What does "${word}" mean to you personally? Show, don't tell.`,
+    t("premium.builderPrompt1", { word }),
+    t("premium.builderPrompt2", { word }),
+    t("premium.builderPrompt3", { word }),
+    t("premium.builderPrompt4", { word }),
   ];
   const [promptIdx, setPromptIdx] = useState(0);
 
@@ -398,14 +410,14 @@ function SentenceBuilder({ word }: { word: string }) {
   return (
     <div className="space-y-5">
       <div className="p-4 rounded-xl border border-primary/30 bg-primary/5">
-        <p className="text-xs font-bold text-primary uppercase tracking-wider mb-1">Today's word</p>
+        <p className="text-xs font-bold text-primary uppercase tracking-wider mb-1">{t("premium.builderTodayWord")}</p>
         <p className="text-2xl font-bold">{word}</p>
       </div>
       <p className="text-sm italic text-muted-foreground">{prompts[promptIdx]}</p>
       <div className="flex gap-2">
-        <Input value={input} onChange={e => setInput(e.target.value)} placeholder="Write your sentence…"
+        <Input value={input} onChange={e => setInput(e.target.value)} placeholder={t("premium.builderPlaceholder")}
           className="rounded-xl" onKeyDown={e => e.key === "Enter" && handleSave()} />
-        <Button onClick={handleSave} disabled={!input.trim()} className="rounded-xl bg-primary hover:bg-primary/90 font-bold flex-shrink-0">Save</Button>
+        <Button onClick={handleSave} disabled={!input.trim()} className="rounded-xl bg-primary hover:bg-primary/90 font-bold flex-shrink-0">{t("premium.builderSave")}</Button>
       </div>
       {saved.map((s, i) => (
         <motion.div key={i} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
@@ -416,11 +428,12 @@ function SentenceBuilder({ word }: { word: string }) {
 }
 
 function ProgressReport() {
+  const { t } = useTranslation();
   const stats = [
-    { label: "Words This Month", value: 24, max: 30, color: "bg-primary" },
-    { label: "Streak Days", value: 18, max: 30, color: "bg-accent" },
-    { label: "Games Played", value: 12, max: 20, color: "bg-green-500" },
-    { label: "Journal Entries", value: 8, max: 10, color: "bg-yellow-500" },
+    { label: t("premium.reportWordsMonth"), value: 24, max: 30, color: "bg-primary" },
+    { label: t("premium.reportStreak"), value: 18, max: 30, color: "bg-accent" },
+    { label: t("premium.reportGames"), value: 12, max: 20, color: "bg-green-500" },
+    { label: t("premium.reportJournal"), value: 8, max: 10, color: "bg-yellow-500" },
   ];
   return (
     <div className="space-y-6">
@@ -444,21 +457,23 @@ function ProgressReport() {
         ))}
       </div>
       <div className="p-4 rounded-xl border border-primary/30 bg-primary/5 text-center">
-        <p className="text-xs text-muted-foreground mb-1">Archetype this month</p>
-        <p className="text-lg font-bold text-primary">The Visionary - 87% match</p>
+        <p className="text-xs text-muted-foreground mb-1">{t("premium.reportArchetype")}</p>
+        <p className="text-lg font-bold text-primary">{t("premium.reportArchetypeMatch", { archetype: "The Visionary", match: 87 })}</p>
       </div>
     </div>
   );
 }
 
 // ── Premium Dashboard (after upgrade) ───────────────────
-const sessions = [
-  { id: "quiz" as SessionType, icon: Brain, label: "Vocab Quiz", desc: "Test 5 words with instant feedback." },
-  { id: "builder" as SessionType, icon: Zap, label: "Sentence Builder", desc: "Unlimited creative practice with rotating prompts." },
-  { id: "report" as SessionType, icon: BarChart3, label: "Monthly Report", desc: "Growth dashboard - streaks, top words, archetype." },
-];
-
 function PremiumDashboard({ dailyWord }: { dailyWord: string }) {
+  const { t } = useTranslation();
+
+  const sessions = [
+    { id: "quiz" as SessionType, icon: Brain, label: t("premium.sessionQuiz"), desc: t("premium.sessionQuizDesc") },
+    { id: "builder" as SessionType, icon: Zap, label: t("premium.sessionBuilder"), desc: t("premium.sessionBuilderDesc") },
+    { id: "report" as SessionType, icon: BarChart3, label: t("premium.sessionReport"), desc: t("premium.sessionReportDesc") },
+  ];
+
   const [activeSession, setActiveSession] = useState<SessionType>(null);
   return (
     <div className="min-h-screen px-4 py-16">
@@ -467,12 +482,12 @@ function PremiumDashboard({ dailyWord }: { dailyWord: string }) {
           <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-[0_0_50px_rgba(139,92,246,0.5)]">
             <Crown className="h-12 w-12 text-white" />
           </div>
-          <Badge className="bg-primary/20 text-primary border-primary/30 font-bold tracking-widest text-xs uppercase">Premium Active</Badge>
+          <Badge className="bg-primary/20 text-primary border-primary/30 font-bold tracking-widest text-xs uppercase">{t("premium.dashboardBadge")}</Badge>
           <h1 className="text-5xl font-bold tracking-tighter">
-            You're in the{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">inner circle.</span>
+            {t("premium.dashboardHeading")}{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">{t("premium.dashboardHighlight")}</span>
           </h1>
-          <p className="text-muted-foreground text-lg max-w-lg mx-auto">Every premium feature unlocked. Choose a session below.</p>
+          <p className="text-muted-foreground text-lg max-w-lg mx-auto">{t("premium.dashboardSubtitle")}</p>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-4">
@@ -505,35 +520,33 @@ function PremiumDashboard({ dailyWord }: { dailyWord: string }) {
   );
 }
 
-// ── Comparison & marketing data ──────────────────────────
-const comparison = [
-  { feature: "Daily word delivery", free: "1 word/day", premium: "1 word/day + etymology & audio" },
-  { feature: "Word games", free: "1 game/day", premium: "All 6 games - unlimited" },
-  { feature: "Word journal", free: "5 entries max", premium: "Unlimited + PDF export" },
-  { feature: "Sentence builder", free: "3 uses/day", premium: "Unlimited sessions" },
-  { feature: "Streak tracking", free: "Basic streak only", premium: "Badges, milestones & leaderboard" },
-  { feature: "Birth archetype", free: "Basic profile", premium: "Full deep-dive report" },
-  { feature: "Vocabulary reports", free: "None", premium: "Monthly growth report" },
-  { feature: "Languages", free: "English only", premium: "English + 1 language (more for $2)" },
-  { feature: "Friend challenges", free: "Not available", premium: "Cross-language word duels" },
-  { feature: "Custom word lists", free: "Not available", premium: "Build your own lists" },
-  { feature: "Ads", free: "Shown", premium: "No ads, ever" },
-  { feature: "New features", free: "Standard access", premium: "Early access" },
-];
+// ── Comparison data (module-level, translated inside component) ──
+// see comparison const below, inside Premium component
 
-const testimonials = [
-  { name: "Ayanda M.", location: "Johannesburg", text: "Eight dollars. That's it. I've been using it every single day for 3 months. The word journal alone is worth ten times that.", stars: 5 },
-  { name: "Priya K.", location: "Cape Town", text: "I went from dreading English essays to actually enjoying them. The archetype report showed me exactly how I learn best.", stars: 5 },
-  { name: "Luca T.", location: "London", text: "The games are actually addictive. Spelling Bee and the Lexigenz Game have me coming back every day. Premium was a no-brainer.", stars: 5 },
-  { name: "Fatima R.", location: "Dubai", text: "Learning in Arabic and switching to English for practise - seamlessly. That alone makes the $8 worth every cent.", stars: 5 },
-];
+const TESTIMONIAL_KEYS = [0, 1, 2, 3];
 
 // ── Main Export ──────────────────────────────────────────
 export default function Premium() {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [isPremiumLocal, setIsPremiumLocal] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("lifetime");
+
+  const comparison = [
+    { feature: t("premium.compare.featureDaily"), free: t("premium.compare.freeDaily"), premium: t("premium.compare.premiumDaily") },
+    { feature: t("premium.compare.featureGames"), free: t("premium.compare.freeGames"), premium: t("premium.compare.premiumGames") },
+    { feature: t("premium.compare.featureJournal"), free: t("premium.compare.freeJournal"), premium: t("premium.compare.premiumJournal") },
+    { feature: t("premium.compare.featureBuilder"), free: t("premium.compare.freeBuilder"), premium: t("premium.compare.premiumBuilder") },
+    { feature: t("premium.compare.featureStreak"), free: t("premium.compare.freeStreak"), premium: t("premium.compare.premiumStreak") },
+    { feature: t("premium.compare.featureArchetype"), free: t("premium.compare.freeArchetype"), premium: t("premium.compare.premiumArchetype") },
+    { feature: t("premium.compare.featureReports"), free: t("premium.compare.freeReports"), premium: t("premium.compare.premiumReports") },
+    { feature: t("premium.compare.featureLang"), free: t("premium.compare.freeLang"), premium: t("premium.compare.premiumLang") },
+    { feature: t("premium.compare.featureFriends"), free: t("premium.compare.freeFriends"), premium: t("premium.compare.premiumFriends") },
+    { feature: t("premium.compare.featureCustom"), free: t("premium.compare.freeCustom"), premium: t("premium.compare.premiumCustom") },
+    { feature: t("premium.compare.featureAds"), free: t("premium.compare.freeAds"), premium: t("premium.compare.premiumAds") },
+    { feature: t("premium.compare.featureFeatures"), free: t("premium.compare.freeFeatures"), premium: t("premium.compare.premiumFeatures") },
+  ];
   const queryClient = useQueryClient();
   const { language } = useLanguageStore();
   const { user, setPremium } = useAuth();
@@ -577,28 +590,28 @@ export default function Premium() {
         <div className="container mx-auto max-w-4xl text-center space-y-6">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <div className="inline-flex items-center gap-2 bg-accent/20 text-accent border border-accent/30 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-6">
-              <Sparkles className="h-3.5 w-3.5" /> Introductory Offer - $8 once-off
+              <Sparkles className="h-3.5 w-3.5" /> {t("premium.pageBadge")}
             </div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none">
-              STOP BEING<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">AVERAGE WITH WORDS.</span>
+              {t("premium.pageHeading")}<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">{t("premium.pageHighlight")}</span>
             </h1>
             <p className="mt-6 text-xl text-muted-foreground max-w-2xl mx-auto">
-              Free gives you a taste. Premium gives you everything - for the price of a coffee. One payment. No subscription. No expiry.
+              {t("premium.pageSubtitle")}
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
               <Button size="lg" onClick={() => setShowModal(true)}
                 className="rounded-full bg-primary hover:bg-primary/90 font-bold px-10 h-14 text-lg shadow-[0_0_40px_rgba(139,92,246,0.5)]"
                 data-testid="button-upgrade-hero">
-                Get Premium - $8
+                {t("premium.upgradeBtn")}
               </Button>
               <a href="#compare">
                 <Button size="lg" variant="outline" className="rounded-full border-border hover:border-primary/50 font-bold px-8 h-14">
-                  See What You're Missing <ChevronDown className="h-4 w-4 ml-2" />
+                  {t("premium.compareHeading")} <ChevronDown className="h-4 w-4 ml-2" />
                 </Button>
               </a>
             </div>
-            <p className="mt-3 text-xs text-muted-foreground">One-time payment · No recurring fees · Built in South Africa</p>
+            <p className="mt-3 text-xs text-muted-foreground">{t("premium.oneTimePaymentNote")}</p>
           </motion.div>
         </div>
       </section>
@@ -607,24 +620,24 @@ export default function Premium() {
       <section className="py-16 px-4 bg-card/60">
         <div className="container mx-auto max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">You're on the free plan</p>
-            <h2 className="text-4xl font-bold tracking-tighter">Here's what you can't do - yet.</h2>
-            <p className="text-muted-foreground text-lg mt-3 max-w-xl mx-auto">Every feature is waiting on the other side of a single $8 payment.</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">{t("premium.lockedSectionBadge")}</p>
+            <h2 className="text-4xl font-bold tracking-tighter">{t("premium.lockedSectionHeading")}</h2>
+            <p className="text-muted-foreground text-lg mt-3 max-w-xl mx-auto">{t("premium.lockedSectionSubtitle")}</p>
           </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { icon: Gamepad2, label: "All 6 word games, unlimited", limit: "Free: 1 game/day" },
-              { icon: BookOpen, label: "Unlimited word journal", limit: "Free: 5 entries only" },
-              { icon: Download, label: "Export journal to PDF", limit: "Free: not available" },
-              { icon: Zap, label: "Unlimited sentence builder", limit: "Free: 3 uses/day" },
-              { icon: Globe, label: "English + 1 language", limit: "More languages: $2 each" },
-              { icon: Brain, label: "Full archetype deep-dive", limit: "Free: basic profile" },
-              { icon: BarChart3, label: "Monthly vocabulary report", limit: "Free: not available" },
-              { icon: Trophy, label: "Badge milestones & leaderboard", limit: "Free: basic streak" },
-              { icon: Users, label: "Cross-language friend challenges", limit: "Free: not available" },
-              { icon: Sparkles, label: "Word etymology & origins", limit: "Free: not available" },
-              { icon: Mic, label: "Pronunciation audio guides", limit: "Free: not available" },
-              { icon: Star, label: "Custom vocabulary lists", limit: "Free: not available" },
+              { icon: Gamepad2, label: t("premium.lockedFeature1"), limit: t("premium.lockedFeature1Limit") },
+              { icon: BookOpen, label: t("premium.lockedFeature2"), limit: t("premium.lockedFeature2Limit") },
+              { icon: Download, label: t("premium.lockedFeature3"), limit: t("premium.lockedFeature3Limit") },
+              { icon: Zap, label: t("premium.lockedFeature4"), limit: t("premium.lockedFeature4Limit") },
+              { icon: Globe, label: t("premium.lockedFeature5"), limit: t("premium.lockedFeature5Limit") },
+              { icon: Brain, label: t("premium.lockedFeature6"), limit: t("premium.lockedFeature6Limit") },
+              { icon: BarChart3, label: t("premium.lockedFeature7"), limit: t("premium.lockedFeature7Limit") },
+              { icon: Trophy, label: t("premium.lockedFeature8"), limit: t("premium.lockedFeature8Limit") },
+              { icon: Users, label: t("premium.lockedFeature9"), limit: t("premium.lockedFeature9Limit") },
+              { icon: Sparkles, label: t("premium.lockedFeature10"), limit: t("premium.lockedFeature10Limit") },
+              { icon: Mic, label: t("premium.lockedFeature11"), limit: t("premium.lockedFeature11Limit") },
+              { icon: Star, label: t("premium.lockedFeature12"), limit: t("premium.lockedFeature12Limit") },
             ].map((item, i) => (
               <motion.div key={item.label} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ delay: i * 0.04 }}
@@ -645,16 +658,16 @@ export default function Premium() {
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Languages</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">{t("premium.langSectionBadge")}</p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tighter">
-              One platform.{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">19 languages.</span>
+              {t("premium.langSectionHeading1")}{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">{t("premium.langSectionHeading2")}</span>
             </h2>
             <p className="text-muted-foreground text-lg mt-3 max-w-xl mx-auto">
-              Switch your learning language anytime from the globe icon in the navigation. Your word, your archetype, your language.
+              {t("premium.langSectionSubtitle")}
             </p>
             <div className="mt-3 inline-flex items-center gap-2 bg-destructive/10 text-destructive border border-destructive/20 text-xs font-bold px-4 py-1.5 rounded-full">
-              <Lock className="h-3 w-3" /> Free plan: English only
+              <Lock className="h-3 w-3" /> {t("premium.langSectionFreePlan")}
             </div>
           </motion.div>
 
@@ -693,7 +706,7 @@ export default function Premium() {
               );
             })}
           </motion.div>
-          <p className="text-center text-xs text-muted-foreground mb-10">Each language shown in its own colour</p>
+          <p className="text-center text-xs text-muted-foreground mb-10">{t("premium.langColorsNote")}</p>
 
           {/* Inline premium CTA */}
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -701,16 +714,16 @@ export default function Premium() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Globe className="h-5 w-5 text-primary" />
-                <span className="font-bold text-lg">Unlock English + 1 other language</span>
+                <span className="font-bold text-lg">{t("premium.langCtaLabel")}</span>
               </div>
               <p className="text-muted-foreground text-sm max-w-sm">
-                Free users are limited to English only. Premium includes English + 1 language of your choice. Additional languages available for $2 each.
+                {t("premium.langCtaDesc")}
               </p>
             </div>
             <Button size="lg" onClick={() => setShowModal(true)}
               className="rounded-full bg-primary hover:bg-primary/90 font-bold px-8 h-12 flex-shrink-0 shadow-[0_0_24px_rgba(139,92,246,0.4)]"
               data-testid="button-upgrade-languages">
-              Get Premium - $8
+              {t("premium.upgradeBtn")}
             </Button>
           </motion.div>
         </div>
@@ -720,15 +733,15 @@ export default function Premium() {
       <section id="compare" className="py-20 px-4 bg-card/50">
         <div className="container mx-auto max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-4xl font-bold tracking-tighter">Free vs Premium</h2>
-            <p className="text-muted-foreground text-lg mt-2">Side by side. You decide.</p>
+            <h2 className="text-4xl font-bold tracking-tighter">{t("premium.compareHeading")}</h2>
+            <p className="text-muted-foreground text-lg mt-2">{t("premium.compareSubtitle")}</p>
           </motion.div>
           <div className="rounded-3xl border border-border overflow-hidden">
             <div className="grid grid-cols-3 bg-card border-b border-border">
-              <div className="p-5 text-sm font-bold text-muted-foreground uppercase tracking-wider">Feature</div>
-              <div className="p-5 text-sm font-bold text-center border-l border-border">Free</div>
+              <div className="p-5 text-sm font-bold text-muted-foreground uppercase tracking-wider">{t("premium.compareFeatureLabel")}</div>
+              <div className="p-5 text-sm font-bold text-center border-l border-border">{t("common.free")}</div>
               <div className="p-5 text-sm font-bold text-center border-l border-border bg-primary/5">
-                <span className="text-primary">Premium</span>
+                <span className="text-primary">{t("common.premium")}</span>
                 <span className="ml-2 text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full font-bold">$8</span>
               </div>
             </div>
@@ -743,7 +756,7 @@ export default function Premium() {
           {!showAll && (
             <div className="text-center mt-4">
               <button onClick={() => setShowAll(true)} className="text-sm text-primary font-semibold hover:underline flex items-center gap-1 mx-auto">
-                Show all {comparison.length} comparisons <ChevronDown className="h-4 w-4" />
+                {t("premium.compareShowAll", { count: comparison.length })} <ChevronDown className="h-4 w-4" />
               </button>
             </div>
           )}
@@ -754,19 +767,19 @@ export default function Premium() {
       <section className="py-20 px-4 bg-card/50">
         <div className="container mx-auto max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <h2 className="text-4xl font-bold tracking-tighter">Real learners. Real results.</h2>
+            <h2 className="text-4xl font-bold tracking-tighter">{t("premium.testimonialsHeading")}</h2>
           </motion.div>
           <div className="grid sm:grid-cols-2 gap-5">
-            {testimonials.map((t, i) => (
-              <motion.div key={t.name} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+            {TESTIMONIAL_KEYS.map((idx) => (
+              <motion.div key={idx} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ delay: idx * 0.08 }}
                 className="p-7 rounded-2xl border border-border bg-card hover:border-primary/30 transition-all">
                 <div className="flex gap-0.5 mb-4">
-                  {Array.from({ length: t.stars }).map((_, s) => <Star key={s} className="h-4 w-4 fill-primary text-primary" />)}
+                  {Array.from({ length: 5 }).map((_, s) => <Star key={s} className="h-4 w-4 fill-primary text-primary" />)}
                 </div>
-                <p className="text-sm leading-relaxed mb-5">"{t.text}"</p>
-                <p className="font-bold text-sm">{t.name}</p>
-                <p className="text-xs text-muted-foreground">{t.location}</p>
+                <p className="text-sm leading-relaxed mb-5">"{t(`premium.testimonial${idx}Text`)}"</p>
+                <p className="font-bold text-sm">{t(`premium.testimonial${idx}Name`)}</p>
+                <p className="text-xs text-muted-foreground">{t(`premium.testimonial${idx}Location`)}</p>
               </motion.div>
             ))}
           </div>
@@ -777,14 +790,14 @@ export default function Premium() {
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-xl space-y-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center">
-            <h2 className="text-4xl font-bold tracking-tighter mb-2">Choose your plan</h2>
-            <p className="text-muted-foreground">Free is always free. Upgrade when you're ready.</p>
+            <h2 className="text-4xl font-bold tracking-tighter mb-2">{t("premium.planChooseHeading")}</h2>
+            <p className="text-muted-foreground">{t("premium.planChooseSubtitle")}</p>
           </motion.div>
           <div className="grid grid-cols-3 gap-3">
             {[
-              { id: "monthly", label: "Monthly", price: "Free", sub: "limited use" },
-              { id: "annual", label: "Annually", price: "Free", sub: "limited use" },
-              { id: "lifetime", label: "Once-off", price: "$8", sub: "unlimited", badge: "Best Value" },
+              { id: "monthly", label: t("premium.planMonthlyLabel"), price: "Free", sub: t("premium.planLimitedUse") },
+              { id: "annual", label: t("premium.planAnnuallyLabel"), price: "Free", sub: t("premium.planLimitedUse") },
+              { id: "lifetime", label: t("premium.planOnceOffLabel"), price: "$8", sub: t("premium.planUnlimited"), badge: t("premium.planBestValue") },
             ].map(plan => (
               <button key={plan.id} onClick={() => setSelectedPlan(plan.id)}
                 className={`relative p-4 rounded-2xl border-2 text-center transition-all ${selectedPlan === plan.id ? "border-primary bg-primary/10 shadow-[0_0_20px_rgba(139,92,246,0.2)]" : "border-border hover:border-primary/40 bg-card"}`}
@@ -804,17 +817,17 @@ export default function Premium() {
               onClick={() => selectedPlan === "lifetime" && setShowModal(true)}
               disabled={selectedPlan !== "lifetime"}
               data-testid="button-upgrade-premium">
-              {selectedPlan === "lifetime" ? "Unlock Everything - $8" : "Select 'Once-off' to upgrade"}
+              {selectedPlan === "lifetime" ? t("premium.planUnlockCta") : t("premium.planSelectOnceOff")}
             </Button>
             <div className="grid grid-cols-3 gap-3 text-center">
-              {[{ icon: Flame, label: "One payment" }, { icon: Crown, label: "No expiry" }, { icon: Globe, label: "Global access" }].map(b => (
+              {[{ icon: Flame, label: t("premium.planOnePayment") }, { icon: Crown, label: t("premium.planNoExpiry") }, { icon: Globe, label: t("premium.planGlobalAccess") }].map(b => (
                 <div key={b.label} className="flex flex-col items-center gap-1.5 p-3 rounded-xl border border-border bg-card">
                   <b.icon className="h-4 w-4 text-primary" />
                   <span className="text-xs font-semibold text-muted-foreground">{b.label}</span>
                 </div>
               ))}
             </div>
-            <p className="text-center text-xs text-muted-foreground">No hidden fees. No subscriptions. Built in South Africa, for the world.</p>
+            <p className="text-center text-xs text-muted-foreground">{t("premium.planNoHiddenFees")}</p>
           </div>
         </div>
       </section>
@@ -827,14 +840,14 @@ export default function Premium() {
             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
               <Crown className="h-8 w-8 text-primary" />
             </div>
-            <h2 className="text-4xl font-bold tracking-tighter">One coffee. A lifetime of better words.</h2>
+            <h2 className="text-4xl font-bold tracking-tighter">{t("premium.ctaHeading")}</h2>
             <p className="text-muted-foreground text-lg max-w-lg mx-auto leading-relaxed">
-              $8, once. No renewals, no regrets. Thousands of learners across 5 continents already made the switch.
+              {t("premium.ctaSubtitle")}
             </p>
             <Button size="lg" onClick={() => setShowModal(true)}
               className="rounded-full bg-primary hover:bg-primary/90 font-bold px-12 h-14 text-lg shadow-[0_0_30px_rgba(139,92,246,0.5)]"
               data-testid="button-upgrade-final">
-              Get Premium - $8
+              {t("premium.upgradeBtn")}
             </Button>
           </motion.div>
         </div>

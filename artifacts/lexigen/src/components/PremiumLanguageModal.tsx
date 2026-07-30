@@ -4,6 +4,7 @@ import { Globe, CheckCircle2, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { langColor } from "@/data/language-colors";
+import { useTranslation } from "react-i18next";
 
 const LANGUAGES = [
   "Afrikaans", "Arabic", "Bahasa Malay", "Cantonese", "Chinese (Mandarin)",
@@ -19,10 +20,13 @@ interface Props {
 }
 
 export function PremiumLanguageModal({ onClose, isChange = false }: Props) {
+  const { t } = useTranslation();
   const { user, setPremiumLanguage } = useAuth();
   const [selected, setSelected] = useState<string | null>(user?.premiumLanguage ?? null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  const currentLanguage = user?.premiumLanguage ?? "";
 
   const handleSave = async () => {
     if (!selected) return;
@@ -32,7 +36,7 @@ export function PremiumLanguageModal({ onClose, isChange = false }: Props) {
       await setPremiumLanguage(selected);
       onClose();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to save");
+      setError(e instanceof Error ? e.message : t("modals.premiumLanguage.errorSave"));
     } finally {
       setSaving(false);
     }
@@ -72,10 +76,12 @@ export function PremiumLanguageModal({ onClose, isChange = false }: Props) {
               </div>
               <div>
                 <h2 className="text-xl font-black">
-                  {isChange ? "Change your included language" : "Choose your included language"}
+                  {isChange ? t("modals.premiumLanguage.changeTitle") : t("modals.premiumLanguage.title")}
                 </h2>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  Premium includes <strong>English + 1 language</strong>. Pick yours below.
+                  {isChange
+                    ? t("modals.premiumLanguage.changeSubtitle", { current: currentLanguage })
+                    : t("modals.premiumLanguage.subtitle")}
                 </p>
               </div>
             </div>
@@ -87,14 +93,14 @@ export function PremiumLanguageModal({ onClose, isChange = false }: Props) {
             <div className="flex items-center gap-3 mb-4 p-3 rounded-2xl bg-green-500/8 border border-green-500/20">
               <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
               <div className="flex-1">
-                <span className="font-bold text-sm">English</span>
-                <span className="text-xs text-muted-foreground ml-2">Always included</span>
+                <span className="font-bold text-sm">{t("modals.premiumLanguage.english")}</span>
+                <span className="text-xs text-muted-foreground ml-2">{t("modals.premiumLanguage.alwaysIncluded")}</span>
               </div>
-              <span className="text-[10px] bg-green-500/10 text-green-600 px-2 py-0.5 rounded-full font-bold">FREE</span>
+              <span className="text-[10px] bg-green-500/10 text-green-600 px-2 py-0.5 rounded-full font-bold">{t("common.free").toUpperCase()}</span>
             </div>
 
             <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-              Choose 1 additional language
+              {t("modals.premiumLanguage.otherLanguages")}
             </p>
 
             <div className="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto pr-1">
@@ -122,7 +128,7 @@ export function PremiumLanguageModal({ onClose, isChange = false }: Props) {
             {/* Info note */}
             <div className="mt-4 p-3 rounded-xl bg-muted/50 border border-border text-xs text-muted-foreground">
               <Sparkles className="h-3.5 w-3.5 inline mr-1 text-primary" />
-              Any other language costs <strong className="text-foreground">$2</strong> for 60-day access. You can change your included language at any time from the globe menu.
+              {t("modals.premiumLanguage.note")}
             </div>
 
             {error && (
@@ -133,14 +139,18 @@ export function PremiumLanguageModal({ onClose, isChange = false }: Props) {
           {/* Footer */}
           <div className="px-6 pb-6 flex gap-3">
             <Button variant="outline" onClick={onClose} className="flex-1 rounded-2xl">
-              Cancel
+              {t("common.cancel")}
             </Button>
             <Button
               onClick={handleSave}
               disabled={!selected || saving}
               className="flex-1 rounded-2xl bg-primary font-bold"
             >
-              {saving ? "Saving..." : isChange ? "Update language" : "Confirm language"}
+              {saving
+                ? t("modals.premiumLanguage.saving")
+                : isChange
+                  ? t("modals.premiumLanguage.updateBtn")
+                  : t("modals.premiumLanguage.saveBtn")}
             </Button>
           </div>
         </motion.div>

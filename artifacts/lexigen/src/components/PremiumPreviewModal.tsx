@@ -3,6 +3,7 @@ import { X, Crown, Check, Globe, Gamepad2, BookOpen, Zap, Star } from "lucide-re
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { useAuth } from "@/context/AuthContext";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   onClose: () => void;
@@ -11,36 +12,37 @@ interface Props {
   isPremium?: boolean;
 }
 
-const FEATURES = [
-  {
-    icon: <Globe className="h-4 w-4" />,
-    title: "English + 1 language included",
-    sub: "All 19 languages available — extra languages $2 / 60 days",
-  },
-  {
-    icon: <Gamepad2 className="h-4 w-4" />,
-    title: "All 6 word games unlocked",
-    sub: "Wordle, Scrabble, Crossword, Word Grid + the free games",
-  },
-  {
-    icon: <BookOpen className="h-4 w-4" />,
-    title: "Spelling Bee — all 4 levels",
-    sub: "Upper Intermediate & Proficient levels unlocked",
-  },
-  {
-    icon: <Zap className="h-4 w-4" />,
-    title: "Daily word in your language",
-    sub: "Personalised to your birth date + language choice",
-  },
-  {
-    icon: <Star className="h-4 w-4" />,
-    title: "One payment. No subscription.",
-    sub: "Pay $8 once — no expiry, no recurring fees",
-  },
-];
-
 export function PremiumPreviewModal({ onClose, onGetPremium, onSignUp, isPremium }: Props) {
+  const { t } = useTranslation();
   const { user } = useAuth();
+
+  const FEATURES = [
+    {
+      icon: <Globe className="h-4 w-4" />,
+      title: t("modals.premiumPreview.feature1Title"),
+      sub: t("modals.premiumPreview.feature1Sub"),
+    },
+    {
+      icon: <Gamepad2 className="h-4 w-4" />,
+      title: t("modals.premiumPreview.feature2Title"),
+      sub: t("modals.premiumPreview.feature2Sub"),
+    },
+    {
+      icon: <BookOpen className="h-4 w-4" />,
+      title: t("modals.premiumPreview.feature3Title"),
+      sub: t("modals.premiumPreview.feature3Sub"),
+    },
+    {
+      icon: <Zap className="h-4 w-4" />,
+      title: t("modals.premiumPreview.feature4Title"),
+      sub: t("modals.premiumPreview.feature4Sub"),
+    },
+    {
+      icon: <Star className="h-4 w-4" />,
+      title: t("modals.premiumPreview.feature5Title"),
+      sub: t("modals.premiumPreview.feature5Sub"),
+    },
+  ];
 
   const handleCTA = () => {
     if (!user) {
@@ -86,15 +88,15 @@ export function PremiumPreviewModal({ onClose, onGetPremium, onSignUp, isPremium
 
             {/* Price badge */}
             <span className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wider uppercase px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20 mb-4">
-              <Crown className="h-3 w-3" /> Introductory offer — $8 once-off
+              <Crown className="h-3 w-3" /> {t("modals.premiumPreview.badge")}
             </span>
 
             <h2 className="text-2xl font-black leading-tight mb-1">
-              Stop being average<br />
-              <span className="text-primary">with words.</span>
+              {t("modals.premiumPreview.heading1")}<br />
+              <span className="text-primary">{t("modals.premiumPreview.heading2")}</span>
             </h2>
             <p className="text-sm text-muted-foreground mt-2">
-              One payment. No subscription. No expiry.
+              {t("modals.premiumPreview.subtitle")}
             </p>
           </div>
 
@@ -120,7 +122,7 @@ export function PremiumPreviewModal({ onClose, onGetPremium, onSignUp, isPremium
           <div className="px-7 pb-7 flex flex-col gap-2.5">
             {isPremium ? (
               <div className="flex items-center justify-center gap-2 py-3 rounded-2xl bg-green-500/10 border border-green-500/20 text-green-600 font-bold text-sm">
-                <Check className="h-4 w-4" /> You already have Premium
+                <Check className="h-4 w-4" /> {t("modals.premiumPreview.ctaPremium")}
               </div>
             ) : (
               <Button
@@ -128,12 +130,12 @@ export function PremiumPreviewModal({ onClose, onGetPremium, onSignUp, isPremium
                 className="w-full h-12 rounded-2xl bg-primary font-black text-base shadow-[0_0_24px_rgba(139,92,246,0.35)] hover:shadow-[0_0_32px_rgba(139,92,246,0.5)] transition-all"
               >
                 <Crown className="h-4 w-4 mr-2" />
-                {user ? "Get Premium — $8" : "Sign up to get Premium"}
+                {user ? t("modals.premiumPreview.ctaRegistered") : t("modals.premiumPreview.ctaUnregistered")}
               </Button>
             )}
             <Link href="/premium" onClick={onClose}>
               <button className="w-full text-xs text-muted-foreground hover:text-primary transition-colors underline underline-offset-2 py-1">
-                See full details on the Premium page →
+                {t("modals.premiumPreview.ctaLink")}
               </button>
             </Link>
           </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -64,6 +65,7 @@ interface BeeProfile {
 }
 
 export default function BeeProfilePage() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const { toast } = useToast();
@@ -95,9 +97,9 @@ export default function BeeProfilePage() {
       });
       if (!res.ok) throw new Error("Failed to save");
       setSaved(true);
-      toast({ title: "Profile saved! 🌍" });
+      toast({ title: t("bee.profile.successToast") });
     } catch {
-      toast({ title: "Failed to save profile", variant: "destructive" });
+      toast({ title: t("bee.profile.errorToast"), variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -119,13 +121,12 @@ export default function BeeProfilePage() {
         {/* Header */}
         <div className="text-center space-y-2">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-1.5 text-sm font-medium">
-            <Globe className="w-4 h-4" /> Geographic Profile
+            <Globe className="w-4 h-4" /> {t("bee.profile.geographicProfile")}
           </div>
-          <h1 className="text-3xl font-bold">Your Bee Profile 🐝</h1>
+          <h1 className="text-3xl font-bold">{t("bee.profile.heading")} 🐝</h1>
           <p className="text-muted-foreground">
-            Fill in your location and institution to appear on regional leaderboards and qualify for the{" "}
-            <span className="text-primary font-medium">Annual World Championship</span>.{" "}
-            <span className="text-muted-foreground text-sm">Free for Premium members · $2 entry for free accounts.</span>
+            {t("bee.profile.subtitle")}{" "}
+            <span className="text-muted-foreground text-sm">{t("bee.profile.pricingNote")}</span>
           </p>
         </div>
 
@@ -136,7 +137,7 @@ export default function BeeProfilePage() {
           </div>
           <div>
             <p className={`font-semibold text-sm ${isComplete ? "text-emerald-800" : "text-amber-800"}`}>
-              {isComplete ? "Profile complete - you can register for the World Championship!" : "Complete all fields to unlock World Championship registration"}
+              {isComplete ? t("bee.profile.profileComplete") : t("bee.profile.completeFields")}
             </p>
           </div>
         </div>
@@ -144,21 +145,21 @@ export default function BeeProfilePage() {
         {/* Form */}
         <Card className="border-0 shadow-xl">
           <CardHeader className="pb-4">
-            <CardTitle>Location & Institution</CardTitle>
-            <CardDescription>Used for regional leaderboards only - never shared publicly beyond your display name</CardDescription>
+            <CardTitle>{t("bee.profile.locationTitle")}</CardTitle>
+            <CardDescription>{t("bee.profile.locationDesc")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
             {/* Country */}
             <div className="space-y-1.5">
               <label className="text-sm font-semibold flex items-center gap-1.5">
-                <Globe className="w-4 h-4 text-muted-foreground" /> Country
+                <Globe className="w-4 h-4 text-muted-foreground" /> {t("bee.profile.labelCountry")}
               </label>
               <select
                 value={profile.country ?? ""}
                 onChange={(e) => setProfile({ ...profile, country: e.target.value })}
                 className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
               >
-                <option value="">Select your country…</option>
+                <option value="">{t("bee.profile.selectCountry")}</option>
                 {COUNTRIES.map((c) => (
                   <option key={c.code} value={c.code}>{c.name}</option>
                 ))}
@@ -168,10 +169,10 @@ export default function BeeProfilePage() {
             {/* City */}
             <div className="space-y-1.5">
               <label className="text-sm font-semibold flex items-center gap-1.5">
-                <MapPin className="w-4 h-4 text-muted-foreground" /> City / Town
+                <MapPin className="w-4 h-4 text-muted-foreground" /> {t("bee.profile.labelCity")}
               </label>
               <Input
-                placeholder="e.g. Cape Town, Lagos, Nairobi…"
+                placeholder={t("bee.profile.placeholderCity")}
                 value={profile.city ?? ""}
                 onChange={(e) => setProfile({ ...profile, city: e.target.value })}
                 maxLength={80}
@@ -181,10 +182,10 @@ export default function BeeProfilePage() {
             {/* Institution */}
             <div className="space-y-1.5">
               <label className="text-sm font-semibold flex items-center gap-1.5">
-                <Building2 className="w-4 h-4 text-muted-foreground" /> Institution / Organisation
+                <Building2 className="w-4 h-4 text-muted-foreground" /> {t("bee.profile.labelInstitution")}
               </label>
               <Input
-                placeholder="e.g. UCT, Lagos Business School, Independent…"
+                placeholder={t("bee.profile.placeholderInstitution")}
                 value={profile.institution ?? ""}
                 onChange={(e) => setProfile({ ...profile, institution: e.target.value })}
                 maxLength={120}
@@ -194,23 +195,23 @@ export default function BeeProfilePage() {
             {/* Institution type */}
             <div className="space-y-1.5">
               <label className="text-sm font-semibold flex items-center gap-1.5">
-                <GraduationCap className="w-4 h-4 text-muted-foreground" /> Institution Type
+                <GraduationCap className="w-4 h-4 text-muted-foreground" /> {t("bee.profile.labelInstitutionType")}
               </label>
               <div className="grid grid-cols-2 gap-2">
-                {INSTITUTION_TYPES.map((t) => (
+                {INSTITUTION_TYPES.map((type) => (
                   <button
-                    key={t.value}
-                    onClick={() => setProfile({ ...profile, institutionType: t.value })}
-                    className={`text-left px-3 py-2.5 rounded-lg border text-sm transition-all ${profile.institutionType === t.value ? "border-primary bg-primary/5 font-medium text-primary" : "border-border hover:border-primary/40"}`}
+                    key={type.value}
+                    onClick={() => setProfile({ ...profile, institutionType: type.value })}
+                    className={`text-left px-3 py-2.5 rounded-lg border text-sm transition-all ${profile.institutionType === type.value ? "border-primary bg-primary/5 font-medium text-primary" : "border-border hover:border-primary/40"}`}
                   >
-                    {t.label}
+                    {t(`bee.profile.institutionTypes.${type.value}`)}
                   </button>
                 ))}
               </div>
             </div>
 
             <Button onClick={handleSave} disabled={saving} className="w-full h-11 text-base font-semibold gap-2">
-              {saving ? "Saving…" : saved ? <><CheckCircle2 className="w-5 h-5" /> Saved!</> : "Save Profile"}
+              {saving ? t("bee.profile.saving") : saved ? <><CheckCircle2 className="w-5 h-5" /> {t("bee.profile.savedLabel")}</> : t("bee.profile.saveBtn")}
             </Button>
           </CardContent>
         </Card>
@@ -225,8 +226,8 @@ export default function BeeProfilePage() {
               <div className="flex items-center gap-3">
                 <span className="text-2xl">🏆</span>
                 <div className="text-left">
-                  <p className="font-semibold">Register for the World Championship</p>
-                  <p className="text-xs text-muted-foreground">Annual global final - 3rd Saturday of June, 12:00 UTC</p>
+                  <p className="font-semibold">{t("bee.profile.registerChampionship")}</p>
+                  <p className="text-xs text-muted-foreground">{t("bee.profile.annualFinal")}</p>
                 </div>
               </div>
               <ChevronRight className="w-5 h-5 text-primary" />
@@ -238,8 +239,8 @@ export default function BeeProfilePage() {
               <div className="flex items-center gap-3">
                 <span className="text-2xl">🌍</span>
                 <div className="text-left">
-                  <p className="font-semibold">View Regional Leaderboard</p>
-                  <p className="text-xs text-muted-foreground">Filter by country or institution</p>
+                  <p className="font-semibold">{t("bee.profile.viewLeaderboard")}</p>
+                  <p className="text-xs text-muted-foreground">{t("bee.profile.filterLeaderboard")}</p>
                 </div>
               </div>
               <ChevronRight className="w-5 h-5 text-muted-foreground" />

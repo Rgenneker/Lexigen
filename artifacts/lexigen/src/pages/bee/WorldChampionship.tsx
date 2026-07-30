@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,12 +8,23 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Trophy, CheckCircle2, Clock, Globe, Users, Flame, ChevronRight, AlertCircle, Crown } from "lucide-react";
 
-const COUNTRY_NAMES: Record<string, string> = {
-  ZA: "🇿🇦 South Africa", NG: "🇳🇬 Nigeria", KE: "🇰🇪 Kenya", GH: "🇬🇭 Ghana",
-  EG: "🇪🇬 Egypt", US: "🇺🇸 United States", GB: "🇬🇧 United Kingdom",
-  CA: "🇨🇦 Canada", AU: "🇦🇺 Australia", IN: "🇮🇳 India",
-  PH: "🇵🇭 Philippines", SG: "🇸🇬 Singapore", MY: "🇲🇾 Malaysia",
-  NZ: "🇳🇿 New Zealand", IE: "🇮🇪 Ireland", ZW: "🇿🇼 Zimbabwe",
+const COUNTRY_KEY_MAP: Record<string, string> = {
+  ZA: "bee.worldChampionship.countryZA",
+  NG: "bee.worldChampionship.countryNG",
+  KE: "bee.worldChampionship.countryKE",
+  GH: "bee.worldChampionship.countryGH",
+  EG: "bee.worldChampionship.countryEG",
+  US: "bee.worldChampionship.countryUS",
+  GB: "bee.worldChampionship.countryGB",
+  CA: "bee.worldChampionship.countryCA",
+  AU: "bee.worldChampionship.countryAU",
+  IN: "bee.worldChampionship.countryIN",
+  PH: "bee.worldChampionship.countryPH",
+  SG: "bee.worldChampionship.countrySG",
+  MY: "bee.worldChampionship.countryMY",
+  NZ: "bee.worldChampionship.countryNZ",
+  IE: "bee.worldChampionship.countryIE",
+  ZW: "bee.worldChampionship.countryZW",
 };
 
 interface ChampionRow {
@@ -54,6 +66,7 @@ function Pad({ n }: { n: number }) {
 }
 
 export default function WorldChampionship() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const isPremium = user?.plan === "premium";
   const [, navigate] = useLocation();
@@ -94,7 +107,7 @@ export default function WorldChampionship() {
       if (!res.ok) throw new Error(d.error ?? "Registration failed");
       setRegistered(true);
       setInfo((prev) => prev ? { ...prev, registrantCount: prev.registrantCount + 1, userRegistered: true } : prev);
-      toast({ title: "You're registered for the World Championship! 🏆" });
+      toast({ title: t("bee.worldChampionship.registeredToast") });
     } catch (e: unknown) {
       toast({ title: (e as Error).message, variant: "destructive" });
     } finally {
@@ -117,24 +130,24 @@ export default function WorldChampionship() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-transparent pointer-events-none" />
         <div className="relative max-w-4xl mx-auto px-4 pt-16 pb-12 text-center space-y-4">
           <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 rounded-full px-4 py-1.5 text-sm font-bold">
-            🏆 Annual Event
+            🏆 {t("bee.worldChampionship.badge")}
           </div>
           <h1 className="text-5xl font-black tracking-tight">
-            World Spelling Bee<br />
-            <span className="text-primary">Championship {info?.year ?? new Date().getFullYear() + 1}</span>
+            {t("bee.worldChampionship.heading")}<br />
+            <span className="text-primary">{t("bee.worldChampionship.yearHeading", { year: info?.year ?? new Date().getFullYear() + 1 })}</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            One synchronous global final. Every speller. One moment.<br />
-            3rd Saturday of June · 12:00 UTC
+            {t("bee.worldChampionship.subtitle")}<br />
+            {t("bee.worldChampionship.dateDesc")}
           </p>
 
           {/* Countdown */}
           <div className="inline-flex gap-4 bg-card border shadow-lg rounded-2xl px-8 py-5 mt-4">
             {[
-              { value: countdown.days, label: "Days" },
-              { value: countdown.hours, label: "Hours" },
-              { value: countdown.minutes, label: "Min" },
-              { value: countdown.seconds, label: "Sec" },
+              { value: countdown.days, label: t("bee.worldChampionship.countdownDays") },
+              { value: countdown.hours, label: t("bee.worldChampionship.countdownHours") },
+              { value: countdown.minutes, label: t("bee.worldChampionship.countdownMin") },
+              { value: countdown.seconds, label: t("bee.worldChampionship.countdownSec") },
             ].map((u, i) => (
               <div key={u.label} className="text-center">
                 {i > 0 && <span className="absolute -ml-3 mt-1 text-2xl text-muted-foreground font-light">:</span>}
@@ -147,7 +160,7 @@ export default function WorldChampionship() {
           {/* Registrant count */}
           <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
             <Users className="w-4 h-4" />
-            <span><strong className="text-foreground">{info?.registrantCount ?? 0}</strong> players registered so far</span>
+            <span><strong className="text-foreground">{info?.registrantCount ?? 0}</strong> {t("bee.worldChampionship.registrantCountSuffix")}</span>
           </div>
         </div>
       </div>
@@ -163,10 +176,10 @@ export default function WorldChampionship() {
                   <Trophy className="w-7 h-7 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">Sign in to Register</h3>
-                  <p className="text-muted-foreground text-sm mt-1">Create a free account to register · <span className="text-primary font-semibold">Free for Premium members · $2 entry for free accounts</span></p>
+                  <h3 className="font-bold text-lg">{t("bee.worldChampionship.signInPrompt")}</h3>
+                  <p className="text-muted-foreground text-sm mt-1">{t("bee.worldChampionship.signInDesc")}</p>
                 </div>
-                <Button onClick={() => navigate("/")} className="gap-2">Sign In / Register</Button>
+                <Button onClick={() => navigate("/")} className="gap-2">{t("bee.worldChampionship.signInBtn")}</Button>
               </div>
             ) : registered ? (
               <div className="flex flex-col sm:flex-row items-center gap-5">
@@ -174,14 +187,14 @@ export default function WorldChampionship() {
                   <CheckCircle2 className="w-8 h-8 text-emerald-600" />
                 </div>
                 <div className="flex-1 text-center sm:text-left">
-                  <h3 className="font-bold text-lg text-emerald-700">You're registered! 🎉</h3>
+                  <h3 className="font-bold text-lg text-emerald-700">{t("bee.worldChampionship.alreadyRegistered", { year: info?.year ?? "" })}</h3>
                   <p className="text-muted-foreground text-sm mt-1">
-                    Mark your calendar: <strong>{targetDate.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</strong> at 12:00 UTC.
-                    Keep practising - the best Proficient spelling wins the title.
+                    {t("bee.worldChampionship.alreadyRegisteredDesc")} <strong>{targetDate.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</strong> at 12:00 UTC.
+                    {t("bee.worldChampionship.keepPractising")}
                   </p>
                 </div>
                 <Button onClick={() => navigate("/bee/create")} variant="outline" className="gap-2 shrink-0">
-                  Practise Now <ChevronRight className="w-4 h-4" />
+                  {t("bee.worldChampionship.practiseNow")} <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
             ) : !profileComplete ? (
@@ -190,13 +203,13 @@ export default function WorldChampionship() {
                   <AlertCircle className="w-8 h-8 text-amber-600" />
                 </div>
                 <div className="flex-1 text-center sm:text-left">
-                  <h3 className="font-bold text-lg">Complete your Bee Profile first</h3>
+                  <h3 className="font-bold text-lg">{t("bee.worldChampionship.profileRequired")}</h3>
                   <p className="text-muted-foreground text-sm mt-1">
-                    You need to add your country and institution before registering. This places you on regional leaderboards.
+                    {t("bee.worldChampionship.profileRequiredDesc")}
                   </p>
                 </div>
                 <Button onClick={() => navigate("/bee/profile")} className="gap-2 shrink-0">
-                  Complete Profile <ChevronRight className="w-4 h-4" />
+                  {t("bee.worldChampionship.completeProfileBtn")} <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
             ) : (
@@ -206,30 +219,30 @@ export default function WorldChampionship() {
                 </div>
                 <div className="flex-1 text-center sm:text-left">
                   <div className="flex items-center gap-2 mb-1 justify-center sm:justify-start flex-wrap">
-                    <h3 className="font-bold text-lg">Register for the {info?.year ?? ""} Championship</h3>
+                    <h3 className="font-bold text-lg">{t("bee.worldChampionship.registerHeading", { year: info?.year ?? "" })}</h3>
                     {isPremium ? (
                       <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
-                        <Crown className="w-3 h-3" /> Free · Premium
+                        <Crown className="w-3 h-3" /> {t("bee.worldChampionship.freeBadge")}
                       </span>
                     ) : (
                       <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">
-                        $2 Entry Fee
+                        {t("bee.worldChampionship.paidBadge")}
                       </span>
                     )}
                   </div>
                   <p className="text-muted-foreground text-sm">
-                    Representing <strong>{COUNTRY_NAMES[info!.userProfile!.country!] ?? info!.userProfile!.country}</strong>
+                    {t("bee.worldChampionship.representingPrefix")} <strong>{t(COUNTRY_KEY_MAP[info!.userProfile!.country!] ?? info!.userProfile!.country!)}</strong>
                     {info?.userProfile?.institution ? <> · <strong>{info.userProfile.institution}</strong></> : null}.
-                    The contest is <strong>Proficient level</strong> for all registered players.
+                    The contest is <strong>{t("bee.worldChampionship.contestLevel")}</strong> for all registered players.
                   </p>
                   {!isPremium && (
                     <p className="text-xs text-amber-700 mt-1.5 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5">
-                      A $2 entry fee applies for free accounts. <a href="/premium" className="underline font-semibold hover:text-primary">Upgrade to Premium</a> to enter free.
+                      {t("bee.worldChampionship.upgradeNote")} <a href="/premium" className="underline font-semibold hover:text-primary">{t("bee.worldChampionship.upgradeLink")}</a> {t("bee.worldChampionship.upgradeDesc")}
                     </p>
                   )}
                 </div>
                 <Button onClick={handleRegister} disabled={registering} className="gap-2 shrink-0 h-12 px-6 font-semibold">
-                  {registering ? "Registering…" : isPremium ? "Register Now 🏆" : "Register · $2 🏆"}
+                  {registering ? t("bee.worldChampionship.registering") : isPremium ? t("bee.worldChampionship.registerBtn") : t("bee.worldChampionship.registerPaidBtn")}
                 </Button>
               </div>
             )}
@@ -238,17 +251,17 @@ export default function WorldChampionship() {
 
         {/* How it works */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-center">How It Works</h2>
+          <h2 className="text-2xl font-bold text-center">{t("bee.worldChampionship.howItWorksHeading")}</h2>
           <div className="grid sm:grid-cols-3 gap-4">
             {[
-              { emoji: "📝", title: "Register", desc: "Sign up any time before the event. Complete your geographic profile to appear on regional leaderboards." },
-              { emoji: "🌍", title: "Compete Together", desc: "On the 3rd Saturday of June at 12:00 UTC, every registered player takes the same Proficient-level contest simultaneously." },
-              { emoji: "🏆", title: "Claim the Title", desc: "The highest score wins the World Championship title for that year and is enshrined in the Hall of Champions." },
+              { emoji: "📝", titleKey: "bee.worldChampionship.step1Title", descKey: "bee.worldChampionship.step1Desc" },
+              { emoji: "🌍", titleKey: "bee.worldChampionship.step2Title", descKey: "bee.worldChampionship.step2Desc" },
+              { emoji: "🏆", titleKey: "bee.worldChampionship.step3Title", descKey: "bee.worldChampionship.step3Desc" },
             ].map((step) => (
-              <Card key={step.title} className="border-0 shadow-md text-center p-6 space-y-3">
+              <Card key={step.titleKey} className="border-0 shadow-md text-center p-6 space-y-3">
                 <div className="text-4xl">{step.emoji}</div>
-                <h3 className="font-bold">{step.title}</h3>
-                <p className="text-sm text-muted-foreground">{step.desc}</p>
+                <h3 className="font-bold">{t(step.titleKey)}</h3>
+                <p className="text-sm text-muted-foreground">{t(step.descKey)}</p>
               </Card>
             ))}
           </div>
@@ -259,17 +272,17 @@ export default function WorldChampionship() {
           <Card className="border-0 shadow-md">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-base">
-                <Clock className="w-5 h-5 text-primary" /> Schedule
+                <Clock className="w-5 h-5 text-primary" /> {t("bee.worldChampionship.scheduleTitle")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
               {[
-                { label: "Registration opens", value: "Year-round" },
-                { label: "Registration closes", value: "1 hour before start" },
-                { label: "Contest starts", value: "3rd Saturday of June, 12:00 UTC" },
-                { label: "Duration", value: "25 words · Proficient level" },
-                { label: "Word timeout", value: "12 seconds per word" },
-                { label: "Results published", value: "Within 30 minutes of finish" },
+                { label: t("bee.worldChampionship.scheduleRegOpens"), value: t("bee.worldChampionship.scheduleRegOpensVal") },
+                { label: t("bee.worldChampionship.scheduleRegCloses"), value: t("bee.worldChampionship.scheduleRegClosesVal") },
+                { label: t("bee.worldChampionship.scheduleStart"), value: t("bee.worldChampionship.scheduleStartVal") },
+                { label: t("bee.worldChampionship.scheduleDuration"), value: t("bee.worldChampionship.scheduleDurationVal") },
+                { label: t("bee.worldChampionship.scheduleTimeout"), value: t("bee.worldChampionship.scheduleTimeoutVal") },
+                { label: t("bee.worldChampionship.scheduleResults"), value: t("bee.worldChampionship.scheduleResultsVal") },
               ].map((r) => (
                 <div key={r.label} className="flex justify-between gap-2">
                   <span className="text-muted-foreground">{r.label}</span>
@@ -282,17 +295,17 @@ export default function WorldChampionship() {
           <Card className="border-0 shadow-md">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-base">
-                <Flame className="w-5 h-5 text-orange-500" /> Scoring & Eligibility
+                <Flame className="w-5 h-5 text-orange-500" /> {t("bee.worldChampionship.scoringTitle")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
               {[
-                { label: "Base points per word", value: "100 pts" },
-                { label: "Speed bonus (<5 s)", value: "+10 pts" },
-                { label: "Streak bonus (≥3 correct)", value: "+15 pts" },
-                { label: "Hint penalty", value: "−20 pts / hint" },
-                { label: "Eligibility", value: "Any registered user" },
-                { label: "Entry fee", value: isPremium ? "Free (Premium)" : "Free (Premium) · $2 (Free users)" },
+                { label: t("bee.worldChampionship.scoringBase"), value: t("bee.worldChampionship.scoringBaseVal") },
+                { label: t("bee.worldChampionship.scoringSpeed"), value: t("bee.worldChampionship.scoringSpeedVal") },
+                { label: t("bee.worldChampionship.scoringStreak"), value: t("bee.worldChampionship.scoringStreakVal") },
+                { label: t("bee.worldChampionship.scoringHint"), value: t("bee.worldChampionship.scoringHintVal") },
+                { label: t("bee.worldChampionship.scoringEligibility"), value: t("bee.worldChampionship.scoringEligibilityVal") },
+                { label: t("bee.worldChampionship.entryFeeLabel"), value: isPremium ? t("bee.worldChampionship.entryFeePremium") : t("bee.worldChampionship.entryFeeAll") },
               ].map((r) => (
                 <div key={r.label} className="flex justify-between gap-2">
                   <span className="text-muted-foreground">{r.label}</span>
@@ -305,13 +318,13 @@ export default function WorldChampionship() {
 
         {/* Hall of Champions */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-center">🏛️ Hall of Champions</h2>
+          <h2 className="text-2xl font-bold text-center">{t("bee.worldChampionship.hallTitle")}</h2>
           {!info?.pastChampions?.length ? (
             <Card className="border-0 shadow-md">
               <CardContent className="py-12 text-center space-y-3">
                 <Trophy className="w-12 h-12 text-muted-foreground/30 mx-auto" />
-                <p className="text-muted-foreground font-medium">No champions yet</p>
-                <p className="text-sm text-muted-foreground">The first World Spelling Bee Champion will be crowned in {info?.year ?? 2027}. Could it be you?</p>
+                <p className="text-muted-foreground font-medium">{t("bee.worldChampionship.noChampions")}</p>
+                <p className="text-sm text-muted-foreground">{t("bee.worldChampionship.noChampionsDesc", { year: info?.year ?? 2027 })}</p>
               </CardContent>
             </Card>
           ) : (
@@ -325,14 +338,14 @@ export default function WorldChampionship() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-bold">{c.username}</span>
-                        {c.country && <Badge variant="secondary" className="text-xs">{COUNTRY_NAMES[c.country] ?? c.country}</Badge>}
+                        {c.country && <Badge variant="secondary" className="text-xs">{t(COUNTRY_KEY_MAP[c.country] ?? c.country)}</Badge>}
                         {c.institution && <Badge variant="outline" className="text-xs">{c.institution}</Badge>}
                       </div>
-                      <p className="text-sm text-muted-foreground">{c.year} World Champion · {c.totalPoints.toLocaleString()} pts</p>
+                      <p className="text-sm text-muted-foreground">{t("bee.worldChampionship.championDesc", { year: c.year, pts: c.totalPoints.toLocaleString() })}</p>
                     </div>
                     <div className="text-right shrink-0">
                       <div className="text-lg font-black text-primary">{c.eloScore}</div>
-                      <div className="text-xs text-muted-foreground">Elo</div>
+                      <div className="text-xs text-muted-foreground">{t("bee.worldChampionship.elo")}</div>
                     </div>
                   </CardContent>
                 </Card>

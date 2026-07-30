@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,19 +10,20 @@ import { useToast } from "@/hooks/use-toast";
 import { QRCodeSVG } from "qrcode.react";
 import { Crown, Plus, X, Search, Link, QrCode, Trophy, ChevronRight } from "lucide-react";
 
-const LEVELS = [
-  { key: "beginner", label: "Beginner", desc: "3–6 letter phonetic words", color: "bg-emerald-100 text-emerald-800 border-emerald-200", cardBg: "bg-emerald-50 border-emerald-200", free: true, words: 10 },
-  { key: "lower_intermediate", label: "Lower Intermediate", desc: "6–8 letters, common roots", color: "bg-blue-100 text-blue-800 border-blue-200", cardBg: "bg-blue-50 border-blue-200", free: true, words: 15 },
-  { key: "upper_intermediate", label: "Upper Intermediate", desc: "8–12 letters, Latin/Greek roots", color: "bg-violet-100 text-violet-800 border-violet-200", cardBg: "bg-violet-50 border-violet-200", free: false, words: 20 },
-  { key: "proficient", label: "Proficient", desc: "12+ letters, advanced etymology", color: "bg-rose-100 text-rose-800 border-rose-200", cardBg: "bg-rose-50 border-rose-200", free: false, words: 25 },
-];
-
 interface SearchedUser { id: number; username: string; email: string }
 
 export default function CreateContest() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const { toast } = useToast();
+
+  const LEVELS = [
+    { key: "beginner", label: t("bee.createContest.levels.beginner"), desc: t("bee.createContest.levelDesc.beginner"), color: "bg-emerald-100 text-emerald-800 border-emerald-200", cardBg: "bg-emerald-50 border-emerald-200", free: true, words: 10 },
+    { key: "lower_intermediate", label: t("bee.createContest.levels.lower_intermediate"), desc: t("bee.createContest.levelDesc.lower_intermediate"), color: "bg-blue-100 text-blue-800 border-blue-200", cardBg: "bg-blue-50 border-blue-200", free: true, words: 15 },
+    { key: "upper_intermediate", label: t("bee.createContest.levels.upper_intermediate"), desc: t("bee.createContest.levelDesc.upper_intermediate"), color: "bg-violet-100 text-violet-800 border-violet-200", cardBg: "bg-violet-50 border-violet-200", free: false, words: 20 },
+    { key: "proficient", label: t("bee.createContest.levels.proficient"), desc: t("bee.createContest.levelDesc.proficient"), color: "bg-rose-100 text-rose-800 border-rose-200", cardBg: "bg-rose-50 border-rose-200", free: false, words: 25 },
+  ];
 
   const [name, setName] = useState("");
   const [level, setLevel] = useState("beginner");
@@ -42,7 +44,7 @@ export default function CreateContest() {
   }
 
   function addInvitee(u: SearchedUser) {
-    if (invited.length >= 4) { toast({ title: "Maximum 4 challengers", variant: "destructive" }); return; }
+    if (invited.length >= 4) { toast({ title: t("bee.createContest.inviteLimit"), variant: "destructive" }); return; }
     setInvited([...invited, u]);
     setSearchResults([]);
     setSearch("");
@@ -50,7 +52,7 @@ export default function CreateContest() {
 
   async function handleCreate() {
     if (!user?.id) return;
-    if (!name.trim()) { toast({ title: "Enter a contest name", variant: "destructive" }); return; }
+    if (!name.trim()) { toast({ title: t("bee.createContest.labelName"), variant: "destructive" }); return; }
     setLoading(true);
     try {
       const res = await fetch("/api/bee/contests", {
@@ -84,21 +86,21 @@ export default function CreateContest() {
             <div className="mx-auto w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-3">
               <Trophy className="w-8 h-8 text-emerald-600" />
             </div>
-            <CardTitle className="text-2xl">Contest Created! 🐝</CardTitle>
-            <CardDescription>Share the invite with your challengers</CardDescription>
+            <CardTitle className="text-2xl">{t("bee.createContest.successHeading")}</CardTitle>
+            <CardDescription>{t("bee.createContest.successDesc")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="bg-muted/50 rounded-xl p-4 text-center">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Contest Code</p>
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{t("bee.createContest.codeLabel")}</p>
               <p className="text-4xl font-mono font-bold tracking-widest text-primary">{created.code}</p>
             </div>
 
             <div className="flex border rounded-lg overflow-hidden">
               <button onClick={() => setActiveTab("link")} className={`flex-1 py-2 text-sm font-medium flex items-center justify-center gap-2 transition-colors ${activeTab === "link" ? "bg-primary text-primary-foreground" : "hover:bg-muted"}`}>
-                <Link className="w-4 h-4" /> Share Link
+                <Link className="w-4 h-4" /> {t("bee.createContest.shareLink")}
               </button>
               <button onClick={() => setActiveTab("qr")} className={`flex-1 py-2 text-sm font-medium flex items-center justify-center gap-2 transition-colors ${activeTab === "qr" ? "bg-primary text-primary-foreground" : "hover:bg-muted"}`}>
-                <QrCode className="w-4 h-4" /> QR Code
+                <QrCode className="w-4 h-4" /> {t("bee.createContest.shareQR")}
               </button>
             </div>
 
@@ -106,24 +108,24 @@ export default function CreateContest() {
               <div className="space-y-2">
                 <div className="flex gap-2">
                   <Input value={shareUrl} readOnly className="text-xs font-mono" />
-                  <Button variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(shareUrl); toast({ title: "Link copied!" }); }}>
-                    Copy
+                  <Button variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(shareUrl); toast({ title: t("bee.createContest.copied") }); }}>
+                    {t("bee.createContest.copyLink")}
                   </Button>
                 </div>
-                <p className="text-xs text-muted-foreground text-center">Anyone with this link can join (up to 5 players total)</p>
+                <p className="text-xs text-muted-foreground text-center">{t("bee.createContest.linkDesc")}</p>
               </div>
             ) : (
               <div className="flex flex-col items-center gap-3">
                 <div className="p-3 bg-white rounded-xl border shadow-sm">
                   <QRCodeSVG value={shareUrl} size={180} includeMargin />
                 </div>
-                <p className="text-xs text-muted-foreground">Scan to join on any device</p>
+                <p className="text-xs text-muted-foreground">{t("bee.createContest.qrDesc")}</p>
               </div>
             )}
 
             <div className="flex gap-3">
               <Button onClick={() => navigate(`/bee/play/${created.contestId}`)} className="flex-1 gap-2">
-                Go to Lobby <ChevronRight className="w-4 h-4" />
+                {t("bee.createContest.goToContest")} <ChevronRight className="w-4 h-4" />
               </Button>
             </div>
           </CardContent>
@@ -137,30 +139,30 @@ export default function CreateContest() {
       <div className="max-w-2xl mx-auto space-y-8">
         <div className="text-center space-y-2">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-1.5 text-sm font-medium mb-2">
-            <Crown className="w-4 h-4" /> Contest Organiser
+            <Crown className="w-4 h-4" /> {t("bee.createContest.organiserLabel")}
           </div>
-          <h1 className="text-4xl font-bold">Create a Spelling Bee 🐝</h1>
-          <p className="text-muted-foreground">Invite up to 4 challengers for a live spelling contest</p>
+          <h1 className="text-4xl font-bold">{t("bee.createContest.heading")}</h1>
+          <p className="text-muted-foreground">{t("bee.createContest.subtitle")}</p>
         </div>
 
         {/* Contest Name */}
         <Card className="border-0 shadow-lg">
           <CardContent className="pt-6 space-y-3">
-            <label className="text-sm font-semibold">Contest Name</label>
-            <Input placeholder="e.g. Friday Night Bee, UCT vs Wits, Room 4B Championship…" value={name} onChange={(e) => setName(e.target.value)} className="text-base" maxLength={60} />
+            <label className="text-sm font-semibold">{t("bee.createContest.labelName")}</label>
+            <Input placeholder={t("bee.createContest.namePlaceholder")} value={name} onChange={(e) => setName(e.target.value)} className="text-base" maxLength={60} />
           </CardContent>
         </Card>
 
         {/* Level */}
         <Card className="border-0 shadow-lg">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Choose Level</CardTitle>
-            <CardDescription>All challengers compete at the same level</CardDescription>
+            <CardTitle className="text-lg">{t("bee.createContest.labelLevel")}</CardTitle>
+            <CardDescription>{t("bee.createContest.sameLevel")}</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {LEVELS.map((l) => (
               <button key={l.key} onClick={() => setLevel(l.key)} className={`relative text-left p-4 rounded-xl border-2 transition-all ${level === l.key ? "border-primary bg-primary/5 shadow-md" : `${l.cardBg} hover:border-primary/40`}`}>
-                {!l.free && <span className="absolute top-2 right-2 text-[10px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">$1</span>}
+                {!l.free && <span className="absolute top-2 right-2 text-[10px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">{t("bee.createContest.premiumLevel")}</span>}
                 <p className="font-semibold text-sm">{l.label}</p>
                 <p className="text-xs text-muted-foreground mt-0.5">{l.desc}</p>
                 <p className="text-xs text-muted-foreground mt-1">{l.words} words · {l.key === "beginner" ? "20s" : l.key === "lower_intermediate" ? "18s" : l.key === "upper_intermediate" ? "15s" : "12s"} per word</p>
@@ -172,14 +174,17 @@ export default function CreateContest() {
         {/* Invite players */}
         <Card className="border-0 shadow-lg">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Invite Challengers</CardTitle>
-            <CardDescription>Search by username or email · max 4</CardDescription>
+            <CardTitle className="text-lg">{t("bee.createContest.labelInvite")}</CardTitle>
+            <CardDescription>{t("bee.createContest.inviteDesc")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex gap-2">
-              <Input placeholder="Search username or email…" value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSearch()} />
+              <Input placeholder={t("bee.createContest.searchPlaceholder")} value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSearch()} />
               <Button variant="outline" onClick={handleSearch} size="icon"><Search className="w-4 h-4" /></Button>
             </div>
+            {searchResults.length === 0 && search.trim().length >= 2 && (
+              <p className="text-sm text-muted-foreground text-center py-2">{t("bee.createContest.noResults")}</p>
+            )}
             {searchResults.length > 0 && (
               <div className="border rounded-lg divide-y">
                 {searchResults.map((u) => (
@@ -195,7 +200,7 @@ export default function CreateContest() {
             )}
             {invited.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Invited ({invited.length}/4)</p>
+                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{t("bee.createContest.invitedCount", { count: invited.length })}</p>
                 <div className="flex flex-wrap gap-2">
                   {invited.map((u) => (
                     <Badge key={u.id} variant="secondary" className="gap-1.5 pl-3 pr-2 py-1.5">
@@ -204,14 +209,14 @@ export default function CreateContest() {
                     </Badge>
                   ))}
                 </div>
-                <p className="text-xs text-muted-foreground">Additional players can join via the shareable link after creation</p>
+                <p className="text-xs text-muted-foreground">{t("bee.createContest.additionalPlayers")}</p>
               </div>
             )}
           </CardContent>
         </Card>
 
         <Button onClick={handleCreate} disabled={loading || !name.trim()} className="w-full h-12 text-base font-semibold gap-2">
-          {loading ? "Creating…" : <><Crown className="w-5 h-5" /> Create Contest</>}
+          {loading ? t("bee.createContest.creating") : <><Crown className="w-5 h-5" /> {t("bee.createContest.createBtn")}</>}
         </Button>
       </div>
     </div>

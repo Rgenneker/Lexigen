@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 import {
   X, Loader2, CheckCircle2, Globe, Lock, AlertCircle,
 } from "lucide-react";
@@ -31,6 +32,7 @@ interface Props {
 }
 
 export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClose, onSuccess }: Props) {
+  const { t } = useTranslation();
   const [step, setStep] = useState<Step>("info");
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
@@ -59,10 +61,10 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
         script.src = `https://www.paypal.com/sdk/js?${params}`;
         script.setAttribute("data-paypal-sdk", "true");
         script.onload = () => setSdkReady(true);
-        script.onerror = () => { setErrorMsg("Failed to load PayPal. Check your connection."); setStep("error"); };
+        script.onerror = () => { setErrorMsg(t("modals.languageUnlock.errorLoadPaypal")); setStep("error"); };
         document.head.appendChild(script);
       } catch {
-        setErrorMsg("Failed to load PayPal config.");
+        setErrorMsg(t("modals.languageUnlock.errorLoadConfig"));
         setStep("error");
       }
     };
@@ -85,7 +87,7 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
           body: JSON.stringify({ language }),
         });
         const data = await res.json() as { orderID?: string; error?: string };
-        if (!data.orderID) throw new Error(data.error ?? "Order creation failed");
+        if (!data.orderID) throw new Error(data.error ?? t("modals.languageUnlock.errorOrderCreate"));
         return data.orderID;
       },
       onApprove: async ({ orderID }) => {
@@ -101,19 +103,19 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
             setExpiresAt(data.expiresAt ?? null);
             setStep("success");
             onSuccess(language);
-            toast({ title: `🌍 ${language} unlocked!`, description: "60-day access is active. Enjoy!" });
+            toast({ title: t("modals.languageUnlock.unlockToast", { lang: language }), description: t("modals.languageUnlock.unlockToastDesc") });
           } else {
-            setErrorMsg(data.error ?? "Payment captured but unlock failed.");
+            setErrorMsg(data.error ?? t("modals.languageUnlock.errorCaptureFailed"));
             setStep("error");
           }
         } catch {
-          setErrorMsg("Could not verify payment. Contact hello@lexigenz.com.");
+          setErrorMsg(t("modals.languageUnlock.errorVerifyPayment"));
           setStep("error");
         } finally {
           setLoading(false);
         }
       },
-      onError: () => { setErrorMsg("PayPal encountered an error. Please try again."); setStep("error"); },
+      onError: () => { setErrorMsg(t("modals.languageUnlock.errorPaypal")); setStep("error"); },
       onCancel: () => setStep("info"),
       style: { layout: "vertical", color: "gold", shape: "pill", label: "pay", height: 48 },
     });
@@ -147,8 +149,12 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
                 <Globe className="h-5 w-5 text-blue-500" />
               </div>
               <div>
-                <p className="font-bold text-sm">{isRenewal ? "Renew" : "Unlock"} {language}</p>
-                <p className="text-xs text-muted-foreground">$2.00 · 60-day access</p>
+                <p className="font-bold text-sm">
+                  {isRenewal
+                    ? t("modals.languageUnlock.titleRenewal", { lang: language })
+                    : t("modals.languageUnlock.title", { lang: language })}
+                </p>
+                <p className="text-xs text-muted-foreground">{t("modals.languageUnlock.subtitle")}</p>
               </div>
             </div>
             <button
@@ -170,31 +176,32 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
                       <AlertCircle className="h-4 w-4 text-amber-500 flex-shrink-0 mt-0.5" />
                       <p className="text-amber-700 dark:text-amber-300">
                         {expired
-                          ? `Your ${language} access has expired. Renew to continue.`
-                          : `Your ${language} access expires in ${daysRemaining} day${daysRemaining === 1 ? "" : "s"}. Renew now to keep going.`}
+                          ? t("modals.languageUnlock.renewalExpired", { lang: language })
+                          : t("modals.languageUnlock.renewalExpiring", { lang: language, days: daysRemaining, s: daysRemaining === 1 ? "" : "s" })}
                       </p>
                     </div>
                   )}
 
                   <div>
                     <h2 className="text-xl font-bold mb-1">
-                      {isRenewal ? `Renew ${language} access` : `Unlock ${language} vocabulary`}
+                      {isRenewal
+                        ? t("modals.languageUnlock.titleRenewal", { lang: language })
+                        : t("modals.languageUnlock.title", { lang: language })}
                     </h2>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      Unlock daily words, the Sentence Builder, and all word games in <strong>{language}</strong> for 60 days.
-                      One small payment - no subscription.
+                      {t("modals.languageUnlock.desc", { lang: language })}
                     </p>
                   </div>
 
                   {/* What you get */}
                   <ul className="space-y-2 text-sm">
                     {[
-                      `Daily word of the day in ${language}`,
-                      `Archetype-matched vocabulary in ${language}`,
-                      "Full Sentence Builder in your chosen language",
-                      "All six word games in this language",
-                      "Word Journal entries in this language",
-                      "60 days of access from today",
+                      t("modals.languageUnlock.feature1", { lang: language }),
+                      t("modals.languageUnlock.feature2", { lang: language }),
+                      t("modals.languageUnlock.feature3", { lang: language }),
+                      t("modals.languageUnlock.feature4", { lang: language }),
+                      t("modals.languageUnlock.feature5", { lang: language }),
+                      t("modals.languageUnlock.feature6", { lang: language }),
                     ].map(f => (
                       <li key={f} className="flex items-start gap-2 text-muted-foreground">
                         <CheckCircle2 className="h-4 w-4 text-blue-500 flex-shrink-0 mt-0.5" />
@@ -206,8 +213,8 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
                   {/* Price */}
                   <div className="p-4 rounded-2xl border border-border bg-muted/30 flex items-center justify-between">
                     <div>
-                      <p className="font-bold">{language} - 60-day access</p>
-                      <p className="text-xs text-muted-foreground">Renews for $2 every 60 days</p>
+                      <p className="font-bold">{t("modals.languageUnlock.accessLabel", { lang: language })}</p>
+                      <p className="text-xs text-muted-foreground">{t("modals.languageUnlock.renewalNote")}</p>
                     </div>
                     <p className="text-2xl font-black text-blue-600">$2</p>
                   </div>
@@ -218,10 +225,10 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
                     onClick={goToPayPal}
                   >
                     <Lock className="h-4 w-4 mr-2" />
-                    {isRenewal ? "Renew with PayPal" : "Unlock with PayPal"} - $2
+                    {t("modals.languageUnlock.proceedBtn")}
                   </Button>
                   <p className="text-center text-xs text-muted-foreground">
-                    Secure payment via PayPal · All major cards accepted
+                    {t("modals.languageUnlock.securePayment")}
                   </p>
                 </motion.div>
               )}
@@ -230,24 +237,24 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
               {step === "paypal" && (
                 <motion.div key="paypal" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
                   <div>
-                    <h2 className="text-xl font-bold mb-1">Complete payment</h2>
-                    <p className="text-sm text-muted-foreground">Pay $2.00 securely via PayPal to unlock <strong>{language}</strong> for 60 days.</p>
+                    <h2 className="text-xl font-bold mb-1">{t("modals.languageUnlock.completePaymentTitle")}</h2>
+                    <p className="text-sm text-muted-foreground">{t("modals.languageUnlock.completePaymentDesc", { lang: language })}</p>
                   </div>
                   {loading && (
                     <div className="flex items-center justify-center py-6 gap-3 text-muted-foreground">
                       <Loader2 className="h-5 w-5 animate-spin" />
-                      <span className="text-sm">Verifying payment…</span>
+                      <span className="text-sm">{t("modals.languageUnlock.verifyingPayment")}</span>
                     </div>
                   )}
                   <div ref={paypalContainerRef} className={loading ? "opacity-0 pointer-events-none" : ""} />
                   {!sdkReady && !loading && (
                     <div className="flex items-center justify-center py-6 gap-3 text-muted-foreground">
                       <Loader2 className="h-5 w-5 animate-spin" />
-                      <span className="text-sm">Loading PayPal…</span>
+                      <span className="text-sm">{t("modals.languageUnlock.loadingPaypal")}</span>
                     </div>
                   )}
                   <Button variant="ghost" size="sm" className="w-full text-muted-foreground hover:text-foreground transition-colors" onClick={() => setStep("info")}>
-                    ← Back
+                    {t("modals.languageUnlock.backLink")}
                   </Button>
                 </motion.div>
               )}
@@ -259,22 +266,20 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
                     <CheckCircle2 className="h-8 w-8 text-blue-500" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold mb-2">🌍 {language} unlocked!</h2>
+                    <h2 className="text-2xl font-bold mb-2">🌍 {t("modals.languageUnlock.successHeading", { lang: language })}</h2>
                     <p className="text-muted-foreground text-sm">
-                      You now have 60-day access to <strong>{language}</strong> vocabulary, games, and your journal.
+                      {t("modals.languageUnlock.successDesc", {
+                        lang: language,
+                        date: expiresAt ? new Date(expiresAt).toLocaleDateString() : "",
+                      })}
                     </p>
-                    {expiresAt && (
-                      <p className="text-xs text-muted-foreground mt-2">
-                        Access expires: <strong>{new Date(expiresAt).toLocaleDateString()}</strong>
-                      </p>
-                    )}
                   </div>
                   <div className="p-4 rounded-2xl border border-blue-500/20 bg-blue-500/5 text-sm text-left space-y-2">
-                    <p className="font-semibold">What's active now:</p>
+                    <p className="font-semibold">{t("modals.languageUnlock.whatsActiveNow")}</p>
                     <ul className="space-y-1 text-muted-foreground">
-                      <li>🌐 Switch to {language} in the navbar globe menu</li>
-                      <li>📖 Daily word now served in {language}</li>
-                      <li>🎮 All games playable in {language}</li>
+                      <li>{t("modals.languageUnlock.activeItem1", { lang: language })}</li>
+                      <li>{t("modals.languageUnlock.activeItem2", { lang: language })}</li>
+                      <li>{t("modals.languageUnlock.activeItem3", { lang: language })}</li>
                     </ul>
                   </div>
                   <Button
@@ -282,7 +287,7 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
                     className="w-full h-12 rounded-2xl bg-primary hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] transition-all font-bold"
                     onClick={onClose}
                   >
-                    Start exploring {language} →
+                    {t("modals.languageUnlock.successBtn", { lang: language })}
                   </Button>
                 </motion.div>
               )}
@@ -291,14 +296,14 @@ export function LanguageUnlockModal({ language, isRenewal, daysRemaining, onClos
               {step === "error" && (
                 <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4 py-4 text-center">
                   <div className="text-4xl">⚠️</div>
-                  <h2 className="text-xl font-bold">Something went wrong</h2>
+                  <h2 className="text-xl font-bold">{t("modals.languageUnlock.errorHeading")}</h2>
                   <p className="text-sm text-muted-foreground">{errorMsg}</p>
                   <Button
                     variant="outline"
                     className="w-full rounded-2xl hover:scale-[1.02] active:scale-[0.98] transition-all"
                     onClick={() => setStep("info")}
                   >
-                    Try Again
+                    {t("modals.languageUnlock.errorBtn")}
                   </Button>
                 </motion.div>
               )}

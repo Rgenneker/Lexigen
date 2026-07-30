@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
+// useTranslation is used both in MiniBarChart and StatsPage
 import { useAuth } from "@/context/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Trophy, Flame, Target, Crown, ChevronRight, Loader2 } from "lucide-react";
 
-const LEVEL_LABEL: Record<string, string> = {
-  beginner: "Beginner", lower_intermediate: "Lower Intermediate",
-  upper_intermediate: "Upper Intermediate", proficient: "Proficient",
+const LEVEL_LABEL_KEY: Record<string, string> = {
+  beginner: "bee.createContest.levels.beginner",
+  lower_intermediate: "bee.createContest.levels.lower_intermediate",
+  upper_intermediate: "bee.createContest.levels.upper_intermediate",
+  proficient: "bee.createContest.levels.proficient",
 };
 const LEVEL_COLOR: Record<string, string> = {
   beginner: "bg-emerald-100 text-emerald-700", lower_intermediate: "bg-blue-100 text-blue-700",
@@ -35,7 +39,8 @@ interface StatsData {
 }
 
 function MiniBarChart({ data }: { data: ScorePoint[] }) {
-  if (!data.length) return <p className="text-center text-sm text-muted-foreground py-6">Play some contests to see your score trend!</p>;
+  const { t } = useTranslation();
+  if (!data.length) return <p className="text-center text-sm text-muted-foreground py-6">{t("bee.stats.noScoreTrend")}</p>;
   const max = Math.max(...data.map((d) => d.score), 1);
   return (
     <div className="flex items-end gap-1.5 h-24 px-2">
@@ -55,6 +60,7 @@ function MiniBarChart({ data }: { data: ScorePoint[] }) {
 }
 
 export default function StatsPage() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const [data, setData] = useState<StatsData | null>(null);
@@ -86,25 +92,25 @@ export default function StatsPage() {
       <div className="max-w-4xl mx-auto space-y-7">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold">Your Bee Stats 📊</h1>
-          <p className="text-muted-foreground">All your Spelling Bee performance across every contest</p>
+          <h1 className="text-4xl font-bold">{t("bee.stats.heading")}</h1>
+          <p className="text-muted-foreground">{t("bee.stats.subtitle")}</p>
           <div className="flex gap-3 justify-center">
-            <Button onClick={() => navigate("/bee/create")} className="gap-2"><Crown className="w-4 h-4" /> New Contest</Button>
-            <Button onClick={() => navigate("/leaderboard")} variant="outline" className="gap-2"><Trophy className="w-4 h-4" /> Leaderboard</Button>
+            <Button onClick={() => navigate("/bee/create")} className="gap-2"><Crown className="w-4 h-4" /> {t("bee.stats.newContest")}</Button>
+            <Button onClick={() => navigate("/leaderboard")} variant="outline" className="gap-2"><Trophy className="w-4 h-4" /> {t("bee.stats.viewLeaderboard")}</Button>
           </div>
         </div>
 
         {/* Stat tiles */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { label: "Contests", value: overview.totalContests, icon: "🎮" },
-            { label: "Wins", value: overview.wins, icon: "🏆" },
-            { label: "Win Rate", value: `${overview.winRate}%`, icon: "🎯" },
-            { label: "Best Score", value: overview.bestScore, icon: "⭐" },
-            { label: "Avg Score", value: overview.avgScore, icon: "📈" },
-            { label: "Words Correct", value: overview.totalWordsCorrect, icon: "✅" },
-            { label: "Word Accuracy", value: `${overview.wordAccuracy}%`, icon: "🔤" },
-            { label: "Best Streak", value: overview.bestStreak, icon: "🔥" },
+            { label: t("bee.stats.contests"), value: overview.totalContests, icon: "🎮" },
+            { label: t("bee.stats.wins"), value: overview.wins, icon: "🏆" },
+            { label: t("bee.stats.winRate"), value: `${overview.winRate}%`, icon: "🎯" },
+            { label: t("bee.stats.bestScore"), value: overview.bestScore, icon: "⭐" },
+            { label: t("bee.stats.avgScore"), value: overview.avgScore, icon: "📈" },
+            { label: t("bee.stats.totalWords"), value: overview.totalWordsCorrect, icon: "✅" },
+            { label: t("bee.stats.wordAccuracy"), value: `${overview.wordAccuracy}%`, icon: "🔤" },
+            { label: t("bee.stats.bestStreak"), value: overview.bestStreak, icon: "🔥" },
           ].map((s) => (
             <Card key={s.label} className="border-0 shadow-sm text-center">
               <CardContent className="pt-4 pb-4">
@@ -118,10 +124,14 @@ export default function StatsPage() {
 
         {/* Tabs */}
         <div className="flex rounded-xl border bg-muted/30 p-1 gap-1">
-          {(["overview", "history", "achievements"] as const).map((t) => (
-            <button key={t} onClick={() => setTab(t)}
-              className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all capitalize ${tab === t ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
-              {t === "achievements" ? `🏅 Achievements (${earnedCount}/${achievements.length})` : t === "history" ? "📋 History" : "📊 Overview"}
+          {(["overview", "history", "achievements"] as const).map((tabKey) => (
+            <button key={tabKey} onClick={() => setTab(tabKey)}
+              className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all capitalize ${tab === tabKey ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+              {tabKey === "achievements"
+                ? `🏅 ${t("bee.stats.tabAchievements")} (${earnedCount}/${achievements.length})`
+                : tabKey === "history"
+                ? `📋 ${t("bee.stats.tabHistory")}`
+                : `📊 ${t("bee.stats.tabOverview")}`}
             </button>
           ))}
         </div>
@@ -132,7 +142,7 @@ export default function StatsPage() {
             {/* Score chart */}
             <Card className="border-0 shadow-lg">
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Score Trend (last 20 contests)</CardTitle>
+                <CardTitle className="text-base">{t("bee.stats.scoreTrendTitle")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <MiniBarChart data={scoreHistory} />
@@ -140,7 +150,7 @@ export default function StatsPage() {
                   {Object.entries(LEVEL_COLOR).map(([lv, cls]) => (
                     <span key={lv} className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       <span className={`w-3 h-3 rounded-sm ${cls.split(" ")[0]}`} />
-                      {LEVEL_LABEL[lv]}
+                      {t(LEVEL_LABEL_KEY[lv])}
                     </span>
                   ))}
                 </div>
@@ -150,17 +160,17 @@ export default function StatsPage() {
             {/* By level */}
             {byLevel.length > 0 && (
               <Card className="border-0 shadow-lg">
-                <CardHeader className="pb-3"><CardTitle className="text-base">Performance by Level</CardTitle></CardHeader>
+                <CardHeader className="pb-3"><CardTitle className="text-base">{t("bee.stats.performanceByLevel")}</CardTitle></CardHeader>
                 <CardContent className="space-y-3">
                   {byLevel.map((l) => (
                     <div key={l.level} className="flex items-center gap-4">
                       <Badge className={`w-36 justify-center shrink-0 ${LEVEL_COLOR[l.level]}`}>
-                        {LEVEL_LABEL[l.level]}
+                        {t(LEVEL_LABEL_KEY[l.level])}
                       </Badge>
                       <div className="flex-1 space-y-1">
                         <div className="flex justify-between text-xs text-muted-foreground">
-                          <span>{l.played} contest{l.played !== 1 ? "s" : ""}</span>
-                          <span>avg {l.avg_score} · best {l.best_score}</span>
+                          <span>{l.played !== 1 ? t("bee.stats.contestCountPlural", { count: l.played }) : t("bee.stats.contestCount", { count: l.played })}</span>
+                          <span>{t("bee.stats.avgBest", { avg: l.avg_score, best: l.best_score })}</span>
                         </div>
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                           <div className={`h-full rounded-full ${LEVEL_COLOR[l.level]?.split(" ")[0]}`}
@@ -182,8 +192,8 @@ export default function StatsPage() {
               {recentContests.length === 0 ? (
                 <div className="py-16 text-center space-y-3">
                   <Target className="w-12 h-12 text-muted-foreground/30 mx-auto" />
-                  <p className="text-muted-foreground">No finished contests yet</p>
-                  <Button onClick={() => navigate("/bee/create")} variant="outline">Create a Contest</Button>
+                  <p className="text-muted-foreground">{t("bee.stats.noContests")}</p>
+                  <Button onClick={() => navigate("/bee/create")} variant="outline">{t("bee.stats.createContest")}</Button>
                 </div>
               ) : recentContests.map((c, i) => (
                 <div key={c.contest_id} className={`flex items-center gap-4 px-4 py-3.5 border-b last:border-0 hover:bg-muted/20 transition-colors ${i < 3 ? "cursor-pointer" : ""}`}
@@ -194,13 +204,13 @@ export default function StatsPage() {
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-sm truncate">{c.name}</p>
                     <div className="flex items-center gap-2 mt-0.5">
-                      <Badge className={`text-xs ${LEVEL_COLOR[c.level]}`}>{LEVEL_LABEL[c.level]}</Badge>
-                      <span className="text-xs text-muted-foreground">{c.total_players} players</span>
+                      <Badge className={`text-xs ${LEVEL_COLOR[c.level]}`}>{t(LEVEL_LABEL_KEY[c.level])}</Badge>
+                      <span className="text-xs text-muted-foreground">{t("bee.stats.players", { count: c.total_players })}</span>
                     </div>
                   </div>
                   <div className="text-right shrink-0">
                     <p className="font-bold text-lg tabular-nums">{c.score}</p>
-                    <p className="text-xs text-muted-foreground">{c.words_correct} correct{c.max_streak >= 3 ? ` · 🔥${c.max_streak}` : ""}</p>
+                    <p className="text-xs text-muted-foreground">{t("bee.stats.correct", { count: c.words_correct })}{c.max_streak >= 3 ? ` · 🔥${c.max_streak}` : ""}</p>
                   </div>
                 </div>
               ))}
@@ -222,7 +232,7 @@ export default function StatsPage() {
                     <p className="text-xs text-muted-foreground mt-0.5">{a.description}</p>
                     {a.earnedAt && (
                       <p className="text-xs text-primary mt-1">
-                        Earned {new Date(a.earnedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+                        {t("bee.stats.earnedOn", { date: new Date(a.earnedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) })}
                       </p>
                     )}
                   </div>

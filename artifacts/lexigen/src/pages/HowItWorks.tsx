@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -12,80 +13,111 @@ import { PaymentModal } from "@/components/PaymentModal";
 import { FreemiumModal } from "@/components/FreemiumModal";
 import { useAuth } from "@/context/AuthContext";
 
-const BROWSE_CATEGORIES = [
+const BROWSE_CATEGORIES_DATA = [
   {
     id: "emotions",
-    label: "Emotion vocabulary",
+    labelKey: "howItWorks.catEmotions",
     words: ["joy","sorrow","anger","fear","surprise","disgust","trust","anticipation","melancholy","elated","anxious","serene","frustrated","euphoric","despondent","apprehensive","jubilant","forlorn","exhilarated","dejected","resentful","compassion","empathy","nostalgia","gratitude","remorse","envy","pride","shame","awe","contempt","longing","tranquil","agitated","ecstatic","wistful","indignant","content","bewildered","optimistic","grief","admiration","regret","tenderness","anguish","serenity","elation","dread","hope","affection"],
   },
   {
     id: "business",
-    label: "Business vocabulary",
+    labelKey: "howItWorks.catBusiness",
     words: ["accountability","acquisition","agility","analytics","benchmark","capital","catalyst","collaborate","competitive","compliance","deliverable","differentiation","disruptive","ecosystem","efficiency","engagement","entrepreneur","equity","execution","forecast","framework","governance","growth","implementation","incentive","innovation","leadership","leverage","margin","metrics","milestone","monetize","negotiation","optimization","performance","pipeline","portfolio","productivity","profitability","revenue","roadmap","scalability","stakeholder","strategy","sustainability","synergy","traction","transformation","transparency","venture"],
   },
   {
     id: "academic",
-    label: "Academic words",
+    labelKey: "howItWorks.catAcademic",
     words: ["abstract","analysis","annotation","argument","assertion","bibliography","causation","citation","classification","coherence","commentary","conceptual","conclusion","contradiction","critical","critique","deduction","dialectic","discourse","empirical","epistemology","evaluate","evidence","exemplify","extrapolate","fallacy","generalization","hypothesis","implication","inductive","inference","interpretation","juxtaposition","methodology","narrative","ontology","paradigm","pedagogy","perspective","phenomenon","philosophy","premise","rationale","refute","rhetoric","synthesis","theoretical","thesis","variable","verification"],
   },
   {
     id: "advanced",
-    label: "Advanced English",
+    labelKey: "howItWorks.catAdvanced",
     words: ["aberrant","abeyance","abstruse","acrimony","acumen","alacrity","ameliorate","anomalous","apathy","aplomb","arduous","astute","austere","belligerent","byzantine","callous","capricious","cogent","convoluted","copious","corroborate","culpable","cynical","dearth","debilitate","diligent","discern","disparate","equanimity","erudite","esoteric","fastidious","fortitude","garrulous","grandiloquent","hapless","hegemony","hubris","iconoclast","immutable","implacable","indefatigable","insidious","intractable","laconic","loquacious","magnanimous","mendacity","mercurial","meticulous","obtuse","onerous","ostracize","parsimony","pedantic","perspicacious","pragmatic","querulous","recalcitrant","reticent","sagacious","sardonic","sycophant","taciturn","tenacious","ubiquitous","vacillate","vehement","venerable","verbose"],
   },
 ];
 
-const steps = [
-  {
-    number: "01",
-    icon: Calendar,
-    title: "Enter your birth date",
-    desc: "Your birth date unlocks your personal vocabulary archetype - a unique profile that shapes every word recommendation, daily insight, and language style tip you receive.",
-  },
-  {
-    number: "02",
-    icon: BookOpen,
-    title: "Receive your daily word",
-    desc: "Every day, Lexigenz delivers a curated word matched to your archetype and chosen language. Read the definition, explore the example sentence, and absorb the context.",
-  },
-  {
-    number: "03",
-    icon: Zap,
-    title: "Build your sentence",
-    desc: "Use the Sentence Builder to write your own sentence with today's word. This is the most powerful step - creating your own context locks the word into long-term memory.",
-  },
-  {
-    number: "04",
-    icon: Star,
-    title: "Grow your streak & earn badges",
-    desc: "Check in daily to keep your streak alive. Hit milestones at 7, 30, 100, and 365 days to unlock achievement badges. Consistency is the whole game.",
-  },
-  {
-    number: "05",
-    icon: Gamepad2,
-    title: "Play for words",
-    desc: "Six Lexigenz-branded word games - Wordle, the Lexigenz Game, Scrabble vs Computer, Crossword, Spelling Bee, and Word Grid. Every game sharpens your vocabulary in a different way.",
-  },
-  {
-    number: "06",
-    icon: Users,
-    title: "Invite & challenge friends",
-    desc: "Share Lexigenz with your circle. Challenge friends to word games, compare streaks, and grow your vocabulary together - no borders, no timezones, just words.",
-  },
-];
-
-const languages = [
-  "English", "Spanish", "Portuguese", "French", "German", "Dutch", "Italian",
-  "Arabic", "Afrikaans", "Zulu", "Xhosa", "Farsi", "Russian",
-  "Bahasa Malay", "Vietnamese", "Tagalog", "Japanese", "Cantonese", "Chinese (Mandarin)"
+const LANGUAGE_DATA_HIW = [
+  { key: "lang.english",    name: "English" },
+  { key: "lang.spanish",    name: "Spanish" },
+  { key: "lang.portuguese", name: "Portuguese" },
+  { key: "lang.french",     name: "French" },
+  { key: "lang.german",     name: "German" },
+  { key: "lang.dutch",      name: "Dutch" },
+  { key: "lang.italian",    name: "Italian" },
+  { key: "lang.arabic",     name: "Arabic" },
+  { key: "lang.afrikaans",  name: "Afrikaans" },
+  { key: "lang.zulu",       name: "Zulu" },
+  { key: "lang.xhosa",      name: "Xhosa" },
+  { key: "lang.farsi",      name: "Farsi" },
+  { key: "lang.russian",    name: "Russian" },
+  { key: "lang.malay",      name: "Bahasa Malay" },
+  { key: "lang.vietnamese", name: "Vietnamese" },
+  { key: "lang.tagalog",    name: "Tagalog" },
+  { key: "lang.japanese",   name: "Japanese" },
+  { key: "lang.cantonese",  name: "Cantonese" },
+  { key: "lang.mandarin",   name: "Chinese (Mandarin)" },
 ];
 
 export default function HowItWorks() {
+  const { t } = useTranslation();
+  const BROWSE_CATEGORIES = BROWSE_CATEGORIES_DATA.map(c => ({ ...c, label: t(c.labelKey) }));
   const [showPreview, setShowPreview] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [showFreemium, setShowFreemium] = useState(false);
   const { user, setPremium } = useAuth();
   const isPremium = user?.plan === "premium";
+
+  const steps = [
+    {
+      number: "01",
+      icon: Calendar,
+      title: t("howItWorks.steps.01.title"),
+      desc: t("howItWorks.steps.01.desc"),
+    },
+    {
+      number: "02",
+      icon: BookOpen,
+      title: t("howItWorks.steps.02.title"),
+      desc: t("howItWorks.steps.02.desc"),
+    },
+    {
+      number: "03",
+      icon: Zap,
+      title: t("howItWorks.steps.03.title"),
+      desc: t("howItWorks.steps.03.desc"),
+    },
+    {
+      number: "04",
+      icon: Star,
+      title: t("howItWorks.steps.04.title"),
+      desc: t("howItWorks.steps.04.desc"),
+    },
+    {
+      number: "05",
+      icon: Gamepad2,
+      title: t("howItWorks.steps.05.title"),
+      desc: t("howItWorks.steps.05.desc"),
+    },
+    {
+      number: "06",
+      icon: Users,
+      title: t("howItWorks.steps.06.title"),
+      desc: t("howItWorks.steps.06.desc"),
+    },
+  ];
+
+  const tools = [
+    { href: "/vocabulary", emoji: "📚", label: t("howItWorks.tools.vocabularyHub") },
+    { href: "/wordle-words", emoji: "🟩", label: t("howItWorks.tools.wordleWords") },
+    { href: "/scrabble-words", emoji: "🎯", label: t("howItWorks.tools.scrabbleWords") },
+    { href: "/spelling-bee-words", emoji: "🐝", label: t("howItWorks.tools.spellingBee") },
+    { href: "/crossword-words", emoji: "✏️", label: t("howItWorks.tools.crosswordSolver") },
+    { href: "/synonym-finder", emoji: "🔀", label: t("howItWorks.tools.synonymFinder") },
+    { href: "/word-finder", emoji: "🔍", label: t("howItWorks.tools.wordFinder") },
+    { href: "/anagram-solver", emoji: "🔤", label: t("howItWorks.tools.anagramSolver") },
+    { href: "/dictionary", emoji: "📖", label: t("howItWorks.tools.dictionary") },
+    { href: "/word-of-the-day", emoji: "⭐", label: t("howItWorks.tools.wordOfTheDay") },
+  ];
 
   return (
     <div className="min-h-screen">
@@ -102,17 +134,17 @@ export default function HowItWorks() {
             className="space-y-5 mb-4"
           >
             <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-primary bg-primary/10 px-4 py-1.5 rounded-full">
-              How It Works
+              {t("howItWorks.badge")}
             </span>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none">
-              SIX STEPS TO
+              {t("howItWorks.heroHeading1")}
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                WORD MASTERY.
+                {t("howItWorks.heroHeading2")}
               </span>
             </h1>
             <p className="text-muted-foreground text-xl max-w-xl">
-              Lexigenz is designed for seven minutes a day. Here's exactly how it works - and why it sticks.
+              {t("howItWorks.heroSubtitle")}
             </p>
           </motion.div>
         </div>
@@ -158,27 +190,27 @@ export default function HowItWorks() {
             className="space-y-5 mb-10"
           >
             <h2 className="text-4xl font-bold tracking-tighter">
-              Choose your language.
+              {t("howItWorks.languagesHeading1")}
               <br />
-              <span className="text-primary">19 to pick from.</span>
+              <span className="text-primary">{t("howItWorks.languagesHeading2")}</span>
             </h2>
             <p className="text-muted-foreground text-lg max-w-lg mx-auto">
-              Switch anytime from the globe icon in the navbar. Your word, your archetype, your language.
+              {t("howItWorks.languagesSubtitle")}
             </p>
           </motion.div>
           <div className="flex flex-wrap justify-center gap-2">
-            {languages.map((lang, i) => {
+            {LANGUAGE_DATA_HIW.map(({ name: lang, key: langKey }, i) => {
               const c = langColor(lang);
               return (
                 <motion.span
-                  key={lang}
+                  key={langKey}
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.03 }}
                   className={`px-4 py-2 rounded-full text-sm font-medium border ${c.bg} ${c.text} ${c.border}`}
                 >
-                  {lang}
+                  {t(langKey)}
                 </motion.span>
               );
             })}
@@ -190,24 +222,13 @@ export default function HowItWorks() {
       <section className="py-20 bg-background border-t border-border">
         <div className="container px-4 mx-auto max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black mb-3">Word Tools & Resources</h2>
+            <h2 className="text-3xl md:text-4xl font-black mb-3">{t("howItWorks.toolsTitle")}</h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              Free vocabulary tools, word games, and learning resources - all in one place.
+              {t("howItWorks.toolsSubtitle")}
             </p>
           </motion.div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {[
-              { href: "/vocabulary", emoji: "📚", label: "Vocabulary Hub" },
-              { href: "/wordle-words", emoji: "🟩", label: "Wordle Words" },
-              { href: "/scrabble-words", emoji: "🎯", label: "Scrabble Words" },
-              { href: "/spelling-bee-words", emoji: "🐝", label: "Spelling Bee" },
-              { href: "/crossword-words", emoji: "✏️", label: "Crossword Solver" },
-              { href: "/synonym-finder", emoji: "🔀", label: "Synonym Finder" },
-              { href: "/word-finder", emoji: "🔍", label: "Word Finder" },
-              { href: "/anagram-solver", emoji: "🔤", label: "Anagram Solver" },
-              { href: "/dictionary", emoji: "📖", label: "Dictionary" },
-              { href: "/word-of-the-day", emoji: "⭐", label: "Word of the Day" },
-            ].map(({ href, emoji, label }) => (
+            {tools.map(({ href, emoji, label }) => (
               <Link key={href} href={href}>
                 <motion.div
                   whileHover={{ y: -2 }}
@@ -220,7 +241,7 @@ export default function HowItWorks() {
             ))}
           </div>
           <div className="mt-10">
-            <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest mb-3">Browse by Category</p>
+            <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest mb-3">{t("howItWorks.browseByCat")}</p>
             <InteractiveCategoryBrowser categories={BROWSE_CATEGORIES} wordCount={15} />
           </div>
         </div>
@@ -234,18 +255,18 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl font-bold tracking-tighter mb-4">Ready to start?</h2>
+            <h2 className="text-4xl font-bold tracking-tighter mb-4">{t("howItWorks.readyTitle")}</h2>
             <p className="text-muted-foreground text-lg mb-8">
-              Seven minutes a day is all it takes. Your words are waiting.
+              {t("howItWorks.readySubtitle")}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/app">
                 <Button size="lg" className="rounded-full bg-primary hover:bg-primary/90 font-bold px-8 shadow-[0_0_20px_rgba(139,92,246,0.4)]" data-testid="button-start">
-                  Start for Free
+                  {t("common.startFree")}
                 </Button>
               </Link>
               <Button size="lg" variant="outline" className="rounded-full border-primary/30 hover:border-primary font-bold px-8" onClick={() => setShowPreview(true)}>
-                View Premium
+                {t("common.viewPremium")}
               </Button>
             </div>
           </motion.div>

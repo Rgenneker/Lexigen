@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
 import { Badge } from "@/components/ui/badge";
 import { Clock, BookOpen, Trophy, ChevronRight } from "lucide-react";
@@ -7,6 +8,7 @@ import AdsterraAd from "@/components/AdsterraAd";
 import AdsterraSocialBar from "@/components/AdsterraSocialBar";
 
 export default function Articles() {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-background">
       <AdsterraSocialBar />
@@ -19,13 +21,13 @@ export default function Articles() {
         >
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 rounded-full px-4 py-1.5 text-sm font-semibold mb-5">
             <BookOpen className="w-4 h-4" />
-            Lexigenz Articles
+            {t("articles.pageBadge")}
           </div>
           <h1 className="text-4xl md:text-5xl font-black mb-4">
-            Words. Culture. Knowledge.
+            {t("articles.heroHeading")}
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Free reads for curious minds. No login required - just good writing about language, communication, and word power.
+            {t("articles.heroSubtitle")}
           </p>
         </motion.div>
 
@@ -43,13 +45,13 @@ export default function Articles() {
               <div className="relative flex items-center gap-5">
                 <div className="text-4xl shrink-0">🏆</div>
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-widest text-amber-300/80 mb-0.5">Annual Global Event</p>
-                  <h3 className="text-xl font-black leading-tight">World Spelling Bee Championship 2027</h3>
-                  <p className="text-white/60 text-sm mt-1">3rd Saturday of June · 12:00 UTC · Open to all countries</p>
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-amber-300/80 mb-0.5">{t("articles.annualEventBadge")}</p>
+                  <h3 className="text-xl font-black leading-tight">{t("articles.champTitle")}</h3>
+                  <p className="text-white/60 text-sm mt-1">{t("articles.champSubtitle")}</p>
                 </div>
               </div>
               <div className="relative flex items-center gap-2 shrink-0 bg-white/10 hover:bg-white/20 transition-colors rounded-full px-5 py-2.5 font-bold text-sm whitespace-nowrap">
-                Register Free <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+{t("articles.registerFree")} <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </div>
             </div>
           </Link>
@@ -82,7 +84,7 @@ export default function Articles() {
                     {article.excerpt}
                   </p>
                   <div className="mt-4 text-sm font-semibold text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Read article →
+                    {t("articles.readArticle")}
                   </div>
                 </div>
               </Link>
@@ -96,7 +98,7 @@ export default function Articles() {
           transition={{ delay: 0.7 }}
           className="text-center text-xs text-muted-foreground mt-14"
         >
-          All articles authored by <span className="font-semibold">Lexigenz</span> · Free to read · No account required
+          {t("articles.footer")} <span className="font-semibold">Lexigenz</span> {t("articles.footerSuffix")}
         </motion.p>
       </div>
     </div>

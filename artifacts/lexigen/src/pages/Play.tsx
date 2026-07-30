@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,21 +19,25 @@ import { PaymentModal } from "@/components/PaymentModal";
 const BROWSE_CATEGORIES = [
   {
     id: "emotions",
+    labelKey: "play.categoryEmotions",
     label: "Emotion vocabulary",
     words: ["joy","sorrow","anger","fear","surprise","disgust","trust","anticipation","melancholy","elated","anxious","serene","frustrated","euphoric","despondent","apprehensive","jubilant","forlorn","exhilarated","dejected","resentful","compassion","empathy","nostalgia","gratitude","remorse","envy","pride","shame","awe","contempt","longing","tranquil","agitated","ecstatic","wistful","indignant","content","bewildered","optimistic","grief","admiration","regret","tenderness","anguish","serenity","elation","dread","hope","affection"],
   },
   {
     id: "business",
+    labelKey: "play.categoryBusiness",
     label: "Business vocabulary",
     words: ["accountability","acquisition","agility","analytics","benchmark","capital","catalyst","collaborate","competitive","compliance","deliverable","differentiation","disruptive","ecosystem","efficiency","engagement","entrepreneur","equity","execution","forecast","framework","governance","growth","implementation","incentive","innovation","leadership","leverage","margin","metrics","milestone","monetize","negotiation","optimization","performance","pipeline","portfolio","productivity","profitability","revenue","roadmap","scalability","stakeholder","strategy","sustainability","synergy","traction","transformation","transparency","venture"],
   },
   {
     id: "academic",
+    labelKey: "play.categoryAcademic",
     label: "Academic words",
     words: ["abstract","analysis","annotation","argument","assertion","bibliography","causation","citation","classification","coherence","commentary","conceptual","conclusion","contradiction","critical","critique","deduction","dialectic","discourse","empirical","epistemology","evaluate","evidence","exemplify","extrapolate","fallacy","generalization","hypothesis","implication","inductive","inference","interpretation","juxtaposition","methodology","narrative","ontology","paradigm","pedagogy","perspective","phenomenon","philosophy","premise","rationale","refute","rhetoric","synthesis","theoretical","thesis","variable","verification"],
   },
   {
     id: "advanced",
+    labelKey: "play.categoryAdvanced",
     label: "Advanced English",
     words: ["aberrant","abeyance","abstruse","acrimony","acumen","alacrity","ameliorate","anomalous","apathy","aplomb","arduous","astute","austere","belligerent","byzantine","callous","capricious","cogent","convoluted","copious","corroborate","culpable","cynical","dearth","debilitate","diligent","discern","disparate","equanimity","erudite","esoteric","fastidious","fortitude","garrulous","grandiloquent","hapless","hegemony","hubris","iconoclast","immutable","implacable","indefatigable","insidious","intractable","laconic","loquacious","magnanimous","mendacity","mercurial","meticulous","obtuse","onerous","ostracize","parsimony","pedantic","perspicacious","pragmatic","querulous","recalcitrant","reticent","sagacious","sardonic","sycophant","taciturn","tenacious","ubiquitous","vacillate","vehement","venerable","verbose"],
   },
@@ -45,6 +50,7 @@ function getLetterColor(letter: string, position: number, answer: string, guess:
 }
 
 function WordleGame({ onScore }: { onScore: (score: number) => void }) {
+  const { t } = useTranslation();
   const [wordEntry] = useState(() => WORDLE_WORDS[Math.floor(Math.random() * WORDLE_WORDS.length)]);
   const answer = wordEntry.word;
   const [guesses, setGuesses] = useState<string[]>([]);
@@ -123,7 +129,7 @@ function WordleGame({ onScore }: { onScore: (score: number) => void }) {
         {gameState !== "playing" && (
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-2">
             <div className={`text-center font-bold py-3 rounded-xl ${gameState === "won" ? "bg-green-500/10 text-green-500 border border-green-500/30" : "bg-destructive/10 text-destructive border border-destructive/30"}`}>
-              {gameState === "won" ? `Brilliant! The word was ${answer}` : `The word was ${answer}`}
+              {gameState === "won" ? `${t("play.brilliant")} ${t("play.answer")} ${answer}` : `${t("play.answer")} ${answer}`}
             </div>
             <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 space-y-2">
               <div className="flex items-center gap-1.5 text-xs font-bold text-primary uppercase tracking-wide">
@@ -139,8 +145,8 @@ function WordleGame({ onScore }: { onScore: (score: number) => void }) {
         {KEYBOARD.map((row, ri) => (
           <div key={ri} className="flex justify-center gap-1">
             {row.map(key => (
-              <button key={key} onClick={() => handleKey(key)} className={`h-10 rounded-lg font-bold text-xs font-mono transition-colors ${key.length > 1 ? "px-3" : "w-8"} ${usedLetters[key] === "correct" ? "bg-green-500 text-white" : usedLetters[key] === "present" ? "bg-yellow-500 text-white" : usedLetters[key] === "absent" ? "bg-muted text-muted-foreground" : "bg-secondary text-secondary-foreground hover:bg-secondary/80"}`} data-testid={`wordle-key-${key}`}>
-                {key}
+              <button key={key === "ENTER" ? t("play.keyEnter") : key === "BACKSPACE" ? t("play.keyBackspace") : key} onClick={() => handleKey(key)} className={`h-10 rounded-lg font-bold text-xs font-mono transition-colors ${key.length > 1 ? "px-3" : "w-8"} ${usedLetters[key] === "correct" ? "bg-green-500 text-white" : usedLetters[key] === "present" ? "bg-yellow-500 text-white" : usedLetters[key] === "absent" ? "bg-muted text-muted-foreground" : "bg-secondary text-secondary-foreground hover:bg-secondary/80"}`} data-testid={`wordle-key-${key === "ENTER" ? t("play.keyEnter") : key === "BACKSPACE" ? t("play.keyBackspace") : key}`}>
+                {key === "ENTER" ? t("play.keyEnter") : key === "BACKSPACE" ? t("play.keyBackspace") : key}
               </button>
             ))}
           </div>
@@ -152,6 +158,7 @@ function WordleGame({ onScore }: { onScore: (score: number) => void }) {
 
 // ─── LEXIGENZ GAME ────────────────────────────────────────────
 function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
+  const { t } = useTranslation();
   const { data: gameData, isLoading } = useGetLexigenWord();
   const [letters, setLetters] = useState<{ char: string; used: boolean }[]>([]);
   const [formed, setFormed] = useState<string[]>([]);
@@ -192,7 +199,7 @@ function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
     setFormed([]);
   };
 
-  if (isLoading) return <div className="text-center py-8 text-muted-foreground">Loading game...</div>;
+  if (isLoading) return <div className="text-center py-8 text-muted-foreground">{t("common.loading")}</div>;
 
   return (
     <div className="space-y-6">
@@ -208,7 +215,7 @@ function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
         </button>
       </div>
       <div className="text-center">
-        <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">Spell the word</p>
+        <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">{t("play.spellTheWord")}</p>
         <div className="flex justify-center gap-2">
           {Array.from({ length: gameData?.targetWord.length ?? 7 }).map((_, i) => (
             <div key={i} className={`w-10 h-12 rounded-lg border-2 flex items-center justify-center font-bold text-lg font-mono transition-all ${formed[i] ? gameState === "won" ? "border-green-500 bg-green-500/10 text-green-500" : "border-primary bg-primary/10 text-primary" : "border-border"}`} data-testid={`lexigen-slot-${i}`}>
@@ -216,7 +223,7 @@ function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
             </div>
           ))}
         </div>
-        {gameData?.hint && <p className="text-xs text-muted-foreground mt-2">Hint: {gameData.hint}</p>}
+        {gameData?.hint && <p className="text-xs text-muted-foreground mt-2">{t("play.hint")} {gameData.hint}</p>}
       </div>
       <div className="flex justify-center flex-wrap gap-2">
         {letters.map((l, i) => (
@@ -232,13 +239,13 @@ function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
             const li = letters.map((l, i) => l.used && l.char === last ? i : -1).filter(i => i >= 0).pop();
             if (li !== undefined && li >= 0) { const nl = [...letters]; nl[li] = { ...nl[li], used: false }; setLetters(nl); }
             setFormed(f => f.slice(0, -1));
-          }}>Undo</Button>
+          }}>{t("play.undo")}</Button>
         </div>
       )}
       <AnimatePresence>
         {gameState !== "playing" && (
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className={`text-center py-4 rounded-xl font-bold ${gameState === "won" ? "bg-green-500/10 text-green-500 border border-green-500/30" : "bg-destructive/10 text-destructive border border-destructive/30"}`}>
-            {gameState === "won" ? `Nailed it! LEXIGENZ spelled in ${15 - timeLeft}s` : `Time's up! The word was ${gameData?.targetWord}`}
+            {gameState === "won" ? t("play.nailedIt", { seconds: 15 - timeLeft }) : `${t("play.answer")} ${gameData?.targetWord}`}
           </motion.div>
         )}
       </AnimatePresence>
@@ -247,7 +254,7 @@ function LexigenGame({ onScore }: { onScore: (score: number) => void }) {
 }
 
 // ─── SPELLING BEE TYPES ────────────────────────────────────────
-type BadgeMilestone = { streak: number; name: string; emoji: string; color: string };
+type BadgeMilestone = { streak: number; name: string; nameKey: string; emoji: string; color: string };
 type WordEntry = { word: string; meaning: string; usage: string };
 
 // ─── SPELLING BEE LEVELS ──────────────────────────────────────
@@ -264,12 +271,12 @@ const SPELLING_BEE_LEVELS = [
     certificateLabel: "Beginner Spelling Bee",
     wordPool: SPELLING_BEE_BEGINNER_WORDS,
     badges: [
-      { streak: 5,  name: "Word Seedling",      emoji: "🌱🐝", color: "text-green-600 bg-green-500/10 border-green-400/30" },
-      { streak: 10, name: "Word Sprout",         emoji: "🌿🐝", color: "text-emerald-600 bg-emerald-500/10 border-emerald-400/30" },
-      { streak: 15, name: "Word Grower",         emoji: "🌻🐝", color: "text-yellow-600 bg-yellow-500/10 border-yellow-400/30" },
-      { streak: 20, name: "Word Bloomer",        emoji: "🌸🐝", color: "text-pink-600 bg-pink-500/10 border-pink-400/30" },
-      { streak: 25, name: "Word Blossomer",      emoji: "🏅🐝", color: "text-primary bg-primary/10 border-primary/30" },
-      { streak: 30, name: "Young Bee Champion",  emoji: "🏆🐝", color: "text-amber-600 bg-amber-500/10 border-amber-400/30" },
+      { streak: 5,  name: "Word Seedling", nameKey: "play.beeBadge.wordSeedling",      emoji: "🌱🐝", color: "text-green-600 bg-green-500/10 border-green-400/30" },
+      { streak: 10, name: "Word Sprout", nameKey: "play.beeBadge.wordSprout",         emoji: "🌿🐝", color: "text-emerald-600 bg-emerald-500/10 border-emerald-400/30" },
+      { streak: 15, name: "Word Grower", nameKey: "play.beeBadge.wordGrower",         emoji: "🌻🐝", color: "text-yellow-600 bg-yellow-500/10 border-yellow-400/30" },
+      { streak: 20, name: "Word Bloomer", nameKey: "play.beeBadge.wordBloomer",        emoji: "🌸🐝", color: "text-pink-600 bg-pink-500/10 border-pink-400/30" },
+      { streak: 25, name: "Word Blossomer", nameKey: "play.beeBadge.wordBlossomer",      emoji: "🏅🐝", color: "text-primary bg-primary/10 border-primary/30" },
+      { streak: 30, name: "Young Bee Champion", nameKey: "play.beeBadge.youngBeeChampion",  emoji: "🏆🐝", color: "text-amber-600 bg-amber-500/10 border-amber-400/30" },
     ] as BadgeMilestone[],
   },
   {
@@ -284,12 +291,12 @@ const SPELLING_BEE_LEVELS = [
     certificateLabel: "Lower Intermediate Spelling Bee",
     wordPool: SPELLING_BEE_LOWER_INTERMEDIATE_WORDS,
     badges: [
-      { streak: 5,  name: "Bee Apprentice", emoji: "🐝",    color: "text-amber-600 bg-amber-500/10 border-amber-400/30" },
-      { streak: 10, name: "Bee Scholar",    emoji: "📚🐝",  color: "text-blue-600 bg-blue-500/10 border-blue-400/30" },
-      { streak: 15, name: "Bee Expert",     emoji: "🌟🐝",  color: "text-purple-600 bg-purple-500/10 border-purple-400/30" },
-      { streak: 20, name: "Bee Master",     emoji: "🏆🐝",  color: "text-primary bg-primary/10 border-primary/30" },
-      { streak: 25, name: "Bee Legend",     emoji: "👑🐝",  color: "text-yellow-600 bg-yellow-500/10 border-yellow-400/30" },
-      { streak: 30, name: "Bee Supreme",    emoji: "⚡🐝",  color: "text-rose-600 bg-rose-500/10 border-rose-400/30" },
+      { streak: 5,  name: "Bee Apprentice", nameKey: "play.beeBadge.beeApprentice", emoji: "🐝",    color: "text-amber-600 bg-amber-500/10 border-amber-400/30" },
+      { streak: 10, name: "Bee Scholar", nameKey: "play.beeBadge.beeScholar",    emoji: "📚🐝",  color: "text-blue-600 bg-blue-500/10 border-blue-400/30" },
+      { streak: 15, name: "Bee Expert", nameKey: "play.beeBadge.beeExpert",     emoji: "🌟🐝",  color: "text-purple-600 bg-purple-500/10 border-purple-400/30" },
+      { streak: 20, name: "Bee Master", nameKey: "play.beeBadge.beeMaster",     emoji: "🏆🐝",  color: "text-primary bg-primary/10 border-primary/30" },
+      { streak: 25, name: "Bee Legend", nameKey: "play.beeBadge.beeLegend",     emoji: "👑🐝",  color: "text-yellow-600 bg-yellow-500/10 border-yellow-400/30" },
+      { streak: 30, name: "Bee Supreme", nameKey: "play.beeBadge.beeSupreme",    emoji: "⚡🐝",  color: "text-rose-600 bg-rose-500/10 border-rose-400/30" },
     ] as BadgeMilestone[],
   },
   {
@@ -304,12 +311,12 @@ const SPELLING_BEE_LEVELS = [
     certificateLabel: "Upper Intermediate Spelling Bee",
     wordPool: SPELLING_BEE_WORDS,
     badges: [
-      { streak: 5,  name: "Bee Apprentice", emoji: "🐝",    color: "text-amber-600 bg-amber-500/10 border-amber-400/30" },
-      { streak: 10, name: "Bee Scholar",    emoji: "📚🐝",  color: "text-blue-600 bg-blue-500/10 border-blue-400/30" },
-      { streak: 15, name: "Bee Expert",     emoji: "🌟🐝",  color: "text-purple-600 bg-purple-500/10 border-purple-400/30" },
-      { streak: 20, name: "Bee Master",     emoji: "🏆🐝",  color: "text-primary bg-primary/10 border-primary/30" },
-      { streak: 25, name: "Bee Legend",     emoji: "👑🐝",  color: "text-yellow-600 bg-yellow-500/10 border-yellow-400/30" },
-      { streak: 30, name: "Bee Supreme",    emoji: "⚡🐝",  color: "text-rose-600 bg-rose-500/10 border-rose-400/30" },
+      { streak: 5,  name: "Bee Apprentice", nameKey: "play.beeBadge.beeApprentice", emoji: "🐝",    color: "text-amber-600 bg-amber-500/10 border-amber-400/30" },
+      { streak: 10, name: "Bee Scholar", nameKey: "play.beeBadge.beeScholar",    emoji: "📚🐝",  color: "text-blue-600 bg-blue-500/10 border-blue-400/30" },
+      { streak: 15, name: "Bee Expert", nameKey: "play.beeBadge.beeExpert",     emoji: "🌟🐝",  color: "text-purple-600 bg-purple-500/10 border-purple-400/30" },
+      { streak: 20, name: "Bee Master", nameKey: "play.beeBadge.beeMaster",     emoji: "🏆🐝",  color: "text-primary bg-primary/10 border-primary/30" },
+      { streak: 25, name: "Bee Legend", nameKey: "play.beeBadge.beeLegend",     emoji: "👑🐝",  color: "text-yellow-600 bg-yellow-500/10 border-yellow-400/30" },
+      { streak: 30, name: "Bee Supreme", nameKey: "play.beeBadge.beeSupreme",    emoji: "⚡🐝",  color: "text-rose-600 bg-rose-500/10 border-rose-400/30" },
     ] as BadgeMilestone[],
   },
   {
@@ -324,12 +331,12 @@ const SPELLING_BEE_LEVELS = [
     certificateLabel: "Proficient Spelling Bee",
     wordPool: SPELLING_BEE_ADVANCED_WORDS,
     badges: [
-      { streak: 5,  name: "Lexicographer I",   emoji: "🔬🐝", color: "text-teal-600 bg-teal-500/10 border-teal-400/30" },
-      { streak: 10, name: "Lexicographer II",  emoji: "📖🐝", color: "text-indigo-600 bg-indigo-500/10 border-indigo-400/30" },
-      { streak: 15, name: "Lexicographer III", emoji: "🎓🐝", color: "text-purple-600 bg-purple-500/10 border-purple-400/30" },
-      { streak: 20, name: "Word Architect",    emoji: "🏛️🐝", color: "text-primary bg-primary/10 border-primary/30" },
-      { streak: 25, name: "Grand Lexicon",     emoji: "👑🐝", color: "text-yellow-600 bg-yellow-500/10 border-yellow-400/30" },
-      { streak: 30, name: "Etymologist Rex",   emoji: "⚡🐝", color: "text-rose-600 bg-rose-500/10 border-rose-400/30" },
+      { streak: 5,  name: "Lexicographer I", nameKey: "play.beeBadge.lexicographerI",   emoji: "🔬🐝", color: "text-teal-600 bg-teal-500/10 border-teal-400/30" },
+      { streak: 10, name: "Lexicographer II", nameKey: "play.beeBadge.lexicographerII",  emoji: "📖🐝", color: "text-indigo-600 bg-indigo-500/10 border-indigo-400/30" },
+      { streak: 15, name: "Lexicographer III", nameKey: "play.beeBadge.lexicographerIII", emoji: "🎓🐝", color: "text-purple-600 bg-purple-500/10 border-purple-400/30" },
+      { streak: 20, name: "Word Architect", nameKey: "play.beeBadge.wordArchitect",    emoji: "🏛️🐝", color: "text-primary bg-primary/10 border-primary/30" },
+      { streak: 25, name: "Grand Lexicon", nameKey: "play.beeBadge.grandLexicon",     emoji: "👑🐝", color: "text-yellow-600 bg-yellow-500/10 border-yellow-400/30" },
+      { streak: 30, name: "Etymologist Rex", nameKey: "play.beeBadge.etymologistRex",   emoji: "⚡🐝", color: "text-rose-600 bg-rose-500/10 border-rose-400/30" },
     ] as BadgeMilestone[],
   },
 ];
@@ -365,6 +372,7 @@ function SpellingBeeCore({
   onScore: (score: number) => void;
   onExit: () => void;
 }) {
+  const { t } = useTranslation();
   const [shuffled] = useState(() => [...wordPool].sort(() => Math.random() - 0.5));
   const [wordIdx, setWordIdx] = useState(0);
   const [typed, setTyped] = useState("");
@@ -542,10 +550,10 @@ function SpellingBeeCore({
             onClick={() => setShowDiag(d => !d)}
             className="text-[10px] text-muted-foreground/60 hover:text-muted-foreground transition-colors underline underline-offset-2"
           >
-            {showDiag ? "hide diagnostics" : "audio diagnostics"}
+            {showDiag ? t("play.hideDiag") : t("play.audioDiag")}
           </button>
           <button onClick={onExit} className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
-            <X className="h-3.5 w-3.5" /> Change level
+            <X className="h-3.5 w-3.5" /> {t("play.changeLevel")}
           </button>
         </div>
       </div>
@@ -564,19 +572,19 @@ function SpellingBeeCore({
 
         return (
           <div className="rounded-xl border border-border bg-muted/30 p-3 text-[11px] space-y-1.5 font-mono">
-            <p className="font-sans font-bold text-xs text-foreground mb-2">🔍 Audio Diagnostics</p>
-            <Row label="OS" value={isIOS ? "iOS" : isAndroid ? "Android" : "Desktop/Other"} />
-            <Row label="Browser" value={isSafari ? "Safari" : isChrome ? "Chrome" : "Other"} />
-            <Row label="speechSynthesis" value={synthSupported ? "✅ supported" : "❌ not supported"} bad={!synthSupported} />
-            <Row label="AudioContext" value={audioCtxSupported ? "✅ supported" : "❌ not supported"} bad={!audioCtxSupported} />
-            <Row label="AudioContext state" value={ctxState} bad={ctxState === "suspended"} />
-            <Row label="Total TTS voices" value={String(diagVoices.length)} bad={diagVoices.length === 0} />
-            <Row label="English voices" value={String(enVoices.length)} bad={enVoices.length === 0} />
+            <p className="font-sans font-bold text-xs text-foreground mb-2">{t("play.audioDiagnostics")}</p>
+            <Row label={t("play.diagOS")} value={isIOS ? t("play.diagOSiOS") : isAndroid ? t("play.diagOSAndroid") : t("play.diagOSOther")} />
+            <Row label={t("play.diagBrowser")} value={isSafari ? t("play.diagBrowserSafari") : isChrome ? t("play.diagBrowserChrome") : t("play.diagBrowserOther")} />
+            <Row label={t("play.diagSynth")} value={synthSupported ? t("play.diagSupported") : t("play.diagNotSupported")} bad={!synthSupported} />
+            <Row label={t("play.diagAudioCtx")} value={audioCtxSupported ? t("play.diagSupported") : t("play.diagNotSupported")} bad={!audioCtxSupported} />
+            <Row label={t("play.diagAudioCtxState")} value={ctxState === "not created yet" ? t("play.diagCtxNotCreated") : ctxState} bad={ctxState === "suspended"} />
+            <Row label={t("play.diagTotalVoices")} value={String(diagVoices.length)} bad={diagVoices.length === 0} />
+            <Row label={t("play.diagEnVoices")} value={String(enVoices.length)} bad={enVoices.length === 0} />
             {enVoices.length > 0 && (
-              <Row label="Default EN voice" value={enVoices[0]?.name ?? "-"} />
+              <Row label={t("play.diagDefaultVoice")} value={enVoices[0]?.name ?? "-"} />
             )}
             {diagVoices.length === 0 && (
-              <p className="text-destructive font-sans mt-1">⚠️ No voices found - device TTS engine may be disabled. Check Settings → Accessibility → Text to Speech.</p>
+              <p className="text-destructive font-sans mt-1">{t("play.audioNoVoices")}</p>
             )}
           </div>
         );
@@ -588,7 +596,7 @@ function SpellingBeeCore({
           <div className="flex items-center gap-1.5">
             <span className="text-base">🔥</span>
             <span className="font-bold text-orange-500 text-sm">{streak}</span>
-            <span className="text-xs text-muted-foreground">streak</span>
+            <span className="text-xs text-muted-foreground">{t("play.streak")}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="text-base">✅</span>
@@ -611,7 +619,7 @@ function SpellingBeeCore({
             transition={{ duration: 0.4 }}
           />
         </div>
-        <p className="text-right text-[10px] text-muted-foreground">{totalCorrect}/{targetWords} toward {levelName} Certificate</p>
+        <p className="text-right text-[10px] text-muted-foreground">{t("play.beeCertProgress", { count: totalCorrect, total: targetWords, level: levelName })}</p>
       </div>
 
       {/* Earned badges */}
@@ -628,9 +636,9 @@ function SpellingBeeCore({
       {/* Word info */}
       <div className="text-center space-y-1">
         <p className="text-xs font-bold uppercase tracking-widest text-primary">
-          {phase === "ready" ? "🐝 Click the speaker to hear your word" : phase === "active" ? "Spell the word" : ""}
+          {phase === "ready" ? t("play.clickSpeaker") : phase === "active" ? t("play.spellTheWord") : ""}
         </p>
-        <p className="text-xs text-muted-foreground">{currentWord.word.length} letters · <em>{currentWord.meaning}</em></p>
+        <p className="text-xs text-muted-foreground">{currentWord.word.length} {t("play.lettersLabel")} · <em>{currentWord.meaning}</em></p>
       </div>
 
       {/* Letter slots */}
@@ -658,7 +666,7 @@ function SpellingBeeCore({
           onClick={playWord}
           onTouchStart={(e) => { e.preventDefault(); playWord(); }}
           disabled={isSpeaking || phase === "result"}
-          title={timerStarted ? "Tap to hear the word again" : "Tap to hear your word - timer starts on first play"}
+          title={timerStarted ? t("play.beeHearAgain") : t("play.beeHearFirst")}
           className={`relative w-16 h-16 rounded-full flex items-center justify-center transition-all border-2 ${
             isSpeaking ? "border-primary bg-primary/20 text-primary animate-pulse scale-110"
             : phase === "result" ? "border-border bg-muted text-muted-foreground opacity-40 cursor-not-allowed"
@@ -670,7 +678,7 @@ function SpellingBeeCore({
           {isSpeaking && <span className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-40" />}
         </button>
         <p className="text-[11px] text-muted-foreground text-center">
-          {isSpeaking ? "Listening…" : timerStarted ? "Tap to hear again · Timer running" : "Tap 🔊 - timer starts when word plays"}
+          {isSpeaking ? t("play.beeListening") : timerStarted ? t("play.beeHearAgainTimer") : t("play.beeHearStart")}
         </p>
 
         {/* Unmute overlay - shown when autoplay was blocked */}
@@ -681,7 +689,7 @@ function SpellingBeeCore({
             className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500 text-white text-xs font-bold shadow-lg animate-bounce"
           >
             <Volume2 className="h-3.5 w-3.5" />
-            Tap to unmute
+            {t("play.tapToUnmute")}
           </button>
         )}
       </div>
@@ -695,12 +703,12 @@ function SpellingBeeCore({
               type="text"
               value={typed}
               onChange={e => setTyped(e.target.value.replace(/[^a-zA-Z]/g, "").slice(0, currentWord.word.length))}
-              placeholder="Type your spelling…"
+              placeholder={t("play.typingPlaceholder")}
               className="w-full h-12 rounded-xl border border-input bg-background px-4 font-mono text-center text-lg tracking-widest uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
               autoComplete="off" autoCorrect="off" autoCapitalize="none" spellCheck={false}
             />
             <Button onClick={handleSubmit} className="w-full h-11 rounded-xl bg-primary font-bold" disabled={!typed.trim()}>
-              Submit Spelling ↵
+              {t("play.submitSpelling")}
             </Button>
           </motion.div>
         )}
@@ -711,9 +719,9 @@ function SpellingBeeCore({
         {result && (
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="space-y-2">
             <div className={`text-center py-3 px-4 rounded-xl font-bold text-sm ${result === "correct" ? "bg-green-500/10 text-green-600 border border-green-500/30" : result === "timeout" ? "bg-amber-500/10 text-amber-600 border border-amber-400/30" : "bg-destructive/10 text-destructive border border-destructive/30"}`}>
-              {result === "correct" && `✅ Correct! "${currentWord.word}" - next word coming…`}
-              {result === "timeout" && `⏰ Time's up! The word was "${currentWord.word}"`}
-              {result === "wrong" && `❌ It's "${currentWord.word}" - keep going!`}
+              {result === "correct" && t("play.beeResultCorrect", { word: currentWord.word })}
+              {result === "timeout" && t("play.beeResultTimeout", { word: currentWord.word })}
+              {result === "wrong" && t("play.beeResultWrong", { word: currentWord.word })}
             </div>
             {(result === "timeout" || result === "wrong") && (
               <div className="rounded-xl border border-primary/20 bg-primary/5 p-3 space-y-1.5 text-left">
@@ -738,10 +746,10 @@ function SpellingBeeCore({
             className={`text-center py-5 rounded-2xl border space-y-2 ${newBadge.color}`}
           >
             <p className="text-3xl">{newBadge.emoji}</p>
-            <p className="font-black text-base">Badge Earned: {newBadge.name}!</p>
-            <p className="text-xs opacity-70">{newBadge.streak} words correct in a row</p>
+            <p className="font-black text-base">{t("play.beeBadgeEarned", { name: newBadge.name })}</p>
+            <p className="text-xs opacity-70">{t("play.beeBadgeStreakRow", { count: newBadge.streak })}</p>
             <Button size="sm" variant="outline" className="rounded-full mt-2 text-xs" onClick={() => { setNewBadge(null); nextWord(); }}>
-              Keep spelling →
+              {t("play.keepSpelling")}
             </Button>
           </motion.div>
         )}
@@ -765,17 +773,17 @@ function SpellingBeeCore({
             >
               <div className="text-6xl">🏆</div>
               <div>
-                <p className="text-xs font-black uppercase tracking-widest text-primary">Lexigenz Trading</p>
-                <h2 className="text-2xl font-black mt-1 leading-tight">{certificateLabel}<br />Certificate</h2>
+                <p className="text-xs font-black uppercase tracking-widest text-primary">{t("play.beeCertIssuer")}</p>
+                <h2 className="text-2xl font-black mt-1 leading-tight">{certificateLabel}<br />{t("play.beeCertLabel")}</h2>
               </div>
               <div className="py-4 border-y border-border/60 space-y-2">
-                <p className="text-sm text-muted-foreground">This certifies the achievement of</p>
+                <p className="text-sm text-muted-foreground">{t("play.beeCertText")}</p>
                 <div className="flex items-center justify-center gap-2">
                   <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
                   <p className="text-4xl font-black text-primary">{targetWords}</p>
                   <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
                 </div>
-                <p className="text-sm text-muted-foreground">correctly spelled words in the<br /><strong>Lexigenz Spelling Bee - {levelName}</strong></p>
+                <p className="text-sm text-muted-foreground">{t("play.beeCertCorrectWords")}<br /><strong>{t("play.beeCertTitle", { level: levelName })}</strong></p>
               </div>
               {earnedBadges.length > 0 && (
                 <div className="flex flex-wrap justify-center gap-1.5">
@@ -784,9 +792,9 @@ function SpellingBeeCore({
                   ))}
                 </div>
               )}
-              <p className="text-[10px] text-muted-foreground">Issued by Lexigenz Trading · Spelling Bee {levelName}</p>
+              <p className="text-[10px] text-muted-foreground">{t("play.beeCertIssuedBy", { level: levelName })}</p>
               <Button size="lg" className="w-full rounded-2xl bg-primary font-bold" onClick={() => { setShowCertificate(false); nextWord(); }}>
-                Continue Playing 🐝
+                {t("play.beeContinue")}
               </Button>
             </motion.div>
           </motion.div>
@@ -798,8 +806,25 @@ function SpellingBeeCore({
 
 // ─── SPELLING BEE WITH LEVEL PICKER ───────────────────────────
 function SpellingBeeWithLevels({ onScore, isPremium, onUpgrade }: { onScore: (score: number) => void; isPremium: boolean; onUpgrade?: () => void }) {
+  const { t } = useTranslation();
   const [selectedLevel, setSelectedLevel] = useState<typeof SPELLING_BEE_LEVELS[0] | null>(null);
   const [openInfo, setOpenInfo] = useState<string | null>(null);
+
+  const BEE_KEY_MAP: Record<string, string> = {
+    "beginner": "beginner",
+    "lower-intermediate": "lowerIntermediate",
+    "upper-intermediate": "upperIntermediate",
+    "proficient": "proficient",
+  };
+
+  const translatedLevels = SPELLING_BEE_LEVELS.map(l => ({
+    ...l,
+    name: t(`play.beeLevel.${BEE_KEY_MAP[l.id]}.name`),
+    tag: t(`play.beeLevel.${BEE_KEY_MAP[l.id]}.tag`),
+    tagline: t(`play.beeLevel.${BEE_KEY_MAP[l.id]}.tagline`),
+    certificateLabel: t(`play.beeLevel.${BEE_KEY_MAP[l.id]}.certificate`),
+    badges: l.badges.map(b => ({ ...b, name: t(b.nameKey) })),
+  }));
 
   if (selectedLevel) {
     return (
@@ -820,11 +845,11 @@ function SpellingBeeWithLevels({ onScore, isPremium, onUpgrade }: { onScore: (sc
   return (
     <div className="space-y-4">
       <div className="text-center space-y-1.5">
-        <p className="text-xs font-bold uppercase tracking-widest text-primary">🐝 Choose Your Level</p>
-        <p className="text-sm text-muted-foreground">Hear the word, spell it correctly. Timer starts when the word plays.</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-primary">{t("play.chooseLevel")}</p>
+        <p className="text-sm text-muted-foreground">{t("play.hearAndSpell")}</p>
       </div>
       <div className="space-y-3">
-        {SPELLING_BEE_LEVELS.map(level => {
+        {translatedLevels.map(level => {
           const locked = level.premium && !isPremium;
           return (
             <div key={level.id}>
@@ -846,7 +871,7 @@ function SpellingBeeWithLevels({ onScore, isPremium, onUpgrade }: { onScore: (sc
                       <span className="font-bold text-base">{level.name}</span>
                       {locked && (
                         <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary text-white">
-                          <Crown className="h-2.5 w-2.5" /> Premium
+                          <Crown className="h-2.5 w-2.5" /> {t("common.premium")}
                         </span>
                       )}
                     </div>
@@ -871,10 +896,10 @@ function SpellingBeeWithLevels({ onScore, isPremium, onUpgrade }: { onScore: (sc
                       exit={{ opacity: 0, height: 0 }}
                       className="mt-3 pt-3 border-t border-border/60 text-xs text-muted-foreground space-y-1 overflow-hidden"
                     >
-                      <p><span className="font-semibold text-foreground">Who it's for:</span> {level.tag} learners</p>
-                      <p><span className="font-semibold text-foreground">Timer:</span> {level.timerSeconds} seconds per word</p>
-                      <p><span className="font-semibold text-foreground">Certificate:</span> Awarded at {level.targetWords} correct words</p>
-                      {level.premium && <p className="text-primary font-semibold">🔒 Requires Premium membership - $8</p>}
+                      <p><span className="font-semibold text-foreground">{t("play.beeWhoFor")}</span> {level.tag} {t("play.beeLearners")}</p>
+                      <p><span className="font-semibold text-foreground">{t("play.beeTimer")}</span> {level.timerSeconds} {t("play.beeSecondsPerWord")}</p>
+                      <p><span className="font-semibold text-foreground">{t("play.beeCertificate")}</span> {t("play.beeAwardedAt", { count: level.targetWords })}</p>
+                      {level.premium && <p className="text-primary font-semibold">{t("play.beePremiumRequired")}</p>}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -882,7 +907,7 @@ function SpellingBeeWithLevels({ onScore, isPremium, onUpgrade }: { onScore: (sc
               {locked && (
                 <div className="mt-1.5">
                   <Button size="sm" className="w-full rounded-xl font-bold bg-primary text-xs h-9" onClick={onUpgrade}>
-                    <Crown className="h-3.5 w-3.5 mr-1.5" /> Unlock with Premium - $8
+                    <Crown className="h-3.5 w-3.5 mr-1.5" /> {t("common.upgrade")} - $8
                   </Button>
                 </div>
               )}
@@ -895,69 +920,25 @@ function SpellingBeeWithLevels({ onScore, isPremium, onUpgrade }: { onScore: (sc
 }
 
 // ─── GAMES REGISTRY ────────────────────────────────────────────
-const GAMES = [
-  {
-    id: "wordle",
-    name: "Wordle",
-    tag: "Lexigenz Edition",
-    desc: "Guess the 5-letter word in 6 attempts. Green = correct spot. Yellow = wrong spot.",
-    status: "live",
-    emoji: "🟩",
-    premium: true,
-    howToPlay: "You have 6 tries to guess the secret 5-letter word. After each guess, tiles change colour - 🟩 Green means the letter is correct and in the right spot. 🟨 Yellow means the letter is in the word but wrong spot. ⬜ Grey means the letter is not in the word.",
-  },
-  {
-    id: "lexigen-game",
-    name: "Lexigenz Game",
-    tag: "Signature",
-    desc: "Race to unscramble 7 letters into LEXIGENZ before the 15-second timer runs out.",
-    status: "live",
-    emoji: "⚡",
-    howToPlay: "7 scrambled letters are shown. Tap them in the correct order to spell 'LEXIGENZ' before the 15-second timer expires. Use the Undo button to remove the last letter you placed. Speed is everything.",
-  },
-  {
-    id: "spelling-bee",
-    name: "Spelling Bee",
-    tag: "4 Levels",
-    desc: "Hear the word, then spell it correctly. Four levels from Beginner to Proficient. Earn badges and a certificate.",
-    status: "live",
-    emoji: "🐝",
-    howToPlay: "Choose your level (Beginner → Proficient), then click 🔊 to hear your word. The timer starts when the word plays. Type the correct spelling and hit Submit. Earn streak badges and a Certificate when you reach the level's target word count. The Proficient level requires Premium.",
-  },
-  {
-    id: "scrabble",
-    name: "Scrabble",
-    tag: "4 Levels",
-    desc: "Tap 7 letter tiles to build high-scoring words. Rare letters earn more - use all 7 for a BINGO bonus!",
-    status: "live",
-    emoji: "🎯",
-    premium: true,
-    howToPlay: "Choose a level, then tap letter tiles from your rack to build a word in the word area. Tap a selected letter to return it. Hit Submit when ready - the word must be valid and meet the minimum length for your level. Shuffle resets your rack. Using all 7 tiles earns a +50 BINGO bonus!",
-  },
-  {
-    id: "crossword",
-    name: "Crossword",
-    tag: "4 Puzzles",
-    desc: "Solve themed 5×5 mini crosswords. Click a clue or cell, then type your answer.",
-    status: "live",
-    emoji: "📝",
-    premium: true,
-    howToPlay: "Click a clue in the panel (or tap a cell in the grid) to select a word. A text input appears - type your answer. The grid fills in live as you type. Once all words are filled, press Check Answers to see your result. Green = correct, red = needs fixing.",
-  },
-  {
-    id: "word-grid",
-    name: "Word Grid",
-    tag: "Boggle-Style",
-    desc: "Swipe or drag adjacent letters in a grid to spell words before the timer runs out.",
-    status: "live",
-    emoji: "🔤",
-    premium: true,
-    howToPlay: "Hold and drag (or swipe on mobile) across adjacent letters - including diagonals - to trace a word path. Release to submit. Each letter can only be used once per word. Longer words score more points. The number next to each tile shows its position in your current word.",
-  },
+const GAME_META = [
+  { id: "wordle",        tKey: "wordle",      status: "live", emoji: "🟩", premium: true  },
+  { id: "lexigen-game",  tKey: "lexigenGame", status: "live", emoji: "⚡"                  },
+  { id: "spelling-bee",  tKey: "spellingBee", status: "live", emoji: "🐝"                  },
+  { id: "scrabble",      tKey: "scrabble",    status: "live", emoji: "🎯", premium: true  },
+  { id: "crossword",     tKey: "crossword",   status: "live", emoji: "📝", premium: true  },
+  { id: "word-grid",     tKey: "wordGrid",    status: "live", emoji: "🔤", premium: true  },
 ];
 
 // ─── MAIN PLAY PAGE ────────────────────────────────────────────
 export default function Play() {
+  const { t } = useTranslation();
+  const GAMES = GAME_META.map(g => ({
+    ...g,
+    name: t(`play.games.${g.tKey}.name`),
+    tag: t(`play.games.${g.tKey}.tag`),
+    desc: t(`play.games.${g.tKey}.desc`),
+    howToPlay: t(`play.games.${g.tKey}.howToPlay`),
+  }));
   const [activeGame, setActiveGame] = useState<string | null>(null);
   const [helpGame, setHelpGame] = useState<string | null>(null);
   const { toast } = useToast();
@@ -974,13 +955,13 @@ export default function Play() {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getListGameScoresQueryKey() });
-          toast({ title: `Score saved: ${score} pts`, description: "Check the leaderboard!" });
+          toast({ title: `${t("play.score")}: ${score} pts`, description: t("play.checkLeaderboard") });
         },
       }
     );
   };
 
-  const helpGameData = useMemo(() => GAMES.find(g => g.id === helpGame), [helpGame]);
+  const helpGameData = GAMES.find(g => g.id === helpGame);
 
   return (
     <div className="min-h-screen">
@@ -993,30 +974,30 @@ export default function Play() {
             {/* User bar */}
             <div className="flex items-center justify-between">
               <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-primary bg-primary/10 px-4 py-1.5 rounded-full">
-                Play for Words
+                {t("play.heading")}
               </span>
               {user && (
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-muted-foreground hidden sm:inline">
-                    Hi, <span className="font-semibold text-foreground">{user.name?.split(" ")[0]}</span>
-                    {isPremium && <span className="ml-1.5 inline-flex items-center gap-0.5 text-[10px] font-bold text-amber-600"><Crown className="h-3 w-3" /> Premium</span>}
+                    {t("play.loggedInAs", { name: user.name?.split(" ")[0] })}
+                    {isPremium && <span className="ml-1.5 inline-flex items-center gap-0.5 text-[10px] font-bold text-amber-600"><Crown className="h-3 w-3" /> {t("common.premium")}</span>}
                   </span>
                   <button
                     onClick={() => logout()}
                     className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors border border-border rounded-full px-3 py-1.5 hover:border-primary/30"
                   >
-                    <LogOut className="h-3.5 w-3.5" /> Log out
+                    <LogOut className="h-3.5 w-3.5" /> {t("common.signOut")}
                   </button>
                 </div>
               )}
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold tracking-tighter">
-              GAMES THAT MAKE<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">WORDS FUN.</span>
+              {t("play.heroHeading")}<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">{t("play.heroHighlight")}</span>
             </h1>
             <p className="text-muted-foreground text-lg max-w-xl">
-              Six Lexigenz-branded word games. Play solo or challenge a friend. Every game sharpens your vocabulary.
+              {t("play.subtitle")}
             </p>
           </motion.div>
 
@@ -1049,13 +1030,13 @@ export default function Play() {
                       <div className="absolute inset-0 rounded-2xl bg-background/40 backdrop-blur-[2px] flex flex-col items-center justify-center z-10 gap-2">
                         <div className="flex items-center gap-2 bg-background/90 border border-primary/30 rounded-full px-4 py-2 shadow-sm">
                           <Lock className="h-4 w-4 text-primary" />
-                          <span className="text-xs font-bold text-primary">Premium Only</span>
+                          <span className="text-xs font-bold text-primary">{t("play.locked")}</span>
                         </div>
                         <button
                           onClick={e => { e.stopPropagation(); setShowPaymentModal(true); }}
                           className="text-[11px] font-semibold text-muted-foreground hover:text-primary transition-colors underline underline-offset-2"
                         >
-                          Upgrade for $8 →
+                          {t("common.upgrade")} →
                         </button>
                       </div>
                     )}
@@ -1063,13 +1044,13 @@ export default function Play() {
                     {/* Coming soon overlay */}
                     {isComingSoon && !isPremium && (
                       <div className="absolute inset-0 rounded-2xl bg-background/50 backdrop-blur-sm flex items-center justify-center z-10">
-                        <Badge className="font-bold bg-muted text-muted-foreground border-border shadow-sm">Coming Soon</Badge>
+                        <Badge className="font-bold bg-muted text-muted-foreground border-border shadow-sm">{t("play.comingSoon")}</Badge>
                       </div>
                     )}
                     {isComingSoon && isPremium && (
                       <div className="absolute top-3 right-10 z-10">
                         <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 border border-amber-400/30">
-                          <Crown className="h-2.5 w-2.5" /> Early Access
+                          <Crown className="h-2.5 w-2.5" /> {t("play.earlyAccess")}
                         </span>
                       </div>
                     )}
@@ -1106,7 +1087,7 @@ export default function Play() {
                       {topScore && (
                         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                           <Trophy className="h-3 w-3 text-yellow-400" />
-                          <span>Top: <strong className="text-foreground">{topScore.score}</strong> by {topScore.username}</span>
+                          <span>{t("play.myBestScore")} <strong className="text-foreground">{topScore.score}</strong> by {topScore.username}</span>
                         </div>
                       )}
                       {isLocked ? (
@@ -1116,7 +1097,7 @@ export default function Play() {
                           onClick={e => { e.stopPropagation(); setShowPaymentModal(true); }}
                           data-testid={`button-unlock-${game.id}`}
                         >
-                          <Crown className="h-3.5 w-3.5 mr-1.5" /> Unlock with Premium
+                          <Crown className="h-3.5 w-3.5 mr-1.5" /> {t("common.upgrade")}
                         </Button>
                       ) : isClickable ? (
                         <Button
@@ -1124,7 +1105,7 @@ export default function Play() {
                           className={`w-full rounded-full mt-2 font-bold ${game.id === "spelling-bee" ? "bg-amber-500 hover:bg-amber-600 text-white" : "bg-primary hover:bg-primary/90"}`}
                           data-testid={`button-play-${game.id}`}
                         >
-                          {game.id === "spelling-bee" ? "🐝 Play Spelling Bee" : "Play Now"}
+                          {game.id === "spelling-bee" ? t("play.playSpellingBee") : t("play.playNow")}
                         </Button>
                       ) : null}
                     </div>
@@ -1150,8 +1131,8 @@ export default function Play() {
               >
                 <span className="text-xl">🔀</span>
                 <span className="text-muted-foreground group-hover:text-foreground transition-colors">
-                  tryna unscramble your words?{" "}
-                  <span className="font-bold text-primary underline underline-offset-2">do it rn at wordshuffl.com</span>
+                  {t("play.wordshufflPromoText")}{" "}
+                  <span className="font-bold text-primary underline underline-offset-2">{t("play.wordshufflPromoLink")}</span>
                   <span className="ml-1 opacity-60 group-hover:opacity-100 transition-opacity">→</span>
                 </span>
               </a>
@@ -1171,7 +1152,7 @@ export default function Play() {
                     <button
                       onClick={() => setHelpGame(activeGame)}
                       className="text-muted-foreground hover:text-foreground transition-colors p-1.5"
-                      title="How to play"
+                      title={t("play.howToPlayTitle")}
                     >
                       <Info className="h-4 w-4" />
                     </button>
@@ -1187,15 +1168,15 @@ export default function Play() {
                 >
                   <span className="text-lg flex-shrink-0">🔀</span>
                   <span className="text-muted-foreground group-hover:text-foreground transition-colors leading-snug">
-                    tryna unscramble your words?{" "}
-                    <span className="font-bold text-primary underline underline-offset-2">do it rn at wordshuffl.com</span>
+                    {t("play.wordshufflPromoText")}{" "}
+                    <span className="font-bold text-primary underline underline-offset-2">{t("play.wordshufflPromoLink")}</span>
                     <span className="ml-1 opacity-60 group-hover:opacity-100 transition-opacity">→</span>
                   </span>
                 </a>
 
                 <div className="flex justify-end mb-6">
                   <Button variant="outline" size="sm" className="rounded-full" onClick={() => setActiveGame(null)} data-testid="button-back-to-games">
-                    ← All Games
+                    {t("play.allGames")}
                   </Button>
                 </div>
 
@@ -1227,7 +1208,7 @@ export default function Play() {
                   <div className="mt-6 p-5 rounded-2xl border border-border bg-card">
                     <div className="flex items-center gap-2 mb-4">
                       <Trophy className="h-4 w-4 text-yellow-400" />
-                      <h4 className="font-bold text-sm">Top Scores</h4>
+                      <h4 className="font-bold text-sm">{t("play.topScores")}</h4>
                     </div>
                     {scores.filter(s => s.game === GAMES.find(g => g.id === activeGame)?.name).slice(0, 5).map((score, i) => (
                       <div key={score.id} className="flex items-center justify-between py-2 border-b border-border last:border-0">
@@ -1250,38 +1231,38 @@ export default function Play() {
       <section className="py-20 bg-background border-t border-border">
         <div className="container px-4 mx-auto max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black mb-3">Word Tools & Resources</h2>
+            <h2 className="text-3xl md:text-4xl font-black mb-3">{t("play.wordToolsTitle")}</h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              Free vocabulary tools, word games, and learning resources – all in one place.
+              {t("play.wordToolsDesc")}
             </p>
           </motion.div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {[
-              { href: "/vocabulary", emoji: "📚", label: "Vocabulary Hub" },
-              { href: "/wordle-words", emoji: "🟩", label: "Wordle Words" },
-              { href: "/scrabble-words", emoji: "🎯", label: "Scrabble Words" },
-              { href: "/spelling-bee-words", emoji: "🐝", label: "Spelling Bee" },
-              { href: "/crossword-words", emoji: "✏️", label: "Crossword Solver" },
-              { href: "/synonym-finder", emoji: "🔀", label: "Synonym Finder" },
-              { href: "/word-finder", emoji: "🔍", label: "Word Finder" },
-              { href: "/anagram-solver", emoji: "🔤", label: "Anagram Solver" },
-              { href: "/dictionary", emoji: "📖", label: "Dictionary" },
-              { href: "/word-of-the-day", emoji: "⭐", label: "Word of the Day" },
-            ].map(({ href, emoji, label }) => (
+              { href: "/vocabulary", emoji: "📚", labelKey: "play.wordToolVocabHub" },
+              { href: "/wordle-words", emoji: "🟩", labelKey: "play.wordToolWordle" },
+              { href: "/scrabble-words", emoji: "🎯", labelKey: "play.wordToolScrabble" },
+              { href: "/spelling-bee-words", emoji: "🐝", labelKey: "play.wordToolSpellingBee" },
+              { href: "/crossword-words", emoji: "✏️", labelKey: "play.wordToolCrossword" },
+              { href: "/synonym-finder", emoji: "🔀", labelKey: "play.wordToolSynonym" },
+              { href: "/word-finder", emoji: "🔍", labelKey: "play.wordToolWordFinder" },
+              { href: "/anagram-solver", emoji: "🔤", labelKey: "play.wordToolAnagram" },
+              { href: "/dictionary", emoji: "📖", labelKey: "play.wordToolDictionary" },
+              { href: "/word-of-the-day", emoji: "⭐", labelKey: "play.wordToolWotd" },
+            ].map(({ href, emoji, labelKey }) => (
               <Link key={href} href={href}>
                 <motion.div
                   whileHover={{ y: -2 }}
                   className="flex flex-col items-center gap-2 p-4 rounded-2xl border border-border bg-card hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer text-center"
                 >
                   <span className="text-2xl">{emoji}</span>
-                  <span className="text-xs font-bold leading-tight">{label}</span>
+                  <span className="text-xs font-bold leading-tight">{t(labelKey)}</span>
                 </motion.div>
               </Link>
             ))}
           </div>
           <div className="mt-10">
-            <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest mb-3">Browse by Category</p>
-            <InteractiveCategoryBrowser categories={BROWSE_CATEGORIES} wordCount={15} />
+            <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest mb-3">{t("play.browseByCategory")}</p>
+            <InteractiveCategoryBrowser categories={BROWSE_CATEGORIES.map(c => ({ ...c, label: t(c.labelKey) }))} wordCount={15} />
           </div>
         </div>
       </section>
@@ -1308,7 +1289,7 @@ export default function Play() {
                 <div className="flex items-center gap-3">
                   <span className="text-3xl">{helpGameData.emoji}</span>
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-widest text-primary">How to Play</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-primary">{t("play.howToPlay")}</p>
                     <h3 className="font-black text-lg leading-tight">{helpGameData.name}</h3>
                   </div>
                 </div>
@@ -1318,7 +1299,7 @@ export default function Play() {
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">{helpGameData.howToPlay}</p>
               <Button className="w-full rounded-2xl font-bold" onClick={() => setHelpGame(null)}>
-                Got it
+                {t("play.gotIt")}
               </Button>
             </motion.div>
           </motion.div>
