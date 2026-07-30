@@ -142,7 +142,7 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
               </div>
               <div>
                 <p className="font-bold text-sm">Lexigenz Premium</p>
-                <p className="text-xs text-muted-foreground">$8.00 - once-off, forever</p>
+                <p className="text-xs text-muted-foreground">$8.00 - once-off</p>
               </div>
             </div>
             <button
