@@ -118,7 +118,9 @@ function Router() {
           <Route path="/bee/admin">
             {() => <ProtectedRoute><AdminPage /></ProtectedRoute>}
           </Route>
-          <Route path="/leaderboard" component={Leaderboard} />
+          <Route path="/leaderboard">
+            {() => <ProtectedRoute><Leaderboard /></ProtectedRoute>}
+          </Route>
           <Route path="/app">
             {() => <ProtectedRoute><AppPage /></ProtectedRoute>}
           </Route>
