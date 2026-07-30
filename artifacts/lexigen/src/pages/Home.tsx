@@ -676,7 +676,7 @@ export default function Home() {
                 ))}
               </ul>
               <Button className="w-full rounded-2xl bg-primary font-bold" onClick={handleGetPremium}>
-                {isRegistered ? "Get Premium - $8 Forever" : "Sign up to get Premium"}
+                {isRegistered ? "Get Premium - $8" : "Sign up to get Premium"}
               </Button>
             </div>
           </div>
