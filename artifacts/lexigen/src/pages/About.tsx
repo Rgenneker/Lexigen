@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Globe, Heart, Zap, BookOpen, Users, TrendingUp, ChevronDown } from "lucide-react";
 import { TOOL_EXPANDED } from "@/data/tool-expanded";
+import { langColor } from "@/data/language-colors";
 import AdsterraAd from "@/components/AdsterraAd";
 import AdsterraSocialBar from "@/components/AdsterraSocialBar";
 
@@ -229,11 +230,7 @@ export default function About() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.03 }}
-                className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${
-                  ["Afrikaans", "Zulu", "Xhosa"].includes(lang)
-                    ? "border-primary/40 bg-primary/10 text-primary font-bold"
-                    : "border-border bg-card hover:border-primary/30"
-                }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${langColor(lang).bg} ${langColor(lang).text} ${langColor(lang).border}`}
               >
                 {lang}
               </motion.span>
