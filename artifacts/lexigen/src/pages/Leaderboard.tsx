@@ -259,6 +259,7 @@ export default function Leaderboard() {
               <div className="flex-1">
                 <p className="font-bold text-lg">World Spelling Bee Championship</p>
                 <p className="text-white/80 text-sm mt-0.5">Every year - 3rd Saturday of June, 12:00 UTC. A single synchronous global final. Top spellers from every country compete for the world title.</p>
+                <p className="text-white/70 text-xs mt-1">Free for Premium members · $2 entry for free accounts</p>
               </div>
               <Button onClick={() => navigate("/bee/world-championship")} variant="secondary" className="shrink-0 gap-2 font-semibold">
                 <Trophy className="w-4 h-4" /> Learn More

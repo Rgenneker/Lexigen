@@ -124,7 +124,8 @@ export default function BeeProfilePage() {
           <h1 className="text-3xl font-bold">Your Bee Profile 🐝</h1>
           <p className="text-muted-foreground">
             Fill in your location and institution to appear on regional leaderboards and qualify for the{" "}
-            <span className="text-primary font-medium">Annual World Championship</span>.
+            <span className="text-primary font-medium">Annual World Championship</span>.{" "}
+            <span className="text-muted-foreground text-sm">Free for Premium members · $2 entry for free accounts.</span>
           </p>
         </div>
 

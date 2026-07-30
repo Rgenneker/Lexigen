@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Trophy, CheckCircle2, Clock, Globe, Users, Flame, ChevronRight, AlertCircle } from "lucide-react";
+import { Trophy, CheckCircle2, Clock, Globe, Users, Flame, ChevronRight, AlertCircle, Crown } from "lucide-react";
 
 const COUNTRY_NAMES: Record<string, string> = {
   ZA: "🇿🇦 South Africa", NG: "🇳🇬 Nigeria", KE: "🇰🇪 Kenya", GH: "🇬🇭 Ghana",
@@ -55,6 +55,7 @@ function Pad({ n }: { n: number }) {
 
 export default function WorldChampionship() {
   const { user } = useAuth();
+  const isPremium = user?.plan === "premium";
   const [, navigate] = useLocation();
   const { toast } = useToast();
 
@@ -163,7 +164,7 @@ export default function WorldChampionship() {
                 </div>
                 <div>
                   <h3 className="font-bold text-lg">Sign in to Register</h3>
-                  <p className="text-muted-foreground text-sm mt-1">Create a free account to register for the World Championship</p>
+                  <p className="text-muted-foreground text-sm mt-1">Create a free account to register · <span className="text-primary font-semibold">Free for Premium members · $2 entry for free accounts</span></p>
                 </div>
                 <Button onClick={() => navigate("/")} className="gap-2">Sign In / Register</Button>
               </div>
@@ -204,15 +205,31 @@ export default function WorldChampionship() {
                   <Globe className="w-8 h-8 text-primary" />
                 </div>
                 <div className="flex-1 text-center sm:text-left">
-                  <h3 className="font-bold text-lg">Register for the {info?.year ?? ""} Championship</h3>
-                  <p className="text-muted-foreground text-sm mt-1">
+                  <div className="flex items-center gap-2 mb-1 justify-center sm:justify-start flex-wrap">
+                    <h3 className="font-bold text-lg">Register for the {info?.year ?? ""} Championship</h3>
+                    {isPremium ? (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                        <Crown className="w-3 h-3" /> Free · Premium
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">
+                        $2 Entry Fee
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-muted-foreground text-sm">
                     Representing <strong>{COUNTRY_NAMES[info!.userProfile!.country!] ?? info!.userProfile!.country}</strong>
                     {info?.userProfile?.institution ? <> · <strong>{info.userProfile.institution}</strong></> : null}.
                     The contest is <strong>Proficient level</strong> for all registered players.
                   </p>
+                  {!isPremium && (
+                    <p className="text-xs text-amber-700 mt-1.5 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5">
+                      A $2 entry fee applies for free accounts. <a href="/premium" className="underline font-semibold hover:text-primary">Upgrade to Premium</a> to enter free.
+                    </p>
+                  )}
                 </div>
                 <Button onClick={handleRegister} disabled={registering} className="gap-2 shrink-0 h-12 px-6 font-semibold">
-                  {registering ? "Registering…" : "Register Now 🏆"}
+                  {registering ? "Registering…" : isPremium ? "Register Now 🏆" : "Register · $2 🏆"}
                 </Button>
               </div>
             )}
@@ -275,7 +292,7 @@ export default function WorldChampionship() {
                 { label: "Streak bonus (≥3 correct)", value: "+15 pts" },
                 { label: "Hint penalty", value: "−20 pts / hint" },
                 { label: "Eligibility", value: "Any registered user" },
-                { label: "Entry fee", value: "Free" },
+                { label: "Entry fee", value: isPremium ? "Free (Premium)" : "Free (Premium) · $2 (Free users)" },
               ].map((r) => (
                 <div key={r.label} className="flex justify-between gap-2">
                   <span className="text-muted-foreground">{r.label}</span>
