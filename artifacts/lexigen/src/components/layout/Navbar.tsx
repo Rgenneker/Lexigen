@@ -17,6 +17,7 @@ import { LanguageUnlockModal } from "@/components/LanguageUnlockModal";
 import { PaymentModal } from "@/components/PaymentModal";
 import { PremiumLanguageModal } from "@/components/PremiumLanguageModal";
 import { useAuth } from "@/context/AuthContext";
+import { langColor } from "@/data/language-colors";
 
 const LANGUAGES = [
   "English", "Spanish", "Portuguese", "French", "German", "Dutch",
@@ -482,19 +483,18 @@ export function Navbar() {
                         const unlocked = isUnlocked(lang);
                         const isActive = language === lang;
                         const isIncluded = isPremium && premiumLanguage === lang;
+                        const c = langColor(lang);
                         return (
                           <button
                             key={lang}
                             onClick={() => { handleLanguageClick(lang); setIsOpen(false); }}
-                            className={`flex items-center justify-between gap-1 px-3 py-2 rounded-xl text-sm font-medium border transition-all hover:scale-[1.02] ${
-                              isActive
-                                ? "bg-primary/10 border-primary/30 text-primary"
-                                : "border-border text-muted-foreground hover:border-primary/20 hover:text-foreground"
+                            className={`flex items-center justify-between gap-1 px-3 py-2 rounded-xl text-sm font-medium border transition-all hover:scale-[1.02] ${c.bg} ${c.text} ${c.border} ${
+                              isActive ? "ring-2 ring-offset-1 ring-current/30 opacity-100" : "opacity-70 hover:opacity-100"
                             }`}
                           >
                             <span className="truncate">{lang}</span>
-                            {isIncluded && <Crown className="h-3 w-3 flex-shrink-0 text-primary" />}
-                            {!unlocked && !isIncluded && lang !== "English" && <Lock className="h-3 w-3 flex-shrink-0 text-muted-foreground" />}
+                            {isIncluded && <Crown className="h-3 w-3 flex-shrink-0 opacity-80" />}
+                            {!unlocked && !isIncluded && lang !== "English" && <Lock className="h-3 w-3 flex-shrink-0 opacity-50" />}
                           </button>
                         );
                       })}

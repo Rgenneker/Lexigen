@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Globe, CheckCircle2, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
+import { langColor } from "@/data/language-colors";
 
 const LANGUAGES = [
   "Afrikaans", "Arabic", "Bahasa Malay", "Cantonese", "Chinese (Mandarin)",
@@ -99,19 +100,18 @@ export function PremiumLanguageModal({ onClose, isChange = false }: Props) {
             <div className="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto pr-1">
               {LANGUAGES.map((lang) => {
                 const isSelected = selected === lang;
+                const c = langColor(lang);
                 return (
                   <button
                     key={lang}
                     onClick={() => setSelected(lang)}
-                    className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-sm font-medium text-left transition-all hover:scale-[1.02] ${
-                      isSelected
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-border hover:border-primary/30 hover:bg-muted/40 text-foreground"
+                    className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border-2 text-sm font-medium text-left transition-all hover:scale-[1.02] ${c.bg} ${c.text} ${c.border} ${
+                      isSelected ? "opacity-100 shadow-sm" : "opacity-60 hover:opacity-90"
                     }`}
                   >
                     {isSelected
                       ? <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
-                      : <span className="w-4 h-4 rounded-full border-2 border-current opacity-30 flex-shrink-0" />
+                      : <span className="w-4 h-4 rounded-full border-2 border-current opacity-40 flex-shrink-0" />
                     }
                     <span className="truncate">{lang}</span>
                   </button>
