@@ -207,6 +207,13 @@ export function Navbar() {
                     {!isRegistered && <Lock className="h-3 w-3 ml-auto opacity-40" />}
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/leaderboard" className="flex items-center gap-2 cursor-pointer w-full">
+                    <span className="text-base leading-none">🏅</span>
+                    <span>Rankings</span>
+                    {!isRegistered && <Lock className="h-3 w-3 ml-auto opacity-40" />}
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link href="/bee/world-championship" className="flex items-center gap-2 cursor-pointer w-full">
@@ -446,6 +453,7 @@ export function Navbar() {
                       { href: "/bee/create", label: "🐝 New Contest", protected: true },
                       { href: "/bee/tournament/create", label: "🏆 Tournament", protected: true },
                       { href: "/bee/stats", label: "📊 My Stats", protected: true },
+                      { href: "/leaderboard", label: "🏅 Rankings", protected: true },
                       { href: "/bee/world-championship", label: "🌍 World Championship", protected: false },
                     ].map((link) => (
                       <Link
