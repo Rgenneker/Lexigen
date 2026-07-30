@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Accordion,
   AccordionContent,
@@ -10,6 +10,9 @@ import AdsterraAd from "@/components/AdsterraAd";
 import AdsterraSocialBar from "@/components/AdsterraSocialBar";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { PremiumPreviewModal } from "@/components/PremiumPreviewModal";
+import { PaymentModal } from "@/components/PaymentModal";
+import { useAuth } from "@/context/AuthContext";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import PlaybookSection from "@/components/PlaybookSection";
@@ -267,6 +270,10 @@ const faqs: { q: string; a: string; category: string }[] = [
 export default function FAQ() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
+  const { user, setPremium } = useAuth();
+  const isPremium = user?.plan === "premium";
 
   const filtered = faqs.filter(f => {
     const matchCat = activeCategory === "All" || f.category === activeCategory;
@@ -387,12 +394,33 @@ export default function FAQ() {
             <Link href="/contact">
               <Button className="rounded-full bg-primary">Contact us</Button>
             </Link>
-            <Link href="/premium">
-              <Button variant="outline" className="rounded-full">View Premium</Button>
-            </Link>
+            <Button variant="outline" className="rounded-full" onClick={() => setShowPreview(true)}>
+              View Premium
+            </Button>
           </div>
         </div>
       </section>
+
+      {/* Premium preview modal */}
+      <AnimatePresence>
+        {showPreview && (
+          <PremiumPreviewModal
+            onClose={() => setShowPreview(false)}
+            isPremium={isPremium}
+            onGetPremium={() => { setShowPreview(false); setShowPayment(true); }}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showPayment && user && (
+          <PaymentModal
+            onClose={() => setShowPayment(false)}
+            onSuccess={() => { setPremium(); setShowPayment(false); }}
+            userEmail={user.email}
+            userName={user.name}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
