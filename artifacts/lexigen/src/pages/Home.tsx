@@ -203,7 +203,7 @@ export default function Home() {
             A personalised daily vocabulary app where your birth date determines your words, your games determine your growth, and your streak determines your status.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" variant="outline" onClick={() => setShowFreemium(true)} className="h-14 px-8 text-lg font-bold rounded-full border-2 border-green-500 text-green-600 hover:bg-green-500/10 hover:scale-105 transition-all">
+            <Button size="lg" variant="outline" onClick={() => !isRegistered && setShowFreemium(true)} disabled={isRegistered} className={`h-14 px-8 text-lg font-bold rounded-full border-2 transition-all ${isRegistered ? "border-muted text-muted-foreground opacity-50 cursor-not-allowed" : "border-green-500 text-green-600 hover:bg-green-500/10 hover:scale-105"}`}>
               🎁 Register Free
             </Button>
             <Link href="/signin">
@@ -645,7 +645,7 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Button variant="outline" className="w-full rounded-2xl" onClick={() => setShowFreemium(true)}>
+              <Button variant="outline" disabled={isRegistered} onClick={() => !isRegistered && setShowFreemium(true)} className={`w-full rounded-2xl ${isRegistered ? "opacity-50 cursor-not-allowed" : ""}`}>
                 🎁 Register Free
               </Button>
             </div>
@@ -687,7 +687,7 @@ export default function Home() {
             </p>
           </motion.div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <Button size="lg" variant="outline" onClick={() => setShowFreemium(true)} className="h-14 px-8 text-lg font-bold rounded-full border-2 border-green-500 text-green-600 hover:bg-green-500/10">
+            <Button size="lg" variant="outline" onClick={() => !isRegistered && setShowFreemium(true)} disabled={isRegistered} className={`h-14 px-8 text-lg font-bold rounded-full border-2 transition-all ${isRegistered ? "border-muted text-muted-foreground opacity-50 cursor-not-allowed" : "border-green-500 text-green-600 hover:bg-green-500/10"}`}>
               🎁 Register Free
             </Button>
             <Button size="lg" className="h-14 px-8 text-lg font-bold rounded-full bg-primary hover:bg-primary/90 shadow-[0_0_40px_rgba(139,92,246,0.4)]" onClick={handleGetPremium}>
