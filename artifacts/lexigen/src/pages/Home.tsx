@@ -206,11 +206,17 @@ export default function Home() {
             <Button size="lg" variant="outline" onClick={() => !isRegistered && setShowFreemium(true)} disabled={isRegistered} className={`h-14 px-8 text-lg font-bold rounded-full border-2 transition-all ${isRegistered ? "border-muted text-muted-foreground opacity-50 cursor-not-allowed" : "border-green-500 text-green-600 hover:bg-green-500/10 hover:scale-105"}`}>
               🎁 Register Free
             </Button>
-            <Link href="/signin">
-              <Button size="lg" className="h-14 px-8 text-lg font-bold rounded-full bg-primary hover:bg-primary/90 hover:scale-105 transition-all shadow-[0_0_40px_rgba(139,92,246,0.5)]">
+            {isRegistered ? (
+              <Button size="lg" disabled className="h-14 px-8 text-lg font-bold rounded-full opacity-50 cursor-not-allowed">
                 Sign In
               </Button>
-            </Link>
+            ) : (
+              <Link href="/signin">
+                <Button size="lg" className="h-14 px-8 text-lg font-bold rounded-full bg-primary hover:bg-primary/90 hover:scale-105 transition-all shadow-[0_0_40px_rgba(139,92,246,0.5)]">
+                  Sign In
+                </Button>
+              </Link>
+            )}
           </motion.div>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.35 }} className="text-xs text-muted-foreground">
             No credit card · Upgrade to Premium for $8 anytime
