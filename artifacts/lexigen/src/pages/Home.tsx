@@ -213,7 +213,7 @@ export default function Home() {
             </Link>
           </motion.div>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.35 }} className="text-xs text-muted-foreground">
-            Free forever · No credit card · Upgrade to Premium for $8 anytime
+            No credit card · Upgrade to Premium for $8 anytime
           </motion.p>
         </div>
 
