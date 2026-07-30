@@ -364,9 +364,9 @@ export function Navbar() {
                 </button>
               </div>
             ) : (
-              <Link href="/premium">
+              <Link href="/signin">
                 <Button variant="default" className="bg-primary text-primary-foreground font-bold tracking-tight">
-                  Get Premium
+                  Sign In
                 </Button>
               </Link>
             )}
@@ -532,9 +532,9 @@ export function Navbar() {
                       </Button>
                     </div>
                   ) : (
-                    <Link href="/premium" onClick={() => setIsOpen(false)}>
+                    <Link href="/signin" onClick={() => setIsOpen(false)}>
                       <Button className="w-full mt-2 bg-primary text-primary-foreground font-bold">
-                        Get Premium
+                        Sign In
                       </Button>
                     </Link>
                   )}
