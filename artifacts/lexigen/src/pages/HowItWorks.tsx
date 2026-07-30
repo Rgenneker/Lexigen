@@ -5,6 +5,7 @@ import { BookOpen, Star, Gamepad2, Users, Zap, Calendar } from "lucide-react";
 import AdsterraAd from "@/components/AdsterraAd";
 import AdsterraSocialBar from "@/components/AdsterraSocialBar";
 import { InteractiveCategoryBrowser } from "@/components/InteractiveCategoryBrowser";
+import { langColor } from "@/data/language-colors";
 
 const BROWSE_CATEGORIES = [
   {
@@ -155,22 +156,21 @@ export default function HowItWorks() {
             </p>
           </motion.div>
           <div className="flex flex-wrap justify-center gap-2">
-            {languages.map((lang, i) => (
-              <motion.span
-                key={lang}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.03 }}
-                className={`px-4 py-2 rounded-full text-sm font-medium border ${
-                  ["Afrikaans", "Zulu", "Xhosa"].includes(lang)
-                    ? "border-primary/40 bg-primary/10 text-primary font-bold"
-                    : "border-border bg-card"
-                }`}
-              >
-                {lang}
-              </motion.span>
-            ))}
+            {languages.map((lang, i) => {
+              const c = langColor(lang);
+              return (
+                <motion.span
+                  key={lang}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.03 }}
+                  className={`px-4 py-2 rounded-full text-sm font-medium border ${c.bg} ${c.text} ${c.border}`}
+                >
+                  {lang}
+                </motion.span>
+              );
+            })}
           </div>
         </div>
       </section>
