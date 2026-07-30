@@ -118,7 +118,6 @@ export function Navbar() {
     { href: "/articles", label: "Articles" },
     { href: "/play", label: "Play", protected: true },
     { href: "/app", label: "App", protected: true },
-    { href: "/leaderboard", label: "Rankings", protected: true },
     { href: "/invite", label: "Invite", protected: true },
     { href: "/faq", label: "FAQ" },
   ];
