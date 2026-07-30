@@ -628,7 +628,7 @@ export default function Home() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-primary">Pricing</span>
             <h2 className="text-4xl font-black mt-3 mb-4">Free gets you started. Premium takes you all the way.</h2>
-            <p className="text-muted-foreground">One price. No subscription. No expiry. $8 once and it's yours forever.</p>
+            <p className="text-muted-foreground">No subscriptions.</p>
           </motion.div>
           <div className="grid md:grid-cols-2 gap-6">
             {/* Free */}
@@ -636,7 +636,7 @@ export default function Home() {
               <div>
                 <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Free</p>
                 <p className="text-4xl font-black mt-1">$0</p>
-                <p className="text-xs text-muted-foreground">Forever</p>
+                <p className="text-xs text-muted-foreground">&nbsp;</p>
               </div>
               <ul className="space-y-3 text-sm">
                 {["Daily word of the day (English only)", "Birth-based archetype profile", "Streak tracking", "Basic word journal (limited entries)", "Access to word games"].map(f => (
@@ -657,7 +657,7 @@ export default function Home() {
               <div>
                 <p className="text-sm font-bold text-primary uppercase tracking-widest">Premium</p>
                 <p className="text-4xl font-black mt-1">$8</p>
-                <p className="text-xs text-muted-foreground">Once-off · Lifetime access</p>
+                <p className="text-xs text-muted-foreground">Once-off</p>
               </div>
               <ul className="space-y-3 text-sm">
                 {[
