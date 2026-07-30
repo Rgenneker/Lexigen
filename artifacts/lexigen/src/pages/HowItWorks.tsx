@@ -9,6 +9,7 @@ import { InteractiveCategoryBrowser } from "@/components/InteractiveCategoryBrow
 import { langColor } from "@/data/language-colors";
 import { PremiumPreviewModal } from "@/components/PremiumPreviewModal";
 import { PaymentModal } from "@/components/PaymentModal";
+import { FreemiumModal } from "@/components/FreemiumModal";
 import { useAuth } from "@/context/AuthContext";
 
 const BROWSE_CATEGORIES = [
@@ -82,6 +83,7 @@ const languages = [
 export default function HowItWorks() {
   const [showPreview, setShowPreview] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [showFreemium, setShowFreemium] = useState(false);
   const { user, setPremium } = useAuth();
   const isPremium = user?.plan === "premium";
 
@@ -257,6 +259,7 @@ export default function HowItWorks() {
             onClose={() => setShowPreview(false)}
             isPremium={isPremium}
             onGetPremium={() => { setShowPreview(false); setShowPayment(true); }}
+            onSignUp={() => { setShowPreview(false); setShowFreemium(true); }}
           />
         )}
       </AnimatePresence>
@@ -270,6 +273,9 @@ export default function HowItWorks() {
           />
         )}
       </AnimatePresence>
+      {showFreemium && (
+        <FreemiumModal onClose={() => setShowFreemium(false)} />
+      )}
     </div>
   );
 }

@@ -12,6 +12,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { PremiumPreviewModal } from "@/components/PremiumPreviewModal";
 import { PaymentModal } from "@/components/PaymentModal";
+import { FreemiumModal } from "@/components/FreemiumModal";
 import { useAuth } from "@/context/AuthContext";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
@@ -272,6 +273,7 @@ export default function FAQ() {
   const [search, setSearch] = useState("");
   const [showPreview, setShowPreview] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [showFreemium, setShowFreemium] = useState(false);
   const { user, setPremium } = useAuth();
   const isPremium = user?.plan === "premium";
 
@@ -408,6 +410,7 @@ export default function FAQ() {
             onClose={() => setShowPreview(false)}
             isPremium={isPremium}
             onGetPremium={() => { setShowPreview(false); setShowPayment(true); }}
+            onSignUp={() => { setShowPreview(false); setShowFreemium(true); }}
           />
         )}
       </AnimatePresence>
@@ -421,6 +424,9 @@ export default function FAQ() {
           />
         )}
       </AnimatePresence>
+      {showFreemium && (
+        <FreemiumModal onClose={() => setShowFreemium(false)} />
+      )}
     </div>
   );
 }

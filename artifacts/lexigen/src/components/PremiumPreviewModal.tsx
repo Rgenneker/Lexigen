@@ -2,10 +2,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Crown, Check, Globe, Gamepad2, BookOpen, Zap, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import { useAuth } from "@/context/AuthContext";
 
 interface Props {
   onClose: () => void;
   onGetPremium: () => void;
+  onSignUp: () => void;
   isPremium?: boolean;
 }
 
@@ -37,7 +39,18 @@ const FEATURES = [
   },
 ];
 
-export function PremiumPreviewModal({ onClose, onGetPremium, isPremium }: Props) {
+export function PremiumPreviewModal({ onClose, onGetPremium, onSignUp, isPremium }: Props) {
+  const { user } = useAuth();
+
+  const handleCTA = () => {
+    if (!user) {
+      onClose();
+      onSignUp();
+    } else {
+      onGetPremium();
+    }
+  };
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
@@ -111,10 +124,11 @@ export function PremiumPreviewModal({ onClose, onGetPremium, isPremium }: Props)
               </div>
             ) : (
               <Button
-                onClick={onGetPremium}
+                onClick={handleCTA}
                 className="w-full h-12 rounded-2xl bg-primary font-black text-base shadow-[0_0_24px_rgba(139,92,246,0.35)] hover:shadow-[0_0_32px_rgba(139,92,246,0.5)] transition-all"
               >
-                <Crown className="h-4 w-4 mr-2" /> Get Premium — $8 Forever
+                <Crown className="h-4 w-4 mr-2" />
+                {user ? "Get Premium — $8 Forever" : "Sign up to get Premium"}
               </Button>
             )}
             <Link href="/premium" onClick={onClose}>
