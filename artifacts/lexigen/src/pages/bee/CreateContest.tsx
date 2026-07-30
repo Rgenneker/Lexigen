@@ -160,7 +160,7 @@ export default function CreateContest() {
           <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {LEVELS.map((l) => (
               <button key={l.key} onClick={() => setLevel(l.key)} className={`relative text-left p-4 rounded-xl border-2 transition-all ${level === l.key ? "border-primary bg-primary/5 shadow-md" : "border-border hover:border-primary/40"}`}>
-                {!l.free && <span className="absolute top-2 right-2 text-[10px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">$1 buy-in</span>}
+                {!l.free && <span className="absolute top-2 right-2 text-[10px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">$1</span>}
                 <p className="font-semibold text-sm">{l.label}</p>
                 <p className="text-xs text-muted-foreground mt-0.5">{l.desc}</p>
                 <p className="text-xs text-muted-foreground mt-1">{l.words} words · {l.key === "beginner" ? "20s" : l.key === "lower_intermediate" ? "18s" : l.key === "upper_intermediate" ? "15s" : "12s"} per word</p>
