@@ -33,6 +33,12 @@ const LANGUAGE_CODES: Record<string, string> = {
 
 const MOODS = ["determined", "curious", "hopeful", "reflective", "energetic", "calm", "playful"];
 
+const HARMONIZER_STRENGTH_KEYS: Record<string, string> = {
+  Balance: "app.harmonizerStrengthBalance",
+  Beauty: "app.harmonizerStrengthBeauty",
+  Flow: "app.harmonizerStrengthFlow",
+};
+
 const WRONG_DEFS = [
   "To move quickly in an unexpected or erratic direction",
   "A type of tool used for measuring or cutting precise angles",
@@ -273,6 +279,7 @@ export default function AppPage() {
   const deleteEntry = useDeleteJournalEntry();
   const checkIn = useCheckIn();
   const championshipDays = Math.ceil((new Date("2027-06-19T12:00:00Z").getTime() - Date.now()) / 86400000);
+  const isHarmonizer = archetype?.name === "The Harmonizer";
 
   const handleSaveEntry = () => {
     if (!sentence.trim() || !dailyWord?.word?.word) return;
@@ -409,7 +416,7 @@ export default function AppPage() {
                 <div className="flex items-start justify-between">
                   <div>
                     <Badge className="bg-primary/20 text-primary border-primary/30 text-xs font-bold uppercase tracking-widest mb-3">
-                      Word of the Day
+                      {t("app.wordOfTheDay")}
                     </Badge>
                     <h2
                       className="text-5xl md:text-6xl font-bold tracking-tighter"
@@ -417,7 +424,9 @@ export default function AppPage() {
                     >
                       {dailyWord.word.word}
                     </h2>
-                    <p className="text-sm text-muted-foreground mt-1 font-mono">{dailyWord.word.partOfSpeech} · {dailyWord.word.difficulty}</p>
+                    <p className="text-sm text-muted-foreground mt-1 font-mono">
+                      {dailyWord.word.partOfSpeech} · {dailyWord.word.difficulty === "medium" ? t("app.difficultyMedium") : dailyWord.word.difficulty}
+                    </p>
                   </div>
                 </div>
                 <p className="text-lg leading-relaxed" data-testid="text-definition">
@@ -440,23 +449,29 @@ export default function AppPage() {
             className="p-6 rounded-3xl border border-border bg-card space-y-4"
           >
             <Badge className="bg-secondary/20 text-secondary-foreground border-secondary/30 text-xs font-bold uppercase tracking-widest">
-              Your Archetype
+              {t("app.yourArchetype")}
             </Badge>
             {archetype ? (
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <span className="text-4xl">{archetype.emoji}</span>
                   <div>
-                    <h3 className="font-bold text-lg leading-tight" data-testid="text-archetype-name">{archetype.name}</h3>
+                    <h3 className="font-bold text-lg leading-tight" data-testid="text-archetype-name">
+                      {isHarmonizer ? t("app.harmonizerName") : archetype.name}
+                    </h3>
                     <div className="w-16 h-1 rounded-full mt-1" style={{ backgroundColor: archetype.color }} />
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{archetype.description}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {isHarmonizer ? t("app.harmonizerDescription") : archetype.description}
+                </p>
                 <div className="space-y-1">
-                  <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Strengths</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("app.strengths")}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {archetype.strengths.map(s => (
-                      <span key={s} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">{s}</span>
+                      <span key={s} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
+                        {isHarmonizer && HARMONIZER_STRENGTH_KEYS[s] ? t(HARMONIZER_STRENGTH_KEYS[s]) : s}
+                      </span>
                     ))}
                   </div>
                 </div>
