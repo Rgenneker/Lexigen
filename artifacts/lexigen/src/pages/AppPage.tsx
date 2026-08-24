@@ -33,30 +33,72 @@ const LANGUAGE_CODES: Record<string, string> = {
 
 const MOODS = ["determined", "curious", "hopeful", "reflective", "energetic", "calm", "playful"];
 
+const QUIZ_WRONG_DEFINITION_KEYS = [
+  "app.quizWrongLoud",
+  "app.quizWrongSmall",
+  "app.quizWrongComplicated",
+];
+
+const POS_TRANSLATION_KEYS: Record<string, string> = {
+  noun: "app.partOfSpeechNoun",
+  verb: "app.partOfSpeechVerb",
+  adjective: "app.partOfSpeechAdjective",
+  adverb: "app.partOfSpeechAdverb",
+};
+
+const POS_ALIASES: Record<string, string> = {
+  noun: "noun",
+  sustantivo: "noun",
+  verb: "verb",
+  verbo: "verb",
+  adjective: "adjective",
+  adjetivo: "adjective",
+  adverb: "adverb",
+  adverbio: "adverb",
+};
+
+const MOOD_TRANSLATION_KEYS: Record<string, string> = {
+  determined: "app.moodDetermined",
+  curious: "app.moodCurious",
+  hopeful: "app.moodHopeful",
+  reflective: "app.moodReflective",
+  energetic: "app.moodEnergetic",
+  calm: "app.moodCalm",
+  playful: "app.moodPlayful",
+  grateful: "app.moodGrateful",
+};
+
+const BADGE_TRANSLATION_KEYS: Record<string, string> = {
+  "First Word": "app.badgeFirstWord",
+  "3-Day Streak": "app.badgeThreeDayStreak",
+  "7-Day Streak": "app.badgeSevenDayStreak",
+  "Journal Keeper": "app.badgeJournalKeeper",
+  "Game On": "app.badgeGameOn",
+  "Sentence Builder": "app.badgeSentenceBuilder",
+};
+
+const JOURNAL_SENTENCE_TRANSLATION_KEYS: Record<string, string> = {
+  "There wanderlust caused them to travel to far lands.": "app.journalWanderlustFarLands",
+  "Her wanderlust took her to a isolated island.": "app.journalWanderlustIsland",
+  "He has wanderlust to travel.": "app.journalWanderlustTravel",
+  "I am feeling determined today": "app.journalDeterminedToday",
+  "Meeting my best friend was pure serendipity — we were strangers on the same flight.": "app.journalSerendipity",
+  "The future feels luminous when I take small steps toward my goals.": "app.journalLuminous",
+  "I am building resilience every day by showing up even when it's hard.": "app.journalResilience",
+};
+
 const HARMONIZER_STRENGTH_KEYS: Record<string, string> = {
   Balance: "app.harmonizerStrengthBalance",
   Beauty: "app.harmonizerStrengthBeauty",
   Flow: "app.harmonizerStrengthFlow",
 };
 
-const WRONG_DEFS = [
-  "To move quickly in an unexpected or erratic direction",
-  "A type of tool used for measuring or cutting precise angles",
-  "The quality of being extremely loud or difficult to ignore",
-  "To express strong disagreement with an official decision",
-  "Something that is very small or of little practical value",
-  "The process of making something unnecessarily complicated",
-  "A feeling of extreme sadness following a major loss",
-  "To collect or gather scattered objects in one place",
-  "A formal agreement between two parties to exchange services",
-  "The state of being completely isolated from outside influence",
-];
-
 function DailyQuiz({ word, definition, partOfSpeech }: {
   word: string;
   definition: string;
   partOfSpeech: string;
 }) {
+  const { t } = useTranslation();
   const todayKey = new Date().toISOString().split("T")[0];
   const storageKey = `lexigenz_quiz_${todayKey}`;
   const totalKey = "lexigenz_quizzes_total";
@@ -80,15 +122,16 @@ function DailyQuiz({ word, definition, partOfSpeech }: {
   });
 
   const wrongDefs = useMemo(() => {
-    return [...WRONG_DEFS].sort(() => Math.random() - 0.5).slice(0, 3);
-  }, [word]);
+    return [...QUIZ_WRONG_DEFINITION_KEYS].map(key => t(key)).sort(() => Math.random() - 0.5);
+  }, [t, word]);
 
   const q1Options = useMemo(() => {
     const opts = [{ text: definition, correct: true }, ...wrongDefs.map(d => ({ text: d, correct: false }))];
     return opts.sort(() => Math.random() - 0.5);
   }, [definition, wrongDefs]);
 
-  const actualPos = partOfSpeech.toLowerCase().split(/[\s,/]/)[0];
+  const rawPos = partOfSpeech.toLowerCase().split(/[\s,/]/)[0];
+  const actualPos = POS_ALIASES[rawPos] ?? rawPos;
   const allPos = ["noun", "verb", "adjective", "adverb"];
   const q2Options = useMemo(() => {
     const correct = allPos.includes(actualPos) ? actualPos : "noun";
@@ -126,12 +169,12 @@ function DailyQuiz({ word, definition, partOfSpeech }: {
 
   if (quiz.completed) {
     const emoji = quiz.score === 3 ? "🎯" : quiz.score === 2 ? "✅" : quiz.score === 1 ? "📖" : "💡";
-    const msg = quiz.score === 3 ? "Perfect score!" : quiz.score >= 2 ? "Great job!" : "Good effort - come back tomorrow!";
+    const msg = quiz.score === 3 ? t("app.quizPerfectScore") : quiz.score >= 2 ? t("app.quizGreatJob") : t("app.quizGoodEffort");
     return (
       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-8 space-y-3">
         <div className="text-5xl">{emoji}</div>
         <p className="font-black text-xl">{quiz.score}/3 - {msg}</p>
-        <p className="text-sm text-muted-foreground">New word quiz available tomorrow.</p>
+        <p className="text-sm text-muted-foreground">{t("app.quizAvailableTomorrow")}</p>
         <div className="flex justify-center gap-2 pt-1">
           {[0, 1, 2].map(i => (
             <div key={i} className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 ${
@@ -152,7 +195,7 @@ function DailyQuiz({ word, definition, partOfSpeech }: {
       {/* Q1: Definition */}
       <div className="space-y-3">
         <p className="text-sm font-bold">
-          Q1. What does <span className="text-primary font-black">{word}</span> mean?
+          {t("app.quizQuestionOne", { word })}
         </p>
         <div className="space-y-2">
           {q1Options.map((opt, i) => (
@@ -181,7 +224,7 @@ function DailyQuiz({ word, definition, partOfSpeech }: {
         {quiz.q1Answer !== null && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
             <p className="text-sm font-bold">
-              Q2. What part of speech is <span className="text-primary font-black">{word}</span>?
+              {t("app.quizQuestionTwo", { word })}
             </p>
             <div className="grid grid-cols-2 gap-2">
               {q2Options.map(opt => (
@@ -199,7 +242,7 @@ function DailyQuiz({ word, definition, partOfSpeech }: {
                       : "border-border hover:border-primary/40 hover:bg-primary/5 cursor-pointer"
                   }`}
                 >
-                  {opt}
+                  {POS_TRANSLATION_KEYS[opt] ? t(POS_TRANSLATION_KEYS[opt]) : opt}
                 </button>
               ))}
             </div>
@@ -212,23 +255,23 @@ function DailyQuiz({ word, definition, partOfSpeech }: {
         {quiz.q2Answer !== null && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
             <p className="text-sm font-bold">
-              Q3. Use <span className="text-primary font-black">{word}</span> in your own sentence.
+              {t("app.quizQuestionThree", { word })}
             </p>
             <textarea
               value={quiz.q3Text}
               onChange={e => save({ ...quiz, q3Text: e.target.value })}
-              placeholder={`Write a sentence using "${word}"…`}
+              placeholder={t("app.quizSentencePlaceholder", { word })}
               className="w-full rounded-xl border border-input bg-background p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none min-h-[80px]"
             />
             {quiz.q3Text.trim().length >= 5 && (
               <div className="space-y-2">
-                <p className="text-xs text-muted-foreground">Does your sentence use <strong>{word}</strong> correctly?</p>
+                <p className="text-xs text-muted-foreground">{t("app.quizSentenceCheck", { word })}</p>
                 <div className="flex gap-2">
                   <Button size="sm" onClick={() => handleComplete(true)} className="rounded-full bg-green-600 hover:bg-green-700 font-bold text-xs">
-                    ✅ Yes, it works
+                    {t("app.quizYesItWorks")}
                   </Button>
                   <Button size="sm" variant="outline" onClick={() => handleComplete(false)} className="rounded-full border-destructive text-destructive hover:bg-destructive/10 font-bold text-xs">
-                    ❌ Not quite
+                    {t("app.quizNotQuite")}
                   </Button>
                 </div>
               </div>
@@ -280,6 +323,11 @@ export default function AppPage() {
   const checkIn = useCheckIn();
   const championshipDays = Math.ceil((new Date("2027-06-19T12:00:00Z").getTime() - Date.now()) / 86400000);
   const isHarmonizer = archetype?.name === "The Harmonizer";
+  const formatJournalDate = (date: string | Date) => new Intl.DateTimeFormat(i18n.language || "en-US", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(new Date(date));
 
   const handleSaveEntry = () => {
     if (!sentence.trim() || !dailyWord?.word?.word) return;
@@ -290,7 +338,7 @@ export default function AppPage() {
           setSentence("");
           setSelectedMood("");
           queryClient.invalidateQueries({ queryKey: getListJournalEntriesQueryKey() });
-          toast({ title: "Saved to journal!", description: "Your sentence has been added." });
+          toast({ title: t("app.saveSuccessTitle"), description: t("app.saveSuccessDescription") });
         },
       }
     );
@@ -300,7 +348,7 @@ export default function AppPage() {
     checkIn.mutate(undefined, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getGetStreakQueryKey() });
-        toast({ title: "Checked in!", description: "Your streak has been updated." });
+        toast({ title: t("app.checkInSuccessTitle"), description: t("app.checkInSuccessDescription") });
       },
     });
   };
@@ -309,7 +357,7 @@ export default function AppPage() {
     deleteEntry.mutate({ id }, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getListJournalEntriesQueryKey() });
-        toast({ title: "Entry deleted." });
+        toast({ title: t("app.entryDeleted") });
       },
     });
   };
@@ -437,7 +485,7 @@ export default function AppPage() {
                 </blockquote>
               </div>
             ) : (
-              <p className="text-muted-foreground">No word available today.</p>
+              <p className="text-muted-foreground">{t("app.noWordAvailableToday")}</p>
             )}
           </motion.div>
 
@@ -494,14 +542,15 @@ export default function AppPage() {
         >
           <div className="flex items-center gap-2 mb-2">
             <Brain className="h-5 w-5 text-blue-400" />
-            <h3 className="font-bold text-xl">Daily Quiz</h3>
+            <h3 className="font-bold text-xl">{t("app.dailyQuiz")}</h3>
             <Badge className="bg-blue-500/10 text-blue-600 border-blue-400/30 text-[10px] font-bold uppercase tracking-widest ml-1">
-              Today
+              {t("app.today")}
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground mb-6">
-            Three quick questions on <strong className="text-foreground">{dailyWord?.word?.word ?? "today's word"}</strong>.
-            Quiz resets with each new daily word.
+            {t("app.quizDescriptionPrefix")}{" "}
+            <strong className="text-foreground">{dailyWord?.word?.word ?? t("app.todayWordFallback")}</strong>.
+            {" "}{t("app.quizDescriptionSuffix")}
           </p>
           {wordLoading ? (
             <div className="space-y-3">
@@ -516,7 +565,7 @@ export default function AppPage() {
               partOfSpeech={dailyWord.word.partOfSpeech}
             />
           ) : (
-            <p className="text-sm text-muted-foreground">No word available for quiz today.</p>
+            <p className="text-sm text-muted-foreground">{t("app.noWordForQuiz")}</p>
           )}
         </motion.div>
 
@@ -531,7 +580,7 @@ export default function AppPage() {
           >
             <div className="flex items-center gap-2 mb-4">
               <Flame className="h-5 w-5 text-orange-400" />
-              <h3 className="font-bold text-lg">Streak</h3>
+              <h3 className="font-bold text-lg">{t("app.streak")}</h3>
             </div>
             {streakLoading ? (
               <Skeleton className="h-20 w-full" />
@@ -539,7 +588,9 @@ export default function AppPage() {
               <div className="space-y-4">
                 <div className="flex items-end gap-3">
                   <span className="text-5xl font-bold" data-testid="text-streak-count">{streak.currentStreak}</span>
-                  <span className="text-muted-foreground mb-1.5">days</span>
+                  <span className="text-muted-foreground mb-1.5">
+                    {streak.currentStreak === 1 ? t("app.day") : t("app.days")}
+                  </span>
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <motion.div
@@ -550,7 +601,11 @@ export default function AppPage() {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  {streak.currentStreak} / {streak.nextMilestone} days to next milestone · Longest: {streak.longestStreak} days
+                  {t("app.streakProgress", {
+                    current: streak.currentStreak,
+                    next: streak.nextMilestone,
+                    longest: streak.longestStreak,
+                  })}
                 </p>
               </div>
             ) : null}
@@ -565,7 +620,7 @@ export default function AppPage() {
           >
             <div className="flex items-center gap-2 mb-4">
               <Trophy className="h-5 w-5 text-yellow-400" />
-              <h3 className="font-bold text-lg">Badges</h3>
+              <h3 className="font-bold text-lg">{t("app.badges")}</h3>
             </div>
             {badges && badges.length > 0 ? (
               <div className="flex flex-wrap gap-3">
@@ -577,12 +632,14 @@ export default function AppPage() {
                     data-testid={`badge-${badge.id}`}
                   >
                     <Star className="h-4 w-4 text-yellow-400" />
-                    <span className="text-xs font-semibold">{badge.name}</span>
+                    <span className="text-xs font-semibold">
+                      {BADGE_TRANSLATION_KEYS[badge.name] ? t(BADGE_TRANSLATION_KEYS[badge.name]) : badge.name}
+                    </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">Check in daily to earn your first badge.</p>
+              <p className="text-sm text-muted-foreground">{t("app.badgesEmpty")}</p>
             )}
           </motion.div>
         </div>
@@ -596,17 +653,17 @@ export default function AppPage() {
         >
           <div className="flex items-center gap-2 mb-6">
             <BookOpen className="h-5 w-5 text-primary" />
-            <h3 className="font-bold text-xl">Sentence Builder</h3>
+            <h3 className="font-bold text-xl">{t("app.sentenceBuilder")}</h3>
           </div>
           <p className="text-sm text-muted-foreground mb-5">
-            Write a sentence using{" "}
-            <strong className="text-foreground">{dailyWord?.word?.word ?? "today's word"}</strong>.
-            This is the most powerful way to make a word yours.
+            {t("app.sentenceBuilderPrefix")}{" "}
+            <strong className="text-foreground">{dailyWord?.word?.word ?? t("app.todayWordFallback")}</strong>.
+            {" "}{t("app.sentenceBuilderSuffix")}
           </p>
 
           {/* Mood selector */}
           <div className="mb-4">
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">How are you feeling today?</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">{t("app.moodPrompt")}</p>
             <div className="flex flex-wrap gap-2">
               {MOODS.map(mood => (
                 <button
@@ -619,14 +676,14 @@ export default function AppPage() {
                   }`}
                   data-testid={`mood-${mood}`}
                 >
-                  {mood}
+                  {MOOD_TRANSLATION_KEYS[mood] ? t(MOOD_TRANSLATION_KEYS[mood]) : mood}
                 </button>
               ))}
             </div>
           </div>
 
           <Textarea
-            placeholder={`Use "${dailyWord?.word?.word ?? "the word"}" in a sentence that means something to you...`}
+            placeholder={t("app.sentencePlaceholder", { word: dailyWord?.word?.word ?? t("app.theWordFallback") })}
             value={sentence}
             onChange={e => setSentence(e.target.value)}
             className="rounded-xl mb-4 resize-none min-h-[100px]"
@@ -638,7 +695,7 @@ export default function AppPage() {
             className="rounded-full bg-primary hover:bg-primary/90 font-bold px-6"
             data-testid="button-save-sentence"
           >
-            {createEntry.isPending ? "Saving..." : "Save to Journal"}
+            {createEntry.isPending ? t("app.saving") : t("app.saveToJournal")}
           </Button>
         </motion.div>
 
@@ -651,7 +708,7 @@ export default function AppPage() {
         >
           <div className="flex items-center gap-2 mb-6">
             <BookOpen className="h-5 w-5 text-primary" />
-            <h3 className="font-bold text-xl">Word Journal</h3>
+            <h3 className="font-bold text-xl">{t("app.wordJournal")}</h3>
           </div>
           {journalEntries && journalEntries.length > 0 ? (
             <div className="space-y-4">
@@ -669,13 +726,21 @@ export default function AppPage() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-xs font-bold uppercase tracking-widest text-primary">{entry.word}</span>
                         {entry.mood && (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">{entry.mood}</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">
+                            {MOOD_TRANSLATION_KEYS[entry.mood] ? t(MOOD_TRANSLATION_KEYS[entry.mood]) : entry.mood}
+                          </span>
                         )}
                         <span className="text-xs text-muted-foreground ml-auto">
-                          {new Date(entry.createdAt).toLocaleDateString()}
+                          {formatJournalDate(entry.createdAt)}
                         </span>
                       </div>
-                      <p className="text-sm leading-relaxed">"{entry.sentence}"</p>
+                      <p className="text-sm leading-relaxed">
+                        {langCode === "es" ? "«" : '"'}
+                        {JOURNAL_SENTENCE_TRANSLATION_KEYS[entry.sentence.trim()]
+                          ? t(JOURNAL_SENTENCE_TRANSLATION_KEYS[entry.sentence.trim()])
+                          : entry.sentence}
+                        {langCode === "es" ? "»" : '"'}
+                      </p>
                     </div>
                     <button
                       onClick={() => handleDeleteEntry(entry.id)}
@@ -691,8 +756,8 @@ export default function AppPage() {
           ) : (
             <div className="text-center py-12 text-muted-foreground">
               <BookOpen className="h-12 w-12 mx-auto mb-3 opacity-20" />
-              <p className="font-medium">Your journal is empty.</p>
-              <p className="text-sm mt-1">Write your first sentence above to start tracking your growth.</p>
+              <p className="font-medium">{t("app.journalEmpty")}</p>
+              <p className="text-sm mt-1">{t("app.journalEmptyDescription")}</p>
             </div>
           )}
         </motion.div>
