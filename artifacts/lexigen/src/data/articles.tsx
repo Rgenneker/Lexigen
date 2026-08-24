@@ -1,3 +1,5 @@
+import { INVITE_ARTICLES } from "@/data/invite-articles";
+
 export interface Article {
   id: string;
   title: string;
@@ -8,7 +10,7 @@ export interface Article {
   body: React.ReactNode;
 }
 
-export const ARTICLES: Article[] = [
+const CORE_ARTICLES: Article[] = [
   {
     id: "origin-of-spelling-bee",
     title: "The Origin of the Spelling Bee - And Why It's Cooler Than You Think",
@@ -1146,6 +1148,8 @@ export const ARTICLES: Article[] = [
   },
 ];
 
+export const ARTICLES: Article[] = [...CORE_ARTICLES, ...INVITE_ARTICLES];
+
 export const CATEGORY_COLORS: Record<string, string> = {
   "Word History": "bg-amber-500/10 text-amber-600 border-amber-400/30",
   "Word Facts": "bg-rose-500/10 text-rose-600 border-rose-400/30",
@@ -1155,4 +1159,9 @@ export const CATEGORY_COLORS: Record<string, string> = {
   "Self-Development": "bg-green-500/10 text-green-600 border-green-400/30",
   "Language & Culture": "bg-primary/10 text-primary border-primary/20",
   "Games": "bg-orange-500/10 text-orange-600 border-orange-400/30",
+  "Memory Science": "bg-cyan-500/10 text-cyan-600 border-cyan-400/30",
+  "Language Habits": "bg-indigo-500/10 text-indigo-600 border-indigo-400/30",
+  "Social Learning": "bg-pink-500/10 text-pink-600 border-pink-400/30",
+  "Gen Z & Language": "bg-fuchsia-500/10 text-fuchsia-600 border-fuchsia-400/30",
+  "Personal Growth": "bg-lime-500/10 text-lime-700 border-lime-400/30",
 };

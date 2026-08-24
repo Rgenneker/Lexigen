@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useSendInvite } from "@workspace/api-client-react";
+import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { Globe, Users, Zap, Heart, BookOpen, Brain, Sparkles, Crown } from "lucide-react";
@@ -15,6 +16,7 @@ const PREMIUM_GAMES = ["Wordle", "Lexigenz Game", "Spelling Bee", "Spelling Bee 
 
 const articles = [
   {
+    id: "why-context-beats-repetition",
     tagKey: "invite.articleMemoryScienceTag",
     titleKey: "invite.articleMemoryScienceTitle",
     excerptKey: "invite.articleMemoryScienceExcerpt",
@@ -22,6 +24,7 @@ const articles = [
     icon: Brain,
   },
   {
+    id: "the-21-day-word-habit",
     tagKey: "invite.articleLanguageHabitsTag",
     titleKey: "invite.articleLanguageHabitsTitle",
     excerptKey: "invite.articleLanguageHabitsExcerpt",
@@ -29,6 +32,7 @@ const articles = [
     icon: Sparkles,
   },
   {
+    id: "learning-with-others",
     tagKey: "invite.articleSocialLearningTag",
     titleKey: "invite.articleSocialLearningTitle",
     excerptKey: "invite.articleSocialLearningExcerpt",
@@ -36,6 +40,7 @@ const articles = [
     icon: Users,
   },
   {
+    id: "owning-every-register",
     tagKey: "invite.articleGenZLanguageTag",
     titleKey: "invite.articleGenZLanguageTitle",
     excerptKey: "invite.articleGenZLanguageExcerpt",
@@ -43,6 +48,7 @@ const articles = [
     icon: Globe,
   },
   {
+    id: "word-power-is-life-power",
     tagKey: "invite.articlePersonalGrowthTag",
     titleKey: "invite.articlePersonalGrowthTitle",
     excerptKey: "invite.articlePersonalGrowthExcerpt",
@@ -281,9 +287,11 @@ export default function Invite() {
             viewport={{ once: true }}
             className="mb-12"
           >
-            <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-accent bg-accent/10 px-4 py-1.5 rounded-full mb-4">
-              {t("invite.articlesLearnMore")}
-            </span>
+            <Link href="/articles">
+              <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-accent bg-accent/10 hover:bg-accent/20 px-4 py-1.5 rounded-full mb-4 transition-colors">
+                {t("invite.articlesLearnMore")}
+              </span>
+            </Link>
             <h2 className="text-4xl font-bold tracking-tighter">
               {t("invite.articlesHeading")}
             </h2>
@@ -292,33 +300,34 @@ export default function Invite() {
 
           <div className="space-y-6">
             {articles.map((article, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="p-6 md:p-8 rounded-2xl border border-border bg-card hover:border-primary/40 hover:shadow-[0_0_30px_rgba(139,92,246,0.08)] transition-all cursor-pointer group"
-                data-testid={`article-card-${i}`}
-              >
-                <div className="flex flex-col md:flex-row md:items-start gap-5">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
-                    <article.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-2">
-                    <div className="flex items-center gap-3">
-                      <Badge variant="secondary" className="text-xs font-bold bg-secondary/20 text-secondary-foreground rounded-full">
-                        {t(article.tagKey)}
-                      </Badge>
-                      <span className="text-xs text-muted-foreground">{t(article.readTimeKey)}</span>
+              <Link key={article.id} href={`/articles/${article.id}`}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.08 }}
+                  className="p-6 md:p-8 rounded-2xl border border-border bg-card hover:border-primary/40 hover:shadow-[0_0_30px_rgba(139,92,246,0.08)] transition-all cursor-pointer group"
+                  data-testid={`article-card-${i}`}
+                >
+                  <div className="flex flex-col md:flex-row md:items-start gap-5">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                      <article.icon className="h-5 w-5 text-primary" />
                     </div>
-                    <h3 className="text-xl font-bold group-hover:text-primary transition-colors leading-snug">
-                      {t(article.titleKey)}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{t(article.excerptKey)}</p>
+                    <div className="flex-1 space-y-2">
+                      <div className="flex items-center gap-3">
+                        <Badge variant="secondary" className="text-xs font-bold bg-secondary/20 text-secondary-foreground rounded-full">
+                          {t(article.tagKey)}
+                        </Badge>
+                        <span className="text-xs text-muted-foreground">{t(article.readTimeKey)}</span>
+                      </div>
+                      <h3 className="text-xl font-bold group-hover:text-primary transition-colors leading-snug">
+                        {t(article.titleKey)}
+                      </h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed">{t(article.excerptKey)}</p>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </Link>
             ))}
           </div>
         </div>
