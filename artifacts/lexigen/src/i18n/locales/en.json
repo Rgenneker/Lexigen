@@ -265,6 +265,22 @@
     "demoSentence": "\"Her effervescent personality lit up every room she entered.\"",
     "ctaBody": "The most powerful vocabulary in the room didn't come from cramming. It came from showing up every day. Lexigenz makes that easy, personalised, and genuinely worth looking forward to."
   },
+  "app": {
+    "dailyWordTitle": "Your Daily Word",
+    "dailyWordDescription": "Learn the word · take today's quiz · write a sentence · play games. One word a day builds a vocabulary for life.",
+    "checkInToday": "Check In Today",
+    "checkingIn": "Checking in...",
+    "statsStreak": "Streak",
+    "statsWordsLearned": "Words Learned",
+    "statsBadges": "Badges",
+    "statsGamesPlayed": "Games Played",
+    "statsJournalEntries": "Journal Entries",
+    "statsQuizzesTaken": "Quizzes Taken",
+    "championshipTitle": "World Championship 2027",
+    "championshipEvent": "Global Spelling Bee · June 19 · 12:00 UTC",
+    "championshipCountdown": "{{count}} days away · Registration open now",
+    "championshipRegister": "Register"
+  },
   "about": {
     "badge": "Our Story",
     "heroLine1": "NOT YOUR",

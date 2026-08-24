@@ -3,3 +3,4 @@
 - [Bee geographic profile](bee-geographic-profile.md) — country/city/institution/institution_type added to users table; leaderboard uses raw pool.query (not drizzle) since columns aren't in drizzle schema.
 - [Bee tournament + stats system](bee-tournament-stats.md) — tournament bracket, spectator view, stats dashboard, achievements, admin dashboard added in Phase 5 & 6.
 - [Scoped pnpm security fixes](pnpm-security-fixes.md) — pnpm audit --fix can add broad overrides; prefer a targeted catalog bump when one advisory is assigned.
+- [Lexigen build environment](lexigen-build-environment.md) — manual production builds must include the artifact service’s required environment values.

@@ -244,6 +244,22 @@
     "demoSentence": "\"Her effervescent personality lit up every room she entered.\"",
     "ctaBody": "El vocabulario más poderoso no se construye estudiando intensamente de una sola vez. Se construye aprendiendo un poco cada día. Lexigenz lo hace fácil, personalizado y convierte cada nueva palabra en algo que realmente esperas descubrir."
   },
+  "app": {
+    "dailyWordTitle": "Tu palabra del día",
+    "dailyWordDescription": "Aprende la palabra · haz el cuestionario de hoy · escribe una frase · juega. Una palabra al día construye un vocabulario para toda la vida.",
+    "checkInToday": "Registra tu actividad de hoy",
+    "checkingIn": "Registrando...",
+    "statsStreak": "Día de racha",
+    "statsWordsLearned": "Palabras aprendidas",
+    "statsBadges": "Insignias",
+    "statsGamesPlayed": "Partidas jugadas",
+    "statsJournalEntries": "Entradas en el diario",
+    "statsQuizzesTaken": "Cuestionarios realizados",
+    "championshipTitle": "CAMPEONATO MUNDIAL 2027",
+    "championshipEvent": "Concurso Mundial de Ortografía · 19 de junio · 12:00 UTC",
+    "championshipCountdown": "Faltan {{count}} días · Inscripciones abiertas",
+    "championshipRegister": "Inscribirse"
+  },
   "about": {
     "badge": "Nuestra historia",
     "heroLine1": "NO ES EL",

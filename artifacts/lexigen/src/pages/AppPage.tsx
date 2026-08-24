@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -236,6 +237,7 @@ function DailyQuiz({ word, definition, partOfSpeech }: {
 export default function AppPage() {
   const [sentence, setSentence] = useState("");
   const [selectedMood, setSelectedMood] = useState("");
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { language } = useLanguageStore();
@@ -270,6 +272,7 @@ export default function AppPage() {
   const createEntry = useCreateJournalEntry();
   const deleteEntry = useDeleteJournalEntry();
   const checkIn = useCheckIn();
+  const championshipDays = Math.ceil((new Date("2027-06-19T12:00:00Z").getTime() - Date.now()) / 86400000);
 
   const handleSaveEntry = () => {
     if (!sentence.trim() || !dailyWord?.word?.word) return;
@@ -316,11 +319,11 @@ export default function AppPage() {
         >
           <div>
             <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">
-              {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
+                {new Date().toLocaleDateString(i18n.language || "en-US", { weekday: "long", month: "long", day: "numeric" })}
             </span>
-            <h1 className="text-4xl font-bold tracking-tighter mt-1">Your Daily Word</h1>
+            <h1 className="text-4xl font-bold tracking-tighter mt-1">{t("app.dailyWordTitle")}</h1>
             <p className="text-sm text-muted-foreground mt-1.5 max-w-lg">
-              Learn the word · take today's quiz · write a sentence · play games. One word a day builds a vocabulary for life.
+              {t("app.dailyWordDescription")}
             </p>
           </div>
           <Button
@@ -330,19 +333,19 @@ export default function AppPage() {
             data-testid="button-check-in"
           >
             <Calendar className="h-4 w-4 mr-2" />
-            {checkIn.isPending ? "Checking in..." : "Check In Today"}
+            {checkIn.isPending ? t("app.checkingIn") : t("app.checkInToday")}
           </Button>
         </motion.div>
 
         {/* Stats Row */}
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
           {[
-            { label: "Streak",          value: stats?.currentStreak ?? "-",   icon: Flame,    color: "text-orange-400" },
-            { label: "Words Learned",   value: stats?.wordsLearned ?? "-",    icon: BookOpen, color: "text-primary" },
-            { label: "Badges",          value: stats?.badgesEarned ?? "-",    icon: Star,     color: "text-yellow-400" },
-            { label: "Games Played",    value: stats?.gamesPlayed ?? "-",     icon: Gamepad2, color: "text-accent" },
-            { label: "Journal Entries", value: stats?.journalEntries ?? "-",  icon: Zap,      color: "text-green-400" },
-            { label: "Quizzes Taken",   value: quizzesTaken,                  icon: Brain,    color: "text-blue-400" },
+            { id: "streak", label: t("app.statsStreak"), value: stats?.currentStreak ?? "-",   icon: Flame,    color: "text-orange-400" },
+            { id: "words-learned", label: t("app.statsWordsLearned"), value: stats?.wordsLearned ?? "-",    icon: BookOpen, color: "text-primary" },
+            { id: "badges", label: t("app.statsBadges"), value: stats?.badgesEarned ?? "-",    icon: Star,     color: "text-yellow-400" },
+            { id: "games-played", label: t("app.statsGamesPlayed"), value: stats?.gamesPlayed ?? "-",     icon: Gamepad2, color: "text-accent" },
+            { id: "journal-entries", label: t("app.statsJournalEntries"), value: stats?.journalEntries ?? "-",  icon: Zap,      color: "text-green-400" },
+            { id: "quizzes-taken", label: t("app.statsQuizzesTaken"), value: quizzesTaken,                  icon: Brain,    color: "text-blue-400" },
           ].map((s, i) => (
             <motion.div
               key={s.label}
@@ -350,7 +353,7 @@ export default function AppPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.07 }}
               className="p-4 rounded-2xl border border-border bg-card text-center"
-              data-testid={`stat-${s.label.toLowerCase().replace(/\s+/g, "-")}`}
+              data-testid={`stat-${s.id}`}
             >
               <s.icon className={`h-5 w-5 mx-auto mb-2 ${s.color}`} />
               <div className="text-xl font-bold">{s.value}</div>
@@ -372,15 +375,15 @@ export default function AppPage() {
               <div className="relative flex items-center gap-4 min-w-0">
                 <span className="text-3xl shrink-0">🌍</span>
                 <div className="min-w-0">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-amber-300/80">World Championship 2027</p>
-                  <p className="font-bold text-sm truncate">Global Spelling Bee · June 19 · 12:00 UTC</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-amber-300/80">{t("app.championshipTitle")}</p>
+                  <p className="font-bold text-sm truncate">{t("app.championshipEvent")}</p>
                   <p className="text-white/50 text-xs mt-0.5">
-                    {Math.ceil((new Date("2027-06-19T12:00:00Z").getTime() - Date.now()) / 86400000)} days away · Registration open now
+                    {t("app.championshipCountdown", { count: championshipDays })}
                   </p>
                 </div>
               </div>
               <div className="relative shrink-0 bg-violet-500 hover:bg-violet-400 transition-colors rounded-xl px-4 py-2 text-xs font-bold whitespace-nowrap flex items-center gap-1.5">
-                Register <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                {t("app.championshipRegister")} <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </div>
             </div>
           </Link>
