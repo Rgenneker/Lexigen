@@ -1343,7 +1343,21 @@
     "articlePersonalGrowthTag": "Personal Growth",
     "articlePersonalGrowthReadTime": "6 min read",
     "articlePersonalGrowthTitle": "Word Power Is Life Power: How Vocabulary Shapes Confidence and Opportunity",
-    "articlePersonalGrowthExcerpt": "Studies link vocabulary size to career earnings, social confidence, and cognitive agility. This isn't about being 'proper' - it's about having more tools in your kit. More words means more ways to be understood, respected, and heard."
+    "articlePersonalGrowthExcerpt": "Studies link vocabulary size to career earnings, social confidence, and cognitive agility. This isn't about being 'proper' - it's about having more tools in your kit. More words means more ways to be understood, respected, and heard.",
+    "articleMemoryScienceBody": {
+      "intro": "A word on a flashcard is a small piece of information. A word used in your own sentence is part of an event. Your brain remembers events better than isolated facts because events contain context: what you were thinking, what you meant, and what the word was doing in that moment.",
+      "networksHeading": "The brain learns in networks",
+      "networksParagraph": "Long-term vocabulary is not stored as a list of dictionary entries. Each word is connected to pronunciation, spelling, meaning, emotion, related words, and the situations where it belongs. The more useful connections a new word has, the easier it is to retrieve later. Repetition can strengthen a recognition pathway, but context builds the network around the word.",
+      "activeRecallParagraph": "That is why you can recognise a word in a multiple-choice quiz but struggle to use it in conversation. Recognition asks, “Have I seen this before?” Active recall asks, “Can I find this word and make it do useful work right now?” The second question creates a much stronger memory trace.",
+      "ownSentenceHeading": "Why your own sentence matters",
+      "ownSentenceParagraph": "Writing a sentence yourself forces several decisions. You choose a subject, a tone, a tense, and a situation. You test whether the word actually fits. That small act of production gives the word a personal cue that a generic example sentence cannot provide.",
+      "journalParagraph": "Use your Word Journal to make the moment specific. Instead of writing “The meeting was ineffable,” write “The quiet after my sister finished singing was ineffable.” The sentence is memorable because it belongs to you. When a similar situation appears later, the word has a route back into your mind.",
+      "reviewHeading": "A better three-step review",
+      "reviewStepOne": "Encounter the word in a meaningful example.",
+      "reviewStepTwo": "Write a sentence that connects it to your own life.",
+      "reviewStepThree": "Return to it later and use it without looking at the definition.",
+      "conclusion": "Repetition still has a place. It becomes far more effective when it follows understanding and personal use. Learn the word in context, produce it yourself, then revisit it at widening intervals. That is how a new word moves from something you recognise to something you own."
+    }
   },
   "modals": {
     "freemium": {

@@ -10,26 +10,66 @@ import { ARTICLES, CATEGORY_COLORS } from "@/data/articles";
 import NotFound from "@/pages/not-found";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
-function ArticleDetailInner({ id }: { id: string }) {
+function MemoryScienceBody() {
   const { t } = useTranslation();
+
+  return (
+    <div className="space-y-5">
+      <p>{t("invite.articleMemoryScienceBody.intro")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articleMemoryScienceBody.networksHeading")}
+      </h3>
+      <p>{t("invite.articleMemoryScienceBody.networksParagraph")}</p>
+      <p>{t("invite.articleMemoryScienceBody.activeRecallParagraph")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articleMemoryScienceBody.ownSentenceHeading")}
+      </h3>
+      <p>{t("invite.articleMemoryScienceBody.ownSentenceParagraph")}</p>
+      <p>{t("invite.articleMemoryScienceBody.journalParagraph")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articleMemoryScienceBody.reviewHeading")}
+      </h3>
+      <ol className="list-decimal list-inside space-y-2 pl-2">
+        <li>{t("invite.articleMemoryScienceBody.reviewStepOne")}</li>
+        <li>{t("invite.articleMemoryScienceBody.reviewStepTwo")}</li>
+        <li>{t("invite.articleMemoryScienceBody.reviewStepThree")}</li>
+      </ol>
+      <p>{t("invite.articleMemoryScienceBody.conclusion")}</p>
+    </div>
+  );
+}
+
+function ArticleDetailInner({ id }: { id: string }) {
+  const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
   const article = ARTICLES.find((a) => a.id === id)!;
+  const isSpanishMemoryArticle = id === "why-context-beats-repetition" && i18n.language === "es";
+  const displayCategory = isSpanishMemoryArticle
+    ? t("invite.articleMemoryScienceTag")
+    : article.category;
+  const displayTitle = isSpanishMemoryArticle
+    ? t("invite.articleMemoryScienceTitle")
+    : article.title;
+  const displayExcerpt = isSpanishMemoryArticle
+    ? t("invite.articleMemoryScienceExcerpt")
+    : article.excerpt;
+  const displayBody = isSpanishMemoryArticle ? <MemoryScienceBody /> : article.body;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
   usePageMeta({
-    title: `${article.title} | LexigenZ`,
-    description: article.excerpt,
+    title: `${displayTitle} | LexigenZ`,
+    description: displayExcerpt,
     canonical: `/articles/${id}`,
     ogType: "article",
-    keywords: `vocabulary, English words, ${article.category}, language learning, LexigenZ`,
+    keywords: `vocabulary, English words, ${displayCategory}, language learning, LexigenZ`,
     schema: {
       "@context": "https://schema.org",
       "@type": "Article",
-      headline: article.title,
-      description: article.excerpt,
+      headline: displayTitle,
+      description: displayExcerpt,
       author: { "@type": "Organization", name: "Lexigenz Trading", url: "https://lexigenz.com" },
       publisher: {
         "@type": "Organization",
@@ -38,7 +78,7 @@ function ArticleDetailInner({ id }: { id: string }) {
       },
       url: `https://lexigenz.com/articles/${id}`,
       mainEntityOfPage: { "@type": "WebPage", "@id": `https://lexigenz.com/articles/${id}` },
-      articleSection: article.category,
+      articleSection: displayCategory,
       timeRequired: `PT${article.readTime}M`,
     },
   });
@@ -77,7 +117,7 @@ function ArticleDetailInner({ id }: { id: string }) {
 
           <div className="flex items-center gap-3 mb-5 flex-wrap">
             <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${CATEGORY_COLORS[article.category] ?? "bg-muted text-muted-foreground border-border"}`}>
-              {article.category}
+              {displayCategory}
             </span>
             <span className="text-xs text-muted-foreground flex items-center gap-1">
               <Clock className="w-3 h-3" />
@@ -88,17 +128,17 @@ function ArticleDetailInner({ id }: { id: string }) {
           <div className="text-5xl mb-5">{article.emoji}</div>
 
           <h1 className="text-3xl md:text-4xl font-black leading-tight mb-4">
-            {article.title}
+            {displayTitle}
           </h1>
 
           <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-            {article.excerpt}
+            {displayExcerpt}
           </p>
 
           <div className="flex items-center justify-between mb-10 pb-8 border-b border-border">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <BookOpen className="w-4 h-4" />
-<span>{t("articleDetail.authoredBy")} <strong className="text-foreground">Lexigenz</strong></span>
+              <span>{t("articleDetail.authoredBy")} <strong className="text-foreground">Lexigenz</strong></span>
             </div>
             <Button
               variant="outline"
@@ -112,7 +152,7 @@ function ArticleDetailInner({ id }: { id: string }) {
           </div>
 
           <div className="prose prose-neutral dark:prose-invert max-w-none text-foreground leading-relaxed">
-            {article.body}
+            {displayBody}
           </div>
 
           <div className="mt-14 pt-10 border-t border-border">

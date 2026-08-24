@@ -1306,7 +1306,7 @@
     "articleMemoryScienceTag": "Ciencia de la memoria",
     "articleMemoryScienceReadTime": "5 min de lectura",
     "articleMemoryScienceTitle": "Por qué el contexto supera a la repetición para retener vocabulario",
-    "articleMemoryScienceExcerpt": "Las investigaciones muestran que encontrar una palabra dentro de una frase significativa, especialmente una que hayas escrito tú mismo, puede ser mucho más eficaz que limitarse a memorizarla mediante tarjetas de estudio. Descubre la ciencia que explica por qué tu Diario de palabras puede convertirse en una de tus herramientas de aprendizaje más poderosas.",
+    "articleMemoryScienceExcerpt": "Las investigaciones muestran que encontrar una palabra dentro de una frase significativa, especialmente una que hayas escrito tú mismo, puede ser mucho más eficaz que limitarse a memorizarla mediante tarjetas de estudio. Esta es la ciencia que explica por qué tu Diario de palabras puede convertirse en una de tus herramientas de aprendizaje más poderosas.",
     "articleLanguageHabitsTag": "Hábitos lingüísticos",
     "articleLanguageHabitsReadTime": "7 min de lectura",
     "articleLanguageHabitsTitle": "El hábito de 21 días: desarrolla tu fluidez con pequeñas dosis diarias de vocabulario",
@@ -1322,7 +1322,21 @@
     "articlePersonalGrowthTag": "Crecimiento personal",
     "articlePersonalGrowthReadTime": "6 min de lectura",
     "articlePersonalGrowthTitle": "El poder de las palabras es poder para la vida: cómo el vocabulario influye en la confianza y las oportunidades",
-    "articlePersonalGrowthExcerpt": "Un vocabulario amplio puede ayudarte a expresarte con mayor precisión, desenvolverte con más confianza y adaptarte a diferentes situaciones personales, académicas y profesionales. No se trata de hablar de manera «correcta» o sofisticada. Se trata de disponer de más herramientas. Cuantas más palabras tengas a tu alcance, más formas tendrás de expresar exactamente lo que piensas, hacerte comprender y conseguir que tu voz sea escuchada."
+    "articlePersonalGrowthExcerpt": "Un vocabulario amplio puede ayudarte a expresarte con mayor precisión, desenvolverte con más confianza y adaptarte a diferentes situaciones personales, académicas y profesionales. No se trata de hablar de manera «correcta» o sofisticada. Se trata de disponer de más herramientas. Cuantas más palabras tengas a tu alcance, más formas tendrás de expresar exactamente lo que piensas, hacerte comprender y conseguir que tu voz sea escuchada.",
+    "articleMemoryScienceBody": {
+      "intro": "Una palabra en una tarjeta de estudio es una pequeña unidad de información. Una palabra utilizada en una frase creada por ti forma parte de una experiencia. Tu cerebro recuerda mejor las experiencias que los datos aislados porque contienen contexto: lo que estabas pensando, lo que querías expresar y la función que desempeñaba la palabra en ese momento.",
+      "networksHeading": "El cerebro aprende mediante redes",
+      "networksParagraph": "El vocabulario a largo plazo no se almacena como una lista de entradas de diccionario. Cada palabra está conectada con su pronunciación, ortografía, significado, carga emocional, palabras relacionadas y las situaciones en las que resulta apropiada. Cuantas más conexiones útiles tenga una palabra nueva, más fácil será recuperarla posteriormente. La repetición puede reforzar el reconocimiento, pero el contexto construye toda una red alrededor de la palabra.",
+      "activeRecallParagraph": "Por eso puedes reconocer una palabra en un cuestionario de opción múltiple y, sin embargo, tener dificultades para utilizarla en una conversación. El reconocimiento pregunta: «¿He visto esto antes?». La recuperación activa pregunta: «¿Puedo encontrar esta palabra en mi memoria y utilizarla correctamente ahora mismo?». La segunda tarea exige una participación mucho más activa de la memoria.",
+      "ownSentenceHeading": "Por qué es importante escribir tu propia frase",
+      "ownSentenceParagraph": "Escribir una frase por ti mismo te obliga a tomar varias decisiones. Eliges un sujeto, un tono, un tiempo verbal y una situación. También compruebas si la palabra encaja realmente en ese contexto. Este pequeño acto de producción crea una asociación personal con la palabra que una frase de ejemplo genérica no puede proporcionar.",
+      "journalParagraph": "Utiliza tu Diario de palabras para hacer que ese momento sea específico. En lugar de escribir «La reunión fue ineffable», escribe «El silencio después de que mi hermana terminara de cantar fue ineffable». La frase resulta memorable porque te pertenece. Cuando vuelvas a experimentar una situación similar, la palabra tendrá un camino para regresar a tu mente.",
+      "reviewHeading": "Un método de repaso más eficaz en tres pasos",
+      "reviewStepOne": "Encuentra la palabra dentro de un ejemplo significativo.",
+      "reviewStepTwo": "Escribe una frase que la relacione con tu propia vida.",
+      "reviewStepThree": "Vuelve a ella más adelante e intenta utilizarla sin consultar la definición.",
+      "conclusion": "La repetición sigue teniendo su lugar. Sin embargo, resulta mucho más útil cuando se produce después de comprender la palabra y utilizarla personalmente. Aprende la palabra en contexto, úsala tú mismo y vuelve a ella posteriormente dejando intervalos cada vez mayores entre los repasos. Así es como una palabra nueva pasa de ser algo que simplemente reconoces a convertirse en algo que realmente forma parte de tu vocabulario."
+    }
   },
   "modals": {
     "freemium": {
