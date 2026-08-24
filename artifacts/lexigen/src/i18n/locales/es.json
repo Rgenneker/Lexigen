@@ -1075,20 +1075,20 @@
       },
       "scrabble": {
         "name": "Scrabble",
-        "tag": "4 Levels",
-        "desc": "Tap 7 letter tiles to build high-scoring words. Rare letters earn more - use all 7 for a BINGO bonus!",
+        "tag": "4 niveles",
+        "desc": "Toca las 7 fichas de letras para formar palabras con la mayor puntuación posible. Las letras menos frecuentes valen más. ¡Utiliza las 7 para conseguir una bonificación de BINGO!",
         "howToPlay": "Choose a level, then tap letter tiles from your rack to build a word in the word area. Tap a selected letter to return it. Hit Submit when ready - the word must be valid and meet the minimum length for your level. Shuffle resets your rack. Using all 7 tiles earns a +50 BINGO bonus!"
       },
       "crossword": {
-        "name": "Crossword",
-        "tag": "4 Puzzles",
-        "desc": "Solve themed 5×5 mini crosswords. Click a clue or cell, then type your answer.",
+        "name": "Crucigrama",
+        "tag": "4 crucigramas",
+        "desc": "Resuelve mini crucigramas temáticos de 5 × 5. Haz clic en una pista o en una casilla y escribe tu respuesta.",
         "howToPlay": "Click a clue in the panel (or tap a cell in the grid) to select a word. A text input appears - type your answer. The grid fills in live as you type. Once all words are filled, press Check Answers to see your result. Green = correct, red = needs fixing."
       },
       "wordGrid": {
-        "name": "Word Grid",
-        "tag": "Boggle-Style",
-        "desc": "Swipe or drag adjacent letters in a grid to spell words before the timer runs out.",
+        "name": "Cuadrícula de palabras",
+        "tag": "Estilo Boggle",
+        "desc": "Desliza o arrastra por las letras adyacentes de la cuadrícula para formar palabras antes de que se agote el tiempo.",
         "howToPlay": "Hold and drag (or swipe on mobile) across adjacent letters - including diagonals - to trace a word path. Release to submit. Each letter can only be used once per word. Longer words score more points. The number next to each tile shows its position in your current word."
       }
     },
@@ -1096,8 +1096,8 @@
     "keyBackspace": "BACKSPACE",
     "checkLeaderboard": "Check the leaderboard!",
     "howToPlayTitle": "How to play",
-    "wordshufflPromoText": "tryna unscramble your words?",
-    "wordshufflPromoLink": "do it rn at wordshuffl.com",
+    "wordshufflPromoText": "¿Quieres descifrar más palabras?",
+    "wordshufflPromoLink": "Pruébalo en wordshuffl.com",
     "allGames": "← All Games",
     "byUser": "by",
     "lettersLabel": "letters",
