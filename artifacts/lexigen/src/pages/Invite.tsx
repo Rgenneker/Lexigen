@@ -15,38 +15,38 @@ const PREMIUM_GAMES = ["Wordle", "Lexigenz Game", "Spelling Bee", "Spelling Bee 
 
 const articles = [
   {
-    tag: "Memory Science",
-    title: "Why Context Beats Repetition for Vocabulary Retention",
-    excerpt: "Research consistently shows that encountering a word in a meaningful sentence - one you've written yourself - is 3x more effective than flashcard drilling. Here's the neuroscience behind why your Word Journal is your most powerful learning tool.",
-    readTime: "5 min read",
+    tagKey: "invite.articleMemoryScienceTag",
+    titleKey: "invite.articleMemoryScienceTitle",
+    excerptKey: "invite.articleMemoryScienceExcerpt",
+    readTimeKey: "invite.articleMemoryScienceReadTime",
     icon: Brain,
   },
   {
-    tag: "Language Habits",
-    title: "The 21-Day Word Habit: Building Fluency Through Daily Micro-Exposure",
-    excerpt: "You don't need hours of study. You need seven minutes a day, every day. We break down the habit-stacking techniques that turn Lexigenz's daily word into a permanent shift in how you think and communicate.",
-    readTime: "7 min read",
+    tagKey: "invite.articleLanguageHabitsTag",
+    titleKey: "invite.articleLanguageHabitsTitle",
+    excerptKey: "invite.articleLanguageHabitsExcerpt",
+    readTimeKey: "invite.articleLanguageHabitsReadTime",
     icon: Sparkles,
   },
   {
-    tag: "Social Learning",
-    title: "Learning With Others: How Competitive Play Accelerates Word Memory",
-    excerpt: "When you challenge a friend to a Wordle match or race through the Lexigenz Game together, your brain encodes vocabulary differently - and faster. Discover the science of social vocabulary building.",
-    readTime: "6 min read",
+    tagKey: "invite.articleSocialLearningTag",
+    titleKey: "invite.articleSocialLearningTitle",
+    excerptKey: "invite.articleSocialLearningExcerpt",
+    readTimeKey: "invite.articleSocialLearningReadTime",
     icon: Users,
   },
   {
-    tag: "Gen Z & Language",
-    title: "Code-Switching, Slang, and Standard English: Owning Every Register",
-    excerpt: "Gen Z already communicates fluently across multiple linguistic registers. Formal English, internet slang, community vernacular - Lexigenz helps you master formal vocabulary without losing the voice that's already yours.",
-    readTime: "8 min read",
+    tagKey: "invite.articleGenZLanguageTag",
+    titleKey: "invite.articleGenZLanguageTitle",
+    excerptKey: "invite.articleGenZLanguageExcerpt",
+    readTimeKey: "invite.articleGenZLanguageReadTime",
     icon: Globe,
   },
   {
-    tag: "Personal Growth",
-    title: "Word Power Is Life Power: How Vocabulary Shapes Confidence and Opportunity",
-    excerpt: "Studies link vocabulary size to career earnings, social confidence, and cognitive agility. This isn't about being 'proper' - it's about having more tools in your kit. More words means more ways to be understood, respected, and heard.",
-    readTime: "6 min read",
+    tagKey: "invite.articlePersonalGrowthTag",
+    titleKey: "invite.articlePersonalGrowthTitle",
+    excerptKey: "invite.articlePersonalGrowthExcerpt",
+    readTimeKey: "invite.articlePersonalGrowthReadTime",
     icon: Zap,
   },
 ];
@@ -308,14 +308,14 @@ export default function Invite() {
                   <div className="flex-1 space-y-2">
                     <div className="flex items-center gap-3">
                       <Badge variant="secondary" className="text-xs font-bold bg-secondary/20 text-secondary-foreground rounded-full">
-                        {article.tag}
+                        {t(article.tagKey)}
                       </Badge>
-                      <span className="text-xs text-muted-foreground">{article.readTime}</span>
+                      <span className="text-xs text-muted-foreground">{t(article.readTimeKey)}</span>
                     </div>
                     <h3 className="text-xl font-bold group-hover:text-primary transition-colors leading-snug">
-                      {article.title}
+                      {t(article.titleKey)}
                     </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{article.excerpt}</p>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{t(article.excerptKey)}</p>
                   </div>
                 </div>
               </motion.div>
