@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ExternalLink } from "lucide-react";
+import { legalUi } from "@/i18n/legalLocale";
+import { useTranslation } from "react-i18next";
 
 const BASE_URL = "https://lexigenz.com";
 
@@ -151,7 +153,35 @@ const priorityColor = (p: string) => {
   return "text-muted-foreground bg-muted";
 };
 
+const sitemapLabels: Record<string, string> = {
+  Home: "Accueil",
+  About: "À propos",
+  "How It Works": "Comment ça marche",
+  App: "Application",
+  Play: "Jouer",
+  Invite: "Inviter",
+  Premium: "Premium",
+  FAQ: "FAQ",
+  Contact: "Contact",
+  "Privacy Policy": "Politique de confidentialité",
+  "Terms and Conditions": "Conditions générales",
+  "Cookie Policy": "Politique relative aux cookies",
+  "Legal Disclaimer": "Avertissement juridique",
+  "Terms of Use": "Conditions d'utilisation",
+};
+
+const sitemapSection = (section: string) =>
+  legalUi(section, section === "Core Pages" ? "Pages principales" : "Pages juridiques");
+
+const sitemapFrequency = (frequency: string) => legalUi(frequency, {
+  Daily: "Quotidienne",
+  Weekly: "Hebdomadaire",
+  Monthly: "Mensuelle",
+  Yearly: "Annuelle",
+}[frequency] ?? frequency);
+
 export default function Sitemap() {
+  useTranslation();
   return (
     <div className="min-h-screen px-4 py-20">
       <div className="container mx-auto max-w-5xl">
@@ -161,8 +191,8 @@ export default function Sitemap() {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-3 mb-14"
         >
-          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Navigation Index</p>
-          <h1 className="text-5xl font-bold tracking-tighter">Sitemap</h1>
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{legalUi("Navigation Index", "Index de navigation")}</p>
+          <h1 className="text-5xl font-bold tracking-tighter">{legalUi("Sitemap", "Plan du site")}</h1>
         </motion.div>
 
         {/* Pages by section */}
@@ -175,7 +205,7 @@ export default function Sitemap() {
               transition={{ delay: si * 0.12 }}
             >
               <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-6 pb-3 border-b border-border">
-                {section.section}
+                {sitemapSection(section.section)}
               </h2>
 
               <div className="space-y-4">
@@ -192,13 +222,13 @@ export default function Sitemap() {
                           href={page.href}
                           className="text-lg font-bold hover:text-primary transition-colors"
                         >
-                          {page.label}
+                          {legalUi(page.label, sitemapLabels[page.label] ?? page.label)}
                         </Link>
                         <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${priorityColor(page.priority)}`}>
-                          Priority {page.priority}
+                          {legalUi("Priority", "Priorité")} {page.priority}
                         </span>
                         <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
-                          {page.changefreq}
+                          {sitemapFrequency(page.changefreq)}
                         </span>
                       </div>
                       <a
@@ -244,8 +274,8 @@ export default function Sitemap() {
           transition={{ delay: 0.5 }}
           className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-xs text-muted-foreground"
         >
-          <span>© {new Date().getFullYear()} Lexigenz Trading. All rights reserved. Registered in South Africa.</span>
-          <span>Lexigenz™ is a registered trademark of Lexigenz Trading.</span>
+          <span>© {new Date().getFullYear()} Lexigenz Trading. {legalUi("All rights reserved. Registered in South Africa.", "Tous droits réservés. Enregistrée en Afrique du Sud.")}</span>
+          <span>Lexigenz™ {legalUi("is a registered trademark of Lexigenz Trading.", "est une marque déposée de Lexigenz Trading.")}</span>
         </motion.div>
       </div>
     </div>

@@ -160,7 +160,8 @@ function ArticleDetailInner({ id }: { id: string }) {
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
   const article = ARTICLES.find((a) => a.id === id)!;
-  const localizedArticle = i18n.language === "es"
+  const hasInviteArticleLocalization = i18n.language === "es" || i18n.language === "fr";
+  const localizedArticle = hasInviteArticleLocalization
     ? {
         "why-context-beats-repetition": {
           category: t("invite.articleMemoryScienceTag"),
@@ -199,7 +200,7 @@ function ArticleDetailInner({ id }: { id: string }) {
   const displayExcerpt = localizedArticle?.excerpt ?? article.excerpt;
   const displayBody = localizedArticle?.body ?? article.body;
   const getArticleTitle = (linkedArticle: (typeof ARTICLES)[number]) => {
-    if (i18n.language !== "es") return linkedArticle.title;
+    if (!hasInviteArticleLocalization) return linkedArticle.title;
     const localizedTitles: Record<string, string> = {
       "why-context-beats-repetition": t("invite.articleMemoryScienceTitle"),
       "the-21-day-word-habit": t("invite.articleLanguageHabitsTitle"),

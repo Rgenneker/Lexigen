@@ -39,7 +39,7 @@ interface StatsData {
 }
 
 function MiniBarChart({ data }: { data: ScorePoint[] }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   if (!data.length) return <p className="text-center text-sm text-muted-foreground py-6">{t("bee.stats.noScoreTrend")}</p>;
   const max = Math.max(...data.map((d) => d.score), 1);
   return (
@@ -60,7 +60,7 @@ function MiniBarChart({ data }: { data: ScorePoint[] }) {
 }
 
 export default function StatsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const [data, setData] = useState<StatsData | null>(null);
@@ -232,7 +232,7 @@ export default function StatsPage() {
                     <p className="text-xs text-muted-foreground mt-0.5">{a.description}</p>
                     {a.earnedAt && (
                       <p className="text-xs text-primary mt-1">
-                        {t("bee.stats.earnedOn", { date: new Date(a.earnedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) })}
+                         {t("bee.stats.earnedOn", { date: new Date(a.earnedAt).toLocaleDateString(i18n.language === "fr" ? "fr-FR" : "en-GB", { day: "numeric", month: "short", year: "numeric" }) })}
                       </p>
                     )}
                   </div>

@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Brain, Star, TrendingUp, Users, Zap, RefreshCw, X, Loader2 } from "lucide-react";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { useToolPageText } from "@/i18n/tool-page-text";
 import { UNIQUE_WORDS } from "@/data/word-list";
 
 const CATEGORIES = [
@@ -26,6 +27,7 @@ function pickRandom(pool: string[], n: number): string[] {
 }
 
 function BrowseByCategorySection() {
+  const tt = useToolPageText();
   const [activeId, setActiveId] = useState<CategoryId | null>(null);
   const [words, setWords] = useState<string[]>([]);
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
@@ -90,8 +92,8 @@ function BrowseByCategorySection() {
     <section className="py-16 bg-background border-t border-border">
       <div className="container px-4 mx-auto max-w-4xl">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <h2 className="text-3xl font-black mb-2">Browse by Category</h2>
-          <p className="text-muted-foreground mb-6 text-sm">Select a category to see words. Click any word to reveal its definition. Hit refresh to load new words.</p>
+          <h2 className="text-3xl font-black mb-2">{tt("Browse by Category")}</h2>
+          <p className="text-muted-foreground mb-6 text-sm">{tt("Select a category to see words. Click any word to reveal its definition. Hit refresh to load new words.")}</p>
 
           <div className="flex flex-col sm:flex-row gap-3 mb-6 flex-wrap">
             {CATEGORIES.map((cat) => (
@@ -104,7 +106,7 @@ function BrowseByCategorySection() {
                     : "bg-card border-border hover:border-primary/50 hover:bg-primary/5"
                 }`}
               >
-                {cat.label}
+                {tt(cat.label)}
               </button>
             ))}
           </div>
@@ -121,7 +123,7 @@ function BrowseByCategorySection() {
               >
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-sm font-semibold text-muted-foreground">
-                    {CATEGORIES.find((c) => c.id === activeId)?.label}
+                    {tt(CATEGORIES.find((c) => c.id === activeId)?.label ?? "")}
                   </span>
                   <button
                     onClick={refresh}
@@ -176,7 +178,7 @@ function BrowseByCategorySection() {
                         )}
 
                         {defError && !defLoading && (
-                          <p className="text-sm text-muted-foreground">Definition not found. <Link href={`/word/${selectedWord}`} className="text-primary underline">View full word page</Link></p>
+                          <p className="text-sm text-muted-foreground">{tt("Definition not found.")} <Link href={`/word/${selectedWord}`} className="text-primary underline">{tt("View full word page")}</Link></p>
                         )}
 
                         {definition && !defLoading && (
@@ -206,9 +208,10 @@ function BrowseByCategorySection() {
 }
 
 export default function VocabularyHubPage() {
+  const tt = useToolPageText();
   usePageMeta({
-    title: "Vocabulary Hub - Build Your English Vocabulary | LexigenZ",
-    description: "Your complete English vocabulary learning centre. Discover how to build vocabulary fast, browse word lists by category, and find proven strategies used by top learners worldwide.",
+    title: tt("Vocabulary Hub - Build Your English Vocabulary | LexigenZ"),
+    description: tt("Your complete English vocabulary learning centre. Discover how to build vocabulary fast, browse word lists by category, and find proven strategies used by top learners worldwide."),
     canonical: "/vocabulary",
     keywords: "vocabulary hub, build vocabulary, english vocabulary, vocabulary learning, word lists, vocabulary builder",
   });
@@ -219,13 +222,13 @@ export default function VocabularyHubPage() {
         <div className="container px-4 mx-auto max-w-4xl text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <span className="text-xs font-bold uppercase tracking-widest text-primary">LexigenZ</span>
-            <h1 className="text-5xl md:text-6xl font-black mt-3 mb-5">Vocabulary Hub</h1>
+            <h1 className="text-5xl md:text-6xl font-black mt-3 mb-5">{tt("Vocabulary Hub")}</h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
               Your complete English vocabulary learning centre. Whether you are a student, a professional, or someone who loves language, this is where vocabulary growth begins.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/app"><Button size="lg" className="rounded-full bg-primary font-bold px-8">Start Learning Today</Button></Link>
-              <Link href="/articles"><Button size="lg" variant="outline" className="rounded-full px-8">Read Vocabulary Guides</Button></Link>
+              <Link href="/app"><Button size="lg" className="rounded-full bg-primary font-bold px-8">{tt("Start Learning Today")}</Button></Link>
+              <Link href="/articles"><Button size="lg" variant="outline" className="rounded-full px-8">{tt("Read Vocabulary Guides")}</Button></Link>
             </div>
           </motion.div>
         </div>
@@ -234,12 +237,12 @@ export default function VocabularyHubPage() {
       <section className="py-16 bg-card border-t border-border">
         <div className="container px-4 mx-auto max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-3xl font-black mb-6">What Is Vocabulary and Why Does It Matter</h2>
+            <h2 className="text-3xl font-black mb-6">{tt("What Is Vocabulary and Why Does It Matter")}</h2>
             <div className="prose prose-neutral dark:prose-invert max-w-none text-foreground space-y-4 text-base leading-relaxed">
-              <p>Vocabulary is the full collection of words a person knows and uses. It is not simply a list of definitions memorised from a dictionary. It is a living system of meaning that shapes how you think, speak, write, and understand the world around you. The richer your vocabulary, the more precisely you can express what you mean, and the more deeply you can understand what others say.</p>
-              <p>Language researchers divide vocabulary into two major categories. Passive vocabulary refers to words you recognise when you encounter them in reading or listening. Active vocabulary refers to words you can spontaneously produce in speaking and writing. Most adults have a passive vocabulary that is three to five times larger than their active vocabulary. One of the most powerful things you can do for your communication is to deliberately close that gap by converting passive recognition into active use.</p>
-              <p>The importance of vocabulary extends far beyond academic performance. Research consistently shows that vocabulary is one of the most reliable predictors of professional success, career advancement, and earning potential. Studies by the Human Engineering Laboratory, which tested thousands of adults over several decades, found that executives scored measurably higher on vocabulary assessments than managers, managers scored higher than supervisors, and supervisors scored higher than general staff. The relationship is not coincidental. Words are tools. The person with the right tool for every situation gets more done, more clearly, with less effort.</p>
-              <p>Vocabulary also shapes cognition in ways that go beyond communication. Researchers in cognitive linguistics have argued for decades that the words available to you determine what concepts you can easily think about. When you have a word for something, you can hold it in your mind, reason about it, and communicate it. When you lack the word, the concept remains vague and difficult to work with. Growing your vocabulary is, in the deepest sense, growing your thinking.</p>
+              <p>{tt("Vocabulary is the full collection of words a person knows and uses. It is not simply a list of definitions memorised from a dictionary. It is a living system of meaning that shapes how you think, speak, write, and understand the world around you. The richer your vocabulary, the more precisely you can express what you mean, and the more deeply you can understand what others say.")}</p>
+              <p>{tt("Language researchers divide vocabulary into two major categories. Passive vocabulary refers to words you recognise when you encounter them in reading or listening. Active vocabulary refers to words you can spontaneously produce in speaking and writing. Most adults have a passive vocabulary that is three to five times larger than their active vocabulary. One of the most powerful things you can do for your communication is to deliberately close that gap by converting passive recognition into active use.")}</p>
+              <p>{tt("The importance of vocabulary extends far beyond academic performance. Research consistently shows that vocabulary is one of the most reliable predictors of professional success, career advancement, and earning potential. Studies by the Human Engineering Laboratory, which tested thousands of adults over several decades, found that executives scored measurably higher on vocabulary assessments than managers, managers scored higher than supervisors, and supervisors scored higher than general staff. The relationship is not coincidental. Words are tools. The person with the right tool for every situation gets more done, more clearly, with less effort.")}</p>
+              <p>{tt("Vocabulary also shapes cognition in ways that go beyond communication. Researchers in cognitive linguistics have argued for decades that the words available to you determine what concepts you can easily think about. When you have a word for something, you can hold it in your mind, reason about it, and communicate it. When you lack the word, the concept remains vague and difficult to work with. Growing your vocabulary is, in the deepest sense, growing your thinking.")}</p>
             </div>
           </motion.div>
         </div>
@@ -248,12 +251,12 @@ export default function VocabularyHubPage() {
       <section className="py-16 bg-background border-t border-border">
         <div className="container px-4 mx-auto max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-3xl font-black mb-6">How to Build Your Vocabulary Systematically</h2>
+            <h2 className="text-3xl font-black mb-6">{tt("How to Build Your Vocabulary Systematically")}</h2>
             <div className="space-y-4 text-base leading-relaxed">
-              <p>Most people approach vocabulary building backwards. They create long lists of words, try to memorise them in a single sitting, and then wonder why nothing sticks a week later. Vocabulary acquisition is not a memorisation task. It is a habit system. The brain builds durable word knowledge through repeated exposure in multiple contexts over time. A single encounter with a word produces recognition. Multiple contextual encounters produce ownership.</p>
-              <p>The most effective vocabulary learning system works like this. First, you encounter a new word in context, which gives you a rough sense of its meaning from the surrounding text. Second, you look it up properly, reading its full definition, etymology, pronunciation, and usage examples. Third, you write your own original sentence using the word in a context that is personally relevant to you. Fourth, you encounter and use the word in real conversation or writing within 24 hours. Fifth, you review it at spaced intervals over the following weeks until retrieval becomes effortless.</p>
-              <p>This is the system that LexigenZ is built around. One carefully chosen word per day, delivered with full context, followed by a sentence builder that prompts you to create your own usage, reinforced through game-based repetition. The streak system and Word Journal create the habit loop that makes daily engagement automatic rather than effortful.</p>
-              <p>The key insight is that vocabulary growth is cumulative. Each new word you learn makes it easier to learn the next one, because new words connect to existing semantic networks in your brain. The more words you know in a particular domain, the faster you absorb new vocabulary in that domain. This is why domain-focused learning, building vocabulary in a specific area like business, science, or literature, is often more efficient than trying to learn vocabulary in the abstract.</p>
+              <p>{tt("Most people approach vocabulary building backwards. They create long lists of words, try to memorise them in a single sitting, and then wonder why nothing sticks a week later. Vocabulary acquisition is not a memorisation task. It is a habit system. The brain builds durable word knowledge through repeated exposure in multiple contexts over time. A single encounter with a word produces recognition. Multiple contextual encounters produce ownership.")}</p>
+              <p>{tt("The most effective vocabulary learning system works like this. First, you encounter a new word in context, which gives you a rough sense of its meaning from the surrounding text. Second, you look it up properly, reading its full definition, etymology, pronunciation, and usage examples. Third, you write your own original sentence using the word in a context that is personally relevant to you. Fourth, you encounter and use the word in real conversation or writing within 24 hours. Fifth, you review it at spaced intervals over the following weeks until retrieval becomes effortless.")}</p>
+              <p>{tt("This is the system that LexigenZ is built around. One carefully chosen word per day, delivered with full context, followed by a sentence builder that prompts you to create your own usage, reinforced through game-based repetition. The streak system and Word Journal create the habit loop that makes daily engagement automatic rather than effortful.")}</p>
+              <p>{tt("The key insight is that vocabulary growth is cumulative. Each new word you learn makes it easier to learn the next one, because new words connect to existing semantic networks in your brain. The more words you know in a particular domain, the faster you absorb new vocabulary in that domain. This is why domain-focused learning, building vocabulary in a specific area like business, science, or literature, is often more efficient than trying to learn vocabulary in the abstract.")}</p>
             </div>
           </motion.div>
         </div>
@@ -262,12 +265,12 @@ export default function VocabularyHubPage() {
       <section className="py-16 bg-card border-t border-border">
         <div className="container px-4 mx-auto max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-3xl font-black mb-6">The Three Tiers of English Vocabulary</h2>
+            <h2 className="text-3xl font-black mb-6">{tt("The Three Tiers of English Vocabulary")}</h2>
             <div className="space-y-4 text-base leading-relaxed">
-              <p>Educational researchers classify English vocabulary into three tiers, and understanding this framework transforms how you approach vocabulary study. Once you know which tier a word belongs to, you know exactly how to prioritise learning it and where it will be most useful.</p>
-              <p>Tier One words are basic, everyday words that most native English speakers already know from early childhood. These include words like house, run, happy, big, and food. If English is your first language, you almost certainly know all the Tier One words you need. If you are learning English as a second language, building a solid Tier One foundation is your first priority.</p>
-              <p>Tier Two words are the most valuable targets for vocabulary development in both students and adults. These are words that appear frequently across many different subject areas and types of text, but that are not typically taught in conversation or picked up from everyday speech. Words like analyse, formulate, evaluate, circumstance, perspective, and significant are Tier Two words. They are high-frequency in academic and professional writing, but many people never develop strong active command of them. Weakness in Tier Two vocabulary costs students across every subject simultaneously and limits professionals in written and verbal communication.</p>
-              <p>Tier Three words are specialised, subject-specific terms that appear rarely outside their particular domain. Medical terminology, legal jargon, engineering vocabulary, and scientific nomenclature are all Tier Three examples. These words are best learned in context when you need them, rather than studied in isolation. When you begin working in a new field, the Tier Three vocabulary of that field will come to you naturally through immersion in relevant reading and professional practice.</p>
+              <p>{tt("Educational researchers classify English vocabulary into three tiers, and understanding this framework transforms how you approach vocabulary study. Once you know which tier a word belongs to, you know exactly how to prioritise learning it and where it will be most useful.")}</p>
+              <p>{tt("Tier One words are basic, everyday words that most native English speakers already know from early childhood. These include words like house, run, happy, big, and food. If English is your first language, you almost certainly know all the Tier One words you need. If you are learning English as a second language, building a solid Tier One foundation is your first priority.")}</p>
+              <p>{tt("Tier Two words are the most valuable targets for vocabulary development in both students and adults. These are words that appear frequently across many different subject areas and types of text, but that are not typically taught in conversation or picked up from everyday speech. Words like analyse, formulate, evaluate, circumstance, perspective, and significant are Tier Two words. They are high-frequency in academic and professional writing, but many people never develop strong active command of them. Weakness in Tier Two vocabulary costs students across every subject simultaneously and limits professionals in written and verbal communication.")}</p>
+              <p>{tt("Tier Three words are specialised, subject-specific terms that appear rarely outside their particular domain. Medical terminology, legal jargon, engineering vocabulary, and scientific nomenclature are all Tier Three examples. These words are best learned in context when you need them, rather than studied in isolation. When you begin working in a new field, the Tier Three vocabulary of that field will come to you naturally through immersion in relevant reading and professional practice.")}</p>
             </div>
           </motion.div>
         </div>
@@ -276,13 +279,13 @@ export default function VocabularyHubPage() {
       <section className="py-16 bg-background border-t border-border">
         <div className="container px-4 mx-auto max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-3xl font-black mb-6">Word Roots, Prefixes, and Suffixes</h2>
+            <h2 className="text-3xl font-black mb-6">{tt("Word Roots, Prefixes, and Suffixes")}</h2>
             <div className="space-y-4 text-base leading-relaxed">
-              <p>One of the most powerful strategies for rapid vocabulary expansion is learning Latin and Greek roots, prefixes, and suffixes. Rather than learning one word at a time, you learn a pattern that unlocks dozens or even hundreds of words simultaneously. A single root can generate an entire family of related words that share a core meaning.</p>
-              <p>Consider the root word PORT, from the Latin portare, meaning to carry. This single root explains transport, import, export, portable, portfolio, deportation, report, support, porter, and opportunity. Once you know the root and its meaning, every word built on it becomes immediately interpretable even if you have never seen it before.</p>
-              <p>Similarly, knowing the prefix DIS means apart, away, or not, you can decode disappear, disagree, disconnect, disrupt, discredit, disengage, and dismiss. Knowing the suffix OLOGY means the study of, you can understand biology, geology, psychology, anthropology, and cardiology without memorising each separately.</p>
-              <p>High-frequency Latin and Greek roots worth learning include DICT meaning to say, giving us dictate, predict, verdict, and contradict. The root GRAPH meaning to write explains photograph, biography, paragraph, and autograph. PORT meaning to carry, as mentioned above. SPEC meaning to look, giving us spectator, inspect, perspective, spectacle, and introspect. CRED meaning to believe, giving us credible, incredible, credit, discredit, and credential.</p>
-              <p>Spending time learning roots is an investment that compounds. Every root you master accelerates the acquisition of dozens of future words. LexigenZ includes etymology information for every daily word precisely because this kind of deep word knowledge is what creates durable, transferable vocabulary, not just recognition of isolated definitions.</p>
+              <p>{tt("One of the most powerful strategies for rapid vocabulary expansion is learning Latin and Greek roots, prefixes, and suffixes. Rather than learning one word at a time, you learn a pattern that unlocks dozens or even hundreds of words simultaneously. A single root can generate an entire family of related words that share a core meaning.")}</p>
+              <p>{tt("Consider the root word PORT, from the Latin portare, meaning to carry. This single root explains transport, import, export, portable, portfolio, deportation, report, support, porter, and opportunity. Once you know the root and its meaning, every word built on it becomes immediately interpretable even if you have never seen it before.")}</p>
+              <p>{tt("Similarly, knowing the prefix DIS means apart, away, or not, you can decode disappear, disagree, disconnect, disrupt, discredit, disengage, and dismiss. Knowing the suffix OLOGY means the study of, you can understand biology, geology, psychology, anthropology, and cardiology without memorising each separately.")}</p>
+              <p>{tt("High-frequency Latin and Greek roots worth learning include DICT meaning to say, giving us dictate, predict, verdict, and contradict. The root GRAPH meaning to write explains photograph, biography, paragraph, and autograph. PORT meaning to carry, as mentioned above. SPEC meaning to look, giving us spectator, inspect, perspective, spectacle, and introspect. CRED meaning to believe, giving us credible, incredible, credit, discredit, and credential.")}</p>
+              <p>{tt("Spending time learning roots is an investment that compounds. Every root you master accelerates the acquisition of dozens of future words. LexigenZ includes etymology information for every daily word precisely because this kind of deep word knowledge is what creates durable, transferable vocabulary, not just recognition of isolated definitions.")}</p>
             </div>
           </motion.div>
         </div>
@@ -291,20 +294,20 @@ export default function VocabularyHubPage() {
       <section className="py-16 bg-card border-t border-border">
         <div className="container px-4 mx-auto max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-3xl font-black mb-6">Proven Strategies for Vocabulary Retention</h2>
+            <h2 className="text-3xl font-black mb-6">{tt("Proven Strategies for Vocabulary Retention")}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { icon: Brain, title: "Spaced Repetition", desc: "Review new words at increasing intervals: one day, three days, one week, two weeks, one month. Each retrieval attempt strengthens the memory trace. This approach, rooted in Ebbinghaus's memory research, produces retention rates dramatically superior to massed practice." },
-                { icon: BookOpen, title: "The Generation Effect", desc: "Writing your own sentence using a new word produces far stronger retention than reading someone else's example. The cognitive effort of generating your own usage creates a deeper memory encoding. This is the scientific basis behind LexigenZ's sentence builder." },
-                { icon: TrendingUp, title: "Contextual Immersion", desc: "Read broadly in domains you want to master. Literary fiction has the highest density of precise, uncommon vocabulary. Quality journalism, academic writing, and non-fiction narrative all provide rich contextual vocabulary exposure that no word list can replicate." },
-                { icon: Zap, title: "Active Use Within 24 Hours", desc: "Use every new word you learn in real speech or writing within 24 hours of learning it. If you cannot use it naturally in conversation, write an additional sentence. Production within one day dramatically increases the probability of long-term retention." },
-                { icon: Users, title: "Word Association", desc: "Connect new words to words you already know, to images, or to personal memories. The more connections a word has in your mental network, the more retrieval paths exist. Associations make words impossible to forget because there are too many ways to access them." },
-                { icon: Star, title: "Consistent Daily Practice", desc: "Brief, consistent daily sessions outperform long, irregular study marathons by every measure. Seven minutes per day, every day, beats three hours once a week. LexigenZ is designed around this principle: one word, deeply learned, every single day." },
+                { icon: Brain, title: tt("Spaced Repetition"), desc: "Review new words at increasing intervals: one day, three days, one week, two weeks, one month. Each retrieval attempt strengthens the memory trace. This approach, rooted in Ebbinghaus's memory research, produces retention rates dramatically superior to massed practice." },
+                { icon: BookOpen, title: tt("The Generation Effect"), desc: "Writing your own sentence using a new word produces far stronger retention than reading someone else's example. The cognitive effort of generating your own usage creates a deeper memory encoding. This is the scientific basis behind LexigenZ's sentence builder." },
+                { icon: TrendingUp, title: tt("Contextual Immersion"), desc: "Read broadly in domains you want to master. Literary fiction has the highest density of precise, uncommon vocabulary. Quality journalism, academic writing, and non-fiction narrative all provide rich contextual vocabulary exposure that no word list can replicate." },
+                { icon: Zap, title: tt("Active Use Within 24 Hours"), desc: "Use every new word you learn in real speech or writing within 24 hours of learning it. If you cannot use it naturally in conversation, write an additional sentence. Production within one day dramatically increases the probability of long-term retention." },
+                { icon: Users, title: tt("Word Association"), desc: "Connect new words to words you already know, to images, or to personal memories. The more connections a word has in your mental network, the more retrieval paths exist. Associations make words impossible to forget because there are too many ways to access them." },
+                { icon: Star, title: tt("Consistent Daily Practice"), desc: "Brief, consistent daily sessions outperform long, irregular study marathons by every measure. Seven minutes per day, every day, beats three hours once a week. LexigenZ is designed around this principle: one word, deeply learned, every single day." },
               ].map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="p-5 rounded-2xl border border-border bg-background">
+                <div key={tt(title)} className="p-5 rounded-2xl border border-border bg-background">
                   <Icon className="w-6 h-6 text-primary mb-3" />
-                  <h3 className="font-bold mb-2">{title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+                  <h3 className="font-bold mb-2">{tt(title)}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{tt(desc)}</p>
                 </div>
               ))}
             </div>
@@ -317,7 +320,7 @@ export default function VocabularyHubPage() {
       <section className="py-16 bg-card border-t border-border">
         <div className="container px-4 mx-auto max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-3xl font-black mb-6">Common Questions About Vocabulary Building</h2>
+            <h2 className="text-3xl font-black mb-6">{tt("Common Questions About Vocabulary Building")}</h2>
             <div className="space-y-6">
               {[
                 { q: "How many words do I need to know to be fluent in English?", a: "Research suggests that knowing the most frequent 8,000 to 9,000 word families gives you access to approximately 98 percent of everyday English text. However, fluent and confident professional communication typically requires a broader active vocabulary, particularly in writing, presenting, and negotiating. Most educated adult native speakers have passive vocabularies of 20,000 to 35,000 words." },
@@ -325,9 +328,9 @@ export default function VocabularyHubPage() {
                 { q: "What is the best age to build vocabulary?", a: "Vocabulary acquisition is fastest in early childhood, when the brain is most plastic and language learning is effortless. However, vocabulary can grow at any age. Adults have one significant advantage over children in vocabulary learning: they bring existing semantic networks, world knowledge, and analytical skills that help new words connect to existing understanding rapidly. There is no bad age to start." },
                 { q: "Does reading fiction help build vocabulary more than non-fiction?", a: "Both help, but research suggests that literary fiction provides the highest density of diverse, precise, and emotionally resonant vocabulary in natural context. Non-fiction provides domain-specific vocabulary and Tier Two academic words. The ideal reading diet for vocabulary growth includes both, supplemented with quality journalism and, for professionals, writing in your specific field." },
               ].map(({ q, a }) => (
-                <div key={q} className="p-6 rounded-2xl border border-border bg-background">
-                  <h3 className="font-bold mb-3">{q}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{a}</p>
+                <div key={tt(q)} className="p-6 rounded-2xl border border-border bg-background">
+                  <h3 className="font-bold mb-3">{tt(q)}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{tt(a)}</p>
                 </div>
               ))}
             </div>
@@ -337,9 +340,9 @@ export default function VocabularyHubPage() {
 
       <section className="py-16 bg-primary/5 border-t border-border text-center">
         <div className="container px-4 mx-auto max-w-2xl">
-          <h2 className="text-3xl font-black mb-4">Start Building Your Vocabulary Today</h2>
-          <p className="text-muted-foreground mb-8">One personalised word per day. Full etymology. Sentence builder. Six word games. Word Journal. Free.</p>
-          <Link href="/app"><Button size="lg" className="rounded-full bg-primary font-bold px-10">Get Your First Word</Button></Link>
+          <h2 className="text-3xl font-black mb-4">{tt("Start Building Your Vocabulary Today")}</h2>
+          <p className="text-muted-foreground mb-8">{tt("One personalised word per day. Full etymology. Sentence builder. Six word games. Word Journal. Free.")}</p>
+          <Link href="/app"><Button size="lg" className="rounded-full bg-primary font-bold px-10">{tt("Get Your First Word")}</Button></Link>
         </div>
       </section>
     </div>

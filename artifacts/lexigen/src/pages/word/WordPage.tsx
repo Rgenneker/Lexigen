@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { BookOpen, ArrowRight, Volume2, ExternalLink, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useToolPageText } from "@/i18n/tool-page-text";
 
 type PageType = "definition" | "synonyms" | "antonyms" | "in-a-sentence" | "advanced-alternatives";
 
@@ -53,10 +54,11 @@ function useWordData(word: string) {
 }
 
 function WordBreadcrumb({ word, type }: { word: string; type: PageType }) {
+  const f = useToolPageText();
   const base = `/word/${word}`;
   const crumbs: { label: string; href?: string }[] = [
-    { label: "Home", href: "/" },
-    { label: "Words", href: "/hub/dictionary" },
+    { label: f("Home"), href: "/" },
+    { label: f("Words"), href: "/hub/dictionary" },
     { label: word.charAt(0).toUpperCase() + word.slice(1), href: base },
     ...(type !== "definition" ? [{ label: type.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) }] : []),
   ];
@@ -73,12 +75,13 @@ function WordBreadcrumb({ word, type }: { word: string; type: PageType }) {
 }
 
 function SubPageNav({ word, active }: { word: string; active: PageType }) {
+  const f = useToolPageText();
   const tabs: { type: PageType; label: string; href: string }[] = [
-    { type: "definition", label: "Definition", href: `/word/${word}` },
-    { type: "synonyms", label: "Synonyms", href: `/word/${word}/synonyms` },
-    { type: "antonyms", label: "Antonyms", href: `/word/${word}/antonyms` },
-    { type: "in-a-sentence", label: "In a Sentence", href: `/word/${word}/in-a-sentence` },
-    { type: "advanced-alternatives", label: "Advanced Alternatives", href: `/word/${word}/advanced-alternatives` },
+    { type: "definition", label: f("Definition"), href: `/word/${word}` },
+    { type: "synonyms", label: f("Synonyms"), href: `/word/${word}/synonyms` },
+    { type: "antonyms", label: f("Antonyms"), href: `/word/${word}/antonyms` },
+    { type: "in-a-sentence", label: f("In a Sentence"), href: `/word/${word}/in-a-sentence` },
+    { type: "advanced-alternatives", label: f("Advanced Alternatives"), href: `/word/${word}/advanced-alternatives` },
   ];
   return (
     <div className="flex flex-wrap gap-2 mb-8 border-b border-border pb-4">
@@ -109,6 +112,7 @@ function LoadingState() {
 
 // ─── Definition Page ───────────────────────────────────────────────────────
 function DefinitionView({ word, data }: { word: string; data: DictionaryEntry[] }) {
+  const f = useToolPageText();
   const entry = data[0];
   useDocumentMeta(
     `Meaning of ${word} | Definition, Usage & Examples - LexigenZ`,
@@ -129,7 +133,7 @@ function DefinitionView({ word, data }: { word: string; data: DictionaryEntry[] 
           {entry.phonetic && <p className="text-muted-foreground text-lg font-mono">{entry.phonetic}</p>}
         </div>
         <Button variant="outline" size="sm" onClick={speak} className="mt-2">
-          <Volume2 className="w-4 h-4 mr-1" /> Pronounce
+          <Volume2 className="w-4 h-4 mr-1" /> {f("Pronounce")}
         </Button>
       </div>
 
@@ -162,7 +166,7 @@ function DefinitionView({ word, data }: { word: string; data: DictionaryEntry[] 
             <>
               {allSynonyms.length > 0 && (
                 <div>
-                  <h3 className="font-semibold mb-3 text-sm uppercase tracking-wide text-muted-foreground">Synonyms</h3>
+                  <h3 className="font-semibold mb-3 text-sm uppercase tracking-wide text-muted-foreground">{f("Synonyms")}</h3>
                   <div className="flex flex-wrap gap-2">
                     {allSynonyms.map((s) => (
                       <Link key={s} href={`/word/${s}`}>
@@ -171,13 +175,13 @@ function DefinitionView({ word, data }: { word: string; data: DictionaryEntry[] 
                     ))}
                   </div>
                   <Link href={`/word/${word}/synonyms`} className="text-sm text-primary hover:underline mt-2 inline-block">
-                    See all synonyms →
+                    {f("See all synonyms →")}
                   </Link>
                 </div>
               )}
               {allAntonyms.length > 0 && (
                 <div>
-                  <h3 className="font-semibold mb-3 text-sm uppercase tracking-wide text-muted-foreground">Antonyms</h3>
+                  <h3 className="font-semibold mb-3 text-sm uppercase tracking-wide text-muted-foreground">{f("Antonyms")}</h3>
                   <div className="flex flex-wrap gap-2">
                     {allAntonyms.map((a) => (
                       <Link key={a} href={`/word/${a}`}>
@@ -186,7 +190,7 @@ function DefinitionView({ word, data }: { word: string; data: DictionaryEntry[] 
                     ))}
                   </div>
                   <Link href={`/word/${word}/antonyms`} className="text-sm text-primary hover:underline mt-2 inline-block">
-                    See all antonyms →
+                    {f("See all antonyms →")}
                   </Link>
                 </div>
               )}
@@ -198,7 +202,7 @@ function DefinitionView({ word, data }: { word: string; data: DictionaryEntry[] 
       {(entry.sourceUrls?.length ?? 0) > 0 && (
         <p className="text-xs text-muted-foreground flex items-center gap-1">
           <ExternalLink className="w-3 h-3" />
-          Source: <a href={entry.sourceUrls![0]} target="_blank" rel="noopener noreferrer" className="hover:underline">{entry.sourceUrls![0]}</a>
+          {f("Source:")} <a href={entry.sourceUrls![0]} target="_blank" rel="noopener noreferrer" className="hover:underline">{entry.sourceUrls![0]}</a>
         </p>
       )}
     </div>
@@ -207,6 +211,7 @@ function DefinitionView({ word, data }: { word: string; data: DictionaryEntry[] 
 
 // ─── Synonyms Page ─────────────────────────────────────────────────────────
 function SynonymsView({ word, data }: { word: string; data: DictionaryEntry[] }) {
+  const f = useToolPageText();
   const synonyms = [...new Set(data.flatMap((e) => e.meanings.flatMap((m) => m.synonyms)))];
   useDocumentMeta(
     `Synonyms of "${word}" - Full List | LexigenZ`,
@@ -215,11 +220,11 @@ function SynonymsView({ word, data }: { word: string; data: DictionaryEntry[] })
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Synonyms of <span className="text-primary capitalize">{word}</span></h1>
-        <p className="text-muted-foreground">Words with similar or related meanings to &ldquo;{word}&rdquo;</p>
+        <h1 className="text-3xl font-bold mb-2">{f("Synonyms of")} <span className="text-primary capitalize">{word}</span></h1>
+        <p className="text-muted-foreground">{f("Words with similar or related meanings to")} &ldquo;{word}&rdquo;</p>
       </div>
       {synonyms.length === 0 ? (
-        <p className="text-muted-foreground">No synonyms found in our dictionary for this word.</p>
+        <p className="text-muted-foreground">{f("No synonyms found in our dictionary for this word.")}</p>
       ) : (
         <div className="flex flex-wrap gap-3">
           {synonyms.map((s) => (
@@ -238,6 +243,7 @@ function SynonymsView({ word, data }: { word: string; data: DictionaryEntry[] })
 
 // ─── Antonyms Page ─────────────────────────────────────────────────────────
 function AntonymsView({ word, data }: { word: string; data: DictionaryEntry[] }) {
+  const f = useToolPageText();
   const antonyms = [...new Set(data.flatMap((e) => e.meanings.flatMap((m) => m.antonyms)))];
   useDocumentMeta(
     `Antonyms of "${word}" - Opposite Words | LexigenZ`,
@@ -246,11 +252,11 @@ function AntonymsView({ word, data }: { word: string; data: DictionaryEntry[] })
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Antonyms of <span className="text-primary capitalize">{word}</span></h1>
-        <p className="text-muted-foreground">Words with opposite or contrasting meanings to &ldquo;{word}&rdquo;</p>
+        <h1 className="text-3xl font-bold mb-2">{f("Antonyms of")} <span className="text-primary capitalize">{word}</span></h1>
+        <p className="text-muted-foreground">{f("Words with opposite or contrasting meanings to")} &ldquo;{word}&rdquo;</p>
       </div>
       {antonyms.length === 0 ? (
-        <p className="text-muted-foreground">No antonyms found in our dictionary for this word.</p>
+        <p className="text-muted-foreground">{f("No antonyms found in our dictionary for this word.")}</p>
       ) : (
         <div className="flex flex-wrap gap-3">
           {antonyms.map((a) => (
@@ -346,6 +352,7 @@ function AdvancedAlternativesView({ word, data }: { word: string; data: Dictiona
 
 // ─── Error State ───────────────────────────────────────────────────────────
 function WordNotFound({ word }: { word: string }) {
+  const f = useToolPageText();
   useDocumentMeta(
     `"${word}" - Word Reference | LexigenZ`,
     `Looking up "${word}". Explore vocabulary, definitions, and more on LexigenZ.`
@@ -355,11 +362,11 @@ function WordNotFound({ word }: { word: string }) {
       <div className="text-5xl">📖</div>
       <h1 className="text-2xl font-bold capitalize">{word}</h1>
       <p className="text-muted-foreground max-w-md mx-auto">
-        We couldn&apos;t find a dictionary entry for &ldquo;{word}&rdquo;. It may be a proper noun, abbreviation, or specialised term.
+        {f("We couldn't find a dictionary entry for")} &ldquo;{word}&rdquo;. {f("It may be a proper noun, abbreviation, or specialised term.")}
       </p>
       <div className="flex justify-center gap-3 flex-wrap pt-2">
-        <Link href="/"><Button variant="outline">Home</Button></Link>
-        <Link href="/hub/dictionary"><Button>Browse Words</Button></Link>
+        <Link href="/"><Button variant="outline">{f("Home")}</Button></Link>
+        <Link href="/hub/dictionary"><Button>{f("Browse Words")}</Button></Link>
       </div>
     </div>
   );
@@ -367,6 +374,7 @@ function WordNotFound({ word }: { word: string }) {
 
 // ─── Main export ───────────────────────────────────────────────────────────
 export function WordPage({ type = "definition", slug: slugProp }: { type?: PageType; slug?: string }) {
+  const f = useToolPageText();
   const params = useParams<{ slug: string }>();
   const slug = slugProp ?? params.slug ?? "";
   const word = slug.replace(/-/g, " ");
@@ -399,7 +407,7 @@ export function WordPage({ type = "definition", slug: slugProp }: { type?: PageT
       {/* Related words footer */}
       {data && (
         <div className="mt-12 pt-8 border-t border-border">
-          <h2 className="text-lg font-semibold mb-4">Explore More Words</h2>
+          <h2 className="text-lg font-semibold mb-4">{f("Explore More Words")}</h2>
           <div className="flex flex-wrap gap-2">
             {[...new Set(data.flatMap((e) => e.meanings.flatMap((m) => [...m.synonyms, ...m.antonyms])))].slice(0, 12).map((w) => (
               <Link key={w} href={`/word/${w}`}>

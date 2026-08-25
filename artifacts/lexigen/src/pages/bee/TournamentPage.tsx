@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Trophy, Crown, ChevronRight, Eye, Swords, CheckCircle2, XCircle, Loader2 } from "lucide-react";
+import { useToolPageText } from "@/i18n/tool-page-text";
 
 const LEVEL_LABEL: Record<string, string> = {
   beginner: "Beginner", lower_intermediate: "Lower Intermediate",
@@ -30,6 +31,7 @@ const STATUS_COLOR: Record<string, string> = {
 };
 
 export default function TournamentPage({ tournamentId }: { tournamentId: number }) {
+  const f = useToolPageText();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const { toast } = useToast();
@@ -42,7 +44,7 @@ export default function TournamentPage({ tournamentId }: { tournamentId: number 
       const res = await fetch(`/api/bee/tournaments/${tournamentId}`);
       const d = await res.json() as TournamentData;
       setData(d);
-    } catch { toast({ title: "Failed to load tournament", variant: "destructive" }); }
+    } catch { toast({ title: f("Failed to load tournament"), variant: "destructive" }); }
     finally { setLoading(false); }
   }
 
@@ -60,9 +62,9 @@ export default function TournamentPage({ tournamentId }: { tournamentId: number 
       const d = await res.json() as { ok: boolean; completed?: boolean; nextRound?: number; contestId?: number; error?: string };
       if (!res.ok) throw new Error(d.error);
       if (d.completed) {
-        toast({ title: "🏆 Tournament complete!" });
+        toast({ title: `🏆 ${f("Tournament complete!")}` });
       } else {
-        toast({ title: `Round ${d.nextRound} started!` });
+        toast({ title: f(`Round ${d.nextRound} started!`) });
         if (d.contestId) navigate(`/bee/play/${d.contestId}`);
       }
       await loadTournament();
@@ -79,7 +81,7 @@ export default function TournamentPage({ tournamentId }: { tournamentId: number 
 
   if (!data) return (
     <div className="min-h-screen flex items-center justify-center">
-      <p className="text-muted-foreground">Tournament not found.</p>
+      <p className="text-muted-foreground">{f("Tournament not found.")}</p>
     </div>
   );
 
@@ -96,23 +98,23 @@ export default function TournamentPage({ tournamentId }: { tournamentId: number 
         {/* Header */}
         <div className="text-center space-y-2">
           <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 rounded-full px-4 py-1.5 text-sm font-bold">
-            <Trophy className="w-4 h-4" /> Tournament
+            <Trophy className="w-4 h-4" /> {f("Tournament")}
           </div>
           <h1 className="text-3xl font-bold">{tournament.name}</h1>
           <div className="flex items-center justify-center gap-2 flex-wrap">
             <Badge variant="secondary">{LEVEL_LABEL[tournament.level]}</Badge>
-            <Badge variant="outline">{tournament.total_rounds} round{tournament.total_rounds !== 1 ? "s" : ""}</Badge>
+              <Badge variant="outline">{tournament.total_rounds} {f(tournament.total_rounds !== 1 ? "rounds" : "round")}</Badge>
             <Badge className={tournament.status === "completed" ? "bg-emerald-100 text-emerald-800" : tournament.status === "active" ? "bg-blue-100 text-blue-800" : "bg-muted text-muted-foreground"}>
-              {tournament.status === "completed" ? "✓ Complete" : tournament.status === "active" ? "● Active" : "Pending"}
+              {tournament.status === "completed" ? `✓ ${f("Complete")}` : tournament.status === "active" ? `● ${f("Active")}` : f("Pending")}
             </Badge>
           </div>
-          {isOrganiser && <p className="text-xs text-muted-foreground">You are the organiser</p>}
+          {isOrganiser && <p className="text-xs text-muted-foreground">{f("You are the organiser")}</p>}
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Bracket */}
           <div className="lg:col-span-2 space-y-4">
-            <h2 className="font-semibold text-lg flex items-center gap-2"><Swords className="w-5 h-5" /> Bracket</h2>
+            <h2 className="font-semibold text-lg flex items-center gap-2"><Swords className="w-5 h-5" /> {f("Bracket")}</h2>
 
             {rounds.map((round) => {
               const results = roundResults[round.round_number] ?? [];
@@ -130,18 +132,18 @@ export default function TournamentPage({ tournamentId }: { tournamentId: number 
                     <div className="flex-1">
                       <CardTitle className="text-base">{round.round_name}</CardTitle>
                       <p className="text-xs text-muted-foreground">
-                        {round.status === "completed" ? "Completed" : isCurrentRound ? "In progress" : "Upcoming"}
-                        {round.advancing_count > 0 && ` · Top ${round.advancing_count} advance`}
+                        {round.status === "completed" ? f("Completed") : isCurrentRound ? f("In progress") : f("Upcoming")}
+                        {round.advancing_count > 0 && ` · ${f("Top")} ${round.advancing_count} ${f("advance")}`}
                       </p>
                     </div>
                     {round.contest_id && (
                       <div className="flex gap-2">
                         <Button size="sm" variant="outline" onClick={() => navigate(`/bee/watch/${round.contest_id}`)} className="gap-1">
-                          <Eye className="w-3.5 h-3.5" /> Watch
+                          <Eye className="w-3.5 h-3.5" /> {f("Watch")}
                         </Button>
                         {myPlayer?.status === "active" && isCurrentRound && (
                           <Button size="sm" onClick={() => navigate(`/bee/play/${round.contest_id}`)} className="gap-1">
-                            Play <ChevronRight className="w-3.5 h-3.5" />
+                            {f("Play")} <ChevronRight className="w-3.5 h-3.5" />
                           </Button>
                         )}
                       </div>
@@ -171,7 +173,7 @@ export default function TournamentPage({ tournamentId }: { tournamentId: number 
 
                   {isFutureRound && (
                     <CardContent className="pt-0">
-                      <p className="text-xs text-muted-foreground italic text-center py-2">Players TBD after previous round</p>
+                      <p className="text-xs text-muted-foreground italic text-center py-2">{f("Players TBD after previous round")}</p>
                     </CardContent>
                   )}
                 </Card>
@@ -181,14 +183,14 @@ export default function TournamentPage({ tournamentId }: { tournamentId: number 
             {canAdvance && (
               <Button onClick={handleAdvance} disabled={advancing} className="w-full h-12 gap-2 font-semibold" size="lg">
                 {advancing ? <Loader2 className="w-5 h-5 animate-spin" /> : <ChevronRight className="w-5 h-5" />}
-                {tournament.current_round >= tournament.total_rounds ? "Finalise Tournament" : `Advance to ${rounds.find((r) => r.round_number === tournament.current_round + 1)?.round_name ?? "Next Round"}`}
+                {tournament.current_round >= tournament.total_rounds ? f("Finalise Tournament") : `${f("Advance to")} ${rounds.find((r) => r.round_number === tournament.current_round + 1)?.round_name ?? f("Next Round")}`}
               </Button>
             )}
           </div>
 
           {/* Player roster */}
           <div className="space-y-4">
-            <h2 className="font-semibold text-lg flex items-center gap-2"><Trophy className="w-5 h-5 text-amber-500" /> Players</h2>
+            <h2 className="font-semibold text-lg flex items-center gap-2"><Trophy className="w-5 h-5 text-amber-500" /> {f("Players")}</h2>
             <Card className="border-0 shadow-md">
               <CardContent className="pt-4 space-y-2">
                 {players.map((p, i) => (
@@ -201,10 +203,10 @@ export default function TournamentPage({ tournamentId }: { tournamentId: number 
                         {i === 0 && <Crown className="w-3 h-3 text-amber-500 inline mr-1" />}
                         {p.username}
                       </p>
-                      {p.final_rank && <p className="text-xs text-muted-foreground">Finished #{p.final_rank}</p>}
+                      {p.final_rank && <p className="text-xs text-muted-foreground">{f("Finished")} #{p.final_rank}</p>}
                     </div>
                     <Badge className={`text-xs shrink-0 ${STATUS_COLOR[p.status] ?? ""}`}>
-                      {p.status === "winner" ? "🏆 Winner" : p.status === "eliminated" ? `Out R${p.eliminated_in_round}` : p.status}
+                      {p.status === "winner" ? `🏆 ${f("Winner")}` : p.status === "eliminated" ? `${f("Out")} R${p.eliminated_in_round}` : f(p.status)}
                     </Badge>
                   </div>
                 ))}
@@ -219,7 +221,7 @@ export default function TournamentPage({ tournamentId }: { tournamentId: number 
                   <CardContent className="pt-5 pb-5 text-center space-y-2">
                     <p className="text-4xl">🏆</p>
                     <p className="font-black text-xl">{winner.username}</p>
-                    <p className="text-white/80 text-sm">Tournament Champion</p>
+                    <p className="text-white/80 text-sm">{f("Tournament Champion")}</p>
                   </CardContent>
                 </Card>
               ) : null;

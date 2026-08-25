@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/button";
 import { getBeeSocket, disconnectBeeSocket } from "@/lib/socket";
 import { Eye, Volume2, Loader2, Users } from "lucide-react";
 import type { Socket } from "socket.io-client";
+import { useToolPageText } from "@/i18n/tool-page-text";
 
 interface RankEntry { rank: number; userId: number; userName: string; score: number; wordsCorrect: number; currentStreak: number }
 interface SpectatorState { status: string; currentWord?: { word: string; position: number; total: number }; leaderboard: RankEntry[] }
 
 function LiveLeaderboard({ rankings }: { rankings: RankEntry[] }) {
+  const f = useToolPageText();
   return (
     <div className="space-y-1.5">
       {rankings.map((r) => (
@@ -21,7 +23,7 @@ function LiveLeaderboard({ rankings }: { rankings: RankEntry[] }) {
           </span>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate">{r.userName}</p>
-            <p className="text-xs text-muted-foreground">{r.wordsCorrect} correct{r.currentStreak >= 3 ? ` · 🔥 ${r.currentStreak}` : ""}</p>
+            <p className="text-xs text-muted-foreground">{r.wordsCorrect} {f("correct")}{r.currentStreak >= 3 ? ` · 🔥 ${r.currentStreak}` : ""}</p>
           </div>
           <span className="text-sm font-bold tabular-nums shrink-0">{r.score}</span>
         </div>
@@ -31,6 +33,7 @@ function LiveLeaderboard({ rankings }: { rankings: RankEntry[] }) {
 }
 
 export default function SpectatorPage({ contestId }: { contestId: number }) {
+  const f = useToolPageText();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const socketRef = useRef<Socket | null>(null);
@@ -127,15 +130,15 @@ export default function SpectatorPage({ contestId }: { contestId: number }) {
       <div className="bg-violet-600 text-white py-2 px-4 flex items-center justify-between text-sm">
         <div className="flex items-center gap-2">
           <Eye className="w-4 h-4" />
-          <span className="font-medium">Spectating{contestName ? `: ${contestName}` : ""}</span>
-          {!connected && <span className="text-violet-200 ml-2">● Connecting…</span>}
+          <span className="font-medium">{f("Spectating")}{contestName ? `: ${contestName}` : ""}</span>
+          {!connected && <span className="text-violet-200 ml-2">● {f("Connecting…")}</span>}
         </div>
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1 text-violet-200">
-            <Users className="w-3.5 h-3.5" /> {spectatorCount} watching
+            <Users className="w-3.5 h-3.5" /> {spectatorCount} {f("watching")}
           </span>
           <Button size="sm" variant="ghost" className="text-white hover:text-white/80 h-7" onClick={() => navigate("/leaderboard")}>
-            Leave
+            {f("Leave")}
           </Button>
         </div>
       </div>
@@ -147,8 +150,8 @@ export default function SpectatorPage({ contestId }: { contestId: number }) {
             <div className="flex flex-col items-center justify-center py-16 space-y-4">
               <Loader2 className="w-10 h-10 animate-spin text-primary/50" />
               <div className="text-center">
-                <p className="font-semibold text-lg">Waiting for players to get ready…</p>
-                <p className="text-sm text-muted-foreground mt-1">The contest will begin once all players are ready</p>
+                <p className="font-semibold text-lg">{f("Waiting for players to get ready…")}</p>
+                <p className="text-sm text-muted-foreground mt-1">{f("The contest will begin once all players are ready")}</p>
               </div>
             </div>
           )}
@@ -157,7 +160,7 @@ export default function SpectatorPage({ contestId }: { contestId: number }) {
             <>
               <div className="space-y-1">
                 <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>Word {currentWord.position} / {currentWord.total}</span>
+                  <span>{f("Word")} {currentWord.position} / {currentWord.total}</span>
                   <span className={timeLeft <= 5 ? "text-rose-500 font-bold animate-pulse" : ""}>{Math.ceil(timeLeft)}s</span>
                 </div>
                 <div className="h-2.5 bg-muted rounded-full overflow-hidden">
@@ -167,15 +170,15 @@ export default function SpectatorPage({ contestId }: { contestId: number }) {
 
               <Card className="border-0 shadow-xl">
                 <CardContent className="pt-10 pb-10 text-center space-y-4">
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium">Current Word</p>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium">{f("Current Word")}</p>
                   <button onClick={() => speak(currentWord.word)} className="inline-flex items-center gap-2 text-xl font-semibold text-primary hover:opacity-80 transition-opacity">
                     <Volume2 className="w-6 h-6" />
-                    <span className="italic text-2xl">Click to hear</span>
+                    <span className="italic text-2xl">{f("Click to hear")}</span>
                   </button>
                   <div className="text-5xl font-black tracking-wide text-foreground/90">
                     {currentWord.word}
                   </div>
-                  <p className="text-sm text-muted-foreground">Players are spelling this word right now…</p>
+                  <p className="text-sm text-muted-foreground">{f("Players are spelling this word right now…")}</p>
                 </CardContent>
               </Card>
             </>
@@ -184,10 +187,10 @@ export default function SpectatorPage({ contestId }: { contestId: number }) {
           {contestStatus === "finished" && (
             <div className="text-center py-12 space-y-4">
               <p className="text-4xl">🏁</p>
-              <h2 className="text-2xl font-bold">Contest Over!</h2>
-              <p className="text-muted-foreground">Final standings are shown in the leaderboard →</p>
+              <h2 className="text-2xl font-bold">{f("Contest Over!")}</h2>
+              <p className="text-muted-foreground">{f("Final standings are shown in the leaderboard →")}</p>
               <Button onClick={() => navigate("/bee/create")} className="gap-2">
-                Create Your Own Contest
+                {f("Create Your Own Contest")}
               </Button>
             </div>
           )}
@@ -196,12 +199,12 @@ export default function SpectatorPage({ contestId }: { contestId: number }) {
         {/* Live leaderboard */}
         <div className="w-full lg:w-72 space-y-3">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-sm">Live Leaderboard</span>
+            <span className="font-semibold text-sm">{f("Live Leaderboard")}</span>
             {contestStatus === "active" && <span className="ml-auto text-xs text-emerald-500 font-medium animate-pulse">● LIVE</span>}
           </div>
           {leaderboard.length > 0
             ? <LiveLeaderboard rankings={leaderboard} />
-            : <p className="text-sm text-muted-foreground text-center py-4">Waiting for the contest to start…</p>}
+            : <p className="text-sm text-muted-foreground text-center py-4">{f("Waiting for the contest to start…")}</p>}
         </div>
       </div>
     </div>

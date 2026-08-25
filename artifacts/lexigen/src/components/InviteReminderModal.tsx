@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { useAuth } from "@/context/AuthContext";
 import { X } from "lucide-react";
+import { useFrenchText } from "@/lib/use-french-text";
 
 const STORAGE_KEY = "lexigenz_invite_popup_ts";
 const MS_15_DAYS = 15 * 24 * 60 * 60 * 1000;
 const SHOW_DELAY_MS = 4000;
 
 export function InviteReminderModal() {
+  const f = useFrenchText();
   const { user } = useAuth();
   const [visible, setVisible] = useState(false);
   const [, navigate] = useLocation();
@@ -58,6 +60,7 @@ export function InviteReminderModal() {
           >
             <button
               onClick={dismiss}
+              aria-label={f("Close", "Fermer")}
               className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
             >
               <X className="h-4 w-4" />
@@ -66,9 +69,9 @@ export function InviteReminderModal() {
             <div className="text-5xl">🤝</div>
 
             <div className="space-y-2">
-              <h2 className="text-xl font-black">Share Lexigenz!</h2>
+              <h2 className="text-xl font-black">{f("Share Lexigenz!", "Partagez Lexigenz !")}</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Know someone who'd love growing their vocabulary every day? Invite them - it's completely free for them too.
+                {f("Know someone who'd love growing their vocabulary every day? Invite them - it's completely free for them too.", "Vous connaissez quelqu’un qui aimerait enrichir son vocabulaire chaque jour ? Invitez cette personne — c’est entièrement gratuit pour elle aussi.")}
               </p>
             </div>
 
@@ -77,19 +80,19 @@ export function InviteReminderModal() {
                 onClick={goInvite}
                 className="w-full h-11 rounded-2xl bg-primary font-bold shadow-lg shadow-primary/20"
               >
-                Invite a Friend →
+                {f("Invite a Friend →", "Inviter un ami →")}
               </Button>
               <button
                 onClick={dismiss}
                 className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
               >
-                Remind me in 15 days
+                {f("Remind me in 15 days", "Me le rappeler dans 15 jours")}
               </button>
             </div>
 
             <div className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500" />
-              Free account · No credit card needed
+              {f("Free account · No credit card needed", "Compte gratuit · Aucune carte bancaire requise")}
             </div>
           </motion.div>
         </motion.div>

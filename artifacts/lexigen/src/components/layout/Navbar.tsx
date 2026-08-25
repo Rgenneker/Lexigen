@@ -19,6 +19,7 @@ import { PremiumLanguageModal } from "@/components/PremiumLanguageModal";
 import { useAuth } from "@/context/AuthContext";
 import { langColor } from "@/data/language-colors";
 import { useTranslation } from "react-i18next";
+import { useFrenchText } from "@/lib/use-french-text";
 
 const LANGUAGE_DATA = [
   { key: "lang.english",    name: "English" },
@@ -51,6 +52,7 @@ interface UnlockStatus {
 
 export function Navbar() {
   const { t } = useTranslation();
+  const f = useFrenchText();
   const [location] = useLocation();
   const { language, setLanguage } = useLanguageStore();
   const [isOpen, setIsOpen] = useState(false);
@@ -147,7 +149,7 @@ export function Navbar() {
   };
 
   const dropdownLabel = isPremium
-    ? t("nav.languageDropdownPremium", { lang: premiumLanguage ?? "1 language" })
+    ? t("nav.languageDropdownPremium", { lang: premiumLanguage ?? f("1 language", "1 langue") })
     : t("nav.languageDropdownFree");
 
   return (
@@ -391,7 +393,7 @@ export function Navbar() {
           <div className="md:hidden flex items-center gap-2">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" aria-label={f("Open menu", "Ouvrir le menu")}>
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
@@ -427,7 +429,7 @@ export function Navbar() {
                       <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
                       {isPremium && (
                         <p className="text-xs text-primary font-medium truncate">
-                          English{premiumLanguage ? ` + ${premiumLanguage}` : ` + (${t("nav.chooseIncludedLanguage")})`}
+                          {f("English", "Anglais")}{premiumLanguage ? ` + ${premiumLanguage}` : ` + (${t("nav.chooseIncludedLanguage")})`}
                         </p>
                       )}
                     </div>

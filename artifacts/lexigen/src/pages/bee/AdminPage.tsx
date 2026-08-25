@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Shield, Users, Trophy, Search, XCircle, Loader2, BarChart3 } from "lucide-react";
+import { useToolPageText } from "@/i18n/tool-page-text";
 
 const LEVEL_COLOR: Record<string, string> = {
   beginner: "bg-emerald-100 text-emerald-700", lower_intermediate: "bg-blue-100 text-blue-700",
@@ -26,6 +27,7 @@ type AdminTab = "overview" | "contests" | "users";
 
 export default function AdminPage() {
   const { t } = useTranslation();
+  const f = useToolPageText();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const { toast } = useToast();
@@ -253,7 +255,7 @@ export default function AdminPage() {
                         {u.is_admin && <Badge className="bg-primary/10 text-primary text-xs">{t("bee.admin.badgeAdmin")}</Badge>}
                         {u.is_premium && <Badge className="bg-amber-100 text-amber-700 text-xs">{t("bee.admin.badgePremium")}</Badge>}
                       </div>
-                      <p className="text-xs text-muted-foreground truncate">{u.email} · {u.bee_contests} bee contests{u.country ? ` · ${u.country}` : ""}</p>
+                      <p className="text-xs text-muted-foreground truncate">{u.email} · {u.bee_contests} {f("bee contests")}{u.country ? ` · ${u.country}` : ""}</p>
                     </div>
                     <Button size="sm" variant="outline" onClick={() => toggleAdmin(u.id, u.username)} className="h-7 text-xs shrink-0">
                       {u.is_admin ? t("bee.admin.revokeAdmin") : t("bee.admin.makeAdmin")}

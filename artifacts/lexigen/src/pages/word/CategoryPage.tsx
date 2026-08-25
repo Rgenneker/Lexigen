@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { UNIQUE_WORDS, LETTERS, SUFFIXES } from "@/data/word-list";
+import { useToolPageText } from "@/i18n/tool-page-text";
 
 type CategoryType = "starting-with" | "ending-with" | "theme";
 
@@ -49,6 +50,7 @@ function Breadcrumb({ crumbs }: { crumbs: { label: string; href?: string }[] }) 
 
 // ─── Letter page ───────────────────────────────────────────────────────────
 function LetterPage({ letter }: { letter: string }) {
+  const f = useToolPageText();
   const l = letter.toLowerCase();
   const words = UNIQUE_WORDS.filter((w) => w.toLowerCase().startsWith(l));
   useDocumentMeta(
@@ -57,10 +59,10 @@ function LetterPage({ letter }: { letter: string }) {
   );
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
-      <Breadcrumb crumbs={[{ label: "Home", href: "/" }, { label: "Words", href: "/hub/dictionary" }, { label: `Words Starting With ${letter.toUpperCase()}` }]} />
+      <Breadcrumb crumbs={[{ label: f("Home"), href: "/" }, { label: f("Words"), href: "/hub/dictionary" }, { label: `${f("Words Starting With")} ${letter.toUpperCase()}` }]} />
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Words Starting With <span className="text-primary uppercase">{letter}</span></h1>
-        <p className="text-muted-foreground">{words.length} vocabulary words beginning with &ldquo;{letter.toUpperCase()}&rdquo; - click any word to see its full definition, synonyms, and usage.</p>
+        <h1 className="text-4xl font-bold mb-2">{f("Words Starting With")} <span className="text-primary uppercase">{letter}</span></h1>
+        <p className="text-muted-foreground">{words.length} {f("vocabulary words beginning with")} &ldquo;{letter.toUpperCase()}&rdquo; — {f("click any word to see its full definition, synonyms, and usage.")}</p>
       </div>
       <div className="flex flex-wrap gap-2 mb-8">
         {LETTERS.map((lt) => (
@@ -70,7 +72,7 @@ function LetterPage({ letter }: { letter: string }) {
         ))}
       </div>
       {words.length === 0 ? (
-        <p className="text-muted-foreground">No words found starting with &ldquo;{letter.toUpperCase()}&rdquo; in our current list.</p>
+        <p className="text-muted-foreground">{f("No words found starting with")} &ldquo;{letter.toUpperCase()}&rdquo; {f("in our current list.")}</p>
       ) : (
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}
@@ -91,6 +93,7 @@ function LetterPage({ letter }: { letter: string }) {
 
 // ─── Suffix page ───────────────────────────────────────────────────────────
 function SuffixPage({ suffix }: { suffix: string }) {
+  const f = useToolPageText();
   const s = suffix.toLowerCase();
   const words = UNIQUE_WORDS.filter((w) => w.toLowerCase().endsWith(s));
   useDocumentMeta(
@@ -99,10 +102,10 @@ function SuffixPage({ suffix }: { suffix: string }) {
   );
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
-      <Breadcrumb crumbs={[{ label: "Home", href: "/" }, { label: "Words", href: "/hub/dictionary" }, { label: `Words Ending In -${suffix}` }]} />
+      <Breadcrumb crumbs={[{ label: f("Home"), href: "/" }, { label: f("Words"), href: "/hub/dictionary" }, { label: `${f("Words Ending In")} -${suffix}` }]} />
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Words Ending In <span className="text-primary">-{suffix}</span></h1>
-        <p className="text-muted-foreground">{words.length} vocabulary words with the &ldquo;-{suffix}&rdquo; ending.</p>
+        <h1 className="text-4xl font-bold mb-2">{f("Words Ending In")} <span className="text-primary">-{suffix}</span></h1>
+        <p className="text-muted-foreground">{words.length} {f("vocabulary words with the")} &ldquo;-{suffix}&rdquo; {f("ending.")}</p>
       </div>
       <div className="flex flex-wrap gap-2 mb-8">
         {SUFFIXES.map((sf) => (
@@ -112,7 +115,7 @@ function SuffixPage({ suffix }: { suffix: string }) {
         ))}
       </div>
       {words.length === 0 ? (
-        <p className="text-muted-foreground">No words found ending in &ldquo;-{suffix}&rdquo; in our current list.</p>
+        <p className="text-muted-foreground">{f("No words found ending in")} &ldquo;-{suffix}&rdquo; {f("in our current list.")}</p>
       ) : (
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}
@@ -133,6 +136,7 @@ function SuffixPage({ suffix }: { suffix: string }) {
 
 // ─── Theme page ────────────────────────────────────────────────────────────
 function ThemePage({ theme }: { theme: string }) {
+  const f = useToolPageText();
   const words = THEME_WORDS[theme.toLowerCase()] ?? [];
   const label = theme.charAt(0).toUpperCase() + theme.slice(1);
   useDocumentMeta(
@@ -141,13 +145,13 @@ function ThemePage({ theme }: { theme: string }) {
   );
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
-      <Breadcrumb crumbs={[{ label: "Home", href: "/" }, { label: "Words", href: "/hub/dictionary" }, { label: `${label} Words` }]} />
+      <Breadcrumb crumbs={[{ label: f("Home"), href: "/" }, { label: f("Words"), href: "/hub/dictionary" }, { label: `${label} ${f("Words")}` }]} />
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2"><span className="text-primary">{label}</span> Words</h1>
-        <p className="text-muted-foreground">{words.length} curated {label.toLowerCase()} English vocabulary words - click any word to see its full definition.</p>
+        <h1 className="text-4xl font-bold mb-2"><span className="text-primary">{label}</span> {f("Words")}</h1>
+        <p className="text-muted-foreground">{words.length} {f("curated")} {label.toLowerCase()} {f("English vocabulary words — click any word to see its full definition.")}</p>
       </div>
       {words.length === 0 ? (
-        <p className="text-muted-foreground">No words found for theme &ldquo;{theme}&rdquo;.</p>
+        <p className="text-muted-foreground">{f("No words found for theme")} &ldquo;{theme}&rdquo;.</p>
       ) : (
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, CheckCircle } from 'lucide-react';
+import { useFrenchText } from '@/lib/use-french-text';
 
 type Dir = 'across' | 'down';
 type Entry = { num:number; dir:Dir; row:number; col:number; answer:string; clue:string; };
@@ -100,6 +101,20 @@ function setEntryValue(entry: Entry, value: string, grid: string[][]): string[][
 interface Props { onScore: (n: number) => void; }
 
 export function CrosswordGame({ onScore }: Props) {
+  const f = useFrenchText();
+  const frenchClues: Record<string, string> = {
+    MUSIC:'Mélodies et rythmes qui font vibrer votre âme', NAIVE:'Qui manque d’expérience ou de jugement du monde',
+    EXTRA:'Plus que nécessaire — ou figurant à l’écran', MINCE:'Hacher finement, ou parler avec une délicatesse affectée',
+    SAINT:'Personne d’une sainteté ou d’une vertu exceptionnelle', BRAVO:'« Bien joué ! » — cri d’approbation',
+    SIREN:'Son d’alarme, ou personne irrésistiblement séduisante', DANCE:'Bouger en rythme avec de la musique',
+    BASED:'Fondé sur des faits — ou « admirable » pour la génération Z', OZONE:'Couche atmosphérique protectrice au-dessus de la Terre',
+    CLAIM:'Revendiquer une propriété, ou affirmer quelque chose', CANOE:'Bateau étroit propulsé à la pagaie',
+    EAGLE:'Grand rapace ; deux coups sous le par au golf', CACHE:'Réserve secrète d’objets de valeur',
+    LIANA:'Longue liane ligneuse des forêts tropicales', SHIRT:'Vêtement courant porté sur le haut du corps',
+    ANGER:'Fort sentiment de mécontentement ou d’hostilité', PROOF:'Preuve concluante qu’une chose est vraie',
+    SHARP:'Qui a un bord tranchant — ou l’esprit vif', HONOR:'Grand respect ou estime accordée à quelqu’un',
+  };
+  const frenchPuzzleTitles: Record<string, string> = { 'Pop Culture':'Culture pop', 'SA Vibes':'Ambiance sud-africaine', 'Word Power':'Le pouvoir des mots', 'Vocab Master':'Maître du vocabulaire' };
   const [level, setLevel] = useState<Level | null>(null);
   const [playerGrid, setPlayerGrid] = useState<string[][]>([]);
   const [solved, setSolved] = useState<string[][]>([]);
@@ -189,18 +204,18 @@ export function CrosswordGame({ onScore }: Props) {
   if (!level) return (
     <div className="space-y-3">
       <div className="text-center mb-4">
-        <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1">📝 Choose Your Level</p>
-        <p className="text-sm text-muted-foreground">Click a clue or cell, then type your answer</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1">📝 {f('Choose Your Level', 'Choisissez votre niveau')}</p>
+        <p className="text-sm text-muted-foreground">{f('Click a clue or cell, then type your answer', 'Cliquez sur un indice ou une case, puis saisissez votre réponse')}</p>
       </div>
       {LEVELS.map(l => (
         <div key={l.id} onClick={() => startGame(l)}
           className="flex items-center gap-3 p-4 rounded-2xl border-2 border-border hover:border-primary hover:bg-primary/5 cursor-pointer transition-all active:scale-[0.98]">
           <span className="text-2xl">{l.emoji}</span>
           <div className="flex-1 min-w-0">
-            <div className="font-bold">{l.name}</div>
-            <div className="text-xs text-muted-foreground truncate">{l.tagline}</div>
+            <div className="font-bold">{f(l.name, ({ rookie:'Débutant', regular:'Confirmé', sharp:'Aguerri', wizard:'Magicien' } as Record<string, string>)[l.id])}</div>
+            <div className="text-xs text-muted-foreground truncate">{f(l.tagline, ({ rookie:'Vocabulaire simple, pour se mettre en route', regular:'Mots courants avec une touche culturelle', sharp:'Indices plus rares, vocabulaire plus précis', wizard:'Mots avancés — le test Lexigenz complet' } as Record<string, string>)[l.id])}</div>
           </div>
-          <span className="text-xs text-muted-foreground shrink-0">{l.puzzle.title}</span>
+          <span className="text-xs text-muted-foreground shrink-0">{f(l.puzzle.title, frenchPuzzleTitles[l.puzzle.title])}</span>
         </div>
       ))}
     </div>
@@ -210,10 +225,10 @@ export function CrosswordGame({ onScore }: Props) {
     <div className="text-center space-y-5 py-8">
       <motion.div initial={{ scale:0 }} animate={{ scale:1 }} className="text-5xl">✅</motion.div>
       <div>
-        <div className="text-2xl font-bold">Puzzle Solved!</div>
-        <div className="text-muted-foreground text-sm mt-1">Finished in {fmt(elapsed)}</div>
+        <div className="text-2xl font-bold">{f('Puzzle Solved!', 'Grille résolue !')}</div>
+        <div className="text-muted-foreground text-sm mt-1">{f(`Finished in ${fmt(elapsed)}`, `Terminé en ${fmt(elapsed)}`)}</div>
       </div>
-      <Button onClick={() => setLevel(null)} className="rounded-full bg-primary font-bold px-8">Play Again</Button>
+      <Button onClick={() => setLevel(null)} className="rounded-full bg-primary font-bold px-8">{f('Play Again', 'Rejouer')}</Button>
     </div>
   );
 
@@ -223,7 +238,7 @@ export function CrosswordGame({ onScore }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between text-sm">
-        <span className="font-bold">{level.puzzle.title}</span>
+        <span className="font-bold">{f(level.puzzle.title, frenchPuzzleTitles[level.puzzle.title])}</span>
         <span className="font-mono text-muted-foreground">{fmt(elapsed)}</span>
       </div>
 
@@ -263,8 +278,8 @@ export function CrosswordGame({ onScore }: Props) {
           <motion.div initial={{ opacity:0, y:4 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}
             className="p-3 bg-muted/40 rounded-xl border border-border space-y-2">
             <p className="text-xs font-bold text-primary">
-              {selected.num} {selected.dir === 'across' ? 'Across' : 'Down'} -{' '}
-              <span className="font-normal text-foreground">{selected.clue}</span>
+              {selected.num} {selected.dir === 'across' ? f('Across', 'Horizontal') : f('Down', 'Vertical')} -{' '}
+              <span className="font-normal text-foreground">{f(selected.clue, frenchClues[selected.answer])}</span>
             </p>
             <input
               ref={inputRef}
@@ -287,24 +302,24 @@ export function CrosswordGame({ onScore }: Props) {
       {/* Clues */}
       <div className="grid grid-cols-2 gap-3 text-xs">
         <div>
-          <p className="font-bold uppercase tracking-wide text-muted-foreground mb-2">Across</p>
+          <p className="font-bold uppercase tracking-wide text-muted-foreground mb-2">{f('Across', 'Horizontal')}</p>
           {level.puzzle.entries.filter(e => e.dir === 'across').map(e => (
             <button key={`a${e.num}`} onClick={() => selectEntry(e)}
               className={`block w-full text-left px-2 py-1.5 rounded-lg mb-0.5 transition-colors leading-snug ${
                 selected?.dir==='across' && selected.num===e.num && selected.row===e.row
                   ? 'bg-primary/10 text-primary font-semibold' : 'hover:bg-muted/60'}`}>
-              <span className="font-bold mr-1">{e.num}.</span>{e.clue}
+              <span className="font-bold mr-1">{e.num}.</span>{f(e.clue, frenchClues[e.answer])}
             </button>
           ))}
         </div>
         <div>
-          <p className="font-bold uppercase tracking-wide text-muted-foreground mb-2">Down</p>
+          <p className="font-bold uppercase tracking-wide text-muted-foreground mb-2">{f('Down', 'Vertical')}</p>
           {level.puzzle.entries.filter(e => e.dir === 'down').map(e => (
             <button key={`d${e.num}`} onClick={() => selectEntry(e)}
               className={`block w-full text-left px-2 py-1.5 rounded-lg mb-0.5 transition-colors leading-snug ${
                 selected?.dir==='down' && selected.num===e.num && selected.col===e.col
                   ? 'bg-primary/10 text-primary font-semibold' : 'hover:bg-muted/60'}`}>
-              <span className="font-bold mr-1">{e.num}.</span>{e.clue}
+              <span className="font-bold mr-1">{e.num}.</span>{f(e.clue, frenchClues[e.answer])}
             </button>
           ))}
         </div>
@@ -315,15 +330,15 @@ export function CrosswordGame({ onScore }: Props) {
           if (!level) return;
           setPlayerGrid(buildPlayer(buildSolved(level.puzzle.entries, level.puzzle.size)));
           setChecked(false); setWrongCells(new Set());
-        }}>Clear</Button>
+        }}>{f('Clear', 'Effacer')}</Button>
         <Button className="flex-1 rounded-full bg-primary font-bold" onClick={checkAnswers}>
-          <CheckCircle className="h-4 w-4 mr-1.5" /> Check Answers
+          <CheckCircle className="h-4 w-4 mr-1.5" /> {f('Check Answers', 'Vérifier les réponses')}
         </Button>
       </div>
 
       {checked && !done && wrongCells.size > 0 && (
         <p className="text-center text-sm text-red-500 font-medium">
-          {wrongCells.size} cell{wrongCells.size > 1 ? 's' : ''} need fixing - red cells are incorrect
+          {f(`${wrongCells.size} cell${wrongCells.size > 1 ? 's' : ''} need fixing - red cells are incorrect`, `${wrongCells.size} case${wrongCells.size > 1 ? 's' : ''} à corriger — les cases rouges sont incorrectes`)}
         </p>
       )}
     </div>

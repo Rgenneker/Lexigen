@@ -6,6 +6,7 @@ import { Eye, EyeOff, ChevronDown, Lock, ArrowLeft, Copy, Check } from "lucide-r
 import { useAuth } from "@/context/AuthContext";
 import { COUNTRY_CODES } from "@/data/countryCodes";
 import { useTranslation } from "react-i18next";
+import { useFrenchText } from "@/lib/use-french-text";
 
 type Tab = "register" | "login";
 type LoginView = "form" | "forgot" | "forgot-result";
@@ -94,6 +95,7 @@ function PhoneInput({
 export function RegistrationGate({ initialTab = "register", loginOnly = false }: { initialTab?: Tab; loginOnly?: boolean }) {
   const { registerFree, login } = useAuth();
   const { t } = useTranslation();
+  const f = useFrenchText();
   const [tab, setTab] = useState<Tab>(loginOnly ? "login" : initialTab);
   const [loginView, setLoginView] = useState<LoginView>("form");
 
@@ -126,7 +128,7 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
     try {
       await registerFree(firstName, lastName, email, password, `${dialCode} ${phone.trim()}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : f("Something went wrong.", "Une erreur s’est produite."));
       setLoading(false);
     }
   };
@@ -160,11 +162,11 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
         body: JSON.stringify({ email: forgotEmail.trim().toLowerCase() }),
       });
       const data = await res.json() as { found?: boolean; tempPassword?: string; error?: string };
-      if (!res.ok) throw new Error(data.error ?? "Something went wrong.");
+      if (!res.ok) throw new Error(data.error ?? f("Something went wrong.", "Une erreur s’est produite."));
       setTempPassword(data.found && data.tempPassword ? data.tempPassword : "");
       setLoginView("forgot-result");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : f("Something went wrong.", "Une erreur s’est produite."));
     } finally {
       setLoading(false);
     }
@@ -418,7 +420,7 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                         type="button"
                         onClick={handleCopyTemp}
                         className="w-11 h-11 rounded-xl border border-border bg-muted/30 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-all flex-shrink-0"
-                        title="Copy"
+                        title={f("Copy", "Copier")}
                       >
                         {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
                       </button>

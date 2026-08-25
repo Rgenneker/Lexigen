@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GAME_WORDS } from '@/data/gameWords';
+import { useFrenchText } from '@/lib/use-french-text';
 
 type WGLevel = { id:string; name:string; emoji:string; tagline:string; size:number; secs:number; minLen:number; };
 
@@ -36,6 +37,7 @@ function wordPts(len: number): number {
 interface Props { onScore: (n: number) => void; }
 
 export function WordGridGame({ onScore }: Props) {
+  const f = useFrenchText();
   const [level, setLevel] = useState<WGLevel | null>(null);
   const [grid, setGrid]   = useState<string[][]>([]);
   const [path, setPath]   = useState<[number,number][]>([]);
@@ -126,11 +128,11 @@ export function WordGridGame({ onScore }: Props) {
       if (prev.length < level.minLen) return [];
       const word = prev.map(([r,c]) => grid[r][c]).join('').toLowerCase();
       if (!GAME_WORDS.has(word)) {
-        setRejected(`"${word}" - not in word list`);
+        setRejected(f(`"${word}" - not in word list`, `"${word}" — absent de la liste de mots`));
         return [];
       }
       if (foundRef.current.some(f => f.word === word)) {
-        setRejected(`"${word}" - already found!`);
+        setRejected(f(`"${word}" - already found!`, `"${word}" — déjà trouvé !`));
         return [];
       }
       const pts = wordPts(word.length);
@@ -154,16 +156,16 @@ export function WordGridGame({ onScore }: Props) {
   if (!level) return (
     <div className="space-y-3">
       <div className="text-center mb-4">
-        <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1">🔤 Choose Your Level</p>
-        <p className="text-sm text-muted-foreground">Swipe/drag adjacent letters to spell words - like Boggle!</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1">🔤 {f('Choose Your Level', 'Choisissez votre niveau')}</p>
+        <p className="text-sm text-muted-foreground">{f('Swipe/drag adjacent letters to spell words - like Boggle!', 'Glissez sur des lettres adjacentes pour former des mots — comme au Boggle !')}</p>
       </div>
       {LEVELS.map(l => (
         <div key={l.id} onClick={() => startGame(l)}
           className="flex items-center gap-3 p-4 rounded-2xl border-2 border-border hover:border-primary hover:bg-primary/5 cursor-pointer transition-all active:scale-[0.98]">
           <span className="text-2xl">{l.emoji}</span>
           <div className="flex-1 min-w-0">
-            <div className="font-bold">{l.name}</div>
-            <div className="text-xs text-muted-foreground truncate">{l.tagline}</div>
+            <div className="font-bold">{f(l.name, ({ starter:'Débutant', medium:'Intermédiaire', hard:'Difficile', expert:'Expert' } as Record<string, string>)[l.id])}</div>
+            <div className="text-xs text-muted-foreground truncate">{f(l.tagline, `${l.size}×${l.size} grille · ${l.secs} secondes · mots de ${l.minLen}+ lettres`)}</div>
           </div>
           <span className="text-xs text-muted-foreground shrink-0">{l.size}×{l.size}</span>
         </div>
@@ -175,8 +177,8 @@ export function WordGridGame({ onScore }: Props) {
     <div className="text-center space-y-5 py-8">
       <div className="text-5xl">⏰</div>
       <div>
-        <div className="text-3xl font-bold">{totalPts * 10} pts</div>
-        <div className="text-muted-foreground text-sm">{found.length} word{found.length !== 1 ? 's' : ''} found</div>
+        <div className="text-3xl font-bold">{totalPts * 10} {f('pts', 'pts')}</div>
+        <div className="text-muted-foreground text-sm">{f(`${found.length} word${found.length !== 1 ? 's' : ''} found`, `${found.length} mot${found.length !== 1 ? 's' : ''} trouvé${found.length !== 1 ? 's' : ''}`)}</div>
       </div>
       {found.length > 0 && (
         <div className="flex flex-wrap gap-1.5 justify-center px-2">
@@ -187,7 +189,7 @@ export function WordGridGame({ onScore }: Props) {
           ))}
         </div>
       )}
-      <Button onClick={() => { setLevel(null); setDone(false); }} className="rounded-full bg-primary font-bold px-8">Play Again</Button>
+      <Button onClick={() => { setLevel(null); setDone(false); }} className="rounded-full bg-primary font-bold px-8">{f('Play Again', 'Rejouer')}</Button>
     </div>
   );
 
@@ -197,8 +199,8 @@ export function WordGridGame({ onScore }: Props) {
     <div className="space-y-4">
       <div className="flex items-center justify-between text-sm">
         <div className="flex items-center gap-2">
-          <span className="font-mono font-bold text-primary">{totalPts * 10} pts</span>
-          <span className="text-muted-foreground">· {found.length} word{found.length !== 1 ? 's' : ''}</span>
+          <span className="font-mono font-bold text-primary">{totalPts * 10} {f('pts', 'pts')}</span>
+          <span className="text-muted-foreground">· {f(`${found.length} word${found.length !== 1 ? 's' : ''}`, `${found.length} mot${found.length !== 1 ? 's' : ''}`)}</span>
         </div>
         <span className={`font-mono font-bold tabular-nums ${timeLeft <= 10 ? 'text-red-500 animate-pulse' : ''}`}>{timeLeft}s</span>
       </div>
@@ -210,7 +212,7 @@ export function WordGridGame({ onScore }: Props) {
       <div className="h-11 flex items-center justify-center bg-muted/30 rounded-xl border border-border px-4">
         {currentWord
           ? <span className="font-mono font-bold text-xl tracking-widest">{currentWord.toLowerCase()}</span>
-          : <span className="text-muted-foreground text-sm">Hold and drag to connect letters</span>
+          : <span className="text-muted-foreground text-sm">{f('Hold and drag to connect letters', 'Maintenez et faites glisser pour relier les lettres')}</span>
         }
       </div>
 
@@ -265,7 +267,7 @@ export function WordGridGame({ onScore }: Props) {
       )}
 
       <Button variant="outline" className="w-full rounded-full text-sm" onClick={endEarly}>
-        End Round & See Score
+        {f('End Round & See Score', 'Terminer la manche et voir le score')}
       </Button>
     </div>
   );

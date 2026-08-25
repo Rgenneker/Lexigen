@@ -6,6 +6,7 @@ import {
   X, Loader2, CheckCircle2, CreditCard, Crown, Check, ChevronRight,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useFrenchText } from "@/lib/use-french-text";
 
 declare global {
   interface Window {
@@ -46,6 +47,7 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
   const paypalContainerRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { t } = useTranslation();
+  const f = useFrenchText();
 
   const loadPayPalSdk = useCallback(async () => {
     setSdkLoading(true);
@@ -152,6 +154,7 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
             </div>
             <button
               onClick={onClose}
+              aria-label={f("Close", "Fermer")}
               className="w-8 h-8 rounded-full hover:bg-muted flex items-center justify-center text-muted-foreground transition-colors"
             >
               <X className="h-4 w-4" />

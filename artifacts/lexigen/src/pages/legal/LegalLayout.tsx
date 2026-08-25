@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
+import { legalUi } from "@/i18n/legalLocale";
+import { useTranslation } from "react-i18next";
 
 interface LegalLayoutProps {
   title: string;
@@ -8,6 +10,7 @@ interface LegalLayoutProps {
 }
 
 export function LegalLayout({ title, updated, children }: LegalLayoutProps) {
+  useTranslation();
   return (
     <div className="min-h-screen px-4 py-20">
       <div className="container mx-auto max-w-3xl">
@@ -17,11 +20,11 @@ export function LegalLayout({ title, updated, children }: LegalLayoutProps) {
           transition={{ duration: 0.4 }}
         >
           <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">
-            Legal
+            {legalUi("Legal", "Mentions légales")}
           </p>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-3">{title}</h1>
           <p className="text-sm text-muted-foreground mb-12 pb-12 border-b border-border">
-            Last updated: {updated}
+            {legalUi("Last updated:", "Dernière mise à jour :")} {updated}
           </p>
 
           <div className="prose prose-lg dark:prose-invert max-w-none [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:tracking-tight [&_h2]:mt-10 [&_h2]:mb-4 [&_p]:text-muted-foreground [&_p]:leading-relaxed [&_p]:mb-4 [&_ul]:text-muted-foreground [&_ul]:space-y-2 [&_li]:leading-relaxed [&_a]:text-primary">

@@ -3,13 +3,17 @@ import { Slot } from "@radix-ui/react-slot"
 import { ChevronRight, MoreHorizontal } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { useFrenchText } from "@/lib/use-french-text"
 
 const Breadcrumb = React.forwardRef<
   HTMLElement,
   React.ComponentPropsWithoutRef<"nav"> & {
     separator?: React.ReactNode
   }
->(({ ...props }, ref) => <nav ref={ref} aria-label="breadcrumb" {...props} />)
+>(({ ...props }, ref) => {
+  const f = useFrenchText()
+  return <nav ref={ref} aria-label={f("breadcrumb", "fil d’Ariane")} {...props} />
+})
 Breadcrumb.displayName = "Breadcrumb"
 
 const BreadcrumbList = React.forwardRef<
@@ -92,16 +96,20 @@ const BreadcrumbEllipsis = ({
   className,
   ...props
 }: React.ComponentProps<"span">) => (
-  <span
+  <BreadcrumbEllipsisContent className={className} {...props} />
+)
+const BreadcrumbEllipsisContent = ({ className, ...props }: React.ComponentProps<"span">) => {
+  const f = useFrenchText()
+  return <span
     role="presentation"
     aria-hidden="true"
     className={cn("flex h-9 w-9 items-center justify-center", className)}
     {...props}
   >
     <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">More</span>
+    <span className="sr-only">{f("More", "Plus")}</span>
   </span>
-)
+}
 BreadcrumbEllipsis.displayName = "BreadcrumbElipssis"
 
 export {
