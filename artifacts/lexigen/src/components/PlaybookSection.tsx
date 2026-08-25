@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { langColor } from "@/data/language-colors";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -394,7 +395,145 @@ interface PlaybookSectionProps {
   defaultOpen?: boolean;
 }
 
+const SPANISH_STEPS = [
+  {
+    emoji: "🗺️",
+    label: "Vista general",
+    title: "Bienvenido a Lexigenz: aquí tienes tu orientación",
+    summary: "Lexigenz = una palabra al día, seis juegos, tu personalidad y 19 idiomas.",
+    body: "Lexigenz es una plataforma diaria para ampliar el vocabulario, creada para quienes quieren mejorar sus habilidades lingüísticas sin complicaciones. Todo el ciclo dura unos 7 minutos al día.",
+  },
+  {
+    emoji: "🧭",
+    label: "Navegación",
+    title: "Cómo moverte por la plataforma: todas las páginas explicadas",
+    summary: "La barra de navegación es tu mapa. Aplicación = centro diario. Jugar = juegos. Artículos = lecturas profundas.",
+    body: "La barra de navegación superior contiene todo lo que necesitas. En el móvil se convierte en un menú hamburguesa. Inicio presenta Lexigenz; Acerca de muestra las herramientas; Cómo funciona explica el sistema; Artículos ofrece lecturas; Jugar reúne los seis juegos; Aplicación es tu centro diario; Invitar permite desafiar a tus amigos; y Preguntas frecuentes es el centro de ayuda.",
+  },
+  {
+    emoji: "🌟",
+    label: "Tu arquetipo",
+    title: "Tu personalidad de vocabulario: cómo funcionan los arquetipos",
+    summary: "Fecha de nacimiento → 1 de 12 arquetipos → palabras, estilo y tono personalizados.",
+    body: "Cuando introduces tu fecha de nacimiento en la página Aplicación, Lexigenz calcula tu arquetipo de vocabulario: un perfil de personalidad que influye en el estilo, el tono y el tipo de palabras que recibes. Es determinista: la misma fecha siempre produce el mismo arquetipo.",
+  },
+  {
+    emoji: "⚡",
+    label: "Ciclo diario",
+    title: "El ciclo diario: cómo se fijan realmente las palabras",
+    summary: "Lee → escribe una frase → guarda → repasa. La repetición espaciada está integrada.",
+    body: "Visita la página Aplicación cada día. Recibirás una palabra adaptada a tu arquetipo y tu idioma, con definición, etimología, pronunciación y ejemplos. Después escribe tu propia frase en el Creador de frases, consulta tu Diario de palabras y vuelve cada día para mantener tu racha.",
+  },
+  {
+    emoji: "🎮",
+    label: "6 juegos de palabras",
+    title: "Jugar con palabras: tu colección de seis juegos",
+    summary: "Ve a Jugar y elige un juego. Cada uno entrena una habilidad de vocabulario diferente.",
+    body: "Wordle te pide adivinar una palabra de cinco letras; Scrabble enfrenta tus fichas contra la computadora; Crucigrama utiliza pistas temáticas; Concurso de Ortografía usa siete letras en forma de panal; Cuadrícula de palabras es una búsqueda cronometrada; y el Juego de Lexigenz te reta a ordenar las letras de LEXIGENZ.",
+  },
+  {
+    emoji: "🔐",
+    label: "Inicio de sesión",
+    title: "Qué ocurre cuando inicias sesión",
+    summary: "El inicio de sesión sincroniza tu racha, diario, arquetipo y Premium en todos tus dispositivos.",
+    body: "Puedes utilizar Lexigenz sin iniciar sesión, pero registrarte te proporciona una identidad persistente. Tu racha, Diario de palabras, arquetipo y preferencia de idioma se sincronizan con tu cuenta. Al actualizar a Premium se desbloquean idiomas, entradas ilimitadas, juegos sin anuncios, temas exclusivos e informes mensuales.",
+  },
+  {
+    emoji: "🌍",
+    label: "Premium e idiomas",
+    title: "Premium, idiomas y el sistema de invitaciones",
+    summary: "8 $ una sola vez. Inglés + 1 idioma. Sin suscripción. Comparte mediante un enlace.",
+    body: "El plan gratuito incluye inglés, la palabra del día, los seis juegos, el Creador de frases, un Diario de palabras limitado y la racha básica. Premium añade un idioma, diario ilimitado, juegos sin anuncios, informes mensuales, temas Premium y asistencia prioritaria. Puedes invitar a cualquiera mediante un enlace y no necesita una cuenta para jugar.",
+  },
+];
+
+const SPANISH_QUIZ = [
+  ["¿Cuántos juegos de palabras incluye Lexigenz?", ["4", "5", "6", "8"], 2, "Lexigenz incluye 6 juegos: Wordle, Scrabble, Crucigrama, Concurso de Ortografía, Cuadrícula de palabras y el Juego de Lexigenz."],
+  ["¿Qué determina tu arquetipo de vocabulario en Lexigenz?", ["Un cuestionario de personalidad", "Tu fecha de nacimiento", "Tu dirección de correo", "Tu país"], 1, "Tu arquetipo se calcula a partir de tu fecha de nacimiento; la misma fecha siempre produce el mismo arquetipo."],
+  ["¿Qué acción activa el registro de tu racha diaria?", ["Leer un artículo", "Jugar a cualquier juego", "Visitar la página Aplicación", "Abrir las preguntas frecuentes"], 2, "Solo visitar la página Aplicación y trabajar con tu palabra diaria cuenta como registro de la racha."],
+  ["¿Qué ocurre con las frases del Diario de palabras después de escribirlas?", ["Desaparecen a medianoche", "Son públicas en tu perfil", "Se guardan en tu diario privado", "Se envían a tus amigos"], 2, "Cada frase que escribes se guarda en tu Diario de palabras privado y solo tú puedes verla."],
+  ["El precio de Lexigenz Premium es:", ["8 $ al mes", "8 $ al año", "8 $ una sola vez", "Gratis"], 2, "Premium cuesta 8 $ una sola vez. No hay suscripción, renovación ni fecha de caducidad."],
+] as const;
+
+function SpanishPlaybook({ defaultOpen = false }: PlaybookSectionProps) {
+  const [open, setOpen] = useState(defaultOpen);
+  const [tab, setTab] = useState<"lessons" | "cheat">("lessons");
+  const [step, setStep] = useState(0);
+  const [quiz, setQuiz] = useState(false);
+  const [answers, setAnswers] = useState<(number | null)[]>(Array(5).fill(null));
+  const [question, setQuestion] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [result, setResult] = useState(false);
+  const score = answers.filter((answer, index) => answer === SPANISH_QUIZ[index][2]).length;
+
+  if (!open) {
+    return (
+      <motion.div onClick={() => setOpen(true)} className="relative overflow-hidden rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent cursor-pointer group">
+        <div className="relative px-6 py-5 flex items-center gap-5">
+          <div className="text-4xl flex-shrink-0">🎯</div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-xs font-bold uppercase tracking-widest text-primary bg-primary/15 px-2 py-0.5 rounded-full">¿Nuevo en Lexigenz?</span>
+              <span className="text-xs text-muted-foreground">5 min de lectura</span>
+            </div>
+            <h3 className="text-xl font-black leading-tight">El manual de Lexigenz</h3>
+            <p className="text-sm text-muted-foreground mt-0.5">7 lecciones interactivas + minicuestionario + hoja de referencia. Todo lo que necesitas para empezar.</p>
+          </div>
+          <Button className="flex-shrink-0 gap-2">Empezar <ChevronRight className="h-4 w-4" /></Button>
+        </div>
+        <div className="border-t border-primary/20 px-6 py-2 flex gap-6 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1.5"><BookOpen className="h-3 w-3" /> 7 lecciones</span>
+          <span className="flex items-center gap-1.5"><Hash className="h-3 w-3" /> Cuestionario de 5 preguntas</span>
+          <span className="flex items-center gap-1.5"><LayoutGrid className="h-3 w-3" /> Hoja de referencia visual</span>
+          <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" /> ~5 minutos</span>
+        </div>
+      </motion.div>
+    );
+  }
+
+  const finishAnswer = (answer: number) => {
+    const next = [...answers];
+    next[question] = answer;
+    setAnswers(next);
+    setSelected(answer);
+    setTimeout(() => {
+      if (question < SPANISH_QUIZ.length - 1) {
+        setQuestion(value => value + 1);
+        setSelected(null);
+      } else setResult(true);
+    }, 700);
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="border-2 border-primary/30 rounded-2xl overflow-hidden bg-background shadow-xl">
+      <div className="flex items-center justify-between border-b border-border px-5 py-3 bg-muted/30">
+        <div className="flex items-center gap-3"><span className="text-xl">🎯</span><div><p className="text-sm font-black">El manual de Lexigenz</p><p className="text-xs text-muted-foreground">Tu guía completa de la plataforma</p></div></div>
+        <button onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground"><X className="h-5 w-5" /></button>
+      </div>
+      <div className="flex border-b border-border">
+        <button onClick={() => setTab("lessons")} className={`flex-1 py-2.5 text-sm font-semibold ${tab === "lessons" ? "text-primary border-b-2 border-primary bg-primary/5" : "text-muted-foreground"}`}>📖 Lecciones + cuestionario</button>
+        <button onClick={() => setTab("cheat")} className={`flex-1 py-2.5 text-sm font-semibold ${tab === "cheat" ? "text-primary border-b-2 border-primary bg-primary/5" : "text-muted-foreground"}`}>📋 Hoja de referencia</button>
+      </div>
+      {tab === "lessons" && !quiz && !result && (
+        <>
+          <div className="px-5 pt-4 pb-2"><div className="flex justify-between mb-1.5"><div className="flex gap-1.5">{SPANISH_STEPS.map((item, index) => <button aria-label={`Lección ${index + 1}`} key={item.title} onClick={() => setStep(index)} className={`w-2 h-2 rounded-full ${index === step ? "bg-primary w-6" : "bg-primary/40"}`} />)}</div><span className="text-xs text-muted-foreground">{step + 1} / {SPANISH_STEPS.length}</span></div><div className="h-1 bg-muted rounded-full"><div className="h-full bg-primary rounded-full" style={{ width: `${((step + 1) / SPANISH_STEPS.length) * 100}%` }} /></div></div>
+          <div className="px-5 pb-5"><div className="flex items-center gap-2 mb-1"><span className="text-2xl">{SPANISH_STEPS[step].emoji}</span><span className="text-xs font-bold uppercase tracking-widest text-primary">{SPANISH_STEPS[step].label}</span></div><h4 className="text-lg font-black mb-2">{SPANISH_STEPS[step].title}</h4><div className="bg-amber-500/10 border border-amber-400/20 rounded-lg px-3 py-1.5 mb-4"><p className="text-xs font-semibold text-amber-700 dark:text-amber-400"><strong>En resumen:</strong> {SPANISH_STEPS[step].summary}</p></div><p className="text-sm text-muted-foreground leading-relaxed">{SPANISH_STEPS[step].body}</p></div>
+          <div className="border-t border-border px-5 py-3 flex items-center justify-between bg-muted/20"><Button variant="outline" size="sm" onClick={() => setStep(value => Math.max(0, value - 1))} disabled={step === 0}><ChevronLeft className="h-4 w-4" /> Anterior</Button><div className="flex gap-1.5"><span className="text-xs text-muted-foreground">{SPANISH_STEPS[step].emoji}</span></div>{step < SPANISH_STEPS.length - 1 ? <Button size="sm" onClick={() => setStep(value => value + 1)}>Siguiente <ChevronRight className="h-4 w-4" /></Button> : <Button size="sm" onClick={() => setQuiz(true)} className="bg-emerald-600 hover:bg-emerald-700">Hacer el cuestionario <Sparkles className="h-4 w-4" /></Button>}</div>
+        </>
+      )}
+      {tab === "lessons" && quiz && !result && (
+        <div className="px-5 py-5"><div className="flex items-center justify-between mb-4"><div><p className="text-xs font-bold uppercase tracking-widest text-primary">Minicuestionario</p><p className="text-sm font-semibold">Pregunta {question + 1} de {SPANISH_QUIZ.length}</p></div><div className="flex gap-1">{SPANISH_QUIZ.map((_, index) => <div key={index} className={`w-2 h-2 rounded-full ${index <= question ? "bg-primary" : "bg-muted-foreground/20"}`} />)}</div></div><p className="text-base font-black mb-4">{SPANISH_QUIZ[question][0]}</p><div className="space-y-2">{SPANISH_QUIZ[question][1].map((option, index) => <button key={option} onClick={() => selected === null && finishAnswer(index)} className={`w-full text-left px-4 py-3 rounded-xl border text-sm font-medium ${selected === null ? "border-border hover:border-primary" : index === SPANISH_QUIZ[question][2] ? "border-emerald-500 bg-emerald-500/10" : selected === index ? "border-rose-500 bg-rose-500/10" : "border-border opacity-40"}`}><span className="mr-3 font-bold">{["A", "B", "C", "D"][index]}</span>{option}</button>)}</div>{selected !== null && <p className="mt-3 rounded-xl p-3 text-xs bg-primary/5 border border-primary/20">{SPANISH_QUIZ[question][3]}</p>}<Button variant="ghost" size="sm" onClick={() => setQuiz(false)} className="mt-4"><ChevronLeft className="h-4 w-4" /> Volver a las lecciones</Button></div>
+      )}
+      {tab === "lessons" && result && <div className="px-5 py-8 text-center"><div className="text-5xl mb-3">{score >= 4 ? "🏆" : score >= 3 ? "🌟" : "📚"}</div><h4 className="text-2xl font-black mb-1">{score >= 4 ? "¡Estás certificado!" : score >= 3 ? "¡Buen trabajo!" : "¡Casi lo consigues!"}</h4><p className="text-muted-foreground text-sm mb-4">Has acertado <strong className="text-foreground">{score} de {SPANISH_QUIZ.length}</strong> preguntas. {score >= 4 ? "Has prestado mucha atención. ¡Bienvenido al equipo Lexigenz!" : "Repasa las lecciones e inténtalo de nuevo: ampliar el vocabulario consiste en repetir."}</p><Button variant="outline" size="sm" onClick={() => { setResult(false); setQuiz(false); setStep(0); setAnswers(Array(5).fill(null)); setQuestion(0); }}><RotateCcw className="h-4 w-4" /> Repetir</Button></div>}
+      {tab === "cheat" && <div className="px-5 py-5"><h4 className="text-base font-black">Hoja de referencia de Lexigenz</h4><p className="text-xs text-muted-foreground mb-4">Tu referencia visual rápida: haz una captura y consérvala.</p><div className="grid grid-cols-1 sm:grid-cols-2 gap-3">{[["📍 Navegación", [["Aprendizaje diario", "/app"], ["Juegos de palabras", "/play"], ["Lecturas profundas", "/articles"], ["Herramientas", "/about"], ["Desafiar a amigos", "/invite"]]], ["🔥 Reglas de la racha", [["Activación", "Visita Aplicación"], ["Reinicio", "Medianoche local"], ["7 días", "Primera insignia 🥉"], ["30 días", "Insignia de plata 🥈"], ["100 días", "Insignia de oro 🥇"], ["365 días", "Insignia de leyenda 🏆"]]], ["🎮 Juegos", [["Wordle", "5 letras, 6 intentos"], ["Scrabble", "Fichas contra la IA"], ["Crucigrama", "Cuadrícula temática"], ["Concurso de Ortografía", "Panal de 7 letras"], ["Cuadrícula de palabras", "Búsqueda 6×6"], ["Juego de Lexigenz", "Ordena LEXIGENZ"]]], ["🌍 Idiomas", [["Plan gratuito", "Solo inglés"], ["Premium", "Inglés + 1 idioma"], ["Cambiar mediante", "Icono del globo 🌐"], ["Impacto en la racha", "Ninguno"], ["Idiomas sudafricanos", "Afrikáans, zulú, xhosa"]]], ["⭐ Gratis frente a Premium", [["Precio", "8 $ una sola vez"], ["Idiomas", "Los 19"], ["Diario de palabras", "Ilimitado"], ["Juegos", "Sin anuncios"], ["Informes", "Mensuales"], ["Pago", "PayPal / tarjeta"]]]].map(([section, items]) => <div key={section as string} className="border border-primary/20 rounded-xl overflow-hidden bg-primary/5"><p className="px-3 py-2 border-b border-primary/15 text-xs font-black">{section as string}</p><div className="px-3 py-2 space-y-1">{(items as string[][]).map(([label, value]) => <div key={label} className="flex justify-between gap-2"><span className="text-xs text-muted-foreground">{label}</span><span className="text-xs font-semibold text-right">{value}</span></div>)}</div></div>)}</div><div className="mt-4 flex gap-2"><Button size="sm" onClick={() => { setTab("lessons"); setQuiz(true); setResult(false); }} className="flex-1"><Trophy className="h-4 w-4" /> Hacer el cuestionario</Button><Link href="/app" className="flex-1"><Button size="sm" variant="outline" className="w-full">Ir a la aplicación <ArrowRight className="h-4 w-4" /></Button></Link></div></div>}
+    </motion.div>
+  );
+}
+
 export default function PlaybookSection({ defaultOpen = false }: PlaybookSectionProps) {
+  const { i18n } = useTranslation();
+  if (i18n.language === "es") return <SpanishPlaybook defaultOpen={defaultOpen} />;
+
   const [open, setOpen] = useState(defaultOpen);
   const [activeTab, setActiveTab] = useState<"playbook" | "cheatsheet">("playbook");
   const [step, setStep] = useState(0);
