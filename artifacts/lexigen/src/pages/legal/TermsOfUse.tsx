@@ -1,5 +1,5 @@
 import { LegalLayout } from "./LegalLayout";
-import { legalHeading, legalTitles, legalUi } from "@/i18n/legalLocale";
+import { isFrench, legalHeading, legalTitles, legalUi } from "@/i18n/legalLocale";
 
 export default function TermsOfUse() {
   return (
@@ -77,7 +77,17 @@ export default function TermsOfUse() {
       <p>{legalUi('To the maximum extent permitted by law, the Services are provided "AS IS" and "AS AVAILABLE." The Company disclaims all warranties, whether express, implied, statutory, or otherwise.', 'Dans toute la mesure permise par la loi, les Services sont fournis « EN L’ÉTAT » et « SELON DISPONIBILITÉ ». La Société exclut toute garantie, qu’elle soit expresse, implicite, légale ou autre.')}</p>
 
       <h2>{legalHeading("15. ", "Limitation of Liability")}</h2>
-      <p>{legalUi("To the fullest extent permitted by law, the Company shall not be liable for indirect, consequential, incidental, special, punitive damages, loss of revenue, loss of profits, loss of goodwill, data loss, or cyber incidents caused by third parties. Where liability cannot legally be excluded, the Company's aggregate liability shall not exceed the greater of the amount paid by the User during the preceding twelve (12) months or ZAR 1,000.", "Dans toute la mesure permise par la loi, la Société ne saurait être responsable des dommages indirects, consécutifs, accessoires, spéciaux ou punitifs, de la perte de revenus, de bénéfices ou de clientèle, de la perte de données ou d’incidents cyber causés par des tiers. Lorsque la responsabilité ne peut légalement être exclue, la responsabilité globale de la Société ne dépassera pas le montant le plus élevé entre la somme payée par l’Utilisateur au cours des douze (12) mois précédents et 1 000 ZAR.")}</p>
+      {isFrench() ? (
+        <p>{legalUi("", "Dans toute la mesure permise par la loi, la Société ne saurait être responsable des dommages indirects, consécutifs, accessoires, spéciaux ou punitifs, de la perte de revenus, de bénéfices ou de clientèle, de la perte de données ou d’incidents cyber causés par des tiers. Lorsque la responsabilité ne peut légalement être exclue, la responsabilité globale de la Société ne dépassera pas le montant le plus élevé entre la somme payée par l’Utilisateur au cours des douze (12) mois précédents et 1 000 ZAR.")}</p>
+      ) : (
+        <>
+          <p>To the fullest extent permitted by applicable law, the Company excludes and shall not accept any liability arising out of or in connection with the User's access to, use of, or inability to use the Platform, its services, content, features, games, third-party integrations, or related services.</p>
+          <p>Without limiting the foregoing, the Company shall not be liable for any direct, indirect, incidental, consequential, special, exemplary, or punitive damages, or for any loss of revenue, profits, business opportunities, goodwill, anticipated savings, data, or other economic or non-economic loss, whether arising in contract, delict (tort), negligence, statute, or otherwise.</p>
+          <p>The Company shall further not be liable for any loss, damage, interruption, unauthorised access, data breach, cyberattack, malware, system failure, third-party act or omission, or other cyber or security incident caused by or attributable to third parties or circumstances beyond the Company's reasonable control.</p>
+          <p>The Company does not accept any aggregate or cumulative liability to the User. No monetary liability cap, minimum liability amount, or aggregate liability amount shall apply or be deemed to create an entitlement to compensation.</p>
+          <p>Nothing in this clause excludes or limits any liability that cannot lawfully be excluded or limited under applicable law, including any rights or remedies that may not be waived under applicable consumer protection legislation.</p>
+        </>
+      )}
 
       <h2>{legalHeading("16. ", "Indemnification")}</h2>
       <p>{legalUi("Users agree to indemnify, defend, and hold harmless the Company from and against any claims, damages, liabilities, costs, penalties, losses, expenses, and legal fees arising from violation of these Terms, unlawful conduct, regulatory breaches, intellectual property infringement, or misuse of the Services.", "Les Utilisateurs acceptent d’indemniser, de défendre et de garantir la Société contre toute réclamation, tout dommage, toute responsabilité, tout coût, toute pénalité, perte, dépense ou frais juridiques découlant de la violation des présentes conditions, d’une conduite illicite, d’un manquement réglementaire, d’une atteinte à la propriété intellectuelle ou d’une mauvaise utilisation des Services.")}</p>
