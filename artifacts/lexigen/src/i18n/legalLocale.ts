@@ -1,4 +1,5 @@
 import i18n from "./index";
+import { spanishLegalText } from "./spanishLegalText";
 
 /**
  * Legal copy is intentionally kept outside the product locale files.  Those
@@ -7,15 +8,15 @@ import i18n from "./index";
 export const isFrench = () => i18n.language.split("-")[0] === "fr";
 export const isSpanish = () => i18n.language.split("-")[0] === "es";
 
-export const legalUi = (english: string, french: string) =>
-  isFrench() ? french : english;
+export const legalUi = (english: string, french: string, spanish = spanishLegalText[english] ?? english) =>
+  isFrench() ? french : isSpanish() ? spanish : english;
 
 export const legalTitles = {
-  terms: ["Terms and Conditions", "Conditions générales"],
-  privacy: ["Privacy Policy", "Politique de confidentialité"],
-  termsOfUse: ["Terms of Use", "Conditions d'utilisation"],
-  cookies: ["Cookie Policy", "Politique relative aux cookies"],
-  disclaimer: ["Legal Disclaimer", "Avertissement juridique"],
+  terms: ["Terms and Conditions", "Conditions générales", "Términos y condiciones"],
+  privacy: ["Privacy Policy", "Politique de confidentialité", "Política de privacidad"],
+  termsOfUse: ["Terms of Use", "Conditions d'utilisation", "Términos de uso"],
+  cookies: ["Cookie Policy", "Politique relative aux cookies", "Política de cookies"],
+  disclaimer: ["Legal Disclaimer", "Avertissement juridique", "Aviso legal"],
 } as const;
 
 const frenchHeadings: Record<string, string> = {
@@ -95,5 +96,82 @@ const frenchHeadings: Record<string, string> = {
   "Changes to This Disclaimer": "Modifications du présent avertissement",
 };
 
+const spanishHeadings: Record<string, string> = {
+  Contents: "Índice",
+  "Acceptance of Terms": "Aceptación de los términos",
+  "Use of the Service": "Uso del servicio",
+  "Intellectual Property": "Propiedad intelectual",
+  "No Professional Advice": "Ausencia de asesoramiento profesional",
+  "Disclaimer of Warranties": "Exclusión de garantías",
+  "Limitation of Liability": "Limitación de responsabilidad",
+  "Third-Party Advertising": "Publicidad de terceros",
+  "Links to Third-Party Sites": "Enlaces a sitios de terceros",
+  "Changes to Terms": "Modificaciones de los términos",
+  "Governing Law": "Legislación aplicable",
+  Contact: "Contacto",
+  "Information We Collect": "Información que recopilamos",
+  "How We Use Information": "Cómo utilizamos la información",
+  "Google AdSense & Cookies": "Google AdSense y cookies",
+  Analytics: "Analítica",
+  "Data Storage & Security": "Almacenamiento y seguridad de los datos",
+  "Children's Privacy": "Privacidad de los menores",
+  "Your Rights": "Sus derechos",
+  "Changes to This Policy": "Modificaciones de esta política",
+  "Contact Us": "Contáctenos",
+  Eligibility: "Elegibilidad",
+  "Business Purpose of the Services": "Finalidad empresarial de los servicios",
+  "Account Registration": "Registro de la cuenta",
+  "User Responsibilities": "Responsabilidades del usuario",
+  "Prohibited Conduct": "Conducta prohibida",
+  "Intellectual Property Rights": "Derechos de propiedad intelectual",
+  "User-Generated Content": "Contenido generado por el usuario",
+  "Privacy and Data Protection": "Privacidad y protección de datos",
+  "Information Security": "Seguridad de la información",
+  "Third-Party Services": "Servicios de terceros",
+  "Fees, Payments, and Billing": "Tarifas, pagos y facturación",
+  "Service Availability": "Disponibilidad del servicio",
+  Disclaimers: "Exclusiones de responsabilidad",
+  Indemnification: "Indemnización",
+  "Compliance with Laws": "Cumplimiento de las leyes",
+  "Force Majeure": "Fuerza mayor",
+  "Suspension and Termination": "Suspensión y terminación",
+  "Dispute Resolution": "Resolución de disputas",
+  Severability: "Divisibilidad",
+  Amendments: "Modificaciones",
+  "Contact Information": "Información de contacto",
+  Introduction: "Introducción",
+  "What Are Cookies?": "¿Qué son las cookies?",
+  "Types of Cookies We Use": "Tipos de cookies que utilizamos",
+  "Strictly Necessary Cookies": "Cookies estrictamente necesarias",
+  "Functional Cookies": "Cookies funcionales",
+  "Performance and Analytics Cookies": "Cookies de rendimiento y analítica",
+  "Advertising and Marketing Cookies": "Cookies publicitarias y de marketing",
+  "Social Media Cookies": "Cookies de redes sociales",
+  "Security Cookies": "Cookies de seguridad",
+  "First-Party and Third-Party Cookies": "Cookies propias y de terceros",
+  "Similar Tracking Technologies": "Tecnologías de seguimiento similares",
+  "Information Collected Through Cookies": "Información recopilada mediante cookies",
+  "Legal Basis for Cookie Processing": "Base jurídica del tratamiento de cookies",
+  "Consent Management": "Gestión del consentimiento",
+  "How to Control Cookies": "Cómo controlar las cookies",
+  "Data Retention": "Conservación de datos",
+  "International Data Transfers": "Transferencias internacionales de datos",
+  "Data Security": "Seguridad de los datos",
+  "User Rights": "Derechos de los usuarios",
+  "Regulatory Compliance": "Cumplimiento normativo",
+  "Changes to This Cookie Policy": "Modificaciones de esta política de cookies",
+  "Important Notice": "Aviso importante",
+  "Information Purposes Only": "Solo para fines informativos",
+  "No Recommendation": "Sin recomendación",
+  "No Guarantee of Accuracy": "Sin garantía de exactitud",
+  "Content and Data Disclaimer": "Exención de responsabilidad sobre contenido y datos",
+  "Generator and Analytics Disclaimer": "Exención de responsabilidad sobre generadores y analítica",
+  "Third-Party Content": "Contenido de terceros",
+  "No Fiduciary Relationship": "Ausencia de relación fiduciaria",
+  "User Responsibility": "Responsabilidad del usuario",
+  "No Warranty": "Sin garantía",
+  "Changes to This Disclaimer": "Modificaciones de este aviso",
+};
+
 export const legalHeading = (number: string, english: string) =>
-  `${number}${legalUi(english, frenchHeadings[english] ?? english)}`;
+  `${number}${isSpanish() ? spanishHeadings[english] ?? spanishLegalText[english] ?? english : legalUi(english, frenchHeadings[english] ?? english)}`;

@@ -63,6 +63,14 @@ type LegalPage = {
     body: string;
     sourcePhrases: string[];
   };
+  spanish: {
+    title: string;
+    updated: string;
+    headings: string[];
+    body: string;
+    listItem: string;
+    linkLabels: string[];
+  };
 };
 
 const pages: LegalPage[] = [
@@ -83,6 +91,14 @@ const pages: LegalPage[] = [
       body: "Please read these Terms and Conditions carefully",
       sourcePhrases: ["Please read these Terms and Conditions carefully", "Acceptance of Terms", "Copy, scrape, republish", "Contact page"],
     },
+    spanish: {
+      title: "Términos y condiciones",
+      updated: "1 de junio de 2026",
+      headings: ["Índice", "1. Aceptación de los términos", "2. Uso del servicio", "11. Contacto"],
+      body: "Lea detenidamente estos Términos y Condiciones",
+      listItem: "Copiar, extraer, republicar o redistribuir",
+      linkLabels: ["hello@lexigenz.com", "página de contacto"],
+    },
   },
   {
     route: "/privacy",
@@ -100,6 +116,14 @@ const pages: LegalPage[] = [
       updated: "1 June 2026",
       body: "This Privacy Policy explains how we handle information",
       sourcePhrases: ["This Privacy Policy explains how we handle information", "Information We Collect", "Monitor the security and performance of the Site", "Contact page"],
+    },
+    spanish: {
+      title: "Política de privacidad",
+      updated: "1 de junio de 2026",
+      headings: ["Índice", "1. Información que recopilamos", "2. Cómo utilizamos la información", "9. Contáctenos"],
+      body: "Esta Política de Privacidad explica cómo manejamos la información",
+      listItem: "Supervisar la seguridad y el rendimiento del Sitio",
+      linkLabels: ["hello@lexigenz.com", "página de contacto"],
     },
   },
   {
@@ -119,6 +143,14 @@ const pages: LegalPage[] = [
       body: "These Terms of Use",
       sourcePhrases: ["These Terms of Use", "Acceptance of Terms", "Provide accurate and up-to-date information"],
     },
+    spanish: {
+      title: "Términos de uso",
+      updated: "1 de junio de 2026",
+      headings: ["1. Aceptación de los términos", "2. Elegibilidad", "24. Información de contacto"],
+      body: "Estos Términos de uso",
+      listItem: "Abuso del sistema:",
+      linkLabels: ["Política de privacidad"],
+    },
   },
   {
     route: "/cookies",
@@ -137,6 +169,14 @@ const pages: LegalPage[] = [
       body: "This Cookie Policy explains how Lexigenz Trading",
       sourcePhrases: ["This Cookie Policy explains how Lexigenz Trading", "Cookies are small text files", "Recognize returning users"],
     },
+    spanish: {
+      title: "Política de cookies",
+      updated: "1 de junio de 2026",
+      headings: ["1. Introducción", "2. ¿Qué son las cookies?", "17. Información de contacto"],
+      body: "Esta Política de cookies explica cómo Lexigenz Trading",
+      listItem: "Reconocer a los usuarios recurrentes",
+      linkLabels: ["hello@lexigenz.com"],
+    },
   },
   {
     route: "/legal",
@@ -154,6 +194,14 @@ const pages: LegalPage[] = [
       updated: "June 2026",
       body: "Welcome to Lexigenz.com",
       sourcePhrases: ["Welcome to Lexigenz.com", "Important Notice", "Word generation results and vocabulary suggestions"],
+    },
+    spanish: {
+      title: "Aviso legal",
+      updated: "Junio de 2026",
+      headings: ["1. Aviso importante", "2. Solo para fines informativos", "13. Información de contacto"],
+      body: "Bienvenido a Lexigenz.com",
+      listItem: "Resultados de generación de palabras y sugerencias de vocabulario",
+      linkLabels: ["hello@lexigenz.com", "https://lexigenz.com"],
     },
   },
 ];
@@ -202,17 +250,39 @@ test("French legal routes render translated headings, dates, body, lists, and li
   }
 });
 
-test("English and Spanish legal routes retain the English rendering", async () => {
-  for (const language of ["en", "es"]) {
-    await i18n.changeLanguage(language);
+test("Spanish legal routes render translated headings, dates, body, lists, and links", async () => {
+  await i18n.changeLanguage("es");
 
-    for (const page of pages) {
-      const markup = renderPage(page);
+  for (const page of pages) {
+    const markup = renderPage(page);
 
-      assertMarkupContains(markup, page.english.title, `${language} ${page.route} title`);
-      assertMarkupContains(markup, "Last updated:", `${language} ${page.route} update label`);
-      assertMarkupContains(markup, page.english.body, `${language} ${page.route} body copy`);
-      assertMarkupContains(markup, page.english.updated, `${language} ${page.route} date`);
+    assertMarkupContains(markup, page.spanish.title, `${page.route} Spanish title`);
+    assertMarkupContains(markup, page.spanish.updated, `${page.route} Spanish date`);
+    assertMarkupContains(markup, "Última actualización:", `${page.route} Spanish update label`);
+    assertMarkupContains(markup, page.spanish.body, `${page.route} Spanish body copy`);
+    assertMarkupContains(markup, page.spanish.listItem, `${page.route} Spanish list item`);
+
+    for (const heading of page.spanish.headings) {
+      assertMarkupContains(markup, heading, `${page.route} Spanish heading`);
     }
+    for (const linkLabel of page.spanish.linkLabels) {
+      assertMarkupContains(markup, linkLabel, `${page.route} Spanish inline link label`);
+    }
+    for (const sourcePhrase of page.english.sourcePhrases) {
+      assertMarkupOmits(markup, sourcePhrase, `${page.route} Spanish regression check`);
+    }
+  }
+});
+
+test("English legal routes retain the English rendering", async () => {
+  await i18n.changeLanguage("en");
+
+  for (const page of pages) {
+    const markup = renderPage(page);
+
+    assertMarkupContains(markup, page.english.title, `${page.route} English title`);
+    assertMarkupContains(markup, "Last updated:", `${page.route} English update label`);
+    assertMarkupContains(markup, page.english.body, `${page.route} English body copy`);
+    assertMarkupContains(markup, page.english.updated, `${page.route} English date`);
   }
 });
