@@ -39,21 +39,69 @@ function MemoryScienceBody() {
   );
 }
 
+function LanguageHabitsBody() {
+  const { t } = useTranslation();
+
+  return (
+    <div className="space-y-5">
+      <p>{t("invite.articleLanguageHabitsBody.intro")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articleLanguageHabitsBody.smallExposureHeading")}
+      </h3>
+      <p>{t("invite.articleLanguageHabitsBody.smallExposureParagraph")}</p>
+      <p>{t("invite.articleLanguageHabitsBody.smallExposureSecondParagraph")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articleLanguageHabitsBody.stableRoutineHeading")}
+      </h3>
+      <p>{t("invite.articleLanguageHabitsBody.stableRoutineParagraph")}</p>
+      <ul className="list-disc list-inside space-y-2 pl-2">
+        <li>{t("invite.articleLanguageHabitsBody.routineStepOne")}</li>
+        <li>{t("invite.articleLanguageHabitsBody.routineStepTwo")}</li>
+        <li>{t("invite.articleLanguageHabitsBody.routineStepThree")}</li>
+        <li>{t("invite.articleLanguageHabitsBody.routineStepFour")}</li>
+      </ul>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articleLanguageHabitsBody.structureHeading")}
+      </h3>
+      <p>{t("invite.articleLanguageHabitsBody.structureParagraph")}</p>
+      <p>{t("invite.articleLanguageHabitsBody.conclusion")}</p>
+    </div>
+  );
+}
+
 function ArticleDetailInner({ id }: { id: string }) {
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
   const article = ARTICLES.find((a) => a.id === id)!;
-  const isSpanishMemoryArticle = id === "why-context-beats-repetition" && i18n.language === "es";
-  const displayCategory = isSpanishMemoryArticle
-    ? t("invite.articleMemoryScienceTag")
-    : article.category;
-  const displayTitle = isSpanishMemoryArticle
-    ? t("invite.articleMemoryScienceTitle")
-    : article.title;
-  const displayExcerpt = isSpanishMemoryArticle
-    ? t("invite.articleMemoryScienceExcerpt")
-    : article.excerpt;
-  const displayBody = isSpanishMemoryArticle ? <MemoryScienceBody /> : article.body;
+  const localizedArticle = i18n.language === "es"
+    ? {
+        "why-context-beats-repetition": {
+          category: t("invite.articleMemoryScienceTag"),
+          title: t("invite.articleMemoryScienceTitle"),
+          excerpt: t("invite.articleMemoryScienceExcerpt"),
+          body: <MemoryScienceBody />,
+        },
+        "the-21-day-word-habit": {
+          category: t("invite.articleLanguageHabitsTag"),
+          title: t("invite.articleLanguageHabitsTitle"),
+          excerpt: t("invite.articleLanguageHabitsExcerpt"),
+          body: <LanguageHabitsBody />,
+        },
+      }[id]
+    : undefined;
+  const displayCategory = localizedArticle?.category ?? article.category;
+  const displayTitle = localizedArticle?.title ?? article.title;
+  const displayExcerpt = localizedArticle?.excerpt ?? article.excerpt;
+  const displayBody = localizedArticle?.body ?? article.body;
+  const getArticleTitle = (linkedArticle: (typeof ARTICLES)[number]) => {
+    if (i18n.language !== "es") return linkedArticle.title;
+    const localizedTitles: Record<string, string> = {
+      "why-context-beats-repetition": t("invite.articleMemoryScienceTitle"),
+      "the-21-day-word-habit": t("invite.articleLanguageHabitsTitle"),
+      "learning-with-others": t("invite.articleSocialLearningTitle"),
+    };
+    return localizedTitles[linkedArticle.id] ?? linkedArticle.title;
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -91,7 +139,7 @@ function ArticleDetailInner({ id }: { id: string }) {
     const url = window.location.href;
     try {
       if (navigator.share) {
-        await navigator.share({ title: article.title, url });
+        await navigator.share({ title: displayTitle, url });
       } else {
         await navigator.clipboard.writeText(url);
         setCopied(true);
@@ -166,7 +214,7 @@ function ArticleDetailInner({ id }: { id: string }) {
                   <div className="group p-4 rounded-xl border border-border hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer">
                     <p className="text-xs text-muted-foreground mb-1">{t("articleDetail.prevLabel")}</p>
                     <p className="text-sm font-bold line-clamp-2 group-hover:text-primary transition-colors">
-                      {prev.title}
+                      {getArticleTitle(prev)}
                     </p>
                   </div>
                 </Link>
@@ -178,7 +226,7 @@ function ArticleDetailInner({ id }: { id: string }) {
                   <div className="group p-4 rounded-xl border border-border hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer text-right">
                     <p className="text-xs text-muted-foreground mb-1">{t("articleDetail.nextLabel")}</p>
                     <p className="text-sm font-bold line-clamp-2 group-hover:text-primary transition-colors">
-                      {next.title}
+                      {getArticleTitle(next)}
                     </p>
                   </div>
                 </Link>

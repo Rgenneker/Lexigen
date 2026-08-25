@@ -1309,11 +1309,11 @@
     "articleMemoryScienceExcerpt": "Las investigaciones muestran que encontrar una palabra dentro de una frase significativa, especialmente una que hayas escrito tú mismo, puede ser mucho más eficaz que limitarse a memorizarla mediante tarjetas de estudio. Esta es la ciencia que explica por qué tu Diario de palabras puede convertirse en una de tus herramientas de aprendizaje más poderosas.",
     "articleLanguageHabitsTag": "Hábitos lingüísticos",
     "articleLanguageHabitsReadTime": "7 min de lectura",
-    "articleLanguageHabitsTitle": "El hábito de 21 días: desarrolla tu fluidez con pequeñas dosis diarias de vocabulario",
-    "articleLanguageHabitsExcerpt": "No necesitas estudiar durante horas. Necesitas unos minutos al día, todos los días. Analizamos técnicas para integrar hábitos que convierten la palabra diaria de Lexigenz en una práctica constante capaz de transformar progresivamente tu manera de pensar y comunicarte.",
+    "articleLanguageHabitsTitle": "El hábito de 21 días: desarrolla tu fluidez mediante pequeñas dosis diarias de vocabulario",
+    "articleLanguageHabitsExcerpt": "No necesitas dedicar horas al estudio. Necesitas siete minutos al día, todos los días. Te mostramos técnicas para integrar hábitos que convierten la palabra diaria de Lexigenz en un cambio duradero en tu manera de pensar y comunicarte.",
     "articleSocialLearningTag": "Aprendizaje social",
     "articleSocialLearningReadTime": "6 min de lectura",
-    "articleSocialLearningTitle": "Aprender con otros: cómo el juego competitivo puede reforzar la memoria de las palabras",
+    "articleSocialLearningTitle": "Aprender con otros: cómo el juego competitivo acelera el aprendizaje de palabras",
     "articleSocialLearningExcerpt": "Cuando desafías a un amigo a una partida de Wordle o compites con él en el Juego de Lexigenz, estás aprendiendo vocabulario dentro de una experiencia social, activa y competitiva. Descubre cómo este tipo de interacción puede contribuir al aprendizaje y a la retención de nuevas palabras.",
     "articleGenZLanguageTag": "Generación Z y lenguaje",
     "articleGenZLanguageReadTime": "8 min de lectura",
@@ -1336,6 +1336,21 @@
       "reviewStepTwo": "Escribe una frase que la relacione con tu propia vida.",
       "reviewStepThree": "Vuelve a ella más adelante e intenta utilizarla sin consultar la definición.",
       "conclusion": "La repetición sigue teniendo su lugar. Sin embargo, resulta mucho más útil cuando se produce después de comprender la palabra y utilizarla personalmente. Aprende la palabra en contexto, úsala tú mismo y vuelve a ella posteriormente dejando intervalos cada vez mayores entre los repasos. Así es como una palabra nueva pasa de ser algo que simplemente reconoces a convertirse en algo que realmente forma parte de tu vocabulario."
+    },
+    "articleLanguageHabitsBody": {
+      "intro": "Los objetivos relacionados con el vocabulario suelen fracasar porque se plantean como tareas escolares: son ambiciosos, irregulares y dependen de disponer de largos periodos de tiempo libre. La fluidez se desarrolla de manera más constante mediante una pequeña práctica diaria. Siete minutos de atención pueden proporcionarle a tu cerebro una palabra nueva, una oportunidad para recuperarla de la memoria y una razón para empezar a reconocerla en el mundo que te rodea.",
+      "smallExposureHeading": "Por qué las pequeñas dosis de aprendizaje se acumulan",
+      "smallExposureParagraph": "Una palabra diaria crea un contacto repetido con el vocabulario sin convertir el aprendizaje en una obligación pesada. El primer encuentro genera familiaridad. Los encuentros posteriores hacen que la palabra resulte más fácil de reconocer. Utilizarla en una frase transforma esa familiaridad en la capacidad de recuperarla y utilizarla. Con el tiempo, estas pequeñas sesiones construyen una red creciente de palabras que se conectan y se refuerzan entre sí.",
+      "smallExposureSecondParagraph": "La clave no está en cuántas palabras puedes acumular en una semana, sino en cuántas puedes recuperar de manera natural meses después. Una palabra aprendida en profundidad es más valiosa que diez palabras abandonadas en una lista que acabarás olvidando.",
+      "stableRoutineHeading": "Vincula el hábito a una rutina que ya tengas",
+      "stableRoutineParagraph": "Elige un momento estable de tu rutina diaria: el primer café de la mañana, el trayecto al trabajo o a clase, la hora del almuerzo o el momento en que conectas el teléfono para cargarlo por la noche. Vincula tu sesión de vocabulario a ese momento y mantén siempre una secuencia predecible. El objetivo es eliminar la decisión diaria sobre cuándo debes aprender.",
+      "routineStepOne": "Lee la definición y la pronunciación.",
+      "routineStepTwo": "Observa cómo se utiliza la palabra en una frase de ejemplo.",
+      "routineStepThree": "Escribe tu propia frase en el Diario de palabras.",
+      "routineStepFour": "Pronúnciala en voz alta una vez dentro de una frase natural.",
+      "structureHeading": "La estructura de 21 días",
+      "structureParagraph": "Durante la primera semana, concéntrate simplemente en cumplir con tu práctica diaria. En la segunda semana, céntrate en la recuperación: oculta la definición e intenta recordar la palabra sin ayuda. Durante la tercera semana, enfócate en transferir lo aprendido a situaciones reales utilizando las nuevas palabras en mensajes, notas, conversaciones o trabajos creativos.",
+      "conclusion": "Perder un día no elimina todo tu progreso. Una regla práctica y sencilla es: «nunca faltes dos días seguidos». Un hábito sostenible también incluye días imperfectos. Mantén las sesiones lo suficientemente breves como para que retomarlas resulte más fácil que evitarlas y deja que estas pequeñas dosis diarias de aprendizaje acumulen sus beneficios con el tiempo."
     }
   },
   "modals": {
@@ -1888,7 +1903,7 @@
     "copied": "¡Copiado!",
     "share": "Compartir",
     "footer": "Todos los artículos escritos por",
-    "footerSuffix": "· Lectura gratuita · Sin necesidad de cuenta",
+    "footerSuffix": "· Lectura gratuita · No se necesita una cuenta",
     "prevLabel": "← Anterior",
     "nextLabel": "Siguiente →",
     "browseAll": "Explorar todos los artículos"
