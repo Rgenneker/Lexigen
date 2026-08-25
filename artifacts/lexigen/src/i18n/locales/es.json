@@ -1318,7 +1318,7 @@
     "articleGenZLanguageTag": "Generación Z y lenguaje",
     "articleGenZLanguageReadTime": "8 min de lectura",
     "articleGenZLanguageTitle": "Alternancia de códigos, jerga e inglés estándar: domina todos los registros",
-    "articleGenZLanguageExcerpt": "La Generación Z ya se comunica con fluidez entre múltiples registros lingüísticos. Inglés formal, jerga de Internet y formas de expresión propias de diferentes comunidades: Lexigenz te ayuda a dominar el vocabulario formal sin perder la voz y la personalidad que ya forman parte de tu manera de comunicarte.",
+    "articleGenZLanguageExcerpt": "La Generación Z ya se comunica con fluidez entre múltiples registros lingüísticos. Inglés formal, jerga de Internet y formas de expresión propias de diferentes comunidades: Lexigenz te ayuda a dominar el vocabulario formal sin perder la voz que ya te pertenece.",
     "articlePersonalGrowthTag": "Crecimiento personal",
     "articlePersonalGrowthReadTime": "6 min de lectura",
     "articlePersonalGrowthTitle": "El poder de las palabras es poder para la vida: cómo el vocabulario influye en la confianza y las oportunidades",
@@ -1365,6 +1365,20 @@
       "gameStepThree": "Escribid cada uno una frase utilizando esa palabra antes de comenzar la siguiente ronda.",
       "gameStepFour": "Volved a la palabra unos días después e intentad recordar su significado antes de consultarlo.",
       "conclusion": "El juego aporta motivación, pero la reflexión ayuda a transformar esa motivación en aprendizaje. Habla sobre la palabra, utilízala dentro de tu propio contexto y recupérala en un desafío posterior. Jugar con otras personas transforma el aprendizaje de vocabulario, que deja de ser una tarea solitaria para convertirse en un pequeño ritual compartido que apetece repetir."
+    },
+    "articleGenZLanguageBody": {
+      "intro": "Cambiar tu manera de hablar según el público no significa dejar de ser auténtico. Es una habilidad lingüística sofisticada. La mayoría de las personas cambia de registro todos los días: una nota de voz para un amigo, una presentación en clase, un chat familiar y una solicitud de empleo requieren formas de expresión diferentes.",
+      "registerHeading": "El registro es una herramienta, no una jerarquía",
+      "registerParagraph": "El inglés formal resulta útil en determinadas situaciones, pero no es automáticamente mejor que la jerga, los dialectos o las formas de expresión propias de una comunidad. Cada registro transmite identidad, humor, historia y sentido de pertenencia. El objetivo es ampliar tus posibilidades: comprender lo que transmite cada palabra y elegirla conscientemente, en lugar de estar limitado a un único estilo.",
+      "codeSwitchingParagraph": "La alternancia de códigos se convierte en una herramienta poderosa cuando comprendes tanto a tu público como el propósito de la comunicación. Un mensaje breve y directo puede crear cercanía. Una expresión formal y precisa puede evitar ambigüedades en una propuesta. Una frase divertida o coloquial puede transmitir un tono que se perdería con una expresión estrictamente literal.",
+      "repertoireHeading": "Amplía tu repertorio lingüístico personal",
+      "repertoireStepOne": "Aprende alternativas formales sin considerar incorrecta tu manera cotidiana de expresarte.",
+      "repertoireStepTwo": "Observa qué palabras suenan cercanas, distantes, divertidas, técnicas o autoritarias.",
+      "repertoireStepThree": "Prueba una palabra nueva en tres frases diferentes y compara el efecto que produce.",
+      "repertoireStepFour": "Lee contenidos variados para que tu vocabulario se nutra de diferentes comunidades, estilos y géneros.",
+      "precisionHeading": "La precisión protege tu voz",
+      "precisionParagraph": "Un vocabulario más amplio debería ofrecerte más posibilidades, no sustituir las formas de expresión que ya utilizas. Si una frase familiar expresa mejor lo que quieres decir, consérvala. Si una palabra formal te ayuda a explicar una idea compleja durante una reunión, utilízala. La verdadera fluidez consiste en poder moverte entre estas opciones de manera consciente.",
+      "conclusion": "Lexigenz resulta especialmente útil cuando amplía tus recursos lingüísticos sin borrar tu identidad. Aprende la palabra, comprende su registro y decide por ti mismo cuándo encaja en tu forma de expresarte."
     }
   },
   "modals": {

@@ -98,6 +98,35 @@ function SocialLearningBody() {
   );
 }
 
+function CodeSwitchingBody() {
+  const { t } = useTranslation();
+
+  return (
+    <div className="space-y-5">
+      <p>{t("invite.articleGenZLanguageBody.intro")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articleGenZLanguageBody.registerHeading")}
+      </h3>
+      <p>{t("invite.articleGenZLanguageBody.registerParagraph")}</p>
+      <p>{t("invite.articleGenZLanguageBody.codeSwitchingParagraph")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articleGenZLanguageBody.repertoireHeading")}
+      </h3>
+      <ul className="list-disc list-inside space-y-2 pl-2">
+        <li>{t("invite.articleGenZLanguageBody.repertoireStepOne")}</li>
+        <li>{t("invite.articleGenZLanguageBody.repertoireStepTwo")}</li>
+        <li>{t("invite.articleGenZLanguageBody.repertoireStepThree")}</li>
+        <li>{t("invite.articleGenZLanguageBody.repertoireStepFour")}</li>
+      </ul>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articleGenZLanguageBody.precisionHeading")}
+      </h3>
+      <p>{t("invite.articleGenZLanguageBody.precisionParagraph")}</p>
+      <p>{t("invite.articleGenZLanguageBody.conclusion")}</p>
+    </div>
+  );
+}
+
 function ArticleDetailInner({ id }: { id: string }) {
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
@@ -122,6 +151,12 @@ function ArticleDetailInner({ id }: { id: string }) {
           excerpt: t("invite.articleSocialLearningExcerpt"),
           body: <SocialLearningBody />,
         },
+        "owning-every-register": {
+          category: t("invite.articleGenZLanguageTag"),
+          title: t("invite.articleGenZLanguageTitle"),
+          excerpt: t("invite.articleGenZLanguageExcerpt"),
+          body: <CodeSwitchingBody />,
+        },
       }[id]
     : undefined;
   const displayCategory = localizedArticle?.category ?? article.category;
@@ -135,6 +170,7 @@ function ArticleDetailInner({ id }: { id: string }) {
       "the-21-day-word-habit": t("invite.articleLanguageHabitsTitle"),
       "learning-with-others": t("invite.articleSocialLearningTitle"),
       "owning-every-register": t("invite.articleGenZLanguageTitle"),
+      "word-power-is-life-power": t("invite.articlePersonalGrowthTitle"),
     };
     return localizedTitles[linkedArticle.id] ?? linkedArticle.title;
   };
