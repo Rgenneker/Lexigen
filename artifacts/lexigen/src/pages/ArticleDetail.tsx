@@ -69,6 +69,35 @@ function LanguageHabitsBody() {
   );
 }
 
+function SocialLearningBody() {
+  const { t } = useTranslation();
+
+  return (
+    <div className="space-y-5">
+      <p>{t("invite.articleSocialLearningBody.intro")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articleSocialLearningBody.competitionHeading")}
+      </h3>
+      <p>{t("invite.articleSocialLearningBody.competitionParagraph")}</p>
+      <p>{t("invite.articleSocialLearningBody.bestCompetitionParagraph")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articleSocialLearningBody.socialInteractionHeading")}
+      </h3>
+      <p>{t("invite.articleSocialLearningBody.socialInteractionParagraph")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articleSocialLearningBody.gameHeading")}
+      </h3>
+      <ol className="list-decimal list-inside space-y-2 pl-2">
+        <li>{t("invite.articleSocialLearningBody.gameStepOne")}</li>
+        <li>{t("invite.articleSocialLearningBody.gameStepTwo")}</li>
+        <li>{t("invite.articleSocialLearningBody.gameStepThree")}</li>
+        <li>{t("invite.articleSocialLearningBody.gameStepFour")}</li>
+      </ol>
+      <p>{t("invite.articleSocialLearningBody.conclusion")}</p>
+    </div>
+  );
+}
+
 function ArticleDetailInner({ id }: { id: string }) {
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
@@ -87,6 +116,12 @@ function ArticleDetailInner({ id }: { id: string }) {
           excerpt: t("invite.articleLanguageHabitsExcerpt"),
           body: <LanguageHabitsBody />,
         },
+        "learning-with-others": {
+          category: t("invite.articleSocialLearningTag"),
+          title: t("invite.articleSocialLearningTitle"),
+          excerpt: t("invite.articleSocialLearningExcerpt"),
+          body: <SocialLearningBody />,
+        },
       }[id]
     : undefined;
   const displayCategory = localizedArticle?.category ?? article.category;
@@ -99,6 +134,7 @@ function ArticleDetailInner({ id }: { id: string }) {
       "why-context-beats-repetition": t("invite.articleMemoryScienceTitle"),
       "the-21-day-word-habit": t("invite.articleLanguageHabitsTitle"),
       "learning-with-others": t("invite.articleSocialLearningTitle"),
+      "owning-every-register": t("invite.articleGenZLanguageTitle"),
     };
     return localizedTitles[linkedArticle.id] ?? linkedArticle.title;
   };
