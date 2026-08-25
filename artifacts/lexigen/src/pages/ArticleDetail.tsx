@@ -127,6 +127,35 @@ function CodeSwitchingBody() {
   );
 }
 
+function PersonalGrowthBody() {
+  const { t } = useTranslation();
+
+  return (
+    <div className="space-y-5">
+      <p>{t("invite.articlePersonalGrowthBody.intro")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articlePersonalGrowthBody.precisionHeading")}
+      </h3>
+      <p>{t("invite.articlePersonalGrowthBody.precisionParagraph")}</p>
+      <p>{t("invite.articlePersonalGrowthBody.precisionSecondParagraph")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articlePersonalGrowthBody.confidenceHeading")}
+      </h3>
+      <p>{t("invite.articlePersonalGrowthBody.confidenceParagraph")}</p>
+      <h3 className="text-xl font-black mt-8 mb-3">
+        {t("invite.articlePersonalGrowthBody.usefulVocabHeading")}
+      </h3>
+      <ol className="list-decimal list-inside space-y-2 pl-2">
+        <li>{t("invite.articlePersonalGrowthBody.usefulVocabStepOne")}</li>
+        <li>{t("invite.articlePersonalGrowthBody.usefulVocabStepTwo")}</li>
+        <li>{t("invite.articlePersonalGrowthBody.usefulVocabStepThree")}</li>
+        <li>{t("invite.articlePersonalGrowthBody.usefulVocabStepFour")}</li>
+      </ol>
+      <p>{t("invite.articlePersonalGrowthBody.conclusion")}</p>
+    </div>
+  );
+}
+
 function ArticleDetailInner({ id }: { id: string }) {
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
@@ -156,6 +185,12 @@ function ArticleDetailInner({ id }: { id: string }) {
           title: t("invite.articleGenZLanguageTitle"),
           excerpt: t("invite.articleGenZLanguageExcerpt"),
           body: <CodeSwitchingBody />,
+        },
+        "word-power-is-life-power": {
+          category: t("invite.articlePersonalGrowthTag"),
+          title: t("invite.articlePersonalGrowthTitle"),
+          excerpt: t("invite.articlePersonalGrowthExcerpt"),
+          body: <PersonalGrowthBody />,
         },
       }[id]
     : undefined;

@@ -1322,7 +1322,7 @@
     "articlePersonalGrowthTag": "Crecimiento personal",
     "articlePersonalGrowthReadTime": "6 min de lectura",
     "articlePersonalGrowthTitle": "El poder de las palabras es poder para la vida: cómo el vocabulario influye en la confianza y las oportunidades",
-    "articlePersonalGrowthExcerpt": "Un vocabulario amplio puede ayudarte a expresarte con mayor precisión, desenvolverte con más confianza y adaptarte a diferentes situaciones personales, académicas y profesionales. No se trata de hablar de manera «correcta» o sofisticada. Se trata de disponer de más herramientas. Cuantas más palabras tengas a tu alcance, más formas tendrás de expresar exactamente lo que piensas, hacerte comprender y conseguir que tu voz sea escuchada.",
+    "articlePersonalGrowthExcerpt": "Diversos estudios relacionan la amplitud del vocabulario con aspectos como las oportunidades profesionales, la confianza social y la agilidad cognitiva. No se trata de hablar de manera «correcta» o sofisticada. Se trata de disponer de más herramientas. Cuantas más palabras tengas a tu alcance, más formas tendrás de hacerte entender, ser respetado y conseguir que tu voz sea escuchada.",
     "articleMemoryScienceBody": {
       "intro": "Una palabra en una tarjeta de estudio es una pequeña unidad de información. Una palabra utilizada en una frase creada por ti forma parte de una experiencia. Tu cerebro recuerda mejor las experiencias que los datos aislados porque contienen contexto: lo que estabas pensando, lo que querías expresar y la función que desempeñaba la palabra en ese momento.",
       "networksHeading": "El cerebro aprende mediante redes",
@@ -1379,6 +1379,20 @@
       "precisionHeading": "La precisión protege tu voz",
       "precisionParagraph": "Un vocabulario más amplio debería ofrecerte más posibilidades, no sustituir las formas de expresión que ya utilizas. Si una frase familiar expresa mejor lo que quieres decir, consérvala. Si una palabra formal te ayuda a explicar una idea compleja durante una reunión, utilízala. La verdadera fluidez consiste en poder moverte entre estas opciones de manera consciente.",
       "conclusion": "Lexigenz resulta especialmente útil cuando amplía tus recursos lingüísticos sin borrar tu identidad. Aprende la palabra, comprende su registro y decide por ti mismo cuándo encaja en tu forma de expresarte."
+    },
+    "articlePersonalGrowthBody": {
+      "intro": "El vocabulario no determina cuánto vale una persona, su inteligencia ni lo «correctamente» que se expresa. Es un conjunto de herramientas. Cuantas más herramientas tengas a tu disposición, mayor será tu capacidad para describir una experiencia con precisión, defender una idea, pedir lo que necesitas o ayudar a otra persona a comprenderte.",
+      "precisionHeading": "La precisión transforma tu manera de participar",
+      "precisionParagraph": "Cuando tienes disponible la palabra adecuada, resulta más fácil participar en una conversación, explicar una idea o formular una pregunta útil. Tener que buscar constantemente las palabras mientras hablas puede hacer que una persona perfectamente capaz se sienta menos segura de sus capacidades. Ampliar el vocabulario no crea inteligencia; proporciona a las ideas que ya existen una vía más clara para expresarse.",
+      "precisionSecondParagraph": "Esto importa en el trabajo, en la educación y en las relaciones personales. Una descripción precisa puede transformar una queja vaga en un problema que puede resolverse. Un verbo bien elegido puede hacer que una propuesta resulte más clara y convincente. Encontrar la palabra adecuada para describir una emoción difícil puede hacer posible una conversación sincera.",
+      "confidenceHeading": "La confianza se construye mediante experiencias repetidas",
+      "confidenceParagraph": "Tener confianza no significa pensar que nunca cometerás un error. Significa saber que puedes recuperarte, aclarar lo que querías decir e intentarlo de nuevo. Cada vez que aprendes una palabra y consigues utilizarla correctamente, obtienes una nueva prueba de que tu capacidad lingüística puede seguir creciendo. La acumulación de estas pequeñas experiencias positivas puede cambiar progresivamente tu disposición a expresarte.",
+      "usefulVocabHeading": "Desarrolla un vocabulario útil para tu vida",
+      "usefulVocabStepOne": "Aprende palabras relacionadas con las situaciones que realmente te importan.",
+      "usefulVocabStepTwo": "Escribe ejemplos personales en lugar de limitarte a copiar definiciones.",
+      "usefulVocabStepThree": "Utiliza las palabras nuevas en conversaciones y mensajes cotidianos donde puedas practicar sin presión.",
+      "usefulVocabStepFour": "Conserva aquellas palabras que realmente te ayuden a expresar lo que quieres decir.",
+      "conclusion": "El objetivo no es impresionar a los demás. Es disponer de más formas de hacerte entender, ser respetado y conseguir que tu voz sea escuchada. Una palabra al día representa una pequeña inversión, pero sus beneficios se acumulan cada vez que un lenguaje más claro te ayuda a participar plenamente en la vida que quieres construir."
     }
   },
   "modals": {
