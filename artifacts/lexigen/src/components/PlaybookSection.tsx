@@ -481,7 +481,7 @@ function SpanishPlaybook({ defaultOpen = false }: PlaybookSectionProps) {
           </div>
           <Button className="flex-shrink-0 gap-2">Empezar <ChevronRight className="h-4 w-4" /></Button>
         </div>
-        <div className="border-t border-primary/20 px-6 py-2 flex gap-6 text-xs text-muted-foreground">
+        <div className="border-t border-primary/20 px-6 py-2 flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5"><BookOpen className="h-3 w-3" /> 7 lecciones</span>
           <span className="flex items-center gap-1.5"><Hash className="h-3 w-3" /> Cuestionario de 5 preguntas</span>
           <span className="flex items-center gap-1.5"><LayoutGrid className="h-3 w-3" /> Hoja de referencia visual</span>
