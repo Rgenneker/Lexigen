@@ -94,8 +94,10 @@ export default function Terms() {
       <h2>{isSpanish() ? "6. Limitación de Responsabilidad" : legalHeading("6. ", "Limitation of Liability")}</h2>
       {isFrench() ? (
         <>
-          <p>Dans toute la mesure permise par la loi applicable, Lexigenz Trading ainsi que ses dirigeants, employés et mandataires ne sauraient être responsables de dommages indirects, accessoires, spéciaux, consécutifs ou punitifs résultant de votre utilisation ou de votre impossibilité d’utiliser le Site ou ses générateurs de mots, même s’ils ont été informés de la possibilité de tels dommages.</p>
-          <p>Notre responsabilité totale envers vous pour toute réclamation découlant de l’utilisation du Site ne dépassera pas 500 ZAR (cinq cents rands sud-africains).</p>
+          <p>Dans toute la mesure permise par la législation applicable, Lexigenz Trading, y compris ses administrateurs, employés, représentants et agents, exclut et n’accepte aucune responsabilité pour toute perte, tout dommage, toute réclamation, tout coût ou toute dépense découlant de, ou lié à, votre accès au Site, à son utilisation, à la confiance que vous accordez à celui-ci ou à l’impossibilité de l’utiliser, ainsi qu’à ses générateurs de mots, outils, contenus, fonctionnalités ou services connexes.</p>
+          <p>Cette exclusion comprend, sans limitation, tout dommage direct, indirect, accessoire, spécial, consécutif, exemplaire ou punitif ; toute perte de bénéfices, de revenus, d’opportunités commerciales, de clientèle ou de réputation commerciale, de données ou d’économies escomptées ; ainsi que toute perte résultant d’interruptions de service, de défaillances techniques, d’incidents informatiques, d’accès non autorisés ou d’actes ou omissions de tiers.</p>
+          <p>Lexigenz Trading n’accepte aucune responsabilité globale ou cumulative, et aucun plafond monétaire de responsabilité, montant minimal de responsabilité ou montant global de responsabilité ne s’applique ni ne saurait être interprété comme créant un quelconque droit à indemnisation ou à compensation.</p>
+          <p>Aucune disposition de la présente clause n’a pour objet d’exclure ou de limiter une responsabilité, un droit ou un recours qui ne peut légalement être exclu ou limité en vertu de la législation sud-africaine applicable, y compris la législation applicable en matière de protection des consommateurs.</p>
         </>
       ) : isSpanish() ? (
         <>
