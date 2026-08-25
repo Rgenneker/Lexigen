@@ -1,5 +1,5 @@
 import { LegalLayout } from "./LegalLayout";
-import { legalHeading, legalTitles, legalUi } from "@/i18n/legalLocale";
+import { isFrench, legalHeading, legalTitles, legalUi } from "@/i18n/legalLocale";
 
 export default function Terms() {
   return (
@@ -92,18 +92,19 @@ export default function Terms() {
       </p>
 
       <h2>{legalHeading("6. ", "Limitation of Liability")}</h2>
-      <p>
-        {legalUi(
-          "To the maximum extent permitted by applicable law, Lexigenz Trading and its directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of, or inability to use, the Site or its word generators - even if advised of the possibility of such damages.",
-          "Dans toute la mesure permise par la loi applicable, Lexigenz Trading ainsi que ses dirigeants, employés et mandataires ne sauraient être responsables de dommages indirects, accessoires, spéciaux, consécutifs ou punitifs résultant de votre utilisation ou de votre impossibilité d’utiliser le Site ou ses générateurs de mots, même s’ils ont été informés de la possibilité de tels dommages."
-        )}
-      </p>
-      <p>
-        {legalUi(
-          "Our total liability to you for any claim arising from use of the Site shall not exceed ZAR 500 (five hundred South African rand).",
-          "Notre responsabilité totale envers vous pour toute réclamation découlant de l’utilisation du Site ne dépassera pas 500 ZAR (cinq cents rands sud-africains)."
-        )}
-      </p>
+      {isFrench() ? (
+        <>
+          <p>Dans toute la mesure permise par la loi applicable, Lexigenz Trading ainsi que ses dirigeants, employés et mandataires ne sauraient être responsables de dommages indirects, accessoires, spéciaux, consécutifs ou punitifs résultant de votre utilisation ou de votre impossibilité d’utiliser le Site ou ses générateurs de mots, même s’ils ont été informés de la possibilité de tels dommages.</p>
+          <p>Notre responsabilité totale envers vous pour toute réclamation découlant de l’utilisation du Site ne dépassera pas 500 ZAR (cinq cents rands sud-africains).</p>
+        </>
+      ) : (
+        <>
+          <p>To the maximum extent permitted by applicable law, Lexigenz Trading, including its directors, employees, representatives, and agents, excludes and shall not accept liability for any loss, damage, claim, cost, or expense arising from or relating to your access to, use of, reliance on, or inability to use the Site, its word generators, tools, content, features, or related services.</p>
+          <p>This exclusion includes, without limitation, any direct, indirect, incidental, special, consequential, exemplary, or punitive damages; loss of profits, revenue, business opportunities, goodwill, data, or anticipated savings; and any loss resulting from service interruptions, technical failures, cyber incidents, unauthorised access, or the acts or omissions of third parties.</p>
+          <p>Lexigenz Trading does not accept any aggregate or cumulative liability, and no monetary liability cap, minimum liability amount, or aggregate liability amount shall apply or be construed as creating an entitlement to compensation.</p>
+          <p>Nothing in this clause is intended to exclude or limit any liability, right, or remedy that cannot lawfully be excluded or limited under applicable South African law, including applicable consumer protection legislation.</p>
+        </>
+      )}
 
       <h2>{legalHeading("7. ", "Third-Party Advertising")}</h2>
       <p>
