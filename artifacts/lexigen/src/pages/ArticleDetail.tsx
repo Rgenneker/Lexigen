@@ -9,6 +9,8 @@ import { useTranslation } from "react-i18next";
 import { ARTICLES, CATEGORY_COLORS } from "@/data/articles";
 import NotFound from "@/pages/not-found";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { FRENCH_ARTICLE_METADATA } from "@/i18n/article-metadata";
+import { FRENCH_CORE_ARTICLE_BODIES } from "@/i18n/french-article-content";
 
 function MemoryScienceBody() {
   const { t } = useTranslation();
@@ -161,6 +163,8 @@ function ArticleDetailInner({ id }: { id: string }) {
   const [copied, setCopied] = useState(false);
   const article = ARTICLES.find((a) => a.id === id)!;
   const hasInviteArticleLocalization = i18n.language === "es" || i18n.language === "fr";
+  const frenchMetadata = i18n.language === "fr" ? FRENCH_ARTICLE_METADATA[id] : undefined;
+  const frenchBody = i18n.language === "fr" ? FRENCH_CORE_ARTICLE_BODIES[id] : undefined;
   const localizedArticle = hasInviteArticleLocalization
     ? {
         "why-context-beats-repetition": {
@@ -195,11 +199,20 @@ function ArticleDetailInner({ id }: { id: string }) {
         },
       }[id]
     : undefined;
-  const displayCategory = localizedArticle?.category ?? article.category;
-  const displayTitle = localizedArticle?.title ?? article.title;
-  const displayExcerpt = localizedArticle?.excerpt ?? article.excerpt;
-  const displayBody = localizedArticle?.body ?? article.body;
+  // French is intentionally all-or-nothing for public article details: a
+  // missing route record must be visible during development, never shown as
+  // an English article to a French reader.
+  if (i18n.language === "fr" && (!frenchMetadata || (!frenchBody && !localizedArticle))) {
+    throw new Error(`Missing French article detail localization for "${id}"`);
+  }
+  const displayCategory = i18n.language === "fr" ? frenchMetadata!.category : localizedArticle?.category ?? article.category;
+  const displayTitle = i18n.language === "fr" ? frenchMetadata!.title : localizedArticle?.title ?? article.title;
+  const displayExcerpt = i18n.language === "fr" ? frenchMetadata!.excerpt : localizedArticle?.excerpt ?? article.excerpt;
+  const displayBody = frenchBody ?? localizedArticle?.body ?? article.body;
   const getArticleTitle = (linkedArticle: (typeof ARTICLES)[number]) => {
+    if (i18n.language === "fr") {
+      return FRENCH_ARTICLE_METADATA[linkedArticle.id]!.title;
+    }
     if (!hasInviteArticleLocalization) return linkedArticle.title;
     const localizedTitles: Record<string, string> = {
       "why-context-beats-repetition": t("invite.articleMemoryScienceTitle"),
@@ -220,10 +233,13 @@ function ArticleDetailInner({ id }: { id: string }) {
     description: displayExcerpt,
     canonical: `/articles/${id}`,
     ogType: "article",
-    keywords: `vocabulary, English words, ${displayCategory}, language learning, LexigenZ`,
+    keywords: i18n.language === "fr"
+      ? `vocabulaire, mots anglais, ${displayCategory}, apprentissage des langues, Lexigenz`
+      : `vocabulary, English words, ${displayCategory}, language learning, LexigenZ`,
     schema: {
       "@context": "https://schema.org",
       "@type": "Article",
+      inLanguage: i18n.language === "fr" ? "fr" : i18n.language,
       headline: displayTitle,
       description: displayExcerpt,
       author: { "@type": "Organization", name: "Lexigenz Trading", url: "https://lexigenz.com" },

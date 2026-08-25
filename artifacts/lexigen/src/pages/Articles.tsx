@@ -4,11 +4,12 @@ import { Link } from "wouter";
 import { Badge } from "@/components/ui/badge";
 import { Clock, BookOpen, Trophy, ChevronRight } from "lucide-react";
 import { ARTICLES, CATEGORY_COLORS } from "@/data/articles";
+import { FRENCH_ARTICLE_METADATA } from "@/i18n/article-metadata";
 import AdsterraAd from "@/components/AdsterraAd";
 import AdsterraSocialBar from "@/components/AdsterraSocialBar";
 
 export default function Articles() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <div className="min-h-screen bg-background">
       <AdsterraSocialBar />
@@ -58,7 +59,17 @@ export default function Articles() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {ARTICLES.map((article, i) => (
+          {ARTICLES.map((article, i) => {
+            const isFrench = i18n.language === "fr";
+            const frenchMetadata = isFrench
+              ? FRENCH_ARTICLE_METADATA[article.id]
+              : undefined;
+            if (isFrench && !frenchMetadata) {
+              throw new Error(`Missing French article listing localization for "${article.id}"`);
+            }
+            const metadata = isFrench ? frenchMetadata! : article;
+
+            return (
             <motion.div
               key={article.id}
               initial={{ opacity: 0, y: 24 }}
@@ -70,7 +81,7 @@ export default function Articles() {
                   <div className="text-4xl mb-4">{article.emoji}</div>
                   <div className="flex items-center gap-2 mb-3">
                     <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${CATEGORY_COLORS[article.category] ?? "bg-muted text-muted-foreground border-border"}`}>
-                      {article.category}
+                       {metadata.category}
                     </span>
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
                       <Clock className="w-3 h-3" />
@@ -78,10 +89,10 @@ export default function Articles() {
                     </span>
                   </div>
                   <h2 className="font-black text-base leading-snug mb-2 group-hover:text-primary transition-colors line-clamp-3">
-                    {article.title}
+                     {metadata.title}
                   </h2>
                   <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 flex-1">
-                    {article.excerpt}
+                     {metadata.excerpt}
                   </p>
                   <div className="mt-4 text-sm font-semibold text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
                     {t("articles.readArticle")}
@@ -89,7 +100,8 @@ export default function Articles() {
                 </div>
               </Link>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
 
         <motion.p
