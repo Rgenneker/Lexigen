@@ -1,5 +1,5 @@
 import { LegalLayout } from "./LegalLayout";
-import { isFrench, legalHeading, legalTitles, legalUi } from "@/i18n/legalLocale";
+import { isFrench, isSpanish, legalHeading, legalTitles, legalUi } from "@/i18n/legalLocale";
 
 export default function Terms() {
   return (
@@ -91,11 +91,18 @@ export default function Terms() {
         )}
       </p>
 
-      <h2>{legalHeading("6. ", "Limitation of Liability")}</h2>
+      <h2>{isSpanish() ? "6. Limitación de Responsabilidad" : legalHeading("6. ", "Limitation of Liability")}</h2>
       {isFrench() ? (
         <>
           <p>Dans toute la mesure permise par la loi applicable, Lexigenz Trading ainsi que ses dirigeants, employés et mandataires ne sauraient être responsables de dommages indirects, accessoires, spéciaux, consécutifs ou punitifs résultant de votre utilisation ou de votre impossibilité d’utiliser le Site ou ses générateurs de mots, même s’ils ont été informés de la possibilité de tels dommages.</p>
           <p>Notre responsabilité totale envers vous pour toute réclamation découlant de l’utilisation du Site ne dépassera pas 500 ZAR (cinq cents rands sud-africains).</p>
+        </>
+      ) : isSpanish() ? (
+        <>
+          <p>En la máxima medida permitida por la legislación aplicable, Lexigenz Trading, incluidos sus directores, empleados, representantes y agentes, excluye y no aceptará responsabilidad alguna por cualquier pérdida, daño, reclamación, coste o gasto que surja de, o esté relacionado con, su acceso al Sitio, su uso, la confianza depositada en este o la imposibilidad de utilizarlo, así como sus generadores de palabras, herramientas, contenidos, funcionalidades o servicios relacionados.</p>
+          <p>Esta exclusión incluye, sin limitación, cualquier daño directo, indirecto, incidental, especial, consecuente, ejemplar o punitivo; pérdida de beneficios, ingresos, oportunidades comerciales, fondo de comercio, datos o ahorros previstos; así como cualquier pérdida derivada de interrupciones del servicio, fallos técnicos, incidentes cibernéticos, accesos no autorizados o actos u omisiones de terceros.</p>
+          <p>Lexigenz Trading no acepta ninguna responsabilidad agregada o acumulativa, y no se aplicará ningún límite monetario de responsabilidad, importe mínimo de responsabilidad ni importe de responsabilidad agregada, ni se interpretará que ninguno de ellos crea derecho alguno a indemnización o compensación.</p>
+          <p>Nada de lo dispuesto en esta cláusula pretende excluir o limitar ninguna responsabilidad, derecho o recurso que no pueda ser legalmente excluido o limitado conforme a la legislación sudafricana aplicable, incluida la legislación vigente en materia de protección del consumidor.</p>
         </>
       ) : (
         <>
