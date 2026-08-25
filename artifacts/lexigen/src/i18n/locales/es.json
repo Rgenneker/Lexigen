@@ -27,6 +27,8 @@
     "noResultsHint": "Prueba con un término de búsqueda diferente o navega por categoría.",
     "questions": "{{count}} pregunta",
     "questions_plural": "{{count}} preguntas",
+    "questions_one": "{{count}} pregunta",
+    "questions_other": "{{count}} preguntas",
     "backHome": "Back to Home"
   },
   "nav": {
@@ -556,7 +558,7 @@
     "subtitle": "Todo lo que necesitas saber sobre Lexigenz, desde cómo funcionan los arquetipos hasta lo que incluye Premium.",
     "searchPlaceholder": "Buscar preguntas…",
     "inCategory": "en {{category}}",
-    "stillQuestion": "¿Todavía tienes una pregunta?",
+    "stillQuestion": "¿Todavía tienes alguna pregunta?",
     "stillQuestionDesc": "¿No encuentras lo que buscas? Nuestro equipo está aquí para ayudarte.",
     "categories": {
       "all": "Todos",
@@ -567,192 +569,192 @@
       "premium": "Premium",
       "languages": "Idiomas",
       "privacy": "Privacidad y datos",
-      "technical": "Técnico"
+      "technical": "Aspectos técnicos"
     },
     "items": {
       "0": {
-        "q": "What exactly is Lexigenz?",
-        "a": "Lexigenz is a personalised daily vocabulary growth platform built for Gen Z and millennials. It combines birth-based personality profiling with daily curated words, a sentence builder, six word games, streak tracking, and a personal Word Journal - all available in 19 languages. It's not just a dictionary app. It's a complete vocabulary development system built around who you are, not just what you want to learn."
+        "q": "¿Qué es exactamente Lexigenz?",
+        "a": "Lexigenz es una plataforma personalizada para desarrollar el vocabulario diario, creada para la Generación Z y los millennials. Combina un perfil de personalidad basado en la fecha de nacimiento con palabras diarias seleccionadas, un creador de frases, seis juegos de palabras, seguimiento de rachas y un Diario de palabras personal, todo disponible en 19 idiomas. No es solo una aplicación de diccionario. Es un sistema completo para desarrollar el vocabulario, creado en torno a quién eres y no solo a lo que quieres aprender."
       },
       "1": {
-        "q": "Who is Lexigenz built for?",
-        "a": "Lexigenz is designed for anyone who wants to grow their vocabulary in a way that feels natural and genuinely engaging - not like homework. The core audience is Gen Z and millennials aged 16–40, but the platform works for anyone who values language, loves word games, is learning a new language, or wants to communicate more powerfully in their daily life."
+        "q": "¿Para quién está diseñado Lexigenz?",
+        "a": "Lexigenz está diseñado para cualquier persona que quiera ampliar su vocabulario de una manera natural y realmente atractiva, no como si fuera una tarea escolar. El público principal son la Generación Z y los millennials de entre 16 y 40 años, pero la plataforma es útil para cualquiera que valore el lenguaje, disfrute de los juegos de palabras, esté aprendiendo un idioma nuevo o quiera comunicarse de manera más eficaz en su vida cotidiana."
       },
       "2": {
-        "q": "How do I start using Lexigenz?",
-        "a": "Visit the App page to get your first daily word immediately - no sign-up required to start. Enter your birth date to unlock your archetype, choose your language, and you're in. For a registered experience with a saved Word Journal, streaks, and progress tracking, click 'Register Free' on the homepage. It takes under 60 seconds."
+        "q": "¿Cómo empiezo a utilizar Lexigenz?",
+        "a": "Visita la página de Aplicación para recibir tu primera palabra diaria de inmediato; no necesitas registrarte para empezar. Introduce tu fecha de nacimiento para desbloquear tu arquetipo, elige tu idioma y ya puedes comenzar. Para disfrutar de una experiencia registrada con un Diario de palabras guardado, rachas y seguimiento del progreso, haz clic en «Regístrate gratis» en la página de inicio. El proceso tarda menos de 60 segundos."
       },
       "3": {
-        "q": "Is there a mobile app?",
-        "a": "Lexigenz is fully optimised for mobile browsers - it's designed to feel like a native app when accessed on your phone. You can add it to your home screen directly from your mobile browser (using 'Add to Home Screen' in Chrome or Safari) for an app-like experience without downloading anything from an app store."
+        "q": "¿Hay una aplicación móvil?",
+        "a": "Lexigenz está totalmente optimizado para navegadores móviles y está diseñado para ofrecer una experiencia similar a la de una aplicación nativa cuando accedes desde tu teléfono. Puedes añadirlo directamente a la pantalla de inicio desde el navegador móvil, utilizando «Añadir a la pantalla de inicio» en Chrome o Safari, para disfrutar de una experiencia de aplicación sin descargar nada desde una tienda."
       },
       "4": {
-        "q": "What makes Lexigenz different from other vocabulary apps?",
-        "a": "Most vocabulary apps give every user the same word lists. Lexigenz personalises your entire vocabulary experience from your birth date - your archetype defines the style, tone, and type of words you receive. Beyond that, the multi-modal learning loop (read → build a sentence → play games → streak → journal) is specifically engineered for retention. You don't just see a word once and move on."
+        "q": "¿Qué diferencia a Lexigenz de otras aplicaciones de vocabulario?",
+        "a": "La mayoría de las aplicaciones de vocabulario ofrecen las mismas listas de palabras a todas las personas. Lexigenz personaliza toda tu experiencia de vocabulario a partir de tu fecha de nacimiento: tu arquetipo define el estilo, el tono y el tipo de palabras que recibes. Además, el ciclo de aprendizaje multimodal —leer → construir una frase → jugar → mantener la racha → escribir en el diario— está diseñado específicamente para favorecer la retención. No ves una palabra una sola vez para pasar inmediatamente a la siguiente."
       },
       "5": {
-        "q": "How does the daily word system work?",
-        "a": "Every day, Lexigenz surfaces a new word tailored to your archetype and your selected language. The word comes with a full definition, example sentences, etymology (where available), and a prompt to write your own sentence in the Sentence Builder. The word resets at midnight in your local timezone."
+        "q": "¿Cómo funciona el sistema de la palabra diaria?",
+        "a": "Cada día, Lexigenz te muestra una palabra nueva adaptada a tu arquetipo y al idioma que hayas seleccionado. La palabra incluye una definición completa, frases de ejemplo, etimología cuando está disponible y una invitación a escribir tu propia frase en el Creador de frases. La palabra se reinicia a medianoche según tu zona horaria local."
       },
       "6": {
-        "q": "What is the Sentence Builder?",
-        "a": "The Sentence Builder is a writing prompt attached to each daily word. It asks you to write your own sentence using the word in a context that's meaningful to you. Generating your own sentence is the most powerful vocabulary retention method - because you're creating a personal memory anchor for the word, not just passively reading someone else's example. Every sentence you write saves to your Word Journal."
+        "q": "¿Qué es el Creador de frases?",
+        "a": "El Creador de frases es una propuesta de escritura vinculada a cada palabra diaria. Te invita a escribir tu propia frase utilizando la palabra en un contexto significativo para ti. Crear tu propia frase es uno de los métodos más eficaces para retener vocabulario, porque construyes un anclaje personal de memoria en lugar de limitarte a leer pasivamente el ejemplo de otra persona. Cada frase que escribes se guarda en tu Diario de palabras."
       },
       "7": {
-        "q": "What is the Word Journal?",
-        "a": "Your Word Journal is a chronological archive of every word you've engaged with on Lexigenz - including the sentences you wrote, the date you encountered the word, and the language it was in. It becomes a personal vocabulary history that grows with you. Free users have a limited journal capacity; Premium users get unlimited entries."
+        "q": "¿Qué es el Diario de palabras?",
+        "a": "Tu Diario de palabras es un archivo cronológico de todas las palabras con las que has trabajado en Lexigenz, incluidas las frases que escribiste, la fecha en que encontraste cada palabra y el idioma en el que estaba. Se convierte en un historial personal de vocabulario que crece contigo. Las cuentas gratuitas tienen una capacidad limitada para el diario; las cuentas Premium permiten entradas ilimitadas."
       },
       "8": {
-        "q": "What is a vocabulary archetype?",
-        "a": "A vocabulary archetype is a personality-driven language profile that determines the style, tone, and type of words Lexigenz sends you. There are 12 archetypes - The Visionary, The Nurturer, The Explorer, The Sage, The Creator, The Guardian, The Rebel, The Diplomat, The Achiever, The Mystic, The Maverick, and The Harmonizer. Each archetype has its own vocabulary strengths, language style, and recommended word set."
+        "q": "¿Qué es un arquetipo de vocabulario?",
+        "a": "Un arquetipo de vocabulario es un perfil lingüístico basado en la personalidad que determina el estilo, el tono y el tipo de palabras que Lexigenz te envía. Hay 12 arquetipos: el Visionario, el Protector, el Explorador, el Sabio, el Creador, el Guardián, el Rebelde, el Diplomático, el Triunfador, el Místico, el Inconformista y el Armonizador. Cada arquetipo tiene sus propias fortalezas de vocabulario, estilo lingüístico y conjunto de palabras recomendadas."
       },
       "9": {
-        "q": "How is my archetype calculated?",
-        "a": "Your archetype is calculated from your birth month and day. The system maps your birth date to one of the 12 archetypes using a deterministic algorithm - meaning two people born on the same date will always get the same archetype. It's not horoscope-based; it's a personality typing system inspired by numerological and chronological patterns."
+        "q": "¿Cómo se calcula mi arquetipo?",
+        "a": "Tu arquetipo se calcula a partir del mes y el día de tu nacimiento. El sistema asigna tu fecha de nacimiento a uno de los 12 arquetipos mediante un algoritmo determinista, lo que significa que dos personas nacidas el mismo día siempre recibirán el mismo arquetipo. No se basa en el horóscopo; es un sistema de clasificación de la personalidad inspirado en patrones numerológicos y cronológicos."
       },
       "10": {
-        "q": "Can my archetype change?",
-        "a": "Your archetype is fixed to your birth date - it won't change unless you update your birth date in your profile. This is intentional: your archetype is meant to be a stable identity within Lexigenz that your vocabulary grows around, not a variable that shifts week to week."
+        "q": "¿Puede cambiar mi arquetipo?",
+        "a": "Tu arquetipo está vinculado a tu fecha de nacimiento y no cambiará a menos que actualices esa fecha en tu perfil. Es una decisión intencionada: tu arquetipo debe ser una identidad estable dentro de Lexigenz alrededor de la cual crece tu vocabulario, no una variable que cambie cada semana."
       },
       "11": {
-        "q": "What if I don't like my archetype's word style?",
-        "a": "Your archetype influences your word recommendations but doesn't lock you into a narrow box. Lexigenz also offers language switching, game-based learning across all word types, and a broad daily word pool. If you genuinely feel a different archetype fits you better, you can update your birth date to explore different archetypes."
+        "q": "¿Qué ocurre si no me gusta el estilo de palabras de mi arquetipo?",
+        "a": "Tu arquetipo influye en tus recomendaciones de palabras, pero no te encierra en una categoría limitada. Lexigenz también ofrece cambio de idioma, aprendizaje basado en juegos con todo tipo de palabras y un amplio conjunto de palabras diarias. Si realmente sientes que otro arquetipo encaja mejor contigo, puedes actualizar tu fecha de nacimiento para explorar arquetipos diferentes."
       },
       "12": {
-        "q": "Which archetype has the most advanced vocabulary?",
-        "a": "The Sage and The Mystic tend toward the most complex and rare vocabulary - words that are precise, philosophical, and often Latin or Greek in origin. The Rebel and The Maverick lean toward contemporary, edgy, and hybrid vocabulary. The Explorer tends toward eclectic, cross-cultural terms. But all 12 archetypes receive rich, interesting words - the difference is in style and register, not quality."
+        "q": "¿Qué arquetipo tiene el vocabulario más avanzado?",
+        "a": "El Sabio y el Místico tienden a recibir el vocabulario más complejo y poco frecuente: palabras precisas, filosóficas y a menudo de origen latino o griego. El Rebelde y el Inconformista se inclinan por un vocabulario contemporáneo, atrevido e híbrido. El Explorador tiende a recibir términos eclécticos y multiculturales. Sin embargo, los 12 arquetipos reciben palabras interesantes y enriquecedoras; la diferencia está en el estilo y el registro, no en la calidad."
       },
       "13": {
-        "q": "What word games does Lexigenz include?",
-        "a": "Lexigenz's Play for Words section features six fully branded games: Scrabble vs Computer (tile-based word formation), Wordle vs Computer (5-letter daily guessing game), Crossword vs Computer (themed crossword puzzles), Spelling Bee Lexigenz Edition (7-letter honeycomb word hunt), Word Grid (hidden word search in a 6×6 grid), and The Lexigenz Game (unscramble 'LEXIGENZ' from 7 letters before the timer runs out)."
+        "q": "¿Qué juegos de palabras incluye Lexigenz?",
+        "a": "La sección Jugar con palabras de Lexigenz incluye seis juegos con identidad propia: Scrabble contra la computadora (formación de palabras con fichas), Wordle contra la computadora (juego diario de adivinar palabras de cinco letras), Crucigrama contra la computadora (crucigramas temáticos), Concurso de Ortografía edición Lexigenz (búsqueda de palabras de siete letras en un panal), Cuadrícula de palabras (búsqueda de palabras ocultas en una cuadrícula de 6×6) y el Juego de Lexigenz (desordenar las siete letras de «LEXIGENZ» antes de que termine el tiempo)."
       },
       "14": {
-        "q": "Do I need Premium to play the games?",
-        "a": "Free users get access to the full games suite. Premium users get an ad-free gaming experience and access to expanded game modes. Games are a core part of the free Lexigenz experience - we believe play-based learning should be accessible to everyone."
+        "q": "¿Necesito Premium para jugar?",
+        "a": "Las cuentas gratuitas tienen acceso al conjunto completo de juegos. Las cuentas Premium ofrecen una experiencia de juego sin anuncios y acceso a modos de juego ampliados. Los juegos son una parte fundamental de la experiencia gratuita de Lexigenz: creemos que el aprendizaje basado en el juego debe estar al alcance de todos."
       },
       "15": {
-        "q": "Are the games connected to my daily word?",
-        "a": "Yes. The Wordle and Crossword games prioritise words from your archetype word pool, which overlaps with your daily word recommendations. This means the games actively reinforce what you've been learning, rather than using completely random word sets."
+        "q": "¿Están los juegos relacionados con mi palabra del día?",
+        "a": "Sí. Los juegos Wordle y Crucigrama dan prioridad a palabras del conjunto asociado a tu arquetipo, que se solapa con tus recomendaciones de palabras diarias. Esto significa que los juegos refuerzan activamente lo que estás aprendiendo, en lugar de utilizar conjuntos de palabras completamente aleatorios."
       },
       "16": {
-        "q": "What is The Lexigenz Game?",
-        "a": "The Lexigenz Game is our signature original game. You're given 7 random letters drawn from the letters in 'LEXIGENZ' and must unscramble them to spell the full word before the countdown timer hits zero. It sounds simple - but under pressure, it's surprisingly addictive. It's also the fastest game to complete, making it perfect for a 60-second vocabulary session."
+        "q": "¿Qué es el Juego de Lexigenz?",
+        "a": "El Juego de Lexigenz es nuestro juego original principal. Recibes siete letras aleatorias tomadas de las letras de «LEXIGENZ» y debes reordenarlas para formar la palabra completa antes de que el contador llegue a cero. Parece sencillo, pero bajo presión resulta sorprendentemente adictivo. También es el juego más rápido de completar, por lo que es perfecto para una sesión de vocabulario de 60 segundos."
       },
       "17": {
-        "q": "Can I challenge friends to the games?",
-        "a": "Yes. The Invite page lets you send direct game challenges to friends and family anywhere in the world. Challenges can be sent via link - no app download needed for the recipient. Lexigenz is designed to make vocabulary social, not solitary."
+        "q": "¿Puedo desafiar a mis amigos en los juegos?",
+        "a": "Sí. La página Invitar te permite enviar desafíos directos de juegos a amigos y familiares en cualquier lugar del mundo. Los desafíos se pueden enviar mediante un enlace, y la persona que lo recibe no necesita descargar ninguna aplicación. Lexigenz está diseñado para hacer que el vocabulario sea social y no una actividad solitaria."
       },
       "18": {
-        "q": "Does my game performance affect my streak?",
-        "a": "Streaks are based on daily check-ins to the App page, not game performance. Playing games doesn't reset or break your streak. However, game scores are tracked separately and contribute to your monthly progress report, so there's still a reason to play well."
+        "q": "¿Mi rendimiento en los juegos afecta a mi racha?",
+        "a": "Las rachas se basan en las visitas diarias a la página de Aplicación, no en el rendimiento de los juegos. Jugar no reinicia ni rompe tu racha. Sin embargo, las puntuaciones de los juegos se registran por separado y contribuyen a tu informe mensual de progreso, así que aún tienes motivos para jugar bien."
       },
       "19": {
-        "q": "What does Premium include?",
-        "a": "Lexigenz Premium unlocks: English + 1 language of your choice (Free is English only - additional languages available for $2 each), unlimited Sentence Builder use, full Word Journal with no entry cap, monthly detailed progress reports, exclusive Premium visual themes, a completely ad-free experience, and priority support. Premium is a one-time payment of $8 - no subscription, no monthly fees, no expiry date."
+        "q": "¿Qué incluye Premium?",
+        "a": "Lexigenz Premium desbloquea: inglés más un idioma de tu elección (el plan gratuito solo incluye inglés; los idiomas adicionales están disponibles por 2 $ cada uno), uso ilimitado del Creador de frases, Diario de palabras completo sin límite de entradas, informes mensuales detallados de progreso, temas visuales Premium exclusivos, una experiencia completamente libre de anuncios y asistencia prioritaria. Premium es un pago único de 8 $: sin suscripción, cuotas mensuales ni fecha de caducidad."
       },
       "20": {
-        "q": "Is Premium a subscription or a one-time payment?",
-        "a": "Premium is a once-off payment of $8. You pay once and have Premium access with no recurring charges, no renewal reminders, no cancellation needed. This is a deliberate design choice. We believe that meaningful tools should be affordable and permanent, not a subscription you have to remember to cancel."
+        "q": "¿Premium es una suscripción o un pago único?",
+        "a": "Premium es un pago único de 8 $. Pagas una vez y obtienes acceso Premium sin cargos recurrentes, recordatorios de renovación ni necesidad de cancelar. Es una decisión de diseño intencionada. Creemos que las herramientas útiles deben ser asequibles y permanentes, no una suscripción que tengas que acordarte de cancelar."
       },
       "21": {
-        "q": "How do I upgrade to Premium?",
-        "a": "Click 'Get Premium' in the navbar or visit the Premium page. Enter your initials, surname, country, and mobile number, then choose to pay via your PayPal account or a credit/debit card through the PayPal secure checkout. Payment is processed by PayPal - Lexigenz never stores your card details."
+        "q": "¿Cómo puedo actualizar mi cuenta a Premium?",
+        "a": "Haz clic en «Obtener Premium» en la barra de navegación o visita la página Premium. Introduce tus iniciales, apellidos, país y número de móvil; después, elige pagar con tu cuenta de PayPal o con una tarjeta de crédito o débito mediante el proceso de pago seguro de PayPal. PayPal procesa el pago y Lexigenz nunca almacena los datos de tu tarjeta."
       },
       "22": {
-        "q": "Which payment methods are accepted?",
-        "a": "Lexigenz uses PayPal to process all Premium payments. You can pay with your existing PayPal account, or use a credit or debit card directly through PayPal's card entry form - no PayPal account required. All major international card brands are accepted."
+        "q": "¿Qué métodos de pago se aceptan?",
+        "a": "Lexigenz utiliza PayPal para procesar todos los pagos Premium. Puedes pagar con tu cuenta de PayPal o utilizar directamente una tarjeta de crédito o débito mediante el formulario de tarjetas de PayPal, sin necesidad de tener una cuenta de PayPal. Se aceptan las principales marcas de tarjetas internacionales."
       },
       "23": {
-        "q": "Is my payment secure?",
-        "a": "Yes. All payments are processed by PayPal, one of the world's most trusted payment platforms. Lexigenz never receives or stores your card details. The transaction is encrypted end-to-end by PayPal's infrastructure."
+        "q": "¿Es seguro mi pago?",
+        "a": "Sí. PayPal, una de las plataformas de pago más fiables del mundo, procesa todos los pagos. Lexigenz nunca recibe ni almacena los datos de tu tarjeta. La infraestructura de PayPal cifra la transacción de extremo a extremo."
       },
       "24": {
-        "q": "What currency is Premium priced in?",
-        "a": "Premium is priced in USD ($8.00). PayPal automatically handles currency conversion for international buyers, so you'll see the equivalent amount in your local currency at checkout. No additional conversion fees are charged by Lexigenz."
+        "q": "¿En qué moneda se cobra Premium?",
+        "a": "Premium tiene un precio de 8,00 USD. PayPal gestiona automáticamente la conversión de moneda para compradores internacionales, por lo que en el momento del pago verás el importe equivalente en tu moneda local. Lexigenz no cobra ninguna tarifa adicional por la conversión."
       },
       "25": {
-        "q": "Which 19 languages does Lexigenz support?",
-        "a": "Lexigenz supports: English, Afrikaans, Zulu, Xhosa, French, Spanish, Portuguese, German, Dutch, Italian, Arabic, Farsi, Russian, Bahasa Malay, Vietnamese, Tagalog, Japanese, Cantonese, and Chinese (Mandarin). Free users have access to English only. Premium includes English + 1 language of your choice. Additional languages are available for $2 each."
+        "q": "¿Qué 19 idiomas admite Lexigenz?",
+        "a": "Lexigenz admite: inglés, afrikáans, zulú, xhosa, francés, español, portugués, alemán, neerlandés, italiano, árabe, farsi, ruso, malayo, vietnamita, tagalo, japonés, cantonés y chino (mandarín). Las cuentas gratuitas tienen acceso únicamente al inglés. Premium incluye inglés más un idioma de tu elección. Los idiomas adicionales están disponibles por 2 $ cada uno."
       },
       "26": {
-        "q": "Why does the free plan only include English?",
-        "a": "English serves as the platform's universal baseline, allowing all users to experience the full Lexigenz learning loop without needing to pay. Supporting 19 high-quality language word sets requires ongoing editorial work - offering additional languages as a Premium feature allows us to maintain quality across all of them sustainably."
+        "q": "¿Por qué el plan gratuito solo incluye inglés?",
+        "a": "El inglés funciona como base universal de la plataforma y permite que todas las personas disfruten del ciclo completo de aprendizaje de Lexigenz sin tener que pagar. Mantener conjuntos de palabras de alta calidad en 19 idiomas requiere un trabajo editorial continuo. Ofrecer los idiomas adicionales como función Premium nos permite mantener la calidad de todos ellos de forma sostenible."
       },
       "27": {
-        "q": "Can I switch languages mid-streak?",
-        "a": "Yes. Language switching is instant via the globe icon in the navbar. Your streak counter, Word Journal, and archetype all carry over - only the daily word changes to reflect your new language. There is no penalty for switching languages."
+        "q": "¿Puedo cambiar de idioma sin perder mi racha?",
+        "a": "Sí. Puedes cambiar de idioma al instante mediante el icono del globo en la barra de navegación. Tu contador de racha, tu Diario de palabras y tu arquetipo se mantienen; solo cambia la palabra diaria para reflejar el nuevo idioma. Cambiar de idioma no tiene ninguna penalización."
       },
       "28": {
-        "q": "Why does Lexigenz include Afrikaans, Zulu, and Xhosa?",
-        "a": "Lexigenz was built in South Africa, a country with 11 official languages. Afrikaans, Zulu, and Xhosa are among the most widely spoken South African languages, and their inclusion is both a cultural commitment and a practical one: many of our users are proudly South African and want to grow their vocabulary in their mother tongue. These three languages are highlighted in the Premium language selector as our founding languages."
+        "q": "¿Por qué Lexigenz incluye afrikáans, zulú y xhosa?",
+        "a": "Lexigenz se creó en Sudáfrica, un país con 11 idiomas oficiales. El afrikáans, el zulú y el xhosa se encuentran entre los idiomas sudafricanos más hablados, y su inclusión es tanto un compromiso cultural como una decisión práctica: muchas de las personas que utilizan Lexigenz se sienten orgullosas de ser sudafricanas y quieren ampliar su vocabulario en su lengua materna. Estos tres idiomas aparecen destacados en el selector de idiomas Premium como nuestros idiomas fundacionales."
       },
       "29": {
-        "q": "What data does Lexigenz collect?",
-        "a": "Lexigenz collects only what is necessary to power your personalised experience: your birth date (to calculate your archetype), your selected language, your streak data, and your Word Journal entries. If you register, we also collect your initials, surname, country, and mobile number for account identification purposes."
+        "q": "¿Qué datos recopila Lexigenz?",
+        "a": "Lexigenz recopila únicamente lo necesario para ofrecerte una experiencia personalizada: tu fecha de nacimiento para calcular tu arquetipo, el idioma que has seleccionado, tus datos de racha y tus entradas del Diario de palabras. Si te registras, también recopilamos tus iniciales, apellidos, país y número de móvil con fines de identificación de la cuenta."
       },
       "30": {
-        "q": "Does Lexigenz sell my data?",
-        "a": "Never. Lexigenz does not sell, trade, or share your personal data with third parties for commercial purposes. Your data is used solely to power your Lexigenz experience. For the complete breakdown, see our Privacy Policy linked in the footer."
+        "q": "¿Lexigenz vende mis datos?",
+        "a": "Nunca. Lexigenz no vende, intercambia ni comparte tus datos personales con terceros con fines comerciales. Tus datos se utilizan únicamente para ofrecerte tu experiencia en Lexigenz. Para consultar todos los detalles, revisa nuestra Política de privacidad, enlazada en el pie de página."
       },
       "31": {
-        "q": "Is my Word Journal private?",
-        "a": "Yes. Your Word Journal is private to you - it is not shared with other users, visible on the platform, or used for any purpose outside your own review. It is stored against your user profile and accessible only through your account."
+        "q": "¿Es privado mi Diario de palabras?",
+        "a": "Sí. Tu Diario de palabras es privado y solo tú puedes acceder a él: no se comparte con otras personas, no es visible en la plataforma ni se utiliza para ningún fin ajeno a tu propia consulta. Se almacena en tu perfil de usuario y solo puedes acceder a él mediante tu cuenta."
       },
       "32": {
-        "q": "Where is Lexigenz based and who operates it?",
-        "a": "Lexigenz is owned, trademarked, and operated by Lexigenz Trading, registered in South Africa. We are an African-built, globally deployed platform. Legal enquiries and data requests can be directed to hello@lexigenz.com."
+        "q": "¿Dónde tiene su sede Lexigenz y quién gestiona la plataforma?",
+        "a": "Lexigenz pertenece a Lexigenz Trading, que también posee la marca registrada y gestiona la plataforma desde Sudáfrica. Somos una plataforma creada en África y disponible en todo el mundo. Puedes dirigir las consultas legales y las solicitudes relacionadas con datos a hello@lexigenz.com."
       },
       "33": {
-        "q": "Why is my streak not updating?",
-        "a": "Streaks update when you visit the App page and engage with your daily word. Make sure you're visiting the App section specifically - navigating other pages of the site does not trigger a streak check-in. If your streak hasn't updated despite a visit, try refreshing the App page. If the issue persists, contact us via the Contact page."
+        "q": "¿Por qué no se actualiza mi racha?",
+        "a": "Las rachas se actualizan cuando visitas la página de Aplicación y trabajas con tu palabra diaria. Asegúrate de visitar específicamente la sección Aplicación: navegar por otras páginas del sitio no activa el registro de la racha. Si tu racha no se ha actualizado después de una visita, intenta actualizar la página de Aplicación. Si el problema continúa, contáctanos mediante la página de Contacto."
       },
       "34": {
-        "q": "I found a bug. How do I report it?",
-        "a": "We want to hear about it. Use the Contact link in the footer to send us a bug report. Include the page where you encountered the issue, what you were doing at the time, and what device and browser you were using. Our team monitors reports closely and typically responds within 48 business hours."
+        "q": "He encontrado un error. ¿Cómo puedo comunicarlo?",
+        "a": "Queremos saberlo. Utiliza el enlace Contacto del pie de página para enviarnos un informe del error. Incluye la página en la que encontraste el problema, qué estabas haciendo en ese momento y qué dispositivo y navegador utilizabas. Nuestro equipo revisa los informes con atención y normalmente responde en un plazo de 48 horas laborables."
       },
       "35": {
-        "q": "The PayPal payment form isn't loading. What should I do?",
-        "a": "First, make sure you haven't blocked third-party scripts in your browser settings - the PayPal JS SDK is loaded from PayPal's servers and requires script access to run. Try disabling any ad-blockers temporarily. If the issue persists on a different browser or network, contact us at hello@lexigenz.com and we'll assist you directly."
+        "q": "El formulario de pago de PayPal no se carga. ¿Qué debo hacer?",
+        "a": "Primero, asegúrate de no haber bloqueado los scripts de terceros en la configuración de tu navegador: el SDK de JavaScript de PayPal se carga desde los servidores de PayPal y necesita permiso para ejecutarse. Intenta desactivar temporalmente los bloqueadores de anuncios. Si el problema continúa en otro navegador o red, escríbenos a hello@lexigenz.com y te ayudaremos directamente."
       },
       "36": {
-        "q": "Can I use Lexigenz offline?",
-        "a": "Lexigenz is a web-based platform and currently requires an internet connection to load your daily word, sync your streak, and access the games. We're exploring offline features for a future update. For now, the lightest way to access Lexigenz on mobile is to add the site to your home screen - it loads quickly even on slower connections."
+        "q": "¿Puedo utilizar Lexigenz sin conexión a Internet?",
+        "a": "Lexigenz es una plataforma web y actualmente necesita conexión a Internet para cargar tu palabra diaria, sincronizar tu racha y acceder a los juegos. Estamos estudiando funciones sin conexión para una actualización futura. Por ahora, la forma más sencilla de acceder a Lexigenz desde el móvil es añadir el sitio a la pantalla de inicio: se carga rápidamente incluso con conexiones lentas."
       },
       "37": {
-        "q": "How do I improve my vocabulary quickly?",
-        "a": "The fastest path to vocabulary growth is a daily system - not a cramming session. Learn one new word every day with full context: its definition, etymology, and an example sentence you write yourself. Use spaced repetition to review words at increasing intervals (day 1, 3, 7, 14, 30). Read broadly outside your comfort zone. And use every new word in real conversation within 24 hours of learning it. Lexigenz is built around this exact system - one word per day, sentence builder, game reinforcement, and a Word Journal to track your progress."
+        "q": "¿Cómo puedo mejorar mi vocabulario rápidamente?",
+        "a": "La forma más rápida de ampliar el vocabulario es seguir un sistema diario, no estudiar de manera intensiva de forma puntual. Aprende una palabra nueva cada día con todo su contexto: definición, etimología y una frase de ejemplo escrita por ti. Utiliza la repetición espaciada para repasar las palabras en intervalos cada vez mayores (días 1, 3, 7, 14 y 30). Lee sobre temas que estén fuera de tu zona de confort y utiliza cada palabra nueva en una conversación real durante las 24 horas posteriores a su aprendizaje. Lexigenz se basa exactamente en este sistema: una palabra al día, Creador de frases, refuerzo mediante juegos y un Diario de palabras para seguir tu progreso."
       },
       "38": {
-        "q": "What is the difference between active and passive vocabulary?",
-        "a": "Your passive vocabulary is the set of words you understand when you read or hear them. Your active vocabulary is the set of words you actually use when you speak or write. Most adults have a passive vocabulary three to five times larger than their active vocabulary. The goal of vocabulary building is to convert passive recognition into active use - which requires deliberate practice like sentence writing, not just reading definitions."
+        "q": "¿Cuál es la diferencia entre vocabulario activo y pasivo?",
+        "a": "Tu vocabulario pasivo es el conjunto de palabras que entiendes cuando las lees o las escuchas. Tu vocabulario activo es el conjunto de palabras que realmente utilizas al hablar o escribir. La mayoría de las personas adultas tiene un vocabulario pasivo entre tres y cinco veces mayor que su vocabulario activo. El objetivo de ampliar el vocabulario es convertir el reconocimiento pasivo en uso activo, lo que requiere una práctica intencionada, como escribir frases, y no limitarse a leer definiciones."
       },
       "39": {
-        "q": "How many words does the average person know?",
-        "a": "Research suggests adult native English speakers have passive vocabularies of around 20,000–35,000 words, with active vocabularies of 5,000–10,000 words. Highly educated professionals and avid readers can have passive vocabularies exceeding 50,000 words. Vocabulary growth slows significantly in adulthood unless deliberately cultivated - which is exactly what Lexigenz is designed to support."
+        "q": "¿Cuántas palabras conoce una persona promedio?",
+        "a": "Las investigaciones sugieren que las personas adultas cuya lengua materna es el inglés tienen un vocabulario pasivo de aproximadamente 20.000 a 35.000 palabras y un vocabulario activo de entre 5.000 y 10.000 palabras. Los profesionales con un alto nivel educativo y las personas que leen mucho pueden tener un vocabulario pasivo superior a 50.000 palabras. El crecimiento del vocabulario se ralentiza considerablemente en la edad adulta si no se cultiva de manera intencionada, que es precisamente lo que Lexigenz está diseñado para ayudar a conseguir."
       },
       "40": {
-        "q": "What vocabulary level do I need for professional English?",
-        "a": "Research suggests that a vocabulary of around 8,000–9,000 word families provides access to approximately 98% of everyday professional English text. However, truly fluent and confident professional communication requires an active vocabulary well above this - particularly for writing, presenting, and negotiating. Academic and executive-level communication draws on a significantly broader range of precise, formal vocabulary. Lexigenz includes vocabulary lists tailored to business, academic, and advanced English contexts."
+        "q": "¿Qué nivel de vocabulario necesito para utilizar inglés profesional?",
+        "a": "Las investigaciones sugieren que un vocabulario de unas 8.000 a 9.000 familias de palabras permite acceder aproximadamente al 98 % de los textos habituales de inglés profesional. Sin embargo, para comunicarse con verdadera fluidez y seguridad en un contexto profesional se necesita un vocabulario activo bastante más amplio, especialmente al escribir, presentar y negociar. La comunicación académica y ejecutiva utiliza un repertorio considerablemente mayor de vocabulario preciso y formal. Lexigenz incluye listas adaptadas a contextos empresariales, académicos y de inglés avanzado."
       },
       "41": {
-        "q": "Does Lexigenz help with GRE or IELTS vocabulary preparation?",
-        "a": "Yes. Lexigenz's vocabulary library includes high-frequency academic and advanced English words that appear frequently in GRE verbal sections, IELTS reading and writing tasks, and similar standardised tests. The personalised daily word system, sentence builder, and spaced repetition structure make it effective preparation for vocabulary-intensive exams - alongside dedicated test prep resources."
+        "q": "¿Lexigenz ayuda a prepararse para el vocabulario del GRE o IELTS?",
+        "a": "Sí. La biblioteca de vocabulario de Lexigenz incluye palabras académicas y avanzadas de alta frecuencia que aparecen habitualmente en las secciones verbales del GRE, en las tareas de lectura y escritura del IELTS y en pruebas estandarizadas similares. El sistema personalizado de la palabra diaria, el Creador de frases y la estructura de repetición espaciada ofrecen una preparación eficaz para exámenes que exigen un vocabulario amplio, junto con recursos específicos de preparación para cada prueba."
       },
       "42": {
-        "q": "What are the best words to learn to sound more professional?",
-        "a": "The most impactful professional vocabulary upgrades come from Tier 2 academic and business words - high-frequency words that appear across many professional contexts. Words like: articulate, substantiate, commensurate, iterate, pragmatic, synthesise, cogent, perspicacious, and galvanise. These words are precise, versatile, and signal clear, confident thinking. The Lexigenz vocabulary hub includes curated business vocabulary lists you can explore at your own pace."
+        "q": "¿Cuáles son las mejores palabras que puedo aprender para comunicarme de manera más profesional?",
+        "a": "Las mejoras más útiles del vocabulario profesional suelen proceder de palabras académicas y empresariales de nivel intermedio: términos de alta frecuencia que aparecen en muchos contextos profesionales. Algunos ejemplos son articulate, substantiate, commensurate, iterate, pragmatic, synthesise, cogent, perspicacious y galvanise. Son palabras precisas y versátiles que transmiten claridad y seguridad al pensar. El centro de vocabulario de Lexigenz incluye listas seleccionadas de vocabulario empresarial que puedes explorar a tu propio ritmo."
       },
       "43": {
-        "q": "How does Lexigenz's word-of-the-day work?",
-        "a": "Every day, Lexigenz delivers one new word matched to your birth-based vocabulary archetype. Unlike generic word-of-the-day services, Lexigenz personalises the selection based on your archetype's language profile - so the words align with how you naturally think and communicate. Each word comes with its full definition, pronunciation, etymology, example sentences, and a Sentence Builder prompt so you can create your own context for the word and save it to your Word Journal."
+        "q": "¿Cómo funciona la Palabra del día de Lexigenz?",
+        "a": "Cada día, Lexigenz te entrega una palabra nueva relacionada con tu arquetipo de vocabulario basado en tu fecha de nacimiento. A diferencia de los servicios genéricos de palabras del día, Lexigenz personaliza la selección según el perfil lingüístico de tu arquetipo, para que las palabras encajen con tu manera natural de pensar y comunicarte. Cada palabra incluye su definición completa, pronunciación, etimología, frases de ejemplo y una propuesta del Creador de frases para que puedas crear tu propio contexto y guardarlo en tu Diario de palabras."
       },
       "44": {
-        "q": "Can vocabulary building help my Wordle and Scrabble performance?",
-        "a": "Absolutely. Wordle rewards knowledge of common five-letter word patterns and high-frequency English letters (E, A, R, O, T, L, I, S, N). Scrabble rewards a completely different set - two-letter words, high-value Q/Z/X words, and bingo seven-letter plays. Lexigenz's game hubs include vocabulary lists and strategy guides specifically for Wordle and Scrabble players, alongside the Lexigenz vocabulary game that reinforces your daily words through competitive play."
+        "q": "¿Ampliar mi vocabulario puede ayudarme a mejorar en Wordle y Scrabble?",
+        "a": "Por supuesto. Wordle premia el conocimiento de patrones habituales de palabras de cinco letras y de las letras más frecuentes del inglés (E, A, R, O, T, L, I, S, N). Scrabble premia un conjunto completamente diferente: palabras de dos letras, palabras de gran valor con Q, Z y X y jugadas de siete letras que utilizan todas las fichas. Los centros de juegos de Lexigenz incluyen listas de vocabulario y guías de estrategia específicas para quienes juegan a Wordle y Scrabble, además del juego de vocabulario de Lexigenz, que refuerza tus palabras diarias mediante el juego competitivo."
       },
       "45": {
-        "q": "What is the best way to memorise new words permanently?",
-        "a": "Permanent vocabulary retention requires three things: context (learn words in sentences, not in isolation), generation (write your own sentences using the word - don't just read others'), and spaced repetition (review words at increasing intervals: 1, 3, 7, 14, and 30 days after first encounter). Words reviewed five times at these intervals typically move into long-term memory. The Lexigenz system is built around these three principles."
+        "q": "¿Cuál es la mejor manera de memorizar palabras nuevas a largo plazo?",
+        "a": "Para retener vocabulario a largo plazo necesitas tres elementos: contexto (aprender las palabras en frases y no de forma aislada), producción (escribir tus propias frases con la palabra en lugar de limitarte a leer las de otras personas) y repetición espaciada (repasar las palabras en intervalos cada vez mayores: 1, 3, 7, 14 y 30 días después del primer encuentro). Las palabras que se repasan cinco veces siguiendo estos intervalos suelen pasar a la memoria a largo plazo. El sistema de Lexigenz se basa en estos tres principios."
       }
     }
   },
