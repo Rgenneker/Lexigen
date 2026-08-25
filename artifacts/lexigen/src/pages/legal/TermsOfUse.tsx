@@ -1,5 +1,5 @@
 import { LegalLayout } from "./LegalLayout";
-import { isFrench, legalHeading, legalTitles, legalUi } from "@/i18n/legalLocale";
+import { isFrench, isSpanish, legalHeading, legalTitles, legalUi } from "@/i18n/legalLocale";
 
 export default function TermsOfUse() {
   return (
@@ -76,9 +76,17 @@ export default function TermsOfUse() {
       <h2>{legalHeading("14. ", "Disclaimers")}</h2>
       <p>{legalUi('To the maximum extent permitted by law, the Services are provided "AS IS" and "AS AVAILABLE." The Company disclaims all warranties, whether express, implied, statutory, or otherwise.', 'Dans toute la mesure permise par la loi, les Services sont fournis « EN L’ÉTAT » et « SELON DISPONIBILITÉ ». La Société exclut toute garantie, qu’elle soit expresse, implicite, légale ou autre.')}</p>
 
-      <h2>{legalHeading("15. ", "Limitation of Liability")}</h2>
+      <h2>{isSpanish() ? "15. Limitación de Responsabilidad" : legalHeading("15. ", "Limitation of Liability")}</h2>
       {isFrench() ? (
         <p>{legalUi("", "Dans toute la mesure permise par la loi, la Société ne saurait être responsable des dommages indirects, consécutifs, accessoires, spéciaux ou punitifs, de la perte de revenus, de bénéfices ou de clientèle, de la perte de données ou d’incidents cyber causés par des tiers. Lorsque la responsabilité ne peut légalement être exclue, la responsabilité globale de la Société ne dépassera pas le montant le plus élevé entre la somme payée par l’Utilisateur au cours des douze (12) mois précédents et 1 000 ZAR.")}</p>
+      ) : isSpanish() ? (
+        <>
+          <p>En la máxima medida permitida por la legislación aplicable, la Compañía excluye y no aceptará responsabilidad alguna derivada de, o relacionada con, el acceso del Usuario a la Plataforma, su uso o la imposibilidad de utilizarla, así como sus servicios, contenidos, funcionalidades, juegos, integraciones con terceros o servicios relacionados.</p>
+          <p>Sin limitar lo anterior, la Compañía no será responsable de ningún daño directo, indirecto, incidental, consecuente, especial, ejemplar o punitivo, ni de ninguna pérdida de ingresos, beneficios, oportunidades comerciales, fondo de comercio, ahorros previstos, datos u otras pérdidas económicas o no económicas, ya sea que dichas pérdidas o daños se deriven de un contrato, responsabilidad extracontractual (delito civil), negligencia, disposición legal o cualquier otra causa.</p>
+          <p>Asimismo, la Compañía no será responsable de ninguna pérdida, daño, interrupción, acceso no autorizado, violación de datos, ciberataque, software malicioso (malware), fallo del sistema, acto u omisión de terceros, ni de ningún otro incidente cibernético o de seguridad causado por, o atribuible a, terceros o a circunstancias que se encuentren fuera del control razonable de la Compañía.</p>
+          <p>La Compañía no acepta ninguna responsabilidad agregada o acumulativa frente al Usuario. No se aplicará ningún límite monetario de responsabilidad, importe mínimo de responsabilidad ni importe de responsabilidad agregada, ni se considerará que ninguno de ellos crea derecho alguno a indemnización o compensación.</p>
+          <p>Nada de lo dispuesto en esta cláusula excluye o limita cualquier responsabilidad que, conforme a la legislación aplicable, no pueda ser legalmente excluida o limitada, incluidos aquellos derechos o recursos a los que no pueda renunciarse en virtud de la legislación aplicable en materia de protección del consumidor.</p>
+        </>
       ) : (
         <>
           <p>To the fullest extent permitted by applicable law, the Company excludes and shall not accept any liability arising out of or in connection with the User's access to, use of, or inability to use the Platform, its services, content, features, games, third-party integrations, or related services.</p>

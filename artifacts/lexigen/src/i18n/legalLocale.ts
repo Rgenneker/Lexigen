@@ -5,6 +5,7 @@ import i18n from "./index";
  * files are generated, while this small set is maintained with the legal UI.
  */
 export const isFrench = () => i18n.language.split("-")[0] === "fr";
+export const isSpanish = () => i18n.language.split("-")[0] === "es";
 
 export const legalUi = (english: string, french: string) =>
   isFrench() ? french : english;
