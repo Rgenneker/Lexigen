@@ -1,5 +1,5 @@
 import { LegalLayout } from "./LegalLayout";
-import { isFrench, isSpanish, legalHeading, legalTitles, legalUi } from "@/i18n/legalLocale";
+import { isFrench, isMandarin, isSpanish, legalHeading, legalTitles, legalUi } from "@/i18n/legalLocale";
 
 export default function Terms() {
   return (
@@ -92,7 +92,14 @@ export default function Terms() {
       </p>
 
       <h2>{isSpanish() ? "6. Limitación de Responsabilidad" : legalHeading("6. ", "Limitation of Liability")}</h2>
-      {isFrench() ? (
+      {isMandarin() ? (
+        <>
+          <p>在适用法律允许的最大范围内，Lexigenz Trading 及其董事、员工、代表和代理人不承担因你访问、使用、依赖或无法使用本网站、其词语生成器、工具、内容、功能或相关服务而产生或与之相关的任何损失、损害、索赔、费用或支出责任。</p>
+          <p>该排除责任包括但不限于任何直接、间接、附带、特殊、后果性、示范性或惩罚性损害；利润、收入、商业机会、商誉、数据或预期节省的损失；以及因服务中断、技术故障、网络事件、未经授权的访问或第三方的行为或疏漏而产生的任何损失。</p>
+          <p>Lexigenz Trading 不承担任何总计或累积责任；任何金钱责任上限、最低责任金额或总责任金额均不适用，也不应被解释为产生任何获得赔偿或补偿的权利。</p>
+          <p>本条款无意排除或限制根据适用的南非法律（包括适用的消费者保护法律）不得依法排除或限制的任何责任、权利或救济。</p>
+        </>
+      ) : isFrench() ? (
         <>
           <p>Dans toute la mesure permise par la législation applicable, Lexigenz Trading, y compris ses administrateurs, employés, représentants et agents, exclut et n’accepte aucune responsabilité pour toute perte, tout dommage, toute réclamation, tout coût ou toute dépense découlant de, ou lié à, votre accès au Site, à son utilisation, à la confiance que vous accordez à celui-ci ou à l’impossibilité de l’utiliser, ainsi qu’à ses générateurs de mots, outils, contenus, fonctionnalités ou services connexes.</p>
           <p>Cette exclusion comprend, sans limitation, tout dommage direct, indirect, accessoire, spécial, consécutif, exemplaire ou punitif ; toute perte de bénéfices, de revenus, d’opportunités commerciales, de clientèle ou de réputation commerciale, de données ou d’économies escomptées ; ainsi que toute perte résultant d’interruptions de service, de défaillances techniques, d’incidents informatiques, d’accès non autorisés ou d’actes ou omissions de tiers.</p>

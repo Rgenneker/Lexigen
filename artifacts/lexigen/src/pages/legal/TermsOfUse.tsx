@@ -1,5 +1,5 @@
 import { LegalLayout } from "./LegalLayout";
-import { isFrench, isSpanish, legalHeading, legalTitles, legalUi } from "@/i18n/legalLocale";
+import { isFrench, isMandarin, isSpanish, legalHeading, legalTitles, legalUi } from "@/i18n/legalLocale";
 
 export default function TermsOfUse() {
   return (
@@ -77,7 +77,15 @@ export default function TermsOfUse() {
       <p>{legalUi('To the maximum extent permitted by law, the Services are provided "AS IS" and "AS AVAILABLE." The Company disclaims all warranties, whether express, implied, statutory, or otherwise.', 'Dans toute la mesure permise par la loi, les Services sont fournis « EN L’ÉTAT » et « SELON DISPONIBILITÉ ». La Société exclut toute garantie, qu’elle soit expresse, implicite, légale ou autre.')}</p>
 
       <h2>{isSpanish() ? "15. Limitación de Responsabilidad" : legalHeading("15. ", "Limitation of Liability")}</h2>
-      {isFrench() ? (
+      {isMandarin() ? (
+        <>
+          <p>在适用法律允许的最大范围内，公司排除并不承担因用户访问、使用或无法使用平台及其服务、内容、功能、游戏、第三方集成或相关服务而产生或与之相关的任何责任。</p>
+          <p>在不限制前述规定的情况下，公司不对任何直接、间接、附带、后果性、特殊、示范性或惩罚性损害负责，也不对收入、利润、商业机会、商誉、预期节省、数据或其他经济或非经济损失负责，无论该责任是基于合同、侵权、过失、法律规定还是其他原因产生。</p>
+          <p>此外，公司不对由第三方或公司合理控制范围之外的情况造成或归因于此的任何损失、损害、中断、未经授权的访问、数据泄露、网络攻击、恶意软件、系统故障、第三方行为或疏漏，或其他网络或安全事件负责。</p>
+          <p>公司不对用户承担任何总计或累积责任。任何金钱责任上限、最低责任金额或总责任金额均不适用，也不应被视为产生任何获得赔偿或补偿的权利。</p>
+          <p>本条款不排除或限制根据适用法律不得依法排除或限制的任何责任，包括根据适用消费者保护法律不得放弃的任何权利或救济。</p>
+        </>
+      ) : isFrench() ? (
         <>
           <p>Dans toute la mesure permise par la législation applicable, la Société exclut et n’accepte aucune responsabilité découlant de, ou liée à, l’accès de l’Utilisateur à la Plateforme, à son utilisation ou à l’impossibilité de l’utiliser, ainsi qu’à ses services, contenus, fonctionnalités, jeux, intégrations de tiers ou services connexes. Sans limiter la portée de ce qui précède, la Société ne saurait être tenue responsable de tout dommage direct, indirect, accessoire, consécutif, spécial, exemplaire ou punitif, ni de toute perte de revenus, de bénéfices, d’opportunités commerciales, de clientèle ou de réputation commerciale, d’économies escomptées, de données, ou de toute autre perte économique ou non économique, que cette responsabilité découle d’un contrat, d’un délit civil (responsabilité délictuelle), d’une négligence, d’une disposition légale ou de toute autre cause. La Société ne saurait en outre être tenue responsable de toute perte, de tout dommage, de toute interruption, de tout accès non autorisé, de toute violation de données, cyberattaque, logiciel malveillant (malware), défaillance du système, acte ou omission d’un tiers, ou de tout autre incident informatique ou de sécurité causé par, ou attribuable à, des tiers ou à des circonstances échappant au contrôle raisonnable de la Société.</p>
           <p>La Société n’accepte aucune responsabilité globale ou cumulative envers l’Utilisateur. Aucun plafond monétaire de responsabilité, montant minimal de responsabilité ou montant global de responsabilité ne s’applique et aucun de ces montants ne saurait être considéré comme créant un quelconque droit à indemnisation ou à compensation.</p>
