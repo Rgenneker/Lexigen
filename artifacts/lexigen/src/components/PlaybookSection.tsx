@@ -548,6 +548,31 @@ const FRENCH_QUIZ = [
   ["Le prix de Lexigenz Premium est de :", ["8 $ par mois", "8 $ par an", "8 $ une seule fois", "Gratuit"], 2, "Premium coûte 8 $ une seule fois. Il n’y a ni abonnement, ni renouvellement, ni date d’expiration."],
 ] as const;
 
+const MANDARIN_STEPS = [
+  ["🗺️", "平台概览", "欢迎来到 Lexigenz：快速了解平台", "Lexigenz = 每日一词、六款游戏、你的语言个性和 19 种语言。", "Lexigenz 是一个每日词汇成长平台。完整学习循环约需 7 分钟：认识一个词、亲自造句，再通过游戏和复习巩固记忆。"],
+  ["🧭", "导航", "如何浏览每个页面", "导航栏就是你的地图。App 用于每日学习，Play 用于游戏，Articles 提供深度阅读。", "在手机上，导航栏会变成菜单。Home 介绍平台；About 汇集工具；How It Works 说明系统；Invite 可向朋友发送挑战链接；FAQ 提供帮助。"],
+  ["🌟", "你的原型", "词汇个性如何运作", "出生日期 → 12 个原型之一 → 个性化的词语、风格和语气。", "在 App 页面输入出生日期后，Lexigenz 会计算你的词汇原型。相同日期始终产生相同原型；它用来匹配你收到的每日词语。"],
+  ["⚡", "每日循环", "词语如何真正留在记忆中", "阅读 → 造句 → 记录 → 复习；间隔重复已包含在流程中。", "每天打开 App，阅读你的每日单词及其定义、词源、发音和例句。然后在 Sentence Builder 中写自己的句子，并在 Word Journal 中回顾。"],
+  ["🎮", "6 款词语游戏", "通过游戏练习词汇", "前往 Play 并选择游戏；每款游戏训练不同的词汇能力。", "Wordle、Scrabble、Crossword、Spelling Bee、Word Grid 和 The Lexigenz Game 都保留其英文游戏名称。它们分别练习猜词、拼写、线索和快速回忆。"],
+  ["🔐", "登录与同步", "登录后会发生什么", "登录会在所有设备间同步连续学习、日志、原型和 Premium。", "你可以不登录使用 Lexigenz。注册后，你的连续记录、Word Journal、原型和语言偏好会同步到账号；Premium 可解锁更多语言和功能。"],
+  ["🌍", "Premium 与语言", "语言和邀请系统", "$8 一次性付费：英语加一种语言，无订阅。", "免费方案提供英语、每日单词、六款游戏和基础连续记录。你可以通过链接邀请任何人挑战，无需对方拥有 Lexigenz 账号。"],
+] as const;
+
+function MandarinPlaybook({ defaultOpen = false }: PlaybookSectionProps) {
+  const [open, setOpen] = useState(defaultOpen);
+  const [step, setStep] = useState(0);
+  if (!open) return <motion.div onClick={() => setOpen(true)} className="relative overflow-hidden rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent cursor-pointer">
+    <div className="px-6 py-5 flex items-center gap-5"><div className="text-4xl">🎯</div><div className="flex-1"><div className="text-xs font-bold uppercase tracking-widest text-primary">刚开始使用 Lexigenz？</div><h3 className="text-xl font-black">Lexigenz 使用指南</h3><p className="text-sm text-muted-foreground">7 节互动课程，快速掌握平台。</p></div><Button>开始 <ChevronRight className="h-4 w-4" /></Button></div>
+  </motion.div>;
+  const current = MANDARIN_STEPS[step];
+  return <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="border-2 border-primary/30 rounded-2xl overflow-hidden bg-background shadow-xl">
+    <div className="flex items-center justify-between border-b border-border px-5 py-3 bg-muted/30"><div><p className="text-sm font-black">Lexigenz 使用指南</p><p className="text-xs text-muted-foreground">你的完整平台指南</p></div><button aria-label="关闭" onClick={() => setOpen(false)}><X className="h-5 w-5" /></button></div>
+    <div className="px-5 pt-4"><div className="flex justify-between text-xs text-muted-foreground mb-2"><span>课程 {step + 1} / {MANDARIN_STEPS.length}</span><span>约 5 分钟</span></div><div className="h-1 bg-muted rounded-full"><div className="h-full bg-primary rounded-full" style={{ width: `${((step + 1) / MANDARIN_STEPS.length) * 100}%` }} /></div></div>
+    <div className="px-5 py-5"><div className="flex items-center gap-2"><span className="text-2xl">{current[0]}</span><span className="text-xs font-bold text-primary">{current[1]}</span></div><h4 className="text-lg font-black mt-2">{current[2]}</h4><div className="bg-amber-500/10 border border-amber-400/20 rounded-lg px-3 py-2 mt-3 text-sm font-semibold text-amber-700 dark:text-amber-400">简而言之：{current[3]}</div><p className="text-sm text-muted-foreground leading-relaxed mt-4">{current[4]}</p></div>
+    <div className="border-t border-border px-5 py-3 flex justify-between bg-muted/20"><Button variant="outline" size="sm" onClick={() => setStep(value => Math.max(0, value - 1))} disabled={step === 0}><ChevronLeft className="h-4 w-4" /> 上一课</Button>{step < MANDARIN_STEPS.length - 1 ? <Button size="sm" onClick={() => setStep(value => value + 1)}>下一课 <ChevronRight className="h-4 w-4" /></Button> : <Link href="/app"><Button size="sm">前往 App <ArrowRight className="h-4 w-4" /></Button></Link>}</div>
+  </motion.div>;
+}
+
 function FrenchPlaybook({ defaultOpen = false }: PlaybookSectionProps) {
   const [open, setOpen] = useState(defaultOpen);
   const [tab, setTab] = useState<"lessons" | "cheat">("lessons");
@@ -586,6 +611,7 @@ export default function PlaybookSection({ defaultOpen = false }: PlaybookSection
   const { i18n } = useTranslation();
   if (i18n.language === "es") return <SpanishPlaybook defaultOpen={defaultOpen} />;
   if (i18n.language === "fr") return <FrenchPlaybook defaultOpen={defaultOpen} />;
+  if (i18n.language === "zh") return <MandarinPlaybook defaultOpen={defaultOpen} />;
 
   const [open, setOpen] = useState(defaultOpen);
   const [activeTab, setActiveTab] = useState<"playbook" | "cheatsheet">("playbook");

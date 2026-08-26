@@ -4,7 +4,7 @@ import { Link } from "wouter";
 import { Badge } from "@/components/ui/badge";
 import { Clock, BookOpen, Trophy, ChevronRight } from "lucide-react";
 import { ARTICLES, CATEGORY_COLORS } from "@/data/articles";
-import { FRENCH_ARTICLE_METADATA } from "@/i18n/article-metadata";
+import { FRENCH_ARTICLE_METADATA, MANDARIN_ARTICLE_METADATA } from "@/i18n/article-metadata";
 import AdsterraAd from "@/components/AdsterraAd";
 import AdsterraSocialBar from "@/components/AdsterraSocialBar";
 
@@ -60,14 +60,13 @@ export default function Articles() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {ARTICLES.map((article, i) => {
-            const isFrench = i18n.language === "fr";
-            const frenchMetadata = isFrench
-              ? FRENCH_ARTICLE_METADATA[article.id]
+            const articleMetadata = i18n.language === "fr" ? FRENCH_ARTICLE_METADATA[article.id]
+              : i18n.language === "zh" ? MANDARIN_ARTICLE_METADATA[article.id]
               : undefined;
-            if (isFrench && !frenchMetadata) {
-              throw new Error(`Missing French article listing localization for "${article.id}"`);
+            if ((i18n.language === "fr" || i18n.language === "zh") && !articleMetadata) {
+              throw new Error(`Missing ${i18n.language} article listing localization for "${article.id}"`);
             }
-            const metadata = isFrench ? frenchMetadata! : article;
+            const metadata = articleMetadata ?? article;
 
             return (
             <motion.div

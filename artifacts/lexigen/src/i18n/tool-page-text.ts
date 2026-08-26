@@ -227,6 +227,25 @@ const fr: Record<string, string> = {
   "Expand Your Word-Finding Vocabulary": "Enrichissez votre vocabulaire de recherche de mots",
 };
 
+// Tool routes deliberately retain English answer words and game names.
+const zh: Record<string, string> = {
+  "Home": "首页", "Words": "词语", "Definition": "定义", "Synonyms": "同义词", "Antonyms": "反义词",
+  "In a Sentence": "例句", "Advanced Alternatives": "高级替代表达", "Pronounce": "发音", "Browse Words": "浏览词语",
+  "Explore More Words": "探索更多词语", "List Not Found": "未找到列表", "Click any word for full definition": "点击任意词语查看完整定义",
+  "Build this vocabulary with LexigenZ": "使用 LexigenZ 建立词汇量", "Start Learning": "开始学习", "More Vocabulary Lists": "更多词汇列表",
+  "Learn one new word every day with LexigenZ": "每天通过 LexigenZ 学习一个新词", "Get Started Free": "免费开始", "Explore Other Hubs": "探索其他中心",
+  "Words Starting With": "以此开头的词语", "Words Ending In": "以此结尾的词语", "No words found starting with": "未找到以此开头的词语",
+  "No words found ending in": "未找到以此结尾的词语", "Vocabulary Hub - Build Your English Vocabulary | LexigenZ": "词汇中心 - 建立你的英语词汇量 | LexigenZ",
+  "Your complete English vocabulary learning centre. Discover how to build vocabulary fast, browse word lists by category, and find proven strategies used by top learners worldwide.": "完整的英语词汇学习中心。探索快速建立词汇量的方法、按类别浏览词表，并了解全球优秀学习者使用的有效策略。",
+  "Wordle Words - Complete Guide, Strategies & Word Lists | LexigenZ": "Wordle 词语 - 完整指南、策略和词表 | LexigenZ",
+  "Master Wordle with our complete guide. Best starting words, strategies, common patterns, hard mode tips, and how vocabulary knowledge gives you a decisive edge.": "通过完整指南掌握 Wordle：最佳开局词、策略、常见模式、困难模式技巧，以及词汇知识如何带来决定性优势。",
+  "Scrabble Words - Complete Strategy Guide & High-Value Word Lists | LexigenZ": "Scrabble 词语 - 完整策略指南和高价值词表 | LexigenZ",
+  "Spelling Bee Words - Complete Guide & Word Lists | LexigenZ": "Spelling Bee 词语 - 完整指南和词表 | LexigenZ",
+  "Crossword Words - Complete Guide & Word Lists | LexigenZ": "Crossword 词语 - 完整指南和词表 | LexigenZ",
+  "Word Finder - Find Words From Letters | LexigenZ": "单词查找器 - 从字母中找词 | LexigenZ",
+  "Anagram Solver - Unscramble Letters | LexigenZ": "变位词求解器 - 重组字母 | LexigenZ",
+};
+
 
 Object.assign(fr, {
   "Anagrams have appeared throughout literary and intellectual history as a form of wordplay, puzzle, and sometimes as coded communication. Medieval scholars created anagrams of names to divine hidden truths. Renaissance writers used anagrams as a form of literary sport. Cryptic crossword setters use anagram clues as one of their most frequently employed techniques. Computer scientists study anagram detection as an introduction to combinatorics and algorithm design. The humble anagram sits at the intersection of language, mathematics, and puzzle-solving.": "Les anagrammes sont apparus tout au long de l’histoire littéraire et intellectuelle sous forme de jeu de mots, de puzzle et parfois de communication codée. Les érudits médiévaux ont créé des anagrammes de noms pour deviner des vérités cachées. Les écrivains de la Renaissance utilisaient les anagrammes comme forme de sport littéraire. Les créateurs de mots croisés énigmatiques utilisent les indices d’anagramme comme l’une de leurs techniques les plus fréquemment utilisées. Les informaticiens étudient la détection d'anagrammes comme introduction à la combinatoire et à la conception d'algorithmes. L’humble anagramme se situe à l’intersection du langage, des mathématiques et de la résolution d’énigmes.",
@@ -587,5 +606,6 @@ Object.assign(fr, {
 
 export function useToolPageText() {
   const { i18n } = useTranslation();
-  return (english: string) => (i18n.resolvedLanguage === "fr" || i18n.language === "fr" ? fr[english] ?? english : english);
+  return (english: string) => i18n.resolvedLanguage === "fr" || i18n.language === "fr" ? fr[english] ?? english
+    : i18n.resolvedLanguage === "zh" || i18n.language === "zh" ? zh[english] ?? english : english;
 }

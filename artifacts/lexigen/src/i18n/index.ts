@@ -20,6 +20,7 @@ import zh from "./locales/zh.json";
 import af from "./locales/af.json";
 import zu from "./locales/zu.json";
 import xh from "./locales/xh.json";
+import { applyMandarinOverrides } from "./mandarin-overrides";
 
 /** Map Lexigen language names → i18next language codes */
 export const LANG_CODE: Record<string, string> = {
@@ -75,7 +76,7 @@ i18n
       tl: { translation: tl },
       ja: { translation: ja },
       yue: { translation: yue },
-      zh: { translation: zh },
+      zh: { translation: applyMandarinOverrides(zh) },
       af: { translation: af },
       zu: { translation: zu },
       xh: { translation: xh },

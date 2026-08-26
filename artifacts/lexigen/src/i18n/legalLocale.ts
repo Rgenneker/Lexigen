@@ -7,9 +7,22 @@ import { spanishLegalText } from "./spanishLegalText";
  */
 export const isFrench = () => i18n.language.split("-")[0] === "fr";
 export const isSpanish = () => i18n.language.split("-")[0] === "es";
+export const isMandarin = () => i18n.language.split("-")[0] === "zh";
+
+const mandarinLegalText: Record<string, string> = {
+  "Last updated:": "最后更新：",
+  "Terms and Conditions": "条款和条件", "Privacy Policy": "隐私政策", "Terms of Use": "使用条款",
+  "Cookie Policy": "Cookie 政策", "Legal Disclaimer": "法律免责声明",
+  "1 June 2026": "2026年6月1日", "June 2026": "2026年6月",
+  "Please read these Terms and Conditions carefully before using Lexigenz.com (the \"Site\") operated by Lexigenz Trading (\"we\", \"us\", or \"our\"). By accessing or using the Site, you agree to be bound by these Terms.": "在使用由 Lexigenz Trading 运营的 Lexigenz.com（“本网站”）前，请仔细阅读本条款和条件。访问或使用本网站即表示你同意受本条款约束。",
+  'Lexigenz Trading ("we", "us", "our") operates Lexigenz.com. This Privacy Policy explains how we handle information when you use our word generation and word-of-the-day tools. We are committed to protecting your privacy and being transparent about our practices.': "Lexigenz Trading（“我们”）运营 Lexigenz.com。本隐私政策说明你使用我们的词语生成和每日单词工具时，我们如何处理信息。我们致力于保护你的隐私，并透明说明我们的做法。",
+  "These Terms of Use set out the rules for using Lexigenz.com and its tools, games, and services.": "本使用条款列出使用 Lexigenz.com 及其工具、游戏和服务的规则。",
+  "This Cookie Policy explains how Lexigenz Trading (\"we\", \"us\", or \"our\") uses cookies and similar technologies when you visit Lexigenz.com (the \"Site\").": "本 Cookie 政策说明你访问 Lexigenz.com（“本网站”）时，Lexigenz Trading（“我们”）如何使用 Cookie 和类似技术。",
+  "Welcome to Lexigenz.com. This Legal Disclaimer applies to your use of the Site, including all word tools, games, content, and features made available by Lexigenz Trading.": "欢迎访问 Lexigenz.com。本法律免责声明适用于你对本网站的使用，包括 Lexigenz Trading 提供的所有词语工具、游戏、内容和功能。",
+};
 
 export const legalUi = (english: string, french: string, spanish = spanishLegalText[english] ?? english) =>
-  isFrench() ? french : isSpanish() ? spanish : english;
+  isMandarin() ? mandarinLegalText[english] ?? english : isFrench() ? french : isSpanish() ? spanish : english;
 
 export const legalTitles = {
   terms: ["Terms and Conditions", "Conditions générales", "Términos y condiciones"],
@@ -173,5 +186,25 @@ const spanishHeadings: Record<string, string> = {
   "Changes to This Disclaimer": "Modificaciones de este aviso",
 };
 
+const mandarinHeadings: Record<string, string> = {
+  Contents: "目录", "Acceptance of Terms": "接受条款", "Use of the Service": "服务的使用", "Intellectual Property": "知识产权",
+  "No Professional Advice": "不构成专业建议", "Disclaimer of Warranties": "免责声明", "Limitation of Liability": "责任限制",
+  "Third-Party Advertising": "第三方广告", "Links to Third-Party Sites": "第三方网站链接", "Changes to Terms": "条款变更", "Governing Law": "适用法律", Contact: "联系我们",
+  "Information We Collect": "我们收集的信息", "How We Use Information": "我们如何使用信息", "Google AdSense & Cookies": "Google AdSense 与 Cookie", Analytics: "分析",
+  "Data Storage & Security": "数据存储与安全", "Children's Privacy": "儿童隐私", "Your Rights": "你的权利", "Changes to This Policy": "本政策的变更", "Contact Us": "联系我们",
+  Eligibility: "资格", "Business Purpose of the Services": "服务的商业目的", "Account Registration": "账户注册", "User Responsibilities": "用户责任", "Prohibited Conduct": "禁止行为",
+  "Intellectual Property Rights": "知识产权", "User-Generated Content": "用户生成内容", "Privacy and Data Protection": "隐私和数据保护", "Information Security": "信息安全",
+  "Third-Party Services": "第三方服务", "Fees, Payments, and Billing": "费用、付款和账单", "Service Availability": "服务可用性", Disclaimers: "免责声明", Indemnification: "赔偿",
+  "Compliance with Laws": "遵守法律", "Force Majeure": "不可抗力", "Suspension and Termination": "暂停和终止", "Dispute Resolution": "争议解决", Severability: "可分割性", Amendments: "修订", "Contact Information": "联系信息",
+  Introduction: "简介", "What Are Cookies?": "什么是 Cookie？", "Types of Cookies We Use": "我们使用的 Cookie 类型", "Strictly Necessary Cookies": "严格必要的 Cookie",
+  "Functional Cookies": "功能性 Cookie", "Performance and Analytics Cookies": "性能和分析 Cookie", "Advertising and Marketing Cookies": "广告和营销 Cookie", "Social Media Cookies": "社交媒体 Cookie",
+  "Security Cookies": "安全 Cookie", "First-Party and Third-Party Cookies": "第一方和第三方 Cookie", "Similar Tracking Technologies": "类似追踪技术", "Information Collected Through Cookies": "通过 Cookie 收集的信息",
+  "Legal Basis for Cookie Processing": "Cookie 处理的法律依据", "Consent Management": "同意管理", "How to Control Cookies": "如何控制 Cookie", "Data Retention": "数据保留",
+  "International Data Transfers": "国际数据传输", "Data Security": "数据安全", "User Rights": "用户权利", "Regulatory Compliance": "监管合规", "Changes to This Cookie Policy": "本 Cookie 政策的变更",
+  "Important Notice": "重要通知", "Information Purposes Only": "仅供参考", "No Recommendation": "不构成建议", "No Guarantee of Accuracy": "不保证准确性",
+  "Content and Data Disclaimer": "内容和数据免责声明", "Generator and Analytics Disclaimer": "生成器和分析免责声明", "Third-Party Content": "第三方内容",
+  "No Fiduciary Relationship": "不存在信托关系", "User Responsibility": "用户责任", "No Warranty": "不提供保证", "Changes to This Disclaimer": "本免责声明的变更",
+};
+
 export const legalHeading = (number: string, english: string) =>
-  `${number}${isSpanish() ? spanishHeadings[english] ?? spanishLegalText[english] ?? english : legalUi(english, frenchHeadings[english] ?? english)}`;
+  `${number}${isMandarin() ? mandarinHeadings[english] ?? mandarinLegalText[english] ?? english : isSpanish() ? spanishHeadings[english] ?? spanishLegalText[english] ?? english : legalUi(english, frenchHeadings[english] ?? english)}`;

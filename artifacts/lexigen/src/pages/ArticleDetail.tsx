@@ -9,8 +9,9 @@ import { useTranslation } from "react-i18next";
 import { ARTICLES, CATEGORY_COLORS } from "@/data/articles";
 import NotFound from "@/pages/not-found";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import { FRENCH_ARTICLE_METADATA } from "@/i18n/article-metadata";
+import { FRENCH_ARTICLE_METADATA, MANDARIN_ARTICLE_METADATA } from "@/i18n/article-metadata";
 import { FRENCH_CORE_ARTICLE_BODIES } from "@/i18n/french-article-content";
+import { MANDARIN_CORE_ARTICLE_BODIES } from "@/i18n/mandarin-article-content";
 
 function MemoryScienceBody() {
   const { t } = useTranslation();
@@ -162,9 +163,11 @@ function ArticleDetailInner({ id }: { id: string }) {
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
   const article = ARTICLES.find((a) => a.id === id)!;
-  const hasInviteArticleLocalization = i18n.language === "es" || i18n.language === "fr";
+  const hasInviteArticleLocalization = i18n.language === "es" || i18n.language === "fr" || i18n.language === "zh";
   const frenchMetadata = i18n.language === "fr" ? FRENCH_ARTICLE_METADATA[id] : undefined;
   const frenchBody = i18n.language === "fr" ? FRENCH_CORE_ARTICLE_BODIES[id] : undefined;
+  const mandarinMetadata = i18n.language === "zh" ? MANDARIN_ARTICLE_METADATA[id] : undefined;
+  const mandarinBody = i18n.language === "zh" ? MANDARIN_CORE_ARTICLE_BODIES[id] : undefined;
   const localizedArticle = hasInviteArticleLocalization
     ? {
         "why-context-beats-repetition": {
@@ -205,14 +208,19 @@ function ArticleDetailInner({ id }: { id: string }) {
   if (i18n.language === "fr" && (!frenchMetadata || (!frenchBody && !localizedArticle))) {
     throw new Error(`Missing French article detail localization for "${id}"`);
   }
-  const displayCategory = i18n.language === "fr" ? frenchMetadata!.category : localizedArticle?.category ?? article.category;
-  const displayTitle = i18n.language === "fr" ? frenchMetadata!.title : localizedArticle?.title ?? article.title;
-  const displayExcerpt = i18n.language === "fr" ? frenchMetadata!.excerpt : localizedArticle?.excerpt ?? article.excerpt;
-  const displayBody = frenchBody ?? localizedArticle?.body ?? article.body;
+  if (i18n.language === "zh" && (!mandarinMetadata || (!mandarinBody && !localizedArticle))) {
+    throw new Error(`Missing Mandarin article detail localization for "${id}"`);
+  }
+  const localizedMetadata = frenchMetadata ?? mandarinMetadata;
+  const displayCategory = localizedMetadata?.category ?? localizedArticle?.category ?? article.category;
+  const displayTitle = localizedMetadata?.title ?? localizedArticle?.title ?? article.title;
+  const displayExcerpt = localizedMetadata?.excerpt ?? localizedArticle?.excerpt ?? article.excerpt;
+  const displayBody = frenchBody ?? mandarinBody ?? localizedArticle?.body ?? article.body;
   const getArticleTitle = (linkedArticle: (typeof ARTICLES)[number]) => {
     if (i18n.language === "fr") {
       return FRENCH_ARTICLE_METADATA[linkedArticle.id]!.title;
     }
+    if (i18n.language === "zh") return MANDARIN_ARTICLE_METADATA[linkedArticle.id]!.title;
     if (!hasInviteArticleLocalization) return linkedArticle.title;
     const localizedTitles: Record<string, string> = {
       "why-context-beats-repetition": t("invite.articleMemoryScienceTitle"),
