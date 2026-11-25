@@ -125,12 +125,12 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Premium",
     q: "What does Premium include?",
-    a: "Lexigenz Premium unlocks: English + 1 language of your choice (Free is English only - additional languages available for $2 each), unlimited Sentence Builder use, full Word Journal with no entry cap, monthly detailed progress reports, exclusive Premium visual themes, a completely ad-free experience, and priority support. Premium is a one-time payment of $8 - no subscription, no monthly fees, no expiry date."
+    a: "Lexigenz Premium unlocks: English + 1 language of your choice (Free is English only - additional languages available for $2 each), unlimited Sentence Builder use, full Word Journal with no entry cap, monthly detailed progress reports, exclusive Premium visual themes, a completely ad-free experience, and priority support. Premium is a one-time payment of $3 - no subscription, no monthly fees, no expiry date."
   },
   {
     category: "Premium",
     q: "Is Premium a subscription or a one-time payment?",
-    a: "Premium is a once-off payment of $8. You pay once and have Premium access with no recurring charges, no renewal reminders, no cancellation needed. This is a deliberate design choice. We believe that meaningful tools should be affordable and permanent, not a subscription you have to remember to cancel."
+    a: "Premium is a once-off payment of $3. You pay once and have Premium access with no recurring charges, no renewal reminders, no cancellation needed. This is a deliberate design choice. We believe that meaningful tools should be affordable and permanent, not a subscription you have to remember to cancel."
   },
   {
     category: "Premium",
@@ -150,7 +150,7 @@ const faqs: { q: string; a: string; category: string }[] = [
   {
     category: "Premium",
     q: "What currency is Premium priced in?",
-    a: "Premium is priced in USD ($8.00). PayPal automatically handles currency conversion for international buyers, so you'll see the equivalent amount in your local currency at checkout. No additional conversion fees are charged by Lexigenz."
+    a: "Premium is priced in USD ($3.00). PayPal automatically handles currency conversion for international buyers, so you'll see the equivalent amount in your local currency at checkout. No additional conversion fees are charged by Lexigenz."
   },
 
   // Languages

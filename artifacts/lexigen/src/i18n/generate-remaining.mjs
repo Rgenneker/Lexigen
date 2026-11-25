@@ -53,7 +53,7 @@ STRICT RULES:
 2. Only translate the string VALUES
 3. Preserve {{variable}} placeholders EXACTLY as-is
 4. Preserve all emoji unchanged
-5. Keep currency ($8, $2, $0.00) and brand names (Lexigenz, LEXIGENZ, PayPal) unchanged
+5. Keep currency ($3, $2, $0.00) and brand names (Lexigenz, LEXIGENZ, PayPal) unchanged
 6. Return ONLY valid JSON — no markdown fences, no explanation
 7. Output must be parseable by JSON.parse()
 

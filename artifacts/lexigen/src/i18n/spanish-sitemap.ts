@@ -38,7 +38,7 @@ export const SPANISH_SITEMAP_ENTRIES: Record<string, SpanishSitemapEntry> = {
   },
   "/premium": {
     label: "Premium",
-    description: "Pásate a Lexigenz Premium: un pago único de $8 para disfrutar de acceso ilimitado. Desbloquea sesiones ilimitadas para crear frases, informes mensuales avanzados y juegos prémium.",
+    description: "Pásate a Lexigenz Premium: un pago único de $3 para disfrutar de acceso ilimitado. Desbloquea sesiones ilimitadas para crear frases, informes mensuales avanzados y juegos prémium.",
     keywords: ["Lexigenz Premium", "suscripción de vocabulario", "aplicación prémium de palabras", "vocabulario avanzado", "informe mensual de vocabulario", "plan de vocabulario ilimitado"],
   },
   "/faq": {

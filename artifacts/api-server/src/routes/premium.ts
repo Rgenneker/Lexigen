@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 
 const router = Router();
 const DEFAULT_USER_ID = 1;
+const PREMIUM_PRICE_USD = "3.00";
 
 const PREMIUM_FEATURES = [
   "Unlimited sentence builder",
@@ -84,7 +85,7 @@ router.post("/premium/create-order", async (req, res) => {
         intent: "CAPTURE",
         purchase_units: [
           {
-            amount: { currency_code: "USD", value: "8.00" },
+            amount: { currency_code: "USD", value: PREMIUM_PRICE_USD },
             description: "Lexigen Premium — Lifetime Access",
             ...(process.env.PAYPAL_PAYEE_EMAIL
               ? { payee: { email_address: process.env.PAYPAL_PAYEE_EMAIL } }

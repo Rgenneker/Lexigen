@@ -21,6 +21,7 @@ import af from "./locales/af.json";
 import zu from "./locales/zu.json";
 import xh from "./locales/xh.json";
 import { applyMandarinOverrides } from "./mandarin-overrides";
+import { applyPremiumPriceOverrides } from "./premium-pricing";
 
 /** Map Lexigen language names → i18next language codes */
 export const LANG_CODE: Record<string, string> = {
@@ -61,25 +62,25 @@ i18n
     lng: initialCode,
     fallbackLng: "en",
     resources: {
-      en: { translation: en },
-      fr: { translation: fr },
-      es: { translation: es },
-      pt: { translation: pt },
-      de: { translation: de },
-      nl: { translation: nl },
-      it: { translation: it },
-      ar: { translation: ar },
-      fa: { translation: fa },
-      ru: { translation: ru },
-      ms: { translation: ms },
-      vi: { translation: vi },
-      tl: { translation: tl },
-      ja: { translation: ja },
-      yue: { translation: yue },
-      zh: { translation: applyMandarinOverrides(zh) },
-      af: { translation: af },
-      zu: { translation: zu },
-      xh: { translation: xh },
+      en: { translation: applyPremiumPriceOverrides(en) },
+      fr: { translation: applyPremiumPriceOverrides(fr) },
+      es: { translation: applyPremiumPriceOverrides(es) },
+      pt: { translation: applyPremiumPriceOverrides(pt) },
+      de: { translation: applyPremiumPriceOverrides(de) },
+      nl: { translation: applyPremiumPriceOverrides(nl) },
+      it: { translation: applyPremiumPriceOverrides(it) },
+      ar: { translation: applyPremiumPriceOverrides(ar) },
+      fa: { translation: applyPremiumPriceOverrides(fa) },
+      ru: { translation: applyPremiumPriceOverrides(ru) },
+      ms: { translation: applyPremiumPriceOverrides(ms) },
+      vi: { translation: applyPremiumPriceOverrides(vi) },
+      tl: { translation: applyPremiumPriceOverrides(tl) },
+      ja: { translation: applyPremiumPriceOverrides(ja) },
+      yue: { translation: applyPremiumPriceOverrides(yue) },
+      zh: { translation: applyPremiumPriceOverrides(applyMandarinOverrides(zh)) },
+      af: { translation: applyPremiumPriceOverrides(af) },
+      zu: { translation: applyPremiumPriceOverrides(zu) },
+      xh: { translation: applyPremiumPriceOverrides(xh) },
     },
     interpolation: {
       escapeValue: false,

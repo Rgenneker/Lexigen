@@ -244,7 +244,7 @@ const STEPS = [
     emoji: "🌍",
     label: "Premium & Languages",
     title: "Premium, languages & the invite system",
-    tldr: "$8 once. English + 1 language. No subscription. Share via link. Done.",
+    tldr: "$3 once. English + 1 language. No subscription. Share via link. Done.",
     content: (
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
@@ -257,7 +257,7 @@ const STEPS = [
             ))}
           </div>
           <div className="border-2 border-primary rounded-xl p-3 space-y-1 relative overflow-hidden">
-            <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-bold px-2 py-0.5 rounded-bl-lg">$8 once</div>
+            <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-bold px-2 py-0.5 rounded-bl-lg">$3 once</div>
             <p className="text-xs font-bold uppercase tracking-wide text-primary">Premium</p>
             {["English + 1 language (+more for $2)", "Unlimited journal", "Ad-free games", "Monthly reports", "Premium themes", "Priority support"].map(f => (
               <div key={f} className="flex items-center gap-2 text-xs">
@@ -311,9 +311,9 @@ const QUIZ_QUESTIONS = [
   },
   {
     q: "Lexigenz Premium is priced at:",
-    options: ["$8/month", "$8/year", "$8 once", "Free"],
+    options: ["$3/month", "$3/year", "$3 once", "Free"],
     answer: 2,
-    explanation: "Premium is a one-time $8 payment. No subscription, no renewal, no expiry date. Ever.",
+    explanation: "Premium is a one-time $3 payment. No subscription, no renewal, no expiry date. Ever.",
   },
 ];
 
@@ -381,7 +381,7 @@ const CHEAT_SHEET_ITEMS = [
     section: "⭐ Free vs Premium",
     color: "border-blue-400/30 bg-blue-500/5",
     items: [
-      { label: "Price", value: "$8 once (lifetime)" },
+      { label: "Price", value: "$3 once (lifetime)" },
       { label: "Language unlock", value: "All 19" },
       { label: "Word Journal", value: "Unlimited" },
       { label: "Games", value: "Ad-free" },
@@ -442,7 +442,7 @@ const SPANISH_STEPS = [
     emoji: "🌍",
     label: "Premium e idiomas",
     title: "Premium, idiomas y el sistema de invitaciones",
-    summary: "8 $ una sola vez. Inglés + 1 idioma. Sin suscripción. Comparte mediante un enlace.",
+    summary: "3 $ una sola vez. Inglés + 1 idioma. Sin suscripción. Comparte mediante un enlace.",
     body: "El plan gratuito incluye inglés, la palabra del día, los seis juegos, el Creador de frases, un Diario de palabras limitado y la racha básica. Premium añade un idioma, diario ilimitado, juegos sin anuncios, informes mensuales, temas Premium y asistencia prioritaria. Puedes invitar a cualquiera mediante un enlace y no necesita una cuenta para jugar.",
   },
 ];
@@ -452,7 +452,7 @@ const SPANISH_QUIZ = [
   ["¿Qué determina tu arquetipo de vocabulario en Lexigenz?", ["Un cuestionario de personalidad", "Tu fecha de nacimiento", "Tu dirección de correo", "Tu país"], 1, "Tu arquetipo se calcula a partir de tu fecha de nacimiento; la misma fecha siempre produce el mismo arquetipo."],
   ["¿Qué acción activa el registro de tu racha diaria?", ["Leer un artículo", "Jugar a cualquier juego", "Visitar la página Aplicación", "Abrir las preguntas frecuentes"], 2, "Solo visitar la página Aplicación y trabajar con tu palabra diaria cuenta como registro de la racha."],
   ["¿Qué ocurre con las frases del Diario de palabras después de escribirlas?", ["Desaparecen a medianoche", "Son públicas en tu perfil", "Se guardan en tu diario privado", "Se envían a tus amigos"], 2, "Cada frase que escribes se guarda en tu Diario de palabras privado y solo tú puedes verla."],
-  ["El precio de Lexigenz Premium es:", ["8 $ al mes", "8 $ al año", "8 $ una sola vez", "Gratis"], 2, "Premium cuesta 8 $ una sola vez. No hay suscripción, renovación ni fecha de caducidad."],
+  ["El precio de Lexigenz Premium es:", ["3 $ al mes", "3 $ al año", "3 $ una sola vez", "Gratis"], 2, "Premium cuesta 3 $ una sola vez. No hay suscripción, renovación ni fecha de caducidad."],
 ] as const;
 
 function SpanishPlaybook({ defaultOpen = false }: PlaybookSectionProps) {
@@ -525,7 +525,7 @@ function SpanishPlaybook({ defaultOpen = false }: PlaybookSectionProps) {
         <div className="px-5 py-5"><div className="flex items-center justify-between mb-4"><div><p className="text-xs font-bold uppercase tracking-widest text-primary">Minicuestionario</p><p className="text-sm font-semibold">Pregunta {question + 1} de {SPANISH_QUIZ.length}</p></div><div className="flex gap-1">{SPANISH_QUIZ.map((_, index) => <div key={index} className={`w-2 h-2 rounded-full ${index <= question ? "bg-primary" : "bg-muted-foreground/20"}`} />)}</div></div><p className="text-base font-black mb-4">{SPANISH_QUIZ[question][0]}</p><div className="space-y-2">{SPANISH_QUIZ[question][1].map((option, index) => <button key={option} onClick={() => selected === null && finishAnswer(index)} className={`w-full text-left px-4 py-3 rounded-xl border text-sm font-medium ${selected === null ? "border-border hover:border-primary" : index === SPANISH_QUIZ[question][2] ? "border-emerald-500 bg-emerald-500/10" : selected === index ? "border-rose-500 bg-rose-500/10" : "border-border opacity-40"}`}><span className="mr-3 font-bold">{["A", "B", "C", "D"][index]}</span>{option}</button>)}</div>{selected !== null && <p className="mt-3 rounded-xl p-3 text-xs bg-primary/5 border border-primary/20">{SPANISH_QUIZ[question][3]}</p>}<Button variant="ghost" size="sm" onClick={() => setQuiz(false)} className="mt-4"><ChevronLeft className="h-4 w-4" /> Volver a las lecciones</Button></div>
       )}
       {tab === "lessons" && result && <div className="px-5 py-8 text-center"><div className="text-5xl mb-3">{score >= 4 ? "🏆" : score >= 3 ? "🌟" : "📚"}</div><h4 className="text-2xl font-black mb-1">{score >= 4 ? "¡Estás certificado!" : score >= 3 ? "¡Buen trabajo!" : "¡Casi lo consigues!"}</h4><p className="text-muted-foreground text-sm mb-4">Has acertado <strong className="text-foreground">{score} de {SPANISH_QUIZ.length}</strong> preguntas. {score >= 4 ? "Has prestado mucha atención. ¡Bienvenido al equipo Lexigenz!" : "Repasa las lecciones e inténtalo de nuevo: ampliar el vocabulario consiste en repetir."}</p><Button variant="outline" size="sm" onClick={() => { setResult(false); setQuiz(false); setStep(0); setAnswers(Array(5).fill(null)); setQuestion(0); }}><RotateCcw className="h-4 w-4" /> Repetir</Button></div>}
-      {tab === "cheat" && <div className="px-5 py-5"><h4 className="text-base font-black">Hoja de referencia de Lexigenz</h4><p className="text-xs text-muted-foreground mb-4">Tu referencia visual rápida: haz una captura y consérvala.</p><div className="grid grid-cols-1 sm:grid-cols-2 gap-3">{[["📍 Navegación", [["Aprendizaje diario", "/app"], ["Juegos de palabras", "/play"], ["Lecturas profundas", "/articles"], ["Herramientas", "/about"], ["Desafiar a amigos", "/invite"]]], ["🔥 Reglas de la racha", [["Activación", "Visita Aplicación"], ["Reinicio", "Medianoche local"], ["7 días", "Primera insignia 🥉"], ["30 días", "Insignia de plata 🥈"], ["100 días", "Insignia de oro 🥇"], ["365 días", "Insignia de leyenda 🏆"]]], ["🎮 Juegos", [["Wordle", "5 letras, 6 intentos"], ["Scrabble", "Fichas contra la IA"], ["Crucigrama", "Cuadrícula temática"], ["Concurso de Ortografía", "Panal de 7 letras"], ["Cuadrícula de palabras", "Búsqueda 6×6"], ["Juego de Lexigenz", "Ordena LEXIGENZ"]]], ["🌍 Idiomas", [["Plan gratuito", "Solo inglés"], ["Premium", "Inglés + 1 idioma"], ["Cambiar mediante", "Icono del globo 🌐"], ["Impacto en la racha", "Ninguno"], ["Idiomas sudafricanos", "Afrikáans, zulú, xhosa"]]], ["⭐ Gratis frente a Premium", [["Precio", "8 $ una sola vez"], ["Idiomas", "Los 19"], ["Diario de palabras", "Ilimitado"], ["Juegos", "Sin anuncios"], ["Informes", "Mensuales"], ["Pago", "PayPal / tarjeta"]]]].map(([section, items]) => <div key={section as string} className="border border-primary/20 rounded-xl overflow-hidden bg-primary/5"><p className="px-3 py-2 border-b border-primary/15 text-xs font-black">{section as string}</p><div className="px-3 py-2 space-y-1">{(items as string[][]).map(([label, value]) => <div key={label} className="flex justify-between gap-2"><span className="text-xs text-muted-foreground">{label}</span><span className="text-xs font-semibold text-right">{value}</span></div>)}</div></div>)}</div><div className="mt-4 flex gap-2"><Button size="sm" onClick={() => { setTab("lessons"); setQuiz(true); setResult(false); }} className="flex-1"><Trophy className="h-4 w-4" /> Hacer el cuestionario</Button><Link href="/app" className="flex-1"><Button size="sm" variant="outline" className="w-full">Ir a la aplicación <ArrowRight className="h-4 w-4" /></Button></Link></div></div>}
+      {tab === "cheat" && <div className="px-5 py-5"><h4 className="text-base font-black">Hoja de referencia de Lexigenz</h4><p className="text-xs text-muted-foreground mb-4">Tu referencia visual rápida: haz una captura y consérvala.</p><div className="grid grid-cols-1 sm:grid-cols-2 gap-3">{[["📍 Navegación", [["Aprendizaje diario", "/app"], ["Juegos de palabras", "/play"], ["Lecturas profundas", "/articles"], ["Herramientas", "/about"], ["Desafiar a amigos", "/invite"]]], ["🔥 Reglas de la racha", [["Activación", "Visita Aplicación"], ["Reinicio", "Medianoche local"], ["7 días", "Primera insignia 🥉"], ["30 días", "Insignia de plata 🥈"], ["100 días", "Insignia de oro 🥇"], ["365 días", "Insignia de leyenda 🏆"]]], ["🎮 Juegos", [["Wordle", "5 letras, 6 intentos"], ["Scrabble", "Fichas contra la IA"], ["Crucigrama", "Cuadrícula temática"], ["Concurso de Ortografía", "Panal de 7 letras"], ["Cuadrícula de palabras", "Búsqueda 6×6"], ["Juego de Lexigenz", "Ordena LEXIGENZ"]]], ["🌍 Idiomas", [["Plan gratuito", "Solo inglés"], ["Premium", "Inglés + 1 idioma"], ["Cambiar mediante", "Icono del globo 🌐"], ["Impacto en la racha", "Ninguno"], ["Idiomas sudafricanos", "Afrikáans, zulú, xhosa"]]], ["⭐ Gratis frente a Premium", [["Precio", "3 $ una sola vez"], ["Idiomas", "Los 19"], ["Diario de palabras", "Ilimitado"], ["Juegos", "Sin anuncios"], ["Informes", "Mensuales"], ["Pago", "PayPal / tarjeta"]]]].map(([section, items]) => <div key={section as string} className="border border-primary/20 rounded-xl overflow-hidden bg-primary/5"><p className="px-3 py-2 border-b border-primary/15 text-xs font-black">{section as string}</p><div className="px-3 py-2 space-y-1">{(items as string[][]).map(([label, value]) => <div key={label} className="flex justify-between gap-2"><span className="text-xs text-muted-foreground">{label}</span><span className="text-xs font-semibold text-right">{String(value)}</span></div>)}</div></div>)}</div><div className="mt-4 flex gap-2"><Button size="sm" onClick={() => { setTab("lessons"); setQuiz(true); setResult(false); }} className="flex-1"><Trophy className="h-4 w-4" /> Hacer el cuestionario</Button><Link href="/app" className="flex-1"><Button size="sm" variant="outline" className="w-full">Ir a la aplicación <ArrowRight className="h-4 w-4" /></Button></Link></div></div>}
     </motion.div>
   );
 }
@@ -537,7 +537,7 @@ const FRENCH_STEPS = [
   { emoji: "⚡", label: "Cycle quotidien", title: "Le cycle quotidien : comment les mots restent vraiment en mémoire", summary: "Lisez → écrivez une phrase → enregistrez → révisez. La répétition espacée est intégrée.", body: "Visitez la page Application chaque jour. Vous recevrez un mot adapté à votre archétype et à votre langue, avec sa définition, son étymologie, sa prononciation et des exemples. Écrivez ensuite votre propre phrase dans le Générateur de phrases, consultez votre Journal de mots et revenez chaque jour pour conserver votre série." },
   { emoji: "🎮", label: "6 jeux de mots", title: "Jouer avec les mots : votre collection de six jeux", summary: "Allez dans Jouer et choisissez un jeu. Chacun entraîne une compétence de vocabulaire différente.", body: "Wordle vous demande de deviner un mot de cinq lettres ; Scrabble vous oppose à l’ordinateur ; les Mots croisés utilisent des indices thématiques ; l’Abeille d’orthographe utilise sept lettres en nid d’abeilles ; la Grille de mots est une recherche chronométrée ; et le Jeu Lexigenz vous met au défi de remettre les lettres de LEXIGENZ dans l’ordre." },
   { emoji: "🔐", label: "Connexion", title: "Ce qui se passe lorsque vous vous connectez", summary: "La connexion synchronise votre série, votre journal, votre archétype et Premium sur tous vos appareils.", body: "Vous pouvez utiliser Lexigenz sans vous connecter, mais l’inscription vous donne une identité persistante. Votre série, votre Journal de mots, votre archétype et votre préférence de langue sont synchronisés avec votre compte. Le passage à Premium débloque des langues, des entrées illimitées, des jeux sans publicité, des thèmes exclusifs et des rapports mensuels." },
-  { emoji: "🌍", label: "Premium et langues", title: "Premium, langues et système d’invitation", summary: "8 $ une seule fois. Anglais + 1 langue. Aucun abonnement. Partagez par lien.", body: "L’offre gratuite inclut l’anglais, le mot du jour, les six jeux, le Générateur de phrases, un Journal de mots limité et une série de base. Premium ajoute une langue, un journal illimité, des jeux sans publicité, des rapports mensuels, des thèmes Premium et une assistance prioritaire. Vous pouvez inviter n’importe qui avec un lien, sans qu’un compte soit nécessaire pour jouer." },
+  { emoji: "🌍", label: "Premium et langues", title: "Premium, langues et système d’invitation", summary: "3 $ une seule fois. Anglais + 1 langue. Aucun abonnement. Partagez par lien.", body: "L’offre gratuite inclut l’anglais, le mot du jour, les six jeux, le Générateur de phrases, un Journal de mots limité et une série de base. Premium ajoute une langue, un journal illimité, des jeux sans publicité, des rapports mensuels, des thèmes Premium et une assistance prioritaire. Vous pouvez inviter n’importe qui avec un lien, sans qu’un compte soit nécessaire pour jouer." },
 ] as const;
 
 const FRENCH_QUIZ = [
@@ -545,7 +545,7 @@ const FRENCH_QUIZ = [
   ["Qu’est-ce qui détermine votre archétype de vocabulaire sur Lexigenz ?", ["Un test de personnalité", "Votre date de naissance", "Votre adresse e-mail", "Votre pays"], 1, "Votre archétype est calculé à partir de votre date de naissance ; la même date produit toujours le même archétype."],
   ["Quelle action déclenche l’enregistrement de votre série quotidienne ?", ["Lire un article", "Jouer à n’importe quel jeu", "Visiter la page Application", "Ouvrir la FAQ"], 2, "Seule la visite de la page Application et l’utilisation de votre mot quotidien comptent comme un enregistrement de série."],
   ["Que deviennent les phrases de votre Journal de mots après les avoir écrites ?", ["Elles disparaissent à minuit", "Elles sont publiques sur votre profil", "Elles sont enregistrées dans votre journal privé", "Elles sont envoyées à vos amis"], 2, "Chaque phrase que vous écrivez est enregistrée dans votre Journal de mots privé, visible uniquement par vous."],
-  ["Le prix de Lexigenz Premium est de :", ["8 $ par mois", "8 $ par an", "8 $ une seule fois", "Gratuit"], 2, "Premium coûte 8 $ une seule fois. Il n’y a ni abonnement, ni renouvellement, ni date d’expiration."],
+  ["Le prix de Lexigenz Premium est de :", ["3 $ par mois", "3 $ par an", "3 $ une seule fois", "Gratuit"], 2, "Premium coûte 3 $ une seule fois. Il n’y a ni abonnement, ni renouvellement, ni date d’expiration."],
 ] as const;
 
 const MANDARIN_STEPS = [
@@ -555,7 +555,7 @@ const MANDARIN_STEPS = [
   ["⚡", "每日循环", "词语如何真正留在记忆中", "阅读 → 造句 → 记录 → 复习；间隔重复已包含在流程中。", "每天打开 App，阅读你的每日单词及其定义、词源、发音和例句。然后在 Sentence Builder 中写自己的句子，并在 Word Journal 中回顾。"],
   ["🎮", "6 款词语游戏", "通过游戏练习词汇", "前往 Play 并选择游戏；每款游戏训练不同的词汇能力。", "Wordle、Scrabble、Crossword、Spelling Bee、Word Grid 和 The Lexigenz Game 都保留其英文游戏名称。它们分别练习猜词、拼写、线索和快速回忆。"],
   ["🔐", "登录与同步", "登录后会发生什么", "登录会在所有设备间同步连续学习、日志、原型和 Premium。", "你可以不登录使用 Lexigenz。注册后，你的连续记录、Word Journal、原型和语言偏好会同步到账号；Premium 可解锁更多语言和功能。"],
-  ["🌍", "Premium 与语言", "语言和邀请系统", "$8 一次性付费：英语加一种语言，无订阅。", "免费方案提供英语、每日单词、六款游戏和基础连续记录。你可以通过链接邀请任何人挑战，无需对方拥有 Lexigenz 账号。"],
+  ["🌍", "Premium 与语言", "语言和邀请系统", "$3 一次性付费：英语加一种语言，无订阅。", "免费方案提供英语、每日单词、六款游戏和基础连续记录。你可以通过链接邀请任何人挑战，无需对方拥有 Lexigenz 账号。"],
 ] as const;
 
 function MandarinPlaybook({ defaultOpen = false }: PlaybookSectionProps) {
@@ -595,7 +595,7 @@ function FrenchPlaybook({ defaultOpen = false }: PlaybookSectionProps) {
     ["🔥 Règles de série", [["Déclencheur", "Visite de l’Application"], ["Réinitialisation", "Minuit local"], ["7 jours", "Premier badge 🥉"], ["30 jours", "Badge argent 🥈"], ["100 jours", "Badge or 🥇"], ["365 jours", "Badge légende 🏆"]]],
     ["🎮 Jeux", [["Wordle", "5 lettres, 6 essais"], ["Scrabble", "Tuiles contre l’IA"], ["Mots croisés", "Grille thématique"], ["Abeille d’orthographe", "Nid d’abeilles à 7 lettres"], ["Grille de mots", "Recherche 6×6"], ["Jeu Lexigenz", "Remettez LEXIGENZ dans l’ordre"]]],
     ["🌍 Langues", [["Offre gratuite", "Anglais uniquement"], ["Premium", "Anglais + 1 langue"], ["Changer via", "Icône globe 🌐"], ["Impact sur la série", "Aucun"], ["Langues sud-africaines", "Afrikaans, zoulou, xhosa"]]],
-    ["⭐ Gratuit ou Premium", [["Prix", "8 $ une seule fois"], ["Langues", "Les 19"], ["Journal de mots", "Illimité"], ["Jeux", "Sans publicité"], ["Rapports", "Mensuels"], ["Paiement", "PayPal / carte"]]],
+    ["⭐ Gratuit ou Premium", [["Prix", "3 $ une seule fois"], ["Langues", "Les 19"], ["Journal de mots", "Illimité"], ["Jeux", "Sans publicité"], ["Rapports", "Mensuels"], ["Paiement", "PayPal / carte"]]],
   ] as const;
   return <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="border-2 border-primary/30 rounded-2xl overflow-hidden bg-background shadow-xl">
     <div className="flex items-center justify-between border-b border-border px-5 py-3 bg-muted/30"><div className="flex items-center gap-3"><span className="text-xl">🎯</span><div><p className="text-sm font-black">Le guide Lexigenz</p><p className="text-xs text-muted-foreground">Votre guide complet de la plateforme</p></div></div><button onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground"><X className="h-5 w-5" /></button></div>

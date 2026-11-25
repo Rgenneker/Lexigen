@@ -15,6 +15,7 @@ import { ScrabbleGame } from "@/components/games/ScrabbleGame";
 import { CrosswordGame } from "@/components/games/CrosswordGame";
 import { WordGridGame } from "@/components/games/WordGridGame";
 import { PaymentModal } from "@/components/PaymentModal";
+import { PREMIUM_PRICE_LABEL } from "@/i18n/premium-pricing";
 
 const BROWSE_CATEGORIES = [
   {
@@ -907,7 +908,7 @@ function SpellingBeeWithLevels({ onScore, isPremium, onUpgrade }: { onScore: (sc
               {locked && (
                 <div className="mt-1.5">
                   <Button size="sm" className="w-full rounded-xl font-bold bg-primary text-xs h-9" onClick={onUpgrade}>
-                    <Crown className="h-3.5 w-3.5 mr-1.5" /> {t("common.upgrade")} - $8
+                    <Crown className="h-3.5 w-3.5 mr-1.5" /> {t("common.upgrade")} - {PREMIUM_PRICE_LABEL}
                   </Button>
                 </div>
               )}

@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useFrenchText } from "@/lib/use-french-text";
+import { PREMIUM_PRICE_DISPLAY } from "@/i18n/premium-pricing";
 
 declare global {
   interface Window {
@@ -187,7 +188,7 @@ export function PaymentModal({ onClose, onSuccess, userEmail, userName }: Props)
                       <CreditCard className="h-5 w-5 text-primary" />
                       <span className="font-bold text-sm">{t("premium.modal.amountDue")}</span>
                     </div>
-                    <span className="font-bold text-lg text-primary">$8.00 USD</span>
+                    <span className="font-bold text-lg text-primary">{PREMIUM_PRICE_DISPLAY} USD</span>
                   </div>
                   <Button
                     size="lg"

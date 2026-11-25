@@ -55,7 +55,7 @@ STRICT RULES:
 2. Only translate the string VALUES
 3. Preserve interpolation variables like {{variable}}, {{count}}, {{lang}}, {{year}}, {{email}}, {{game}}, {{score}}, {{days}}, {{search}}, {{category}}, {{current}}, {{idx}}, {{total}}, {{name}}, {{date}}, {{s}} EXACTLY as-is inside translated strings
 4. Preserve all emoji characters (🎁, 🎉, 🐝, 🏆, 📊, ←, →, etc.) unchanged
-5. Keep currency amounts ($8, $2, $0.00) unchanged
+5. Keep currency amounts ($3, $2, $0.00) unchanged
 6. Keep brand names (Lexigenz, LEXIGENZ, PayPal) unchanged
 7. Return ONLY valid JSON — no markdown fences, no explanation, no extra text
 8. The output must be parseable by JSON.parse()

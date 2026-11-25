@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useLanguageStore } from "@/store/useLanguageStore";
 import { useAuth } from "@/context/AuthContext";
 import { useTranslation } from "react-i18next";
+import { PREMIUM_PRICE_DISPLAY, PREMIUM_PRICE_LABEL } from "@/i18n/premium-pricing";
 import {
   Check, Zap, Lock, TrendingUp, Gamepad2, FileText,
   Crown, Brain, ChevronRight, RefreshCw, BarChart3,
@@ -216,7 +217,7 @@ function PaymentModal({
                     <CreditCard className="h-5 w-5 text-primary" />
                     <span className="font-bold text-sm">{t("premium.modal.amountDue")}</span>
                   </div>
-                  <span className="font-bold text-lg text-primary">$8.00 USD</span>
+                  <span className="font-bold text-lg text-primary">{PREMIUM_PRICE_DISPLAY} USD</span>
                 </div>
                 <Button
                   size="lg"
@@ -742,7 +743,7 @@ export default function Premium() {
               <div className="p-5 text-sm font-bold text-center border-l border-border">{t("common.free")}</div>
               <div className="p-5 text-sm font-bold text-center border-l border-border bg-primary/5">
                 <span className="text-primary">{t("common.premium")}</span>
-                <span className="ml-2 text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full font-bold">$8</span>
+                <span className="ml-2 text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full font-bold">{PREMIUM_PRICE_LABEL}</span>
               </div>
             </div>
             {visibleComparison.map((row, i) => (
@@ -797,7 +798,7 @@ export default function Premium() {
             {[
               { id: "monthly", label: t("premium.planMonthlyLabel"), price: "Free", sub: t("premium.planLimitedUse") },
               { id: "annual", label: t("premium.planAnnuallyLabel"), price: "Free", sub: t("premium.planLimitedUse") },
-              { id: "lifetime", label: t("premium.planOnceOffLabel"), price: "$8", sub: t("premium.planUnlimited"), badge: t("premium.planBestValue") },
+              { id: "lifetime", label: t("premium.planOnceOffLabel"), price: PREMIUM_PRICE_LABEL, sub: t("premium.planUnlimited"), badge: t("premium.planBestValue") },
             ].map(plan => (
               <button key={plan.id} onClick={() => setSelectedPlan(plan.id)}
                 className={`relative p-4 rounded-2xl border-2 text-center transition-all ${selectedPlan === plan.id ? "border-primary bg-primary/10 shadow-[0_0_20px_rgba(139,92,246,0.2)]" : "border-border hover:border-primary/40 bg-card"}`}

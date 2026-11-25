@@ -69,7 +69,7 @@ export const SITEMAP_PAGES = [
         href: "/premium",
         label: "Premium",
         url: `${BASE_URL}/premium`,
-        description: "Upgrade to Lexigenz Premium - $8 once-off for unlimited access. Unlock unlimited sentence builder sessions, advanced monthly vocabulary reports, and premium word game access.",
+        description: "Upgrade to Lexigenz Premium - $3 once-off for unlimited access. Unlock unlimited sentence builder sessions, advanced monthly vocabulary reports, and premium word game access.",
         keywords: ["Lexigenz Premium", "vocabulary subscription", "premium word app", "advanced vocabulary", "monthly report vocabulary", "unlimited vocabulary plan"],
         priority: "0.8",
         changefreq: "Monthly",
