@@ -1,9 +1,10 @@
 /**
  * Mandarin additions are maintained separately from the generated locale
  * catalog. It prevents i18next from silently falling back to English for
- * daily learning, public Invite article content, and the About page.
+ * daily learning, public Invite article content, the FAQ, and the About page.
  */
 import MANDARIN_ABOUT_OVERRIDES from "./mandarin-about-overrides.json";
+import MANDARIN_FAQ_OVERRIDES from "./mandarin-faq-overrides.json";
 
 export const MANDARIN_TRANSLATION_OVERRIDES: Record<string, string> = {
   "app.dailyWordTitle": "你的每日单词",
@@ -145,5 +146,24 @@ export function applyMandarinOverrides(base: Record<string, unknown>) {
     }
     target[segments.at(-1)!] = value;
   }
+
+  const faq = result.faq as Record<string, unknown> | undefined;
+  const faqItems = faq?.items;
+  if (Array.isArray(faqItems)) {
+    if (faqItems.length !== MANDARIN_FAQ_OVERRIDES.length) {
+      throw new Error(
+        `Mandarin FAQ has ${MANDARIN_FAQ_OVERRIDES.length} translations, but the locale contains ${faqItems.length} items.`,
+      );
+    }
+
+    for (const [index, translation] of MANDARIN_FAQ_OVERRIDES.entries()) {
+      const item = faqItems[index];
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        throw new Error(`Mandarin FAQ item ${index + 1} is missing or invalid.`);
+      }
+      faqItems[index] = { ...(item as Record<string, unknown>), ...translation };
+    }
+  }
+
   return result;
 }

@@ -468,13 +468,13 @@
     "categories": {
       "all": "全部",
       "gettingStarted": "入门",
-      "vocabulary": "词汇",
-      "archetypes": "原型",
+      "vocabulary": "词汇学习",
+      "archetypes": "词汇原型",
       "games": "游戏",
       "premium": "高级版",
       "languages": "语言",
       "privacy": "隐私与数据",
-      "technical": "技术"
+      "technical": "技术问题"
     },
     "items": [
       {
