@@ -22,6 +22,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguageStore } from "@/store/useLanguageStore";
+import { getMandarinDailyWordCopy } from "@/i18n/mandarin-daily-words";
 import { Flame, Star, Trophy, BookOpen, Gamepad2, Trash2, Zap, Calendar, Brain, ChevronRight } from "lucide-react";
 
 const LANGUAGE_CODES: Record<string, string> = {
@@ -309,6 +310,11 @@ export default function AppPage() {
     { language: langCode },
     { query: { queryKey: ["daily-word", langCode] } }
   );
+  const dailyWordCopy = dailyWord && langCode === "zh" && dailyWord.word.language !== "zh"
+    ? getMandarinDailyWordCopy(dailyWord.word.word)
+    : dailyWord?.word;
+  const rawPartOfSpeech = dailyWord?.word.partOfSpeech.toLowerCase() ?? "";
+  const partOfSpeechKey = POS_TRANSLATION_KEYS[POS_ALIASES[rawPartOfSpeech] ?? rawPartOfSpeech];
   const { data: streak, isLoading: streakLoading } = useGetStreak();
   const { data: badges } = useListBadges();
   const { data: journalEntries } = useListJournalEntries();
@@ -473,15 +479,19 @@ export default function AppPage() {
                       {dailyWord.word.word}
                     </h2>
                     <p className="text-sm text-muted-foreground mt-1 font-mono">
-                      {dailyWord.word.partOfSpeech} · {dailyWord.word.difficulty === "medium" ? t("app.difficultyMedium") : dailyWord.word.difficulty}
+                      {langCode === "zh" && partOfSpeechKey
+                        ? t(partOfSpeechKey)
+                        : dailyWord.word.partOfSpeech}
+                      {" · "}
+                      {dailyWord.word.difficulty === "medium" ? t("app.difficultyMedium") : dailyWord.word.difficulty}
                     </p>
                   </div>
                 </div>
                 <p className="text-lg leading-relaxed" data-testid="text-definition">
-                  {dailyWord.word.definition}
+                  {dailyWordCopy?.definition}
                 </p>
                 <blockquote className="border-l-4 border-primary/40 pl-4 italic text-muted-foreground">
-                  "{dailyWord.word.exampleSentence}"
+                  "{dailyWordCopy?.exampleSentence}"
                 </blockquote>
               </div>
             ) : (
@@ -561,7 +571,7 @@ export default function AppPage() {
           ) : dailyWord ? (
             <DailyQuiz
               word={dailyWord.word.word}
-              definition={dailyWord.word.definition}
+              definition={dailyWordCopy?.definition ?? dailyWord.word.definition}
               partOfSpeech={dailyWord.word.partOfSpeech}
             />
           ) : (

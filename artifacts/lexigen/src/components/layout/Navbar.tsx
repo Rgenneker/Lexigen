@@ -148,8 +148,13 @@ export function Navbar() {
     return <span className="text-[10px] bg-green-500/10 text-green-600 px-1.5 py-0.5 rounded-full font-semibold">{u.daysRemaining}d</span>;
   };
 
+  const getLanguageDisplayName = (lang: string) => {
+    const item = LANGUAGE_DATA.find(({ name }) => name === lang);
+    return item ? t(item.key) : lang;
+  };
+
   const dropdownLabel = isPremium
-    ? t("nav.languageDropdownPremium", { lang: premiumLanguage ?? f("1 language", "1 langue") })
+    ? t("nav.languageDropdownPremium", { lang: premiumLanguage ? getLanguageDisplayName(premiumLanguage) : f("1 language", "1 langue") })
     : t("nav.languageDropdownFree");
 
   return (
@@ -335,7 +340,7 @@ export function Navbar() {
                     </DropdownMenuLabel>
                     {isPremium && premiumLanguage && (
                       <DropdownMenuLabel className="font-normal text-xs text-muted-foreground -mt-1">
-                        {t("nav.languagesLabel", { lang: premiumLanguage })}
+                        {t("nav.languagesLabel", { lang: getLanguageDisplayName(premiumLanguage) })}
                       </DropdownMenuLabel>
                     )}
                     {isPremium && !premiumLanguage && (
@@ -429,7 +434,7 @@ export function Navbar() {
                       <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
                       {isPremium && (
                         <p className="text-xs text-primary font-medium truncate">
-                          {f("English", "Anglais")}{premiumLanguage ? ` + ${premiumLanguage}` : ` + (${t("nav.chooseIncludedLanguage")})`}
+                          {t("lang.english")}{premiumLanguage ? ` + ${getLanguageDisplayName(premiumLanguage)}` : ` + (${t("nav.chooseIncludedLanguage")})`}
                         </p>
                       )}
                     </div>

@@ -27,8 +27,10 @@ router.get("/words/daily", async (req, res) => {
     if (allWords.length === 0) {
       return res.status(404).json({ error: "No words available" });
     }
+    const fallbackWords = allWords.filter(word => word.language === "en");
+    const availableWords = fallbackWords.length > 0 ? fallbackWords : allWords;
     const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
-    const word = allWords[dayOfYear % allWords.length];
+    const word = availableWords[dayOfYear % availableWords.length];
     return res.json({ word, date: today, isCheckedIn: false });
   }
 
