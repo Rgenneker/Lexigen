@@ -3,10 +3,11 @@ import { Link } from "wouter";
 import { ExternalLink } from "lucide-react";
 import { legalUi } from "@/i18n/legalLocale";
 import { useTranslation } from "react-i18next";
+import { SPANISH_SITEMAP_ENTRIES } from "@/i18n/spanish-sitemap";
 
 const BASE_URL = "https://lexigenz.com";
 
-const pages = [
+export const SITEMAP_PAGES = [
   {
     section: "Core Pages",
     items: [
@@ -171,17 +172,27 @@ const sitemapLabels: Record<string, string> = {
 };
 
 const sitemapSection = (section: string) =>
-  legalUi(section, section === "Core Pages" ? "Pages principales" : "Pages juridiques");
+  legalUi(
+    section,
+    section === "Core Pages" ? "Pages principales" : "Pages juridiques",
+    section === "Core Pages" ? "Páginas principales" : "Páginas legales",
+  );
 
 const sitemapFrequency = (frequency: string) => legalUi(frequency, {
   Daily: "Quotidienne",
   Weekly: "Hebdomadaire",
   Monthly: "Mensuelle",
   Yearly: "Annuelle",
+}[frequency] ?? frequency, {
+  Daily: "Diaria",
+  Weekly: "Semanal",
+  Monthly: "Mensual",
+  Yearly: "Anual",
 }[frequency] ?? frequency);
 
 export default function Sitemap() {
-  useTranslation();
+  const { i18n } = useTranslation();
+  const isSpanishPage = i18n.language.split("-")[0] === "es";
   return (
     <div className="min-h-screen px-4 py-20">
       <div className="container mx-auto max-w-5xl">
@@ -191,13 +202,13 @@ export default function Sitemap() {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-3 mb-14"
         >
-          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{legalUi("Navigation Index", "Index de navigation")}</p>
-          <h1 className="text-5xl font-bold tracking-tighter">{legalUi("Sitemap", "Plan du site")}</h1>
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{legalUi("Navigation Index", "Index de navigation", "Índice de navegación")}</p>
+          <h1 className="text-5xl font-bold tracking-tighter">{legalUi("Sitemap", "Plan du site", "Mapa del sitio")}</h1>
         </motion.div>
 
         {/* Pages by section */}
         <div className="space-y-14">
-          {pages.map((section, si) => (
+          {SITEMAP_PAGES.map((section, si) => (
             <motion.div
               key={section.section}
               initial={{ opacity: 0, y: 20 }}
@@ -209,12 +220,17 @@ export default function Sitemap() {
               </h2>
 
               <div className="space-y-4">
-                {section.items.map((page) => (
-                  <div
-                    key={page.href}
-                    className="p-6 rounded-2xl border border-border bg-card hover:border-primary/30 transition-all"
-                    data-testid={`sitemap-entry-${page.href.replace(/\//g, "-")}`}
-                  >
+                {section.items.map((page) => {
+                  const spanishEntry = isSpanishPage ? SPANISH_SITEMAP_ENTRIES[page.href] : undefined;
+                  if (isSpanishPage && !spanishEntry) {
+                    throw new Error(`Missing Spanish sitemap localization for "${page.href}"`);
+                  }
+                  return (
+                    <div
+                      key={page.href}
+                      className="p-6 rounded-2xl border border-border bg-card hover:border-primary/30 transition-all"
+                      data-testid={`sitemap-entry-${page.href.replace(/\//g, "-")}`}
+                    >
                     {/* Title row */}
                     <div className="flex items-start justify-between gap-4 mb-3">
                       <div className="flex items-center gap-3 flex-wrap">
@@ -222,10 +238,10 @@ export default function Sitemap() {
                           href={page.href}
                           className="text-lg font-bold hover:text-primary transition-colors"
                         >
-                          {legalUi(page.label, sitemapLabels[page.label] ?? page.label)}
+                          {legalUi(page.label, sitemapLabels[page.label] ?? page.label, spanishEntry?.label ?? page.label)}
                         </Link>
                         <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${priorityColor(page.priority)}`}>
-                          {legalUi("Priority", "Priorité")} {page.priority}
+                          {legalUi("Priority", "Priorité", "Prioridad")} {page.priority}
                         </span>
                         <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
                           {sitemapFrequency(page.changefreq)}
@@ -246,12 +262,12 @@ export default function Sitemap() {
 
                     {/* Description */}
                     <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                      {page.description}
+                      {spanishEntry?.description ?? page.description}
                     </p>
 
                     {/* Keywords */}
                     <div className="flex flex-wrap gap-1.5">
-                      {page.keywords.map(kw => (
+                      {(spanishEntry?.keywords ?? page.keywords).map(kw => (
                         <span
                           key={kw}
                           className="text-xs px-2.5 py-1 rounded-full border border-border bg-background text-muted-foreground"
@@ -260,8 +276,9 @@ export default function Sitemap() {
                         </span>
                       ))}
                     </div>
-                  </div>
-                ))}
+                    </div>
+                  );
+                })}
               </div>
             </motion.div>
           ))}
@@ -274,8 +291,8 @@ export default function Sitemap() {
           transition={{ delay: 0.5 }}
           className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-xs text-muted-foreground"
         >
-          <span>© {new Date().getFullYear()} Lexigenz Trading. {legalUi("All rights reserved. Registered in South Africa.", "Tous droits réservés. Enregistrée en Afrique du Sud.")}</span>
-          <span>Lexigenz™ {legalUi("is a registered trademark of Lexigenz Trading.", "est une marque déposée de Lexigenz Trading.")}</span>
+          <span>© {new Date().getFullYear()} Lexigenz Trading. {legalUi("All rights reserved. Registered in South Africa.", "Tous droits réservés. Enregistrée en Afrique du Sud.", "Todos los derechos reservados. Registrada en Sudáfrica.")}</span>
+          <span>Lexigenz™ {legalUi("is a registered trademark of Lexigenz Trading.", "est une marque déposée de Lexigenz Trading.", "es una marca registrada de Lexigenz Trading.")}</span>
         </motion.div>
       </div>
     </div>
