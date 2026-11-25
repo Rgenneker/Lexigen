@@ -714,10 +714,10 @@
       "dictionary": "词典",
       "wordOfTheDay": "每日一词"
     },
-    "catEmotions": "Emotion vocabulary",
-    "catBusiness": "Business vocabulary",
-    "catAcademic": "Academic words",
-    "catAdvanced": "Advanced English"
+    "catEmotions": "情绪词汇",
+    "catBusiness": "商务词汇",
+    "catAcademic": "学术词汇",
+    "catAdvanced": "高级英语"
   },
   "premium": {
     "dashboardBadge": "高级版已激活",

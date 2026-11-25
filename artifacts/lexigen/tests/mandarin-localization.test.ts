@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import React from "react";
+import zh from "../src/i18n/locales/zh.json";
 
 Object.defineProperty(globalThis, "React", { configurable: true, value: React });
 
@@ -35,12 +36,17 @@ test("Mandarin overlay retains translated Invite article detail content", () => 
 });
 
 test("Mandarin vocabulary category chips are translated", () => {
-  const locale = applyMandarinOverrides({});
+  const locale = applyMandarinOverrides(zh as Record<string, unknown>);
   const play = locale.play as Record<string, string>;
-  assert.equal(play.categoryEmotions, "情感词汇");
+  const howItWorks = locale.howItWorks as Record<string, string>;
+  assert.equal(play.categoryEmotions, "情绪词汇");
   assert.equal(play.categoryBusiness, "商务词汇");
   assert.equal(play.categoryAcademic, "学术词汇");
   assert.equal(play.categoryAdvanced, "高级英语");
+  assert.equal(howItWorks.catEmotions, "情绪词汇");
+  assert.equal(howItWorks.catBusiness, "商务词汇");
+  assert.equal(howItWorks.catAcademic, "学术词汇");
+  assert.equal(howItWorks.catAdvanced, "高级英语");
 });
 
 test("Mandarin daily words include translated definitions and examples", () => {

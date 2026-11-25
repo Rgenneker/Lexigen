@@ -50,7 +50,7 @@ export const MANDARIN_TRANSLATION_OVERRIDES: Record<string, string> = {
   "app.statsGamesPlayed": "已玩游戏", "app.statsJournalEntries": "日志条目", "app.statsQuizzesTaken": "已参加测试",
   "app.championshipTitle": "2027年世界锦标赛", "app.championshipEvent": "全球拼字比赛 · 6月19日 · 12:00 UTC",
   "app.championshipCountdown": "还有 {{count}} 天 · 现已开放报名", "app.championshipRegister": "立即报名",
-  "play.categoryEmotions": "情感词汇", "play.categoryBusiness": "商务词汇",
+  "play.categoryEmotions": "情绪词汇", "play.categoryBusiness": "商务词汇",
   "play.categoryAcademic": "学术词汇", "play.categoryAdvanced": "高级英语",
   "invite.articleMemoryScienceTag": "记忆科学", "invite.articleMemoryScienceReadTime": "5 分钟阅读",
   "invite.articleMemoryScienceTitle": "为什么语境比重复更能提高词汇记忆",
