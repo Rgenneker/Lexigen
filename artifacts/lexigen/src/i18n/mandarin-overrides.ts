@@ -1,8 +1,10 @@
 /**
  * Mandarin additions are maintained separately from the generated locale
  * catalog. It prevents i18next from silently falling back to English for
- * daily learning and public Invite article content.
+ * daily learning, public Invite article content, and the About page.
  */
+import MANDARIN_ABOUT_OVERRIDES from "./mandarin-about-overrides.json";
+
 export const MANDARIN_TRANSLATION_OVERRIDES: Record<string, string> = {
   "app.dailyWordTitle": "你的每日单词",
   "app.dailyWordDescription": "学习单词 · 参加今日测验 · 写一个句子 · 玩游戏。每天一个单词，成就终身词汇量。",
@@ -128,7 +130,10 @@ export const MANDARIN_TRANSLATION_OVERRIDES: Record<string, string> = {
 
 export function applyMandarinOverrides(base: Record<string, unknown>) {
   const result = structuredClone(base);
-  for (const [path, value] of Object.entries(MANDARIN_TRANSLATION_OVERRIDES)) {
+  for (const [path, value] of Object.entries({
+    ...MANDARIN_TRANSLATION_OVERRIDES,
+    ...MANDARIN_ABOUT_OVERRIDES,
+  })) {
     const segments = path.split(".");
     let target: Record<string, unknown> = result;
     for (const segment of segments.slice(0, -1)) {
