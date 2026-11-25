@@ -161,6 +161,160 @@ export const FRENCH_ARTICLE_METADATA: Record<string, ArticleMetadata> = {
   },
 };
 
+/** Spanish listing copy for every stable public article route. */
+export const SPANISH_ARTICLE_METADATA: Record<string, ArticleMetadata> = {
+  "origin-of-spelling-bee": {
+    category: "Historia de las palabras",
+    title: "El origen del Spelling Bee y por qué es más interesante de lo que imaginas",
+    excerpt: "Antes de TikTok, Instagram e incluso la radio, la gente se reunía en campos y salones comunitarios para competir deletreando palabras. Sí, en serio.",
+  },
+  "wild-word-facts": {
+    category: "Curiosidades sobre palabras",
+    title: "12 datos sorprendentes sobre las palabras que te dejarán pensando",
+    excerpt: "El lenguaje es fascinante y muy impredecible. Aquí tienes 12 datos sobre palabras que quizá te hagan mirar al techo esta noche.",
+  },
+  "nail-english-exam": {
+    category: "Consejos de estudio",
+    title: "6 formas de aprobar tu examen de inglés sin pasar la noche en vela",
+    excerpt: "No necesitas sacrificar el sueño ni tu vida social para sacar una buena nota en inglés. Necesitas una estrategia más inteligente. Esto es lo que funciona.",
+  },
+  "lecture-better": {
+    category: "Comunicación",
+    title: "12 formas de dar mejores charlas y mantener despierto al público",
+    excerpt: "Tanto si eres docente, estudiante o tienes que presentar algo en el trabajo, estos 12 cambios transformarán la experiencia de quienes te escuchan.",
+  },
+  "say-it-confidently": {
+    category: "Confianza",
+    title: "Exprésate con seguridad: el arte de hacer tuyas tus palabras",
+    excerpt: "La confianza no consiste en encontrar las palabras perfectas, sino en confiar en las que ya tienes. Así puedes desarrollar esa seguridad.",
+  },
+  "vocabulary-changes-your-life": {
+    category: "Desarrollo personal",
+    title: "El poder de las palabras: cómo ampliar tu vocabulario puede cambiar tu vida",
+    excerpt: "No se trata de parecer inteligente, sino de pensar con claridad, avanzar profesionalmente y desenvolverte con precisión. Las palabras son una herramienta muy valiosa.",
+  },
+  "gen-z-rewriting-dictionary": {
+    category: "Lengua y cultura",
+    title: "La vida secreta de la jerga: cómo la generación Z está reescribiendo el diccionario",
+    excerpt: "La jerga no es una forma perezosa de hablar: es innovación. Descubre la ciencia lingüística que explica por qué las palabras de la generación Z son tan ingeniosas.",
+  },
+  "communication-habits": {
+    category: "Comunicación",
+    title: "5 hábitos de comunicación para que los demás te escuchen de verdad",
+    excerpt: "La mayoría no se comunica mal por falta de vocabulario, sino por cinco hábitos que se pueden cambiar. Aquí te contamos cuáles son.",
+  },
+  "empower-yourself-with-words": {
+    category: "Desarrollo personal",
+    title: "Por qué conocer las palabras es una herramienta esencial para empoderarte",
+    excerpt: "Hay muchos consejos sobre mentalidad y hábitos de superación, pero se habla poco del vocabulario. Este es el aspecto que merece más atención.",
+  },
+  "word-origins-unhinged": {
+    category: "Historia de las palabras",
+    title: "El origen disparatado de 10 palabras que usamos a diario",
+    excerpt: "Las palabras que usas todos los días tienen historias mucho más extrañas, divertidas y sorprendentes de lo que imaginas.",
+  },
+  "how-to-improve-your-vocabulary": {
+    category: "Consejos de estudio",
+    title: "Cómo incorporar 1.000 palabras a tu vocabulario",
+    excerpt: "Un método práctico y respaldado por la ciencia para sumar 1.000 palabras a tu vocabulario activo, sin tarjetas, atracones de estudio ni agobios.",
+  },
+  "advanced-english-words-professionals": {
+    category: "Comunicación",
+    title: "500 palabras avanzadas de inglés que todo profesional debería conocer",
+    excerpt: "De las reuniones de dirección a los correos para clientes, tu vocabulario influye en tu credibilidad. Estas palabras distinguen a quienes se comunican con eficacia.",
+  },
+  "wordle-strategies-that-work": {
+    category: "Juegos",
+    title: "Estrategias de Wordle que de verdad funcionan",
+    excerpt: "Deja de adivinar al azar. Estas estrategias basadas en datos pueden reducir tus intentos y sí: la palabra inicial importa.",
+  },
+  "essential-scrabble-words": {
+    category: "Juegos",
+    title: "100 palabras esenciales de Scrabble que todo jugador debería conocer",
+    excerpt: "No necesitas un vocabulario enorme para ganar al Scrabble: necesitas las palabras adecuadas. Estas opciones de alta puntuación pueden cambiar tu partida.",
+  },
+  "best-vocabulary-apps-compared": {
+    category: "Consejos de estudio",
+    title: "Comparativa de las mejores aplicaciones de vocabulario de 2025",
+    excerpt: "No todas las aplicaciones de vocabulario son iguales. Comparamos las principales por su capacidad de retención, personalización y utilidad práctica.",
+  },
+  "spelling-bees-academic-performance": {
+    category: "Curiosidades sobre palabras",
+    title: "Cómo los concursos de deletreo mejoran el rendimiento académico",
+    excerpt: "Las investigaciones muestran que quienes participan en concursos de deletreo desarrollan habilidades que van mucho más allá de la ortografía: lectura, escritura y razonamiento.",
+  },
+  "crossword-solving-techniques": {
+    category: "Juegos",
+    title: "Técnicas para resolver crucigramas en cualquier nivel",
+    excerpt: "Desde estrategias para principiantes hasta hábitos expertos para descifrar las cuadrículas dominicales más difíciles: así puedes mejorar paso a paso.",
+  },
+  "science-of-learning-new-words": {
+    category: "Consejos de estudio",
+    title: "La ciencia de aprender palabras nuevas y por qué muchas aplicaciones fallan",
+    excerpt: "La investigación sobre la memoria explica cómo se fija el vocabulario, y el proceso es casi lo contrario de lo que proponen muchas aplicaciones.",
+  },
+  "vocabulary-matters-in-business": {
+    category: "Comunicación",
+    title: "Por qué tu vocabulario influye directamente en tu carrera",
+    excerpt: "Décadas de investigación relacionan la amplitud del vocabulario con los ingresos, los ascensos y la eficacia del liderazgo. Esto dicen los datos y así puedes actuar.",
+  },
+  "daily-habits-expand-vocabulary": {
+    category: "Desarrollo personal",
+    title: "Hábitos diarios que sí amplían tu vocabulario",
+    excerpt: "Olvídate de las sesiones intensivas y los maratones de memorización. Estos hábitos pequeños y constantes ayudan a desarrollar vocabulario a largo plazo.",
+  },
+  "commonly-misspelled-words": {
+    category: "Curiosidades sobre palabras",
+    title: "Las palabras en inglés que más se escriben mal y cómo corregirlo",
+    excerpt: "Estas palabras llevan generaciones escribiéndose mal. Descubre por qué y qué trucos de memoria ayudan a recordar la forma correcta.",
+  },
+  "how-to-speak-more-professionally": {
+    category: "Comunicación",
+    title: "Cómo hablar de forma más profesional sin sonar artificial",
+    excerpt: "Mejorar tu forma de hablar en el trabajo no significa adoptar la jerga corporativa; significa elegir palabras más precisas, seguras y eficaces.",
+  },
+  "powerful-words-improve-communication": {
+    category: "Comunicación",
+    title: "Palabras poderosas para mejorar tu comunicación al instante",
+    excerpt: "Algunas palabras tienen un peso especial en una conversación. Estas merecen un lugar en tu vocabulario activo y te contamos por qué funcionan.",
+  },
+  "vocabulary-building-for-students": {
+    category: "Consejos de estudio",
+    title: "Cómo desarrollar el vocabulario de estudiantes: un sistema completo",
+    excerpt: "Quienes tienen un vocabulario amplio leen más rápido, escriben mejor, obtienen mejores resultados y aprenden con más eficacia en todas las materias.",
+  },
+  "how-reading-improves-vocabulary": {
+    category: "Consejos de estudio",
+    title: "Cómo mejora la lectura tu vocabulario y cómo leer para progresar",
+    excerpt: "Leer es una de las mejores formas de ampliar el vocabulario a largo plazo, siempre que elijas el material adecuado y leas con intención.",
+  },
+  "why-context-beats-repetition": {
+    category: "Ciencia de la memoria",
+    title: "Por qué el contexto ayuda a recordar vocabulario mejor que la repetición",
+    excerpt: "La investigación indica que encontrar una palabra en una frase significativa —mejor aún si la escribiste tú— puede ser tres veces más eficaz que practicar con tarjetas.",
+  },
+  "the-21-day-word-habit": {
+    category: "Hábitos lingüísticos",
+    title: "El hábito de las palabras en 21 días: gana fluidez con pequeñas prácticas diarias",
+    excerpt: "No necesitas estudiar durante horas: bastan siete minutos al día. Descubre cómo vincular el aprendizaje diario de Lexigenz a tu rutina.",
+  },
+  "learning-with-others": {
+    category: "Aprendizaje social",
+    title: "Aprender en compañía: cómo competir jugando acelera la memoria de palabras",
+    excerpt: "Cuando retas a un amigo a Wordle o jugáis juntos a Lexigenz Game, el cerebro procesa el vocabulario de otra manera y más rápido. Descubre por qué.",
+  },
+  "owning-every-register": {
+    category: "Generación Z y lengua",
+    title: "Alternar idiomas, usar jerga y hablar inglés estándar: domina cada registro",
+    excerpt: "La generación Z ya se mueve con soltura entre distintos registros. Lexigenz te ayuda a ampliar tu vocabulario formal sin perder tu propia voz.",
+  },
+  "word-power-is-life-power": {
+    category: "Desarrollo personal",
+    title: "El poder de las palabras es poder para vivir: cómo el vocabulario impulsa la confianza y las oportunidades",
+    excerpt: "Los estudios relacionan el vocabulario con los ingresos, la confianza social y la agilidad mental. No se trata de parecer correcto, sino de tener más recursos para expresarte y ser escuchado.",
+  },
+};
+
 /** Mandarin listing copy uses the existing, stable English route IDs. */
 export const MANDARIN_ARTICLE_METADATA: Record<string, ArticleMetadata> = {
   "origin-of-spelling-bee": { category: "词语历史", title: "Spelling Bee 的起源——以及它为何比你想象的更精彩", excerpt: "早在 TikTok、Instagram，甚至收音机出现之前，人们就聚集在田野和市政厅里竞赛拼写单词。" },
