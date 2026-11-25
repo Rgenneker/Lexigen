@@ -50,6 +50,8 @@ export const MANDARIN_TRANSLATION_OVERRIDES: Record<string, string> = {
   "app.statsGamesPlayed": "已玩游戏", "app.statsJournalEntries": "日志条目", "app.statsQuizzesTaken": "已参加测试",
   "app.championshipTitle": "World Championship 2027", "app.championshipEvent": "Global Spelling Bee · 6月19日 · 12:00 UTC",
   "app.championshipCountdown": "还有 {{count}} 天 · 现已开放报名", "app.championshipRegister": "注册",
+  "play.categoryEmotions": "情感词汇", "play.categoryBusiness": "商务词汇",
+  "play.categoryAcademic": "学术词汇", "play.categoryAdvanced": "高级英语",
   "invite.articleMemoryScienceTag": "记忆科学", "invite.articleMemoryScienceReadTime": "5 分钟阅读",
   "invite.articleMemoryScienceTitle": "为什么语境比重复更能提高词汇记忆",
   "invite.articleMemoryScienceExcerpt": "研究一致表明，在有意义的句子（你自己写的句子）中遇到一个单词，其效果是死记硬背单词卡的 3 倍。以下是为什么你的 Word Journal 是你最强大的学习工具背后的神经科学原理。",

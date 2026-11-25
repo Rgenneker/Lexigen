@@ -31,3 +31,12 @@ test("Mandarin overlay retains translated Invite article detail content", () => 
   assert.equal(invite.articleMemoryScienceTitle, "为什么语境比重复更能提高词汇记忆");
   assert.ok((invite.articleMemoryScienceBody as Record<string, string>).intro.includes("单词卡"));
 });
+
+test("Mandarin vocabulary category chips are translated", () => {
+  const locale = applyMandarinOverrides({});
+  const play = locale.play as Record<string, string>;
+  assert.equal(play.categoryEmotions, "情感词汇");
+  assert.equal(play.categoryBusiness, "商务词汇");
+  assert.equal(play.categoryAcademic, "学术词汇");
+  assert.equal(play.categoryAdvanced, "高级英语");
+});
