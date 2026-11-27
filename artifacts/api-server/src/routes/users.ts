@@ -368,8 +368,8 @@ router.post("/forgot-password", async (req, res): Promise<void> => {
 
     // Keep the response identical whether or not the account exists.
     res.json({ success: true });
-  } catch (error) {
-    req.log.error({ err: error }, "password reset request failed");
+  } catch {
+    req.log.error("password reset request failed");
     res.status(503).json({ error: "Password reset is temporarily unavailable. Please try again later." });
   }
 });
@@ -411,8 +411,8 @@ router.post("/reset-password", async (req, res): Promise<void> => {
 
       return claimedToken.userId;
     });
-  } catch (error) {
-    req.log.error({ err: error }, "password reset completion failed");
+  } catch {
+    req.log.error("password reset completion failed");
     res.status(503).json({ error: "Password reset is temporarily unavailable. Please try again later." });
     return;
   }
