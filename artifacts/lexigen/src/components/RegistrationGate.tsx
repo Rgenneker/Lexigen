@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { Eye, EyeOff, ChevronDown, Lock, ArrowLeft, Copy, Check } from "lucide-react";
+import { Eye, EyeOff, ChevronDown, Lock, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { COUNTRY_CODES } from "@/data/countryCodes";
 import { useTranslation } from "react-i18next";
@@ -110,8 +110,6 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
   const [loginPassword, setLoginPassword] = useState("");
 
   const [forgotEmail, setForgotEmail] = useState("");
-  const [tempPassword, setTempPassword] = useState("");
-  const [copied, setCopied] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -161,9 +159,8 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: forgotEmail.trim().toLowerCase() }),
       });
-      const data = await res.json() as { found?: boolean; tempPassword?: string; error?: string };
+      const data = await res.json() as { error?: string };
       if (!res.ok) throw new Error(data.error ?? f("Something went wrong.", "Une erreur s’est produite."));
-      setTempPassword(data.found && data.tempPassword ? data.tempPassword : "");
       setLoginView("forgot-result");
     } catch (err) {
       setError(err instanceof Error ? err.message : f("Something went wrong.", "Une erreur s’est produite."));
@@ -172,18 +169,10 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
     }
   };
 
-  const handleCopyTemp = () => {
-    navigator.clipboard.writeText(tempPassword).catch(() => {});
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   const resetLoginView = () => {
     setLoginView("form");
     setForgotEmail("");
-    setTempPassword("");
     setError("");
-    setCopied(false);
   };
 
   return (
@@ -217,7 +206,7 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
               {tab === "register"
                 ? t("registrationGate.registerSubtitle")
                 : loginView === "forgot"
-                ? t("registrationGate.forgotDesc")
+                ? t("registrationGate.resetLinkSubtitle")
                 : loginView === "forgot-result"
                 ? t("registrationGate.resetSentDesc")
                 : t("registrationGate.loginSubtitle")}
@@ -391,11 +380,11 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                   disabled={loading}
                   className="w-full h-12 rounded-2xl bg-primary text-primary-foreground font-bold text-base shadow-lg shadow-primary/30"
                 >
-                  {loading ? t("registrationGate.generating") : t("registrationGate.sendReset")}
+                  {loading ? t("registrationGate.resetSending") : t("registrationGate.sendReset")}
                 </Button>
 
                 <p className="text-center text-xs text-muted-foreground">
-                  {t("registrationGate.tempPasswordHint")}
+                  {t("registrationGate.resetLinkHint")}
                 </p>
               </motion.form>
             ) : loginView === "forgot-result" ? (
@@ -407,36 +396,11 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
                 transition={{ duration: 0.18 }}
                 className="px-8 pb-8 pt-5 space-y-4"
               >
-                {tempPassword ? (
-                  <>
-                    <p className="text-sm text-muted-foreground">
-                      {t("registrationGate.tempPasswordSet", { email: forgotEmail })}
-                    </p>
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 font-mono text-lg font-bold tracking-widest bg-muted/50 border border-border rounded-xl px-4 py-3 text-center select-all">
-                        {tempPassword}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={handleCopyTemp}
-                        className="w-11 h-11 rounded-xl border border-border bg-muted/30 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-all flex-shrink-0"
-                        title={f("Copy", "Copier")}
-                      >
-                        {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-                      </button>
-                    </div>
-                    <p className="text-[11px] text-amber-600 bg-amber-500/10 border border-amber-400/30 rounded-lg px-3 py-2">
-                      {t("registrationGate.tempPasswordWarning")}
-                    </p>
-                  </>
-                ) : (
-                  <div className="py-4 text-center space-y-2">
-                    <p className="text-sm font-semibold">{t("registrationGate.noAccountFound")}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {t("registrationGate.noAccountFoundDesc", { email: forgotEmail })}
-                    </p>
-                  </div>
-                )}
+                <div className="py-4 text-center">
+                  <p className="text-sm text-muted-foreground">
+                    {t("registrationGate.resetSentDesc")}
+                  </p>
+                </div>
 
                 <Button
                   type="button"

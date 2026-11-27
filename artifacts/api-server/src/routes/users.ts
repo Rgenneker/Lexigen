@@ -1,12 +1,59 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
-import { usersTable, streaksTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { passwordResetTokensTable, usersTable, streaksTable } from "@workspace/db";
+import { and, eq, gt, lt } from "drizzle-orm";
 import bcrypt from "bcryptjs";
+import { createHash, randomBytes } from "node:crypto";
+import { ReplitConnectors } from "@replit/connectors-sdk";
 
 const router = Router();
 
 const DEFAULT_USER_ID = 1;
+const PASSWORD_RESET_TTL_MS = 60 * 60 * 1000;
+const PASSWORD_RESET_COOLDOWN_MS = 60 * 1000;
+const PASSWORD_RESET_SENDER =
+  process.env.RESEND_FROM_EMAIL ?? "Lexigenz <hello@lexigenz.com>";
+
+function hashResetToken(token: string): string {
+  return createHash("sha256").update(token).digest("hex");
+}
+
+function getPublicAppBaseUrl(): string {
+  const configuredUrl = process.env.PUBLIC_APP_URL?.trim();
+  const replitDomain =
+    process.env.REPLIT_DOMAINS?.split(",")[0]?.trim() ||
+    process.env.REPLIT_DEV_DOMAIN?.trim();
+  const replitUrl = replitDomain
+    ? (/^https?:\/\//i.test(replitDomain) ? replitDomain : `https://${replitDomain}`)
+    : "";
+  const baseUrl = configuredUrl || replitUrl;
+
+  if (!baseUrl) {
+    throw new Error("Set PUBLIC_APP_URL or a Replit app domain before sending reset links.");
+  }
+
+  return new URL(baseUrl).origin;
+}
+
+async function sendPasswordResetEmail(to: string, resetUrl: string): Promise<void> {
+  const connectors = new ReplitConnectors();
+  const safeResetUrl = resetUrl.replaceAll("&", "&amp;").replaceAll('"', "&quot;");
+  const response = await connectors.proxy("resend", "/emails", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: PASSWORD_RESET_SENDER,
+      to: [to],
+      subject: "Reset your Lexigenz password",
+      text: `We received a request to reset your Lexigenz password. Use this link within 60 minutes:\n\n${resetUrl}\n\nIf you did not request this, you can ignore this email.`,
+      html: `<p>We received a request to reset your Lexigenz password.</p><p><a href="${safeResetUrl}">Reset your password</a></p><p>This link expires in 60 minutes. If you did not request this, you can ignore this email.</p>`,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Resend rejected the password reset email (${response.status}).`);
+  }
+}
 
 // ─── Password validation ───────────────────────────────────────
 function isValidPassword(pw: string): boolean {
@@ -264,31 +311,103 @@ router.post("/login", async (req, res) => {
 router.post("/forgot-password", async (req, res) => {
   const { email } = req.body as { email?: string };
 
-  if (!email?.trim()) {
-    return res.status(400).json({ error: "Email address is required." });
+  if (!email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+    return res.status(400).json({ error: "A valid email address is required." });
   }
 
   const normalizedEmail = email.trim().toLowerCase();
-  const [user] = await db.select({ id: usersTable.id })
+  const [user] = await db.select({ id: usersTable.id, email: usersTable.email })
     .from(usersTable)
     .where(eq(usersTable.email, normalizedEmail));
 
-  if (!user) {
-    return res.json({ found: false });
+  if (user?.email) {
+    const now = new Date();
+    await db.delete(passwordResetTokensTable)
+      .where(lt(passwordResetTokensTable.expiresAt, now));
+
+    const [recentToken] = await db.select({ tokenHash: passwordResetTokensTable.tokenHash })
+      .from(passwordResetTokensTable)
+      .where(and(
+        eq(passwordResetTokensTable.userId, user.id),
+        gt(passwordResetTokensTable.createdAt, new Date(now.getTime() - PASSWORD_RESET_COOLDOWN_MS)),
+      ))
+      .limit(1);
+
+    if (!recentToken) {
+      const rawToken = randomBytes(32).toString("base64url");
+      const tokenHash = hashResetToken(rawToken);
+
+      await db.transaction(async (tx) => {
+        await tx.delete(passwordResetTokensTable)
+          .where(eq(passwordResetTokensTable.userId, user.id));
+        await tx.insert(passwordResetTokensTable).values({
+          tokenHash,
+          userId: user.id,
+          expiresAt: new Date(now.getTime() + PASSWORD_RESET_TTL_MS),
+        });
+      });
+
+      try {
+        const resetUrl = new URL(
+          `/reset-password?token=${encodeURIComponent(rawToken)}`,
+          getPublicAppBaseUrl(),
+        ).toString();
+        await sendPasswordResetEmail(user.email, resetUrl);
+      } catch {
+        await db.delete(passwordResetTokensTable)
+          .where(eq(passwordResetTokensTable.tokenHash, tokenHash))
+          .catch(() => {
+            req.log.error({ userId: user.id }, "failed to remove an unsent password reset token");
+          });
+        req.log.error({ userId: user.id }, "password reset email delivery failed");
+      }
+    }
   }
 
-  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let tempPassword = "";
-  for (let i = 0; i < 8; i++) {
-    tempPassword += chars.charAt(Math.floor(Math.random() * chars.length));
+  // Keep the response identical whether or not the account exists.
+  return res.json({ success: true });
+});
+
+router.post("/reset-password", async (req, res) => {
+  const { token, password } = req.body as { token?: string; password?: string };
+  if (!token || !password) {
+    return res.status(400).json({ error: "A reset token and new password are required." });
+  }
+  if (!isValidPassword(password)) {
+    return res.status(400).json({
+      error: "Use at least 8 characters. Allowed characters are letters, numbers, @, #, $, &, and !; include at least one special character.",
+    });
   }
 
-  const hash = await bcrypt.hash(tempPassword, 10);
-  await db.update(usersTable).set({ passwordHash: hash }).where(eq(usersTable.id, user.id));
+  const tokenHash = hashResetToken(token);
+  const passwordHash = await bcrypt.hash(password, 10);
+  const now = new Date();
 
-  req.log.info({ userId: user.id }, "temporary password generated");
+  const userId = await db.transaction(async (tx) => {
+    const [claimedToken] = await tx.delete(passwordResetTokensTable)
+      .where(and(
+        eq(passwordResetTokensTable.tokenHash, tokenHash),
+        gt(passwordResetTokensTable.expiresAt, now),
+      ))
+      .returning({ userId: passwordResetTokensTable.userId });
 
-  return res.json({ found: true, tempPassword });
+    if (!claimedToken) return null;
+
+    await tx.update(usersTable)
+      .set({ passwordHash })
+      .where(eq(usersTable.id, claimedToken.userId));
+    await tx.delete(passwordResetTokensTable)
+      .where(eq(passwordResetTokensTable.userId, claimedToken.userId));
+
+    return claimedToken.userId;
+  });
+
+  if (!userId) {
+    return res.status(400).json({ error: "This reset link is invalid or has expired." });
+  }
+
+  req.log.info({ userId }, "password reset completed");
+  return res.json({ success: true });
 });
 
 // ─── Profile routes ────────────────────────────────────────────

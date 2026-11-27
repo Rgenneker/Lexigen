@@ -28,6 +28,7 @@ import Leaderboard from "@/pages/Leaderboard";
 import AppPage from "@/pages/AppPage";
 import Invite from "@/pages/Invite";
 import Premium from "@/pages/Premium";
+import PasswordResetPage from "@/pages/PasswordResetPage";
 import FAQ from "@/pages/FAQ";
 import Contact from "@/pages/Contact";
 import Sitemap from "@/pages/Sitemap";
@@ -127,6 +128,7 @@ function Router() {
           <Route path="/signin">
             {() => <ProtectedRoute loginOnly><AppPage /></ProtectedRoute>}
           </Route>
+          <Route path="/reset-password" component={PasswordResetPage} />
           <Route path="/invite">
             {() => <ProtectedRoute><Invite /></ProtectedRoute>}
           </Route>
