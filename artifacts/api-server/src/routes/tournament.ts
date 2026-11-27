@@ -51,6 +51,14 @@ router.post("/bee/tournaments", async (req, res) => {
   }
 
   const { rounds, advancingPerRound } = calcBracket(allPlayerIds.length);
+   if (
+    level !== "beginner" &&
+    level !== "lower_intermediate" &&
+    level !== "upper_intermediate" &&
+    level !== "proficient"
+  ) {
+    return res.status(400).json({ error: "Invalid level" });
+  }
   const levelConfig = getLevelConfig(level);
   if (!levelConfig) return res.status(400).json({ error: "Invalid level" });
 

@@ -42,8 +42,12 @@ router.post("/bee/contests", async (req, res) => {
     return res.status(400).json({ error: "organiserId, name, and level are required" });
   }
 
-  const validLevels = ["beginner", "lower_intermediate", "upper_intermediate", "proficient"];
-  if (!validLevels.includes(level)) {
+   if (
+    level !== "beginner" &&
+    level !== "lower_intermediate" &&
+    level !== "upper_intermediate" &&
+    level !== "proficient"
+  ) {
     return res.status(400).json({ error: "Invalid level" });
   }
 
