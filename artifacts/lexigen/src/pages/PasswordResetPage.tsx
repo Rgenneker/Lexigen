@@ -36,20 +36,17 @@ export default function PasswordResetPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, password }),
       });
-      const data = await response.json() as { error?: string };
-      if (!response.ok) {
-        throw new Error(
-          response.status === 400 && token
-            ? t("registrationGate.resetLinkExpired")
-            : data.error ?? t("registrationGate.resetLinkExpired"),
-        );
+      const data = await response.json().catch(() => null) as { error?: string } | null;
+      if (!response.ok || !data) {
+        setError(response.status === 400 && token
+          ? t("registrationGate.resetLinkExpired")
+          : t("registrationGate.errorPasswordResetUnavailable"));
+        return;
       }
       setComplete(true);
       window.history.replaceState({}, "", window.location.pathname);
-    } catch (submitError) {
-      setError(submitError instanceof Error
-        ? submitError.message
-        : t("registrationGate.resetLinkExpired"));
+    } catch {
+      setError(t("registrationGate.errorPasswordResetUnavailable"));
     } finally {
       setLoading(false);
     }

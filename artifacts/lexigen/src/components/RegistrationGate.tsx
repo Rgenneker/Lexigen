@@ -159,11 +159,14 @@ export function RegistrationGate({ initialTab = "register", loginOnly = false }:
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: forgotEmail.trim().toLowerCase() }),
       });
-      const data = await res.json() as { error?: string };
-      if (!res.ok) throw new Error(data.error ?? f("Something went wrong.", "Une erreur s’est produite."));
+      const data = await res.json().catch(() => null) as { error?: string } | null;
+      if (!res.ok || !data) {
+        setError(t("registrationGate.errorPasswordResetUnavailable"));
+        return;
+      }
       setLoginView("forgot-result");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : f("Something went wrong.", "Une erreur s’est produite."));
+    } catch {
+      setError(t("registrationGate.errorPasswordResetUnavailable"));
     } finally {
       setLoading(false);
     }

@@ -1879,6 +1879,7 @@
     "errorEmailRequired": "Se requiere correo electrónico.",
     "errorPasswordRequired": "Se requiere contraseña.",
     "errorLoginFailed": "Error al iniciar sesión. Comprueba tu correo y contraseña.",
+    "errorPasswordResetUnavailable": "El restablecimiento de contraseña no está disponible temporalmente. Inténtalo de nuevo más tarde.",
     "cellPlaceholder": "p. ej. 82 123 4567",
     "resetPassword": "Restablecer tu contraseña",
     "signInToLexigenz": "Iniciar sesión en Lexigenz",

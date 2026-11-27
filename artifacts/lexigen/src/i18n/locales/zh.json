@@ -1709,6 +1709,7 @@
     "errorEmailRequired": "电子邮件为必填项。",
     "errorPasswordRequired": "密码为必填项。",
     "errorLoginFailed": "登录失败。请检查您的电子邮件和密码。",
+    "errorPasswordResetUnavailable": "密码重置服务暂时不可用，请稍后重试。",
     "cellPlaceholder": "例如：82 123 4567",
     "resetPassword": "重置密码",
     "signInToLexigenz": "登录 Lexigenz",

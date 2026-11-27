@@ -308,106 +308,122 @@ router.post("/login", async (req, res) => {
 });
 
 // ─── Forgot password ───────────────────────────────────────────
-router.post("/forgot-password", async (req, res) => {
+router.post("/forgot-password", async (req, res): Promise<void> => {
   const { email } = req.body as { email?: string };
 
   if (!email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-    return res.status(400).json({ error: "A valid email address is required." });
+    res.status(400).json({ error: "A valid email address is required." });
+    return;
   }
 
   const normalizedEmail = email.trim().toLowerCase();
-  const [user] = await db.select({ id: usersTable.id, email: usersTable.email })
-    .from(usersTable)
-    .where(eq(usersTable.email, normalizedEmail));
+  try {
+    const [user] = await db.select({ id: usersTable.id, email: usersTable.email })
+      .from(usersTable)
+      .where(eq(usersTable.email, normalizedEmail));
 
-  if (user?.email) {
-    const now = new Date();
-    await db.delete(passwordResetTokensTable)
-      .where(lt(passwordResetTokensTable.expiresAt, now));
+    if (user?.email) {
+      const now = new Date();
+      await db.delete(passwordResetTokensTable)
+        .where(lt(passwordResetTokensTable.expiresAt, now));
 
-    const [recentToken] = await db.select({ tokenHash: passwordResetTokensTable.tokenHash })
-      .from(passwordResetTokensTable)
-      .where(and(
-        eq(passwordResetTokensTable.userId, user.id),
-        gt(passwordResetTokensTable.createdAt, new Date(now.getTime() - PASSWORD_RESET_COOLDOWN_MS)),
-      ))
-      .limit(1);
+      const [recentToken] = await db.select({ tokenHash: passwordResetTokensTable.tokenHash })
+        .from(passwordResetTokensTable)
+        .where(and(
+          eq(passwordResetTokensTable.userId, user.id),
+          gt(passwordResetTokensTable.createdAt, new Date(now.getTime() - PASSWORD_RESET_COOLDOWN_MS)),
+        ))
+        .limit(1);
 
-    if (!recentToken) {
-      const rawToken = randomBytes(32).toString("base64url");
-      const tokenHash = hashResetToken(rawToken);
+      if (!recentToken) {
+        const rawToken = randomBytes(32).toString("base64url");
+        const tokenHash = hashResetToken(rawToken);
 
-      await db.transaction(async (tx) => {
-        await tx.delete(passwordResetTokensTable)
-          .where(eq(passwordResetTokensTable.userId, user.id));
-        await tx.insert(passwordResetTokensTable).values({
-          tokenHash,
-          userId: user.id,
-          expiresAt: new Date(now.getTime() + PASSWORD_RESET_TTL_MS),
-        });
-      });
-
-      try {
-        const resetUrl = new URL(
-          `/reset-password?token=${encodeURIComponent(rawToken)}`,
-          getPublicAppBaseUrl(),
-        ).toString();
-        await sendPasswordResetEmail(user.email, resetUrl);
-      } catch {
-        await db.delete(passwordResetTokensTable)
-          .where(eq(passwordResetTokensTable.tokenHash, tokenHash))
-          .catch(() => {
-            req.log.error({ userId: user.id }, "failed to remove an unsent password reset token");
+        await db.transaction(async (tx) => {
+          await tx.delete(passwordResetTokensTable)
+            .where(eq(passwordResetTokensTable.userId, user.id));
+          await tx.insert(passwordResetTokensTable).values({
+            tokenHash,
+            userId: user.id,
+            expiresAt: new Date(now.getTime() + PASSWORD_RESET_TTL_MS),
           });
-        req.log.error({ userId: user.id }, "password reset email delivery failed");
+        });
+
+        try {
+          const resetUrl = new URL(
+            `/reset-password?token=${encodeURIComponent(rawToken)}`,
+            getPublicAppBaseUrl(),
+          ).toString();
+          await sendPasswordResetEmail(user.email, resetUrl);
+        } catch {
+          await db.delete(passwordResetTokensTable)
+            .where(eq(passwordResetTokensTable.tokenHash, tokenHash))
+            .catch(() => {
+              req.log.error({ userId: user.id }, "failed to remove an unsent password reset token");
+            });
+          req.log.error({ userId: user.id }, "password reset email delivery failed");
+        }
       }
     }
-  }
 
-  // Keep the response identical whether or not the account exists.
-  return res.json({ success: true });
+    // Keep the response identical whether or not the account exists.
+    res.json({ success: true });
+  } catch (error) {
+    req.log.error({ err: error }, "password reset request failed");
+    res.status(503).json({ error: "Password reset is temporarily unavailable. Please try again later." });
+  }
 });
 
-router.post("/reset-password", async (req, res) => {
+router.post("/reset-password", async (req, res): Promise<void> => {
   const { token, password } = req.body as { token?: string; password?: string };
   if (!token || !password) {
-    return res.status(400).json({ error: "A reset token and new password are required." });
+    res.status(400).json({ error: "A reset token and new password are required." });
+    return;
   }
   if (!isValidPassword(password)) {
-    return res.status(400).json({
+    res.status(400).json({
       error: "Use at least 8 characters. Allowed characters are letters, numbers, @, #, $, &, and !; include at least one special character.",
     });
+    return;
   }
 
   const tokenHash = hashResetToken(token);
   const passwordHash = await bcrypt.hash(password, 10);
   const now = new Date();
 
-  const userId = await db.transaction(async (tx) => {
-    const [claimedToken] = await tx.delete(passwordResetTokensTable)
-      .where(and(
-        eq(passwordResetTokensTable.tokenHash, tokenHash),
-        gt(passwordResetTokensTable.expiresAt, now),
-      ))
-      .returning({ userId: passwordResetTokensTable.userId });
+  let userId: number | null;
+  try {
+    userId = await db.transaction(async (tx) => {
+      const [claimedToken] = await tx.delete(passwordResetTokensTable)
+        .where(and(
+          eq(passwordResetTokensTable.tokenHash, tokenHash),
+          gt(passwordResetTokensTable.expiresAt, now),
+        ))
+        .returning({ userId: passwordResetTokensTable.userId });
 
-    if (!claimedToken) return null;
+      if (!claimedToken) return null;
 
-    await tx.update(usersTable)
-      .set({ passwordHash })
-      .where(eq(usersTable.id, claimedToken.userId));
-    await tx.delete(passwordResetTokensTable)
-      .where(eq(passwordResetTokensTable.userId, claimedToken.userId));
+      await tx.update(usersTable)
+        .set({ passwordHash })
+        .where(eq(usersTable.id, claimedToken.userId));
+      await tx.delete(passwordResetTokensTable)
+        .where(eq(passwordResetTokensTable.userId, claimedToken.userId));
 
-    return claimedToken.userId;
-  });
+      return claimedToken.userId;
+    });
+  } catch (error) {
+    req.log.error({ err: error }, "password reset completion failed");
+    res.status(503).json({ error: "Password reset is temporarily unavailable. Please try again later." });
+    return;
+  }
 
   if (!userId) {
-    return res.status(400).json({ error: "This reset link is invalid or has expired." });
+    res.status(400).json({ error: "This reset link is invalid or has expired." });
+    return;
   }
 
   req.log.info({ userId }, "password reset completed");
-  return res.json({ success: true });
+  res.json({ success: true });
 });
 
 // ─── Profile routes ────────────────────────────────────────────

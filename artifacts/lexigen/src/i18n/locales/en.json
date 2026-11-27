@@ -1898,6 +1898,7 @@
     "errorEmailRequired": "Email is required.",
     "errorPasswordRequired": "Password is required.",
     "errorLoginFailed": "Login failed. Check your email and password.",
+    "errorPasswordResetUnavailable": "Password reset is temporarily unavailable. Please try again later.",
     "cellPlaceholder": "e.g. 82 123 4567",
     "resetPassword": "Reset your password",
     "signInToLexigenz": "Sign in to Lexigenz",
