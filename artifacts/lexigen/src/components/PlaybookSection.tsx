@@ -612,7 +612,10 @@ export default function PlaybookSection({ defaultOpen = false }: PlaybookSection
   if (i18n.language === "es") return <SpanishPlaybook defaultOpen={defaultOpen} />;
   if (i18n.language === "fr") return <FrenchPlaybook defaultOpen={defaultOpen} />;
   if (i18n.language === "zh") return <MandarinPlaybook defaultOpen={defaultOpen} />;
+  return <EnglishPlaybook defaultOpen={defaultOpen} />;
+}
 
+function EnglishPlaybook({ defaultOpen = false }: PlaybookSectionProps) {
   const [open, setOpen] = useState(defaultOpen);
   const [activeTab, setActiveTab] = useState<"playbook" | "cheatsheet">("playbook");
   const [step, setStep] = useState(0);
